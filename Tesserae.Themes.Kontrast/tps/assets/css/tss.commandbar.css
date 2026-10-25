@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Kontrast theme - CommandBar
+   --------------------------------------------------------------------------
+   A toolbar strip with a 2px edge. Commands are 36px ghosts that take an
+   ink edge and a fill under the pointer; the primary command is the accent
+   plate; a disabled command is struck through and dashed, never just faded.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-commandbar {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-surface);
+}
+
+body.tss-theme-kontrast .tss-commandbar-item {
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius);
+    color: var(--tss-kt-ink);
+    min-height: 36px;
+    font-weight: 600;
+}
+
+body.tss-theme-kontrast .tss-commandbar-item:hover {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-commandbar-item-primary {
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-commandbar-item-primary:hover {
+    background: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-primary-foreground-hover-color);
+}
+
+body.tss-theme-kontrast .tss-commandbar-item.tss-disabled,
+body.tss-theme-kontrast .tss-commandbar-item:disabled {
+    opacity: 1;
+    color: var(--tss-kt-disabled);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+}
+
+body.tss-theme-kontrast .tss-commandbar-item-icon {
+    font-size: 15px;
+}

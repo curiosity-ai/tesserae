@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Kontrast theme - Uptime
+   --------------------------------------------------------------------------
+   Each day's state has a pattern as well as a colour: operational solid
+   green, minor incident yellow with black caution stripes, major outage red
+   with a paper cut across its middle, maintenance blue with dots, no data a
+   hollow cell with an edge. Month cards are paper with a 2px edge (not a
+   fixed white), so dark mode is dark.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-uptime-bars span,
+body.tss-theme-kontrast .tss-uptime-month-day,
+body.tss-theme-kontrast .tss-uptime-month-empty {
+    border-radius: 1px;
+}
+
+body.tss-theme-kontrast .tss-uptime-bars span.operational,
+body.tss-theme-kontrast .tss-uptime-month-day.operational {
+    background: var(--tss-kt-success);
+}
+
+body.tss-theme-kontrast .tss-uptime-bars span.minor,
+body.tss-theme-kontrast .tss-uptime-month-day.minor {
+    background: repeating-linear-gradient(135deg, #000 0 3px, var(--tss-kt-signal) 3px 6px);
+}
+
+body.tss-theme-kontrast .tss-uptime-bars span.major,
+body.tss-theme-kontrast .tss-uptime-month-day.major {
+    background: linear-gradient(var(--tss-kt-paper), var(--tss-kt-paper)) center / 100% 2px no-repeat, var(--tss-kt-danger);
+}
+
+body.tss-theme-kontrast .tss-uptime-bars span.maintenance,
+body.tss-theme-kontrast .tss-uptime-month-day.maintenance {
+    background: radial-gradient(circle, var(--tss-kt-paper) 1px, transparent 1.5px) 0 0 / 4px 4px, var(--tss-kt-link);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-uptime-bars span.maintenance,
+body.tss-theme-kontrast.tss-dark-mode .tss-uptime-month-day.maintenance {
+    background: radial-gradient(circle, #000 1px, transparent 1.5px) 0 0 / 4px 4px, #7fb2ff;
+}
+
+body.tss-theme-kontrast .tss-uptime-bars span,
+body.tss-theme-kontrast .tss-uptime-bars span.none,
+body.tss-theme-kontrast .tss-uptime-bars span.future,
+body.tss-theme-kontrast .tss-uptime-month-day,
+body.tss-theme-kontrast .tss-uptime-month-day.future,
+body.tss-theme-kontrast .tss-uptime-month-empty {
+    box-shadow: inset 0 0 0 1px var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-uptime-bars span.none,
+body.tss-theme-kontrast .tss-uptime-bars span.future,
+body.tss-theme-kontrast .tss-uptime-month-day.future,
+body.tss-theme-kontrast .tss-uptime-month-empty {
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-uptime-bars span:hover,
+body.tss-theme-kontrast .tss-uptime-bars span:focus-visible {
+    box-shadow: 0 0 0 2px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-uptime-month-card {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: none;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-uptime-month-header span {
+    color: var(--tss-kt-muted);
+}
+
+body.tss-theme-kontrast .tippy-box[data-theme~='uptime'] {
+    background: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    border: 2px solid var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tippy-box[data-theme~='uptime'] .tss-textblock,
+body.tss-theme-kontrast .tippy-box[data-theme~='uptime'] .tss-fontweight-semibold {
+    color: var(--tss-tooltip-foreground-color) !important;
+}

@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Glas theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   Empty days are faint frosted squares; active days fill with the accent.
+   The tooltip is the theme's glass chip.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-activitycalendar {
+    --tss-activitycalendar-empty-color: rgba(84, 86, 150, 0.12);
+    --tss-activitycalendar-radius: 4px;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-activitycalendar {
+    --tss-activitycalendar-empty-color: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-glas .tss-activitycalendar-summary-item::before {
+    border-left-color: var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-activitycalendar-tooltip {
+    border-radius: 10px;
+    background: var(--tss-tooltip-background-color);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    box-shadow: var(--tss-gl-rim), 0 10px 26px -10px rgba(50, 48, 120, 0.45);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-activitycalendar-tooltip::after {
+    display: none;
+}

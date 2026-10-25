@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Kontrast theme - NotificationCenter
+   --------------------------------------------------------------------------
+   The bell is a 40px ghost key; the unread count is a bold 12px figure on an
+   ink pill with a paper ring. Tone dots carry a ring so they read on any
+   row, and an unread row is bold.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-notif-bell {
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-notif-bell:hover {
+    background: var(--tss-kt-hover);
+    box-shadow: inset 0 0 0 2px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-notif-badge {
+    min-width: 20px;
+    height: 20px;
+    line-height: 18px;
+    font-size: 12px;
+    background: var(--tss-kt-danger);
+    color: var(--tss-danger-foreground-color);
+    box-shadow: 0 0 0 2px var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-notif-dot {
+    width: 10px;
+    height: 10px;
+    box-shadow: 0 0 0 1px var(--tss-kt-paper), 0 0 0 2px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-notif-dot.tss-notif-info {
+    background: var(--tss-kt-link);
+}

@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Phosphor theme - NodeView
+   --------------------------------------------------------------------------
+   The node editor is drawn on the same screen: square nodes on the
+   surface, title bars as ruled header rows, wires in the frame colour,
+   the selection and the primary control in the cursor colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-nodeview,
+body.tss-theme-phosphor.tss-dark-mode .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-ph-cursor);
+    --baklava-control-color-error: var(--tss-ph-red);
+    --baklava-control-color-background: var(--tss-ph-field);
+    --baklava-control-color-foreground: var(--tss-ph-ink);
+    --baklava-control-color-hover: var(--tss-ph-tint);
+    --baklava-control-color-active: rgb(var(--tss-default-background-active-color-root));
+    --baklava-control-color-disabled-foreground: rgb(var(--tss-disabled-foreground-color-root));
+    --baklava-control-border-radius: 0;
+    --baklava-sidebar-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-sidebar-color-foreground: var(--tss-ph-ink);
+    --baklava-node-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-color-foreground: var(--tss-ph-ink);
+    --baklava-node-color-hover: rgba(var(--tss-ph-cursor-root), 0.2);
+    --baklava-node-title-color-background: var(--tss-ph-tint);
+    --baklava-node-title-color-foreground: var(--tss-ph-hot);
+    --baklava-group-node-title-color-background: rgb(var(--tss-default-background-active-color-root));
+    --baklava-group-node-title-color-foreground: var(--tss-ph-hot);
+    --baklava-node-interface-port-color: var(--tss-ph-ink);
+    --baklava-node-border-radius: 0;
+    --baklava-color-connection-default: var(--tss-ph-rule-hi);
+    --baklava-color-connection-allowed: rgb(var(--tss-success-background-color-root));
+    --baklava-color-connection-forbidden: var(--tss-ph-red);
+    --baklava-editor-background-pattern-default: rgb(var(--tss-default-background-color-root));
+    --baklava-editor-background-pattern-line: rgba(var(--tss-ph-ink-root), 0.08);
+    --baklava-editor-background-pattern-black: rgba(var(--tss-ph-ink-root), 0.14);
+    --baklava-context-menu-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-context-menu-shadow: var(--tss-ph-window-shadow);
+    --baklava-toolbar-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-toolbar-foreground: var(--tss-ph-ink);
+    --baklava-node-palette-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-palette-foreground: var(--tss-ph-ink);
+}

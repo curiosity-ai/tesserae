@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Kontrast theme - Popover
+   --------------------------------------------------------------------------
+   The popover's box stays transparent (its content draws the plate); its
+   arrow takes the plate's paper and the theme's tooltip rules are undone
+   for it.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tippy-box[data-theme~='tss-popover'] {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-popover {
+    color: var(--tss-kt-ink);
+    line-height: 1.5;
+}

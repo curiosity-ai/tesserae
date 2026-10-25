@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Graustufe theme - Slider
+   --------------------------------------------------------------------------
+   A ruled bar: the empty track is paper inside a 1px ink frame with a 25%
+   dither in it, the filled part is solid ink. The thumb is a square paper
+   block in a 2px ink frame; under the pointer the frame goes solid ink
+   inside too. Disabled: the dither and frame drop to the disabled grey.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-slider-fake-background,
+body.tss-theme-graustufe .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    border-radius: 0;
+    background: var(--tss-gs-bayer-12), var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider-fake-progress,
+body.tss-theme-graustufe .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider-container.tss-vertical .tss-slider-fake-background,
+body.tss-theme-graustufe .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background,
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-background {
+    background: var(--tss-gs-14);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-slider,
+body.tss-theme-graustufe .tss-slider:hover {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider.tss-fake,
+body.tss-theme-graustufe .tss-slider.tss-fake:hover {
+    background-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-slider::-webkit-slider-thumb {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider::-moz-range-thumb {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider:hover::-webkit-slider-thumb,
+body.tss-theme-graustufe .tss-slider:active::-webkit-slider-thumb {
+    border-color: var(--tss-gs-0);
+    background-color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 2px var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-slider:hover::-moz-range-thumb {
+    border-color: var(--tss-gs-0);
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider::-moz-range-progress,
+body.tss-theme-graustufe .tss-slider:hover::-moz-range-progress {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: var(--tss-gs-focus);
+    outline-offset: 1px;
+}
+
+body.tss-theme-graustufe .tss-slider.tss-disabled,
+body.tss-theme-graustufe .tss-slider.tss-disabled:hover {
+    background-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border-color: var(--tss-gs-9);
+    background-color: var(--tss-gs-14);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-slider.tss-disabled::-moz-range-thumb {
+    border-color: var(--tss-gs-9);
+    background-color: var(--tss-gs-14);
+}

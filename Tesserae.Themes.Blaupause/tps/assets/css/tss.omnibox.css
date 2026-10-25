@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Blaupause theme - OmniBox
+   --------------------------------------------------------------------------
+   A search bar is a ruled field (tss.textbox.css): inked under the
+   pointer, underlined in red pencil while focused, its side buttons ruled
+   cells. Query tokens are boxed cells, highlighted suggestions swiped with
+   the highlighter.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-omnibox-container,
+body.tss-theme-blaupause .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-blaupause ,
+body.tss-theme-blaupause .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn,
+body.tss-theme-blaupause .tss-omnibox-container.tss-omnibox-rounded-sm .tss-omnibox-mode-toggle,
+body.tss-theme-blaupause .tss-omnibox-search-container,
+body.tss-theme-blaupause .tss-omnibox-search-token-word,
+body.tss-theme-blaupause .tss-omnibox-inline-chip,
+body.tss-theme-blaupause .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-blaupause .tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-blaupause .tss-btn.tss-omnibox-model-selector-btn,
+body.tss-theme-blaupause .tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-omnibox-container {
+    --tss-omnibox-radius: 0 !important;
+    box-shadow: none;
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-blaupause .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    border-right-color: var(--tss-bp-line);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-omnibox-container .tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-blaupause .tss-omnibox-search-token-word,
+body.tss-theme-blaupause.tss-dark-mode .tss-omnibox-search-token-word {
+    color: var(--tss-bp-text);
+    background: var(--tss-bp-wash);
+    border-radius: 0;
+    outline: 1px solid var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-omnibox-inline-chips {
+    background: transparent;
+    border-right-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-omnibox-inline-chip {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-omnibox-inline-chip-close:hover {
+    background-color: var(--tss-bp-red-soft);
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-omnibox-suggestion-highlight {
+    background: var(--tss-bp-yellow-wash) !important;
+}
+
+body.tss-theme-blaupause .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-btn.tss-omnibox-model-selector-btn {
+    background: transparent;
+    border-color: var(--tss-bp-line);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger) {
+    background: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-omnibox-model-selector-divider {
+    background: var(--tss-bp-line-faint);
+}

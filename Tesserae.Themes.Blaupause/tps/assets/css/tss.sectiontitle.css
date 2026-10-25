@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Blaupause theme - SectionTitle
+   --------------------------------------------------------------------------
+   A section title is the drawing's title: stencil capitals over a double
+   rule (a heavy object line with a thin line under it), its icon set in a
+   boxed symbol cell.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-sectiontitle {
+    padding-bottom: 14px;
+    margin-bottom: 4px;
+    background:
+        linear-gradient(var(--tss-bp-line-strong), var(--tss-bp-line-strong)) left bottom 4px / 100% 2px no-repeat,
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line)) left bottom / 100% 1px no-repeat;
+}
+
+body.tss-theme-blaupause .tss-sectiontitle-title {
+    font-family: var(--tss-bp-stencil);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-sectiontitle-icon {
+    width: 32px;
+    justify-content: center;
+    align-items: center;
+    border: var(--tss-bp-rule);
+    box-sizing: border-box;
+    font-size: 16px !important;
+}
+
+body.tss-theme-blaupause .tss-sectiontitle-subtitle {
+    color: var(--tss-bp-muted);
+    margin-top: 6px;
+}

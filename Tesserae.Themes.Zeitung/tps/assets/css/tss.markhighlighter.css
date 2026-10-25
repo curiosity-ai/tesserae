@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Zeitung theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   A found word is marked the way an editor marks a proof: underlined with a
+   thick stroke of the spot red, the type left in ink. The focused match is
+   reversed out of ink.
+   ========================================================================== */
+
+body.tss-theme-zeitung mark,
+body.tss-theme-zeitung ::highlight(tss-marked) {
+    background-color: rgba(190, 28, 34, 0.14);
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--tss-zt-red);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+body.tss-theme-zeitung.tss-dark-mode mark,
+body.tss-theme-zeitung.tss-dark-mode ::highlight(tss-marked) {
+    background-color: rgba(236, 70, 62, 0.22);
+}
+
+body.tss-theme-zeitung ::highlight(tss-marked-focused) {
+    background-color: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}

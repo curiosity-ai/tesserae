@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Glas theme - ActionCard
+   --------------------------------------------------------------------------
+   An action card is a pane of clear glass; its identity strip a frostier
+   band; its actions small glass panes that brighten under the pointer; its
+   icon a bead of the accent.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-actioncard-card,
+body.tss-theme-glas .tss-actioncard-group {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 8px 20px -14px rgba(60, 58, 130, 0.4);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-actioncard-card,
+body.tss-theme-glas.tss-dark-mode .tss-actioncard-group {
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 8px 20px -14px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-glas .tss-actioncard-group .tss-actioncard-card {
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-glas .tss-actioncard-identity {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-actioncard-identity {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-glas .tss-actioncard-icon {
+    background-image: var(--tss-gl-lozenge-shine);
+    box-shadow: var(--tss-gl-lozenge-rim);
+}
+
+body.tss-theme-glas .tss-actioncard-action {
+    border: none;
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-actioncard-action {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-glas .tss-actioncard-action:hover,
+body.tss-theme-glas .tss-actioncard-more:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-actioncard-action:hover,
+body.tss-theme-glas.tss-dark-mode .tss-actioncard-more:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-glas .tss-actioncard-action-icon {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-actioncard-action-icon {
+    background: rgba(255, 255, 255, 0.08);
+}

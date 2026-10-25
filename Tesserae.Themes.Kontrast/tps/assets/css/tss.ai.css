@@ -1,0 +1,199 @@
+/* ==========================================================================
+   Kontrast theme - AI variants
+   --------------------------------------------------------------------------
+   "A model made this" keeps its own colour, but at the theme's contrast: a
+   deep violet to deep blue in light (white type on it is 9.9:1 and 10:1),
+   pale violet to pale blue in dark (black type). Words are never painted
+   with a gradient (clipped gradient text cannot be held to a contrast
+   ratio): they are the solid accent. Tinted surfaces are paper with a 2px
+   accent edge and a 6px accent bar, so the mark is a shape as well as a
+   hue, and the Sparkles glyph stays the sign.
+   ========================================================================== */
+
+body.tss-theme-kontrast {
+    --tss-ai-from: #5b2a86;
+    --tss-ai-to: #0b3d91;
+    --tss-ai-accent: #5b2a86;
+    --tss-ai-gradient: linear-gradient(115deg, var(--tss-ai-from), var(--tss-ai-to));
+    --tss-ai-gradient-hover: linear-gradient(115deg, #46206a, #082f70);
+    --tss-ai-gradient-text: linear-gradient(100deg, var(--tss-ai-accent), var(--tss-ai-accent));
+    --tss-ai-surface: linear-gradient(var(--tss-kt-paper), var(--tss-kt-paper));
+    --tss-ai-surface-strong: linear-gradient(rgba(91, 42, 134, 0.10), rgba(91, 42, 134, 0.10));
+    --tss-ai-border-color: var(--tss-ai-accent);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+    --tss-ai-arc: conic-gradient(from 0deg, var(--tss-ai-from) 0deg, var(--tss-ai-to) 250deg, rgba(11, 61, 145, 0) 330deg, rgba(91, 42, 134, 0) 360deg);
+    --tss-ai-on-fill: #ffffff;
+}
+
+body.tss-theme-kontrast.tss-dark-mode {
+    --tss-ai-from: #d7b8ff;
+    --tss-ai-to: #9cc0ff;
+    --tss-ai-accent: #d7b8ff;
+    --tss-ai-gradient-hover: linear-gradient(115deg, #e6d2ff, #bcd5ff);
+    --tss-ai-surface-strong: linear-gradient(rgba(215, 184, 255, 0.16), rgba(215, 184, 255, 0.16));
+    --tss-ai-arc: conic-gradient(from 0deg, var(--tss-ai-from) 0deg, var(--tss-ai-to) 250deg, rgba(156, 192, 255, 0) 330deg, rgba(215, 184, 255, 0) 360deg);
+    --tss-ai-on-fill: #000000;
+}
+
+/* Words: the solid accent, bold enough to carry it. */
+body.tss-theme-kontrast .tss-ai-text,
+body.tss-theme-kontrast .tss-textblock.tss-ai,
+body.tss-theme-kontrast .tss-textblock.tss-ai.tss-textblock-with-after > * {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--tss-ai-accent);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast i.tss-icon.tss-ai {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-kontrast .tss-textblock.tss-ai-surface {
+    border: var(--tss-kt-border) solid var(--tss-ai-accent);
+    border-left-width: var(--tss-kt-bar);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+}
+
+/* The AI button: the gradient plate, white (black in dark) type. */
+body.tss-theme-kontrast .tss-btn.tss-ai:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-ai:not(.tss-disabled):not(.tss-btn-link) {
+    background: var(--tss-ai-gradient);
+    border-color: var(--tss-ai-accent);
+    color: var(--tss-ai-on-fill);
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-ai:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-ai:not(.tss-disabled):not(.tss-btn-link):hover {
+    background: var(--tss-ai-gradient-hover);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-ai:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-ai:not(.tss-disabled):not(.tss-btn-link):active {
+    filter: none;
+    box-shadow: inset 0 -3px 0 0 var(--tss-ai-on-fill);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-ai:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-kontrast .tss-btn.tss-ai:not(.tss-disabled) > i {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-ai.tss-ai-subtle:not(.tss-disabled):not(.tss-btn-link) {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-ai-accent);
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-ai.tss-ai-subtle:not(.tss-disabled):not(.tss-btn-link):hover {
+    background: var(--tss-ai-surface-strong), var(--tss-kt-paper);
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-kontrast .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) > i {
+    color: var(--tss-ai-accent);
+}
+
+/* Cards: paper, accent edge, accent bar. */
+body.tss-theme-kontrast .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout) {
+    background: var(--tss-kt-paper);
+    border: none;
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-ai-accent), inset var(--tss-kt-bar) 0 0 0 var(--tss-ai-accent);
+    padding-left: 22px;
+}
+
+body.tss-theme-kontrast .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout).tss-card-hover:hover {
+    background: var(--tss-ai-surface-strong), var(--tss-kt-paper);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-ai-accent), inset var(--tss-kt-bar) 0 0 0 var(--tss-ai-accent), inset 0 -4px 0 0 var(--tss-ai-accent);
+}
+
+body.tss-theme-kontrast .tss-card-container.tss-ai > .tss-card.tss-has-layout {
+    filter: none;
+}
+
+body.tss-theme-kontrast .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-content,
+body.tss-theme-kontrast .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header,
+body.tss-theme-kontrast .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-footer {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-ai-accent);
+}
+
+/* Inline labels and tokens. */
+body.tss-theme-kontrast .tss-inlinelabel.tss-ai {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-ai-accent);
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-kontrast .tss-token.tss-token-ai {
+    background: var(--tss-ai-gradient);
+    border-color: var(--tss-ai-accent);
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-kontrast .tss-token.tss-token-ai .tss-token-icon,
+body.tss-theme-kontrast .tss-token.tss-token-ai .tss-token-remove {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-kontrast .tss-token.tss-token-ai.tss-token-outline {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-ai-accent);
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-kontrast .tss-token.tss-token-ai.tss-token-outline .tss-token-icon,
+body.tss-theme-kontrast .tss-token.tss-token-ai.tss-token-outline .tss-token-remove {
+    color: var(--tss-ai-accent);
+}
+
+/* Fields: the accent edge; focus is the theme's ring like every field. */
+body.tss-theme-kontrast .tss-textbox.tss-ai,
+body.tss-theme-kontrast .tss-textbox.tss-ai:hover {
+    border-color: var(--tss-ai-accent);
+    background: var(--tss-kt-paper);
+}
+
+/* Progress: the gradient bar, edged in ink like every bar. */
+body.tss-theme-kontrast .tss-progressindicator.tss-ai > .tss-progressindicator-bar {
+    background: var(--tss-ai-gradient);
+}
+
+/* Segmented pivot and icon toggle in the AI tone: the chosen key is the gradient plate. */
+body.tss-theme-kontrast .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-kontrast .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-ai-accent);
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab,
+body.tss-theme-kontrast .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab * {
+    color: var(--tss-ai-accent);
+    background-clip: border-box;
+    -webkit-text-fill-color: currentColor;
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-kontrast .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    background: var(--tss-ai-gradient);
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    background: none;
+}
+
+body.tss-theme-kontrast .tss-skeleton.tss-ai {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+}

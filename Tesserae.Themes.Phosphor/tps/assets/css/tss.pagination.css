@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Phosphor theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers are cells in a row: square, framed, the current page the
+   cursor block. The arrows are bare. The footer is ruled off by a line.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-pagination-footer {
+    border-top: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-pagination-button {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tss-pagination-button:hover:not(:disabled) {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-pagination-button.tss-active,
+body.tss-theme-phosphor .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-pagination-button:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-pagination-nav {
+    border-color: transparent;
+}

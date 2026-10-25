@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Kristall theme - Popover
+   --------------------------------------------------------------------------
+   A popover's content draws its own chrome; the arrow takes the frosted
+   popover material so it reads as part of the panel it points from.
+   ========================================================================== */
+
+body.tss-theme-kristall .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-kristall .tss-popover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

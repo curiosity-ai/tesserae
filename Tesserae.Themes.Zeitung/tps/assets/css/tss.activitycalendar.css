@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Zeitung theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   An activity calendar is a printed almanac grid: square cells, empty ones
+   a hairline-grey square, active ones the ink at their level of strength.
+   Hover rules a cell in ink; a selected cell is ringed in the spot red. The
+   title is a kicker, the summary figures lining and tabular.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-zt-ink);
+    --tss-activitycalendar-empty-color: var(--tss-zt-tint-strong);
+    --tss-activitycalendar-radius: 0px;
+}
+
+body.tss-theme-zeitung .tss-activitycalendar-title-text {
+    font-family: var(--tss-zt-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-zeitung .tss-activitycalendar-summary-value {
+    font-family: var(--tss-zt-head);
+    font-weight: 600;
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-activitycalendar-summary-caption {
+    font-style: italic;
+}
+
+body.tss-theme-zeitung .tss-activitycalendar-summary-item::before {
+    border-left-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-activitycalendar-grid .tss-activitycalendar-day:not(.tss-activitycalendar-future):hover,
+body.tss-theme-zeitung .tss-activitycalendar-day.tss-activitycalendar-active {
+    box-shadow: 0 0 0 1px var(--tss-zt-paper), 0 0 0 2px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 1px var(--tss-zt-paper), 0 0 0 3px var(--tss-zt-red);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-activitycalendar-day,
+body.tss-theme-zeitung .tss-activitycalendar-tooltip {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

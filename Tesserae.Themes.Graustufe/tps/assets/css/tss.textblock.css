@@ -1,0 +1,11 @@
+/* ==========================================================================
+   Graustufe theme - TextBlock
+   --------------------------------------------------------------------------
+   Text is the book face (it is the theme's base font). A glow is light the
+   panel cannot emit: it becomes weight instead.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-text-glow {
+    text-shadow: none;
+    font-weight: 700;
+}

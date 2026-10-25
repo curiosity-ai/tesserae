@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Phosphor theme - SplitView
+   --------------------------------------------------------------------------
+   The splitter is a box-drawing line between panes; under the pointer it
+   lights in the cursor colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:before,
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:after {
+    background: var(--tss-ph-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:hover:before,
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:hover:after {
+    background: var(--tss-ph-cursor) !important;
+}

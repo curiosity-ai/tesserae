@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Kristall theme - Pivot
+   --------------------------------------------------------------------------
+   A pivot's tab strip is the desktop's segmented control: a track in the
+   system fill with a 9px radius, sized to its segments, and the chosen
+   segment lifted out of it as a white pill with a hairline and a small
+   shadow (a lighter glass pill in the dark appearance). Tesserae's sliding
+   underline is that pill, so it glides from segment to segment. Labels
+   are 13px medium; the chosen one semibold.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    padding: 2px 0 10px;
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar {
+    min-width: 0;
+    padding: 2px;
+    border-radius: 9px;
+    background: var(--tss-kr-fill-3);
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 13px;
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-pivot-titlebar {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar > .tss-btn.tss-pivot-tab {
+    position: relative;
+    z-index: 2;
+    min-height: 26px;
+    height: 26px;
+    min-width: 0;
+    padding: 0 14px;
+    border-radius: 7px;
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-pivot-selected-title):hover {
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:active {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar > .tss-pivot-selected-title,
+body.tss-theme-kristall .tss-pivot-titlebar > .tss-pivot-selected-title > span,
+body.tss-theme-kristall .tss-pivot-titlebar > .tss-pivot-selected-title > div {
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:focus-visible {
+    outline: 3px solid var(--tss-kr-focus-ring);
+    outline-offset: -1px;
+}
+
+/* The underline becomes the sliding pill. */
+body.tss-theme-kristall .tss-pivot-line {
+    top: 2px;
+    bottom: 2px;
+    height: auto;
+    z-index: 1;
+    border-radius: 7px;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.04);
+    transition: left 0.32s cubic-bezier(0.3, 0.9, 0.3, 1), width 0.32s cubic-bezier(0.3, 0.9, 0.3, 1);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-pivot-line {
+    background: rgba(255, 255, 255, 0.24);
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.18), 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+body.tss-theme-kristall .tss-pivot-titlebar-more,
+body.tss-theme-kristall .tss-pivot-titlebar-scroll-left,
+body.tss-theme-kristall .tss-pivot-titlebar-scroll-right {
+    align-self: center;
+    border-radius: var(--tss-kr-r-pill);
+}
+
+body.tss-theme-kristall .tss-pivot-tab-close {
+    margin-left: 6px;
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-pivot-tab-close:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-kristall .tss-pivot-tab-needs-saving::after,
+body.tss-theme-kristall .tss-pivot-tab-mark {
+    background: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-pivot-tab-drag,
+body.tss-theme-kristall .tss-pivot-tab-fallback {
+    background: rgb(var(--tss-default-background-color-root));
+    border-radius: 7px;
+    box-shadow: var(--tss-kr-shadow-pop);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-kristall .tss-pivot-line {
+        transition: none;
+    }
+}

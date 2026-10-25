@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Graustufe theme - OmniBox
+   --------------------------------------------------------------------------
+   The search-and-chat input is a field (tss.textbox.css): paper, a 1px ink
+   frame, 3px when focused, square (a "rounded" OmniBox keeps only a 2px
+   corner). Its chips and buttons are square; the active chat button is
+   inverted.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-omnibox-container {
+    --tss-omnibox-radius: var(--tss-gs-radius);
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-full,
+body.tss-theme-graustufe .tss-omnibox-container[class*="tss-omnibox-rounded"] {
+    --tss-omnibox-radius: var(--tss-gs-radius);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container:hover {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    border-radius: var(--tss-gs-radius);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.omnibox.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-omnibox-container,
+body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-sm .tss-omnibox-mode-toggle,
+body.tss-theme-graustufe .tss-omnibox-search-container,
+body.tss-theme-graustufe .tss-omnibox-search-token-word,
+body.tss-theme-graustufe .tss-omnibox-inline-chip,
+body.tss-theme-graustufe .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-graustufe .tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-graustufe .tss-btn.tss-omnibox-model-selector-btn,
+body.tss-theme-graustufe .tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-omnibox-container,
+body.tss-theme-graustufe .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    box-shadow: none;
+}
+

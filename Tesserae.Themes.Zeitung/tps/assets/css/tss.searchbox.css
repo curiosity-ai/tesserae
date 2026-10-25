@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Zeitung theme - SearchBox
+   --------------------------------------------------------------------------
+   The same coupon field as a TextBox: surface panel, grey hairline frame,
+   a line of ink to write on that turns 2px red while you write. The prompt
+   is set in italic. The underlined variant is the line alone. The clear and
+   cancel marks are square ghost buttons, ruled in ink under the pointer.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-searchbox-container {
+    border: 1px solid var(--tss-zt-rule);
+    border-bottom-color: var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-surface);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-searchbox-container:hover {
+    border-color: var(--tss-zt-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-searchbox-container:focus-within {
+    border-color: var(--tss-zt-ink);
+    border-bottom-color: var(--tss-zt-red);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-searchbox::placeholder {
+    color: var(--tss-zt-muted) !important;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+body.tss-theme-zeitung .tss-searchbox-icon {
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-searchbox-container.tss-underlined {
+    border-width: 0 0 1px 0;
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-searchbox-container.tss-underlined:hover {
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-zt-red);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-searchbox-container.tss-disabled,
+body.tss-theme-zeitung .tss-searchbox-container.tss-disabled:hover {
+    border: 1px dotted rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-searchbox-container.tss-searchbox-failed,
+body.tss-theme-zeitung .tss-searchbox-container.tss-searchbox-failed:hover,
+body.tss-theme-zeitung .tss-searchbox-container.tss-searchbox-failed:focus-within {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-zeitung .tss-searchbox-clear,
+body.tss-theme-zeitung .tss-searchbox-cancel {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-searchbox-clear:hover,
+body.tss-theme-zeitung .tss-searchbox-cancel:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-searchbox-progress-bar {
+    background: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-searchbox-shortcut .tss-kbd,
+body.tss-theme-zeitung .tss-searchbox-shortcut kbd {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-searchable-list-no-match {
+    font-style: italic;
+    color: var(--tss-zt-muted);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-searchbox-clear,
+body.tss-theme-zeitung .tss-searchbox-cancel {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

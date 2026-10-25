@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Kontrast theme - OmniResult
+   --------------------------------------------------------------------------
+   Result rows ruled at 2px; matched terms are the signal block with black type (and bold), never a pale tint; selected rows carry the leading bar.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-omniresult-highlight,
+body.tss-theme-kontrast.tss-dark-mode .tss-omniresult-highlight {
+    background: var(--tss-kt-signal);
+    color: var(--tss-kt-on-signal);
+    font-weight: 700;
+}
+
+
+body.tss-theme-kontrast .tss-omniresult {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-modal.tss-omniresult-modal > .tss-modal-header {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    border-top-width: var(--tss-kt-border);
+    border-top-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-modal.tss-omniresult-modal .tss-modal-header-commands > .tss-omniresult-modal-button {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+/* The excerpt is drawn in a dark-surface grey (3.9:1 on white); here it is the secondary ink. */
+body.tss-theme-kontrast .tss-omniresult-body {
+    color: var(--tss-kt-muted);
+}

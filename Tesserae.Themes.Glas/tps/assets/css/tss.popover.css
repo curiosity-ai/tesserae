@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Glas theme - Popover
+   --------------------------------------------------------------------------
+   A popover's chrome is its content's (a Menu, a Card...), which the theme
+   draws as glass already. Content that brings no surface of its own gets
+   the thick glass here, so a popover never floats as bare text.
+   ========================================================================== */
+
+body.tss-theme-glas .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    display: none;
+}
+
+body.tss-theme-glas .tippy-box[data-theme~='tss-popover'] > .tippy-content > .tss-popover:not(:has(> .tss-menu, > .tss-card-container, > .tss-card, > .tss-contextmenu-popup, > .tss-layer-content)) {
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}

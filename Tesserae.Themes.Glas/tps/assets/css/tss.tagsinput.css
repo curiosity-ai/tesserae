@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Glas theme - TagsInput
+   --------------------------------------------------------------------------
+   The box is the theme's well; the tags are small glass capsules.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-tagsinput {
+    border: 1px solid var(--tss-gl-edge-strong);
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: var(--tss-gl-well);
+    box-shadow: var(--tss-gl-field-shade);
+}
+
+body.tss-theme-glas .tss-tagsinput:focus-within {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas .tss-tagsinput-chip {
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-tagsinput-chip {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-glas .tss-tagsinput-chip-remove:hover {
+    background: rgba(var(--tss-danger-background-color-root), 0.16);
+}

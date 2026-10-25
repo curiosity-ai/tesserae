@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Blaupause theme - SplitView
+   --------------------------------------------------------------------------
+   The splitter is a fine line with a grip of three short ticks; under the
+   pointer the line is inked and the ticks lengthen. A panel-style side is
+   ruled off, not shadowed.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-blaupause .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    background: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-blaupause .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-bp-ink) !important;
+}
+
+body.tss-theme-blaupause .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    width: 7px;
+    background: repeating-linear-gradient(180deg, var(--tss-bp-line-strong) 0 1px, transparent 1px 6px);
+    background-color: transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-splitview.tss-splitview-horizontal > .tss-splitter:after {
+    height: 7px;
+    background: repeating-linear-gradient(90deg, var(--tss-bp-line-strong) 0 1px, transparent 1px 6px);
+    background-color: transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after,
+body.tss-theme-blaupause .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after {
+    background-color: transparent !important;
+}
+
+body.tss-theme-blaupause .tss-splitview-panel-style.tss-split-left > *:first-child {
+    box-shadow: 1px 0 0 var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: -1px 0 0 var(--tss-bp-line-strong);
+}

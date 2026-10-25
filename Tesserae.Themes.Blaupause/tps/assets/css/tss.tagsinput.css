@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Blaupause theme - TagsInput
+   --------------------------------------------------------------------------
+   A ruled field holding ruled tag cells; the remove cross turns red pencil.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-tagsinput {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background-color: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-tagsinput:hover {
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-tagsinput:focus-within {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-tagsinput-chip {
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-tagsinput-chip-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-tagsinput-chip-remove:hover {
+    background-color: var(--tss-bp-red-soft);
+    color: var(--tss-bp-red);
+}

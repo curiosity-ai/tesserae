@@ -1,0 +1,81 @@
+/* ==========================================================================
+   Kristall theme - Toggle
+   --------------------------------------------------------------------------
+   The desktop switch: a capsule track in the system fill with a white knob
+   that carries a small soft shadow; on, the track fills with the accent
+   and the knob slides across on a short spring. The knob sits 2px inside
+   the track all round, at every size.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-toggle-container .tss-toggle-mark {
+    border: 1px solid transparent;
+    background: var(--tss-kr-fill);
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+    transition: background-color 180ms linear;
+}
+
+body.tss-theme-kristall .tss-toggle-container .tss-toggle-mark:after {
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: transform 220ms var(--tss-kr-spring);
+}
+
+body.tss-theme-kristall .tss-toggle-container:hover .tss-toggle-mark {
+    background: var(--tss-kr-fill);
+    border-color: transparent;
+}
+
+body.tss-theme-kristall .tss-toggle-container:hover .tss-toggle-mark:after {
+    background: rgb(255, 255, 255);
+}
+
+body.tss-theme-kristall .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-kristall .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background: var(--tss-kr-accent);
+    border-color: transparent;
+}
+
+body.tss-theme-kristall .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
+    background: rgb(255, 255, 255);
+}
+
+body.tss-theme-kristall .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    box-shadow: var(--tss-kr-focus);
+}
+
+/* The default size: a 40x20 track, an 18px knob 1px inside the border box, sliding 20px. */
+body.tss-theme-kristall .tss-toggle-container:not(.tss-fontsize-tiny):not(.tss-fontsize-smallplus):not(.tss-fontsize-medium):not(.tss-fontsize-large):not(.tss-fontsize-xlarge):not(.tss-fontsize-xxlarge):not(.tss-fontsize-mega) .tss-toggle-mark:after {
+    top: 1px;
+    left: 1px;
+    width: 18px;
+    height: 18px;
+}
+
+body.tss-theme-kristall .tss-toggle-container:not(.tss-fontsize-tiny):not(.tss-fontsize-smallplus):not(.tss-fontsize-medium):not(.tss-fontsize-large):not(.tss-fontsize-xlarge):not(.tss-fontsize-xxlarge):not(.tss-fontsize-mega) input:checked ~ .tss-toggle-mark:after {
+    transform: translate(20px, 0);
+}
+
+body.tss-theme-kristall .tss-toggle-container .tss-toggle-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-kristall .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-kristall .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: var(--tss-kr-fill-4);
+    border-color: transparent;
+}
+
+body.tss-theme-kristall .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+}
+
+body.tss-theme-kristall .tss-toggle-container.tss-disabled {
+    color: var(--tss-kr-label-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-kristall .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}

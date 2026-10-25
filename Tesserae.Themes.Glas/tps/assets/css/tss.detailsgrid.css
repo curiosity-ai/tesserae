@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Glas theme - DetailsGrid
+   --------------------------------------------------------------------------
+   A details grid is a pane of clear glass with hairlines of light between
+   its rows.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-detailsgrid:not(.tss-detailsgrid-borderless):not(.tss-detailsgrid-stacked.tss-detailsgrid-multicolumn) {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-detailsgrid-row {
+    border-bottom-color: var(--tss-gl-edge);
+}

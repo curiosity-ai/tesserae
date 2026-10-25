@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Blaupause theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A separator is a dimension line: a thin line with a slender filled
+   arrowhead at each end, standing between two short extension lines, and
+   its label lettered in the gap like the measurement. The two halves are
+   the component's own ::before and ::after, each drawn as one polygon
+   (extension line, arrowhead and shaft), so the line meets the label
+   whatever is painted behind it.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-horizontalseparator-container::before,
+body.tss-theme-blaupause .tss-horizontalseparator-container::after {
+    height: 11px;
+    background-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-horizontalseparator-container::before {
+    clip-path: polygon(0 0, 1px 0, 1px 50%, 10px calc(50% - 2.5px), 10px calc(50% - 0.5px), 100% calc(50% - 0.5px), 100% calc(50% + 0.5px), 10px calc(50% + 0.5px), 10px calc(50% + 2.5px), 1px 50%, 1px 100%, 0 100%);
+}
+
+body.tss-theme-blaupause .tss-horizontalseparator-container::after {
+    clip-path: polygon(100% 0, calc(100% - 1px) 0, calc(100% - 1px) 50%, calc(100% - 10px) calc(50% - 2.5px), calc(100% - 10px) calc(50% - 0.5px), 0 calc(50% - 0.5px), 0 calc(50% + 0.5px), calc(100% - 10px) calc(50% + 0.5px), calc(100% - 10px) calc(50% + 2.5px), calc(100% - 1px) 50%, calc(100% - 1px) 100%, 100% 100%);
+}
+
+/* Left/Right keep one half: it is a leader, ending in a tick at the label. */
+body.tss-theme-blaupause .tss-horizontalseparator-container.tss-left::after {
+    clip-path: polygon(0 calc(50% - 0.5px), calc(100% - 1px) calc(50% - 0.5px), calc(100% - 1px) 0, 100% 0, 100% 100%, calc(100% - 1px) 100%, calc(100% - 1px) calc(50% + 0.5px), 0 calc(50% + 0.5px));
+}
+
+body.tss-theme-blaupause .tss-horizontalseparator-container.tss-right::before {
+    clip-path: polygon(0 0, 1px 0, 1px calc(50% - 0.5px), 100% calc(50% - 0.5px), 100% calc(50% + 0.5px), 1px calc(50% + 0.5px), 1px 100%, 0 100%);
+}
+
+body.tss-theme-blaupause .tss-horizontalseparator {
+    font-size: var(--tss-bp-label-size);
+    font-weight: 600;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+    color: var(--tss-bp-text);
+    padding: 0 10px;
+}
+
+body.tss-theme-blaupause .tss-horizontalseparator.tss-primary {
+    color: var(--tss-bp-ink);
+}

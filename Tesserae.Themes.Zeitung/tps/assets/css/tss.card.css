@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Zeitung theme - Card
+   --------------------------------------------------------------------------
+   A card is a boxed article: a 1px ink frame on the paper, with the
+   thick-and-thin rule across its head. A card with a title sets the title
+   as a kicker (condensed capitals, tracked) under that rule, with a hairline
+   between it and the copy; a footer is ruled off with a hairline too. A
+   hoverable card is a story you can open: under the pointer its frame
+   thickens to 2px of ink, nothing lifts. A small card is a brief: the
+   frame only.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-card {
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper);
+    border-radius: 0;
+    box-shadow: none;
+    outline: 1px solid var(--tss-zt-ink);
+    outline-offset: -1px;
+    padding: calc(16px + var(--tss-zt-band-h)) 18px 18px 18px;
+}
+
+body.tss-theme-zeitung .tss-card.tss-card-hover {
+    transition: outline-width var(--tss-zt-quick) var(--tss-zt-ease), opacity 300ms linear, transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+body.tss-theme-zeitung .tss-card.tss-card-hover:hover,
+body.tss-theme-zeitung .tss-card.tss-card-hover:active {
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper);
+    box-shadow: inset 0 0 0 2px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-card-container.tss-small > .tss-card {
+    background: var(--tss-zt-paper);
+    padding: 4px 10px;
+}
+
+/* --------------------------------------------------------------------------
+   With a layout: kicker, copy, footer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-zeitung .tss-card.tss-has-layout {
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper) !important;
+    box-shadow: none !important;
+    padding-top: var(--tss-zt-band-h) !important;
+}
+
+body.tss-theme-zeitung .tss-card-header {
+    min-height: 34px;
+    padding: 9px 18px 7px 18px;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-card-header:empty {
+    display: none;
+}
+
+body.tss-theme-zeitung .tss-card-title,
+body.tss-theme-zeitung .tss-card-title .tss-textblock {
+    font-family: var(--tss-zt-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung i.tss-card-title-icon {
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-card-content {
+    padding: 16px 18px 18px 18px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-card-footer {
+    padding: 8px 14px 8px 18px;
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 1px 0 var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header {
+    min-height: 26px;
+    padding: 4px 10px;
+}
+
+body.tss-theme-zeitung .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content {
+    padding: 4px 10px;
+}
+
+body.tss-theme-zeitung .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
+    padding: 4px 10px;
+    margin-top: 0;
+}

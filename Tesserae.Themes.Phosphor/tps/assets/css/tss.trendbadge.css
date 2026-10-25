@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Phosphor theme - TrendBadge
+   --------------------------------------------------------------------------
+   A trend is a short reading in a framed cell: good news in green, bad in
+   red, the frame in the same colour and the cell washed with it.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-trendbadge {
+    font-family: var(--tss-ph-mono);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-trendbadge-good {
+    color: rgb(var(--tss-success-background-color-root));
+    background: rgba(var(--tss-success-background-color-root), 0.1);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-success-background-color-root), 0.5);
+}
+
+body.tss-theme-phosphor .tss-trendbadge-bad {
+    color: var(--tss-ph-red);
+    background: rgba(var(--tss-ph-red-root), 0.1);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-ph-red-root), 0.5);
+}

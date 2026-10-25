@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Blaupause theme - Expander (Accordion)
+   --------------------------------------------------------------------------
+   A ruled box whose header strip is lettered in capitals; opened, its body
+   is ruled off by a fine line. The icon sits in a square cell.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-expander {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-expander-header:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-expander-title {
+    font-size: 12px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-expander-content {
+    border-top: 1px dashed var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-expander-icon {
+    border-radius: 0;
+    border: var(--tss-bp-rule);
+    box-sizing: border-box;
+}

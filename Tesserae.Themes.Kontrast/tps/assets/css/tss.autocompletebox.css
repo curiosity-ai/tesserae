@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Kontrast theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The suggestion list is the floating plate; the highlighted row takes a
+   fill, an ink edge and the leading bar; the matched part of a suggestion
+   is bold and underlined. The check status after the field says its state
+   in a word and an icon as well as a colour.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-autocompletebox-list {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.9);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-autocompletebox-list {
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+body.tss-theme-kontrast .tss-autocompletebox-item {
+    min-height: 36px;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-autocompletebox-item.tss-autocompletebox-item-highlight,
+body.tss-theme-kontrast .tss-autocompletebox-item:hover {
+    background: var(--tss-kt-hover);
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-autocompletebox-match {
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-kontrast .tss-autocompletebox-status-valid { color: var(--tss-kt-success); font-weight: 700; }
+body.tss-theme-kontrast .tss-autocompletebox-status-warning { color: var(--tss-kt-ink); font-weight: 700; }
+body.tss-theme-kontrast.tss-dark-mode .tss-autocompletebox-status-warning { color: var(--tss-kt-signal); }
+body.tss-theme-kontrast .tss-autocompletebox-status-invalid { color: var(--tss-kt-danger); font-weight: 700; }
+
+body.tss-theme-kontrast .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-danger);
+}

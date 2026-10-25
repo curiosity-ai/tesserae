@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Zeitung theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A row with a state is a line of the listings with its tone printed as a
+   rule down the leading edge and the faintest tint of it behind; the title
+   is the serif bold, the subtitle italic.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-statefulitemrow-primary,
+body.tss-theme-zeitung .tss-statefulitemrow-success,
+body.tss-theme-zeitung .tss-statefulitemrow-warning,
+body.tss-theme-zeitung .tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: color-mix(in srgb, var(--tss-statefulitemrow-accent) 7%, transparent);
+    box-shadow: inset 3px 0 0 var(--tss-statefulitemrow-accent);
+}
+
+body.tss-theme-zeitung .tss-statefulitemrow-interactive:hover {
+    background: color-mix(in srgb, var(--tss-zt-ink) 6%, var(--tss-statefulitemrow-surface));
+}
+
+body.tss-theme-zeitung .tss-statefulitemrow-title {
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-statefulitemrow-subtitle {
+    font-style: italic;
+}

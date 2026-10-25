@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Blaupause theme - Tree
+   --------------------------------------------------------------------------
+   A parts list: rows lettered on the sheet, children hanging off a fine
+   leader line. The selected row is swiped with the highlighter and marked
+   at its edge in ink; focus is the red pencil.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-tree-item-content {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-tree-item-content:hover {
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-tree-item-content.tss-selected {
+    background-color: var(--tss-bp-yellow-wash);
+    box-shadow: inset 3px 0 0 var(--tss-bp-ink);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-tree-chevron:hover,
+body.tss-theme-blaupause .tss-tree-checkbox:hover {
+    color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+body.tss-theme-blaupause .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox,
+body.tss-theme-blaupause .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected {
+    color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-tree-children {
+    border-left: 1px solid var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-tree-compact .tss-tree-item-content {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-tree-menu > .tss-tree-command,
+body.tss-theme-blaupause .tss-tree-menu > a > .tss-tree-command {
+    text-transform: none;
+    letter-spacing: 0.01em;
+}

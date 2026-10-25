@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Phosphor theme - Stepper
+   --------------------------------------------------------------------------
+   A stepper is the step list of an installer: each step a numbered square
+   cell, "[1]", the current one the cursor block, a finished one framed in
+   green. The content pane is a single-line box.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-stepper-step {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-stepper-circle {
+    border-radius: 0;
+    border-width: 1px;
+    border-color: var(--tss-ph-rule);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-stepper-active .tss-stepper-label {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-stepper-complete .tss-stepper-circle {
+    border-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-stepper-content {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-stepper-nav {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}

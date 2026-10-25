@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Zeitung theme - DetailsGrid
+   --------------------------------------------------------------------------
+   A details grid is the fact box beside a story: no frame but a thick-and-
+   thin rule over it and a line of ink under it, rows divided by hairlines,
+   each label set in the serif's small caps and its value in the roman with
+   lining figures.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-detailsgrid:not(.tss-detailsgrid-borderless):not(.tss-detailsgrid-stacked) {
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid var(--tss-zt-ink);
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat;
+    padding-top: var(--tss-zt-band-h);
+}
+
+body.tss-theme-zeitung .tss-detailsgrid-row {
+    border-bottom-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-detailsgrid-label {
+    font-variant-caps: all-small-caps;
+    font-variant-numeric: lining-nums;
+    letter-spacing: var(--tss-zt-sc);
+    font-size: 1.08em;
+    font-weight: 600;
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-detailsgrid-value {
+    font-variant-numeric: lining-nums tabular-nums;
+}

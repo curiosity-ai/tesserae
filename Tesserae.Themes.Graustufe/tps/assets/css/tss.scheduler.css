@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Graustufe theme - Scheduler
+   --------------------------------------------------------------------------
+   A diary page: hairline hours, ink day heads, today's date inverted;
+   events are ruled slips greyed from their colours, their leading bar ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-scheduler-event,
+body.tss-theme-graustufe .tss-scheduler-chip,
+body.tss-theme-graustufe .tss-scheduler-resource-chip {
+    filter: var(--tss-gs-panel);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.scheduler.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-scheduler,
+body.tss-theme-graustufe .tss-scheduler-event,
+body.tss-theme-graustufe .tss-scheduler-chip,
+body.tss-theme-graustufe .tss-scheduler-bar,
+body.tss-theme-graustufe .tss-scheduler-resize-end::after,
+body.tss-theme-graustufe .tss-scheduler-ghost,
+body.tss-theme-graustufe .tss-scheduler-tg-daynum,
+body.tss-theme-graustufe .tss-scheduler-month-date,
+body.tss-theme-graustufe .tss-scheduler-month-more,
+body.tss-theme-graustufe .tss-scheduler-agenda-row,
+body.tss-theme-graustufe .tss-scheduler-agenda-bar {
+    border-radius: 0;
+}
+

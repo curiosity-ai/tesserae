@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Phosphor theme - Mermaid
+   --------------------------------------------------------------------------
+   A diagram drawn from Mermaid source matches the theme's code panes: a
+   single-line frame on the field wash, square nodes, lines in the frame
+   colour, the accent the cursor colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-mermaid {
+    --pele-radius: 0px;
+    --pele-border: var(--tss-ph-rule-hi);
+    --pele-accent: var(--tss-ph-cursor);
+    --pele-bg: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-mermaid > svg {
+    filter: drop-shadow(0 0 2px rgba(220, 255, 230, 0.18));
+}
+
+body.tss-theme-phosphor .tss-markdown pre.tss-mermaid-source {
+    border-left: 4px double var(--tss-ph-amber);
+}

@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Graustufe theme - ListItemText
+   --------------------------------------------------------------------------
+   Title in the book face, bold; subtitle its italic in the muted grey; the
+   icon in a square ink-ruled tile.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-listitemtext-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-listitemtext-subtitle {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-listitemtext-icon {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+}

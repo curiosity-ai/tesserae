@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Phosphor theme - Questionnaire
+   --------------------------------------------------------------------------
+   Answers are bracketed choices on a prompt, "[ Yes ] [ No ]": square
+   framed cells that invert under the pointer; once answered the chosen
+   one stays the cursor block and the others dim.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-questionnaire-option {
+    background: transparent;
+    border: var(--tss-ph-single);
+    color: var(--tss-ph-ink);
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}

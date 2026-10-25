@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Glas theme - CommandPalette
+   --------------------------------------------------------------------------
+   The palette is a large lens of thick glass dropped over a veiled page:
+   it blurs, saturates and (in Chromium) refracts what is under it. The
+   veil's blur is drawn on the overlay, a sibling of the palette, so the
+   palette's own blur still reaches the page (see tss.modal.css). The active
+   row is the accent lozenge; result rows condense into tinted pills.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-commandpalette-overlay {
+    background: var(--tss-overlay-dark);
+    -webkit-backdrop-filter: blur(3px) saturate(120%);
+    backdrop-filter: blur(3px) saturate(120%);
+}
+
+body.tss-theme-glas .tss-commandpalette-animator {
+    border: none;
+    border-radius: var(--tss-gl-radius-pane);
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-commandpalette-search-container {
+    border-bottom: 1px solid var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-commandpalette-close {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-commandpalette-close:hover {
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-commandpalette-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-glas .tss-commandpalette-section {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-glas .tss-commandpalette-item {
+    border-radius: var(--tss-gl-radius-ctrl);
+}
+
+body.tss-theme-glas .tss-commandpalette-item:hover {
+    background: rgba(var(--tss-gl-accent-rgb), 0.1);
+}
+
+body.tss-theme-glas .tss-commandpalette-item.tss-active {
+    background: var(--tss-gl-lozenge-shine), rgba(var(--tss-primary-background-color-root), 0.94);
+    box-shadow: var(--tss-gl-lozenge-rim), 0 6px 16px -8px rgba(var(--tss-gl-accent-rgb), 0.75);
+}
+
+body.tss-theme-glas .tss-commandpalette-result {
+    border-radius: var(--tss-gl-radius-ctrl);
+}
+
+body.tss-theme-glas .tss-commandpalette-result.tss-active,
+body.tss-theme-glas .tss-commandpalette-result:hover {
+    background: rgba(var(--tss-gl-accent-rgb), 0.1);
+}
+
+body.tss-theme-glas .tss-commandpalette-result.tss-active {
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.55);
+}
+
+body.tss-theme-glas .tss-commandpalette-icon {
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-commandpalette-icon {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-commandpalette-item.tss-active .tss-commandpalette-icon {
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+body.tss-theme-glas .tss-commandpalette-shortcut {
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 1px 0 rgb(255, 255, 255), inset 0 -1px 0 rgba(84, 86, 150, 0.16), 0 0 0 1px rgba(84, 86, 150, 0.18);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-commandpalette-shortcut {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 1px rgba(200, 204, 255, 0.14);
+}
+
+body.tss-theme-glas .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+@supports (backdrop-filter: url("#a")) and (not (-moz-appearance: none)) and (not (font: -apple-system-body)) {
+    body.tss-theme-glas .tss-commandpalette-animator {
+        backdrop-filter: var(--tss-gl-refract);
+    }
+}

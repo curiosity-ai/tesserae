@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Zeitung theme - SectionTitle
+   --------------------------------------------------------------------------
+   A page title is the headline at the top of the page: the condensed gothic,
+   large and tight, with the deck (the subtitle) under it in the serif's
+   italic, and the thick-and-thin rule across the page beneath both, the
+   rule a newspaper runs under its nameplate. The icon is a small spot-red
+   mark before the headline.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-sectiontitle {
+    padding-bottom: calc(14px + var(--tss-zt-band-h));
+    margin-bottom: 4px;
+    background: var(--tss-zt-band) bottom / 100% var(--tss-zt-band-h) no-repeat;
+}
+
+body.tss-theme-zeitung .tss-sectiontitle-title {
+    height: auto;
+    padding-left: 12px;
+    font-family: var(--tss-zt-head);
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+}
+
+body.tss-theme-zeitung .tss-sectiontitle-icon {
+    height: auto;
+    font-size: 22px;
+    line-height: 1 !important;
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-sectiontitle-subtitle {
+    margin-top: 4px;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.35;
+    color: var(--tss-zt-muted) !important;
+}

@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Phosphor theme - InlineLabel
+   --------------------------------------------------------------------------
+   An inline label is a short framed field of text: square, a 1px frame,
+   inverting under the pointer when it can be pressed.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-inlinelabel {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-inlinelabel-mark-color,
+body.tss-theme-phosphor .tss-inlinelabel-image {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-inlinelabel-interactive:hover,
+body.tss-theme-phosphor .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+    outline: none;
+}

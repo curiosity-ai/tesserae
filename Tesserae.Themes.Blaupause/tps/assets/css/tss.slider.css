@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Blaupause theme - Slider
+   --------------------------------------------------------------------------
+   A slider is a scale rule: a 1px line with graduation ticks along it (a
+   minor tick every 5%, a major one every 25%), the travelled part drawn as
+   a hatched band over the line, and a square cursor with a hairline index
+   down its middle standing on the scale. Under the pointer the band is
+   inked solid; disabled, the scale is dashed.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-slider-fake-background {
+    border-radius: 0;
+    background-color: transparent;
+    background-image:
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line)),
+        repeating-linear-gradient(90deg, var(--tss-bp-line) 0 1px, transparent 1px 25%),
+        repeating-linear-gradient(90deg, var(--tss-bp-line-faint) 0 1px, transparent 1px 5%),
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line));
+    background-size: 100% 1px, calc(100% - 1px) 8px, calc(100% - 1px) 5px, 1px 8px;
+    background-position: left center, left center, left center, right center;
+    background-repeat: no-repeat;
+}
+
+body.tss-theme-blaupause .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-slider-fake-progress {
+    border-radius: 0;
+    background-color: transparent;
+    background-image: var(--tss-bp-hatch-dense);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-ink);
+    top: 6px;
+    height: 4px;
+}
+
+body.tss-theme-blaupause .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-blaupause .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-disabled-foreground-color-root));
+    background-image: none;
+}
+
+body.tss-theme-blaupause .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background-color: transparent;
+    background-image: repeating-linear-gradient(90deg, rgb(var(--tss-disabled-foreground-color-root)) 0 4px, transparent 4px 7px);
+    background-size: 100% 1px;
+    background-position: left center;
+}
+
+body.tss-theme-blaupause .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    background-image:
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line)),
+        repeating-linear-gradient(180deg, var(--tss-bp-line) 0 1px, transparent 1px 25%),
+        repeating-linear-gradient(180deg, var(--tss-bp-line-faint) 0 1px, transparent 1px 5%),
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line));
+    background-size: 1px 100%, 8px calc(100% - 1px), 5px calc(100% - 1px), 8px 1px;
+    background-position: center top, center top, center top, center bottom;
+}
+
+body.tss-theme-blaupause .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    left: 10px;
+    width: 4px;
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-slider {
+    border-radius: 0;
+    background-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-slider:hover,
+body.tss-theme-blaupause .tss-slider.tss-disabled {
+    background-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-slider::-webkit-slider-thumb {
+    border-radius: 0;
+    background: linear-gradient(var(--tss-bp-ink), var(--tss-bp-ink)) center / 1px 100% no-repeat, var(--tss-bp-sheet);
+    border: 1px solid var(--tss-bp-ink);
+    width: 14px;
+    height: 22px;
+}
+
+body.tss-theme-blaupause .tss-slider::-moz-range-thumb {
+    border-radius: 0;
+    background: linear-gradient(var(--tss-bp-ink), var(--tss-bp-ink)) center / 1px 100% no-repeat, var(--tss-bp-sheet);
+    border: 1px solid var(--tss-bp-ink);
+    width: 14px;
+    height: 22px;
+}
+
+body.tss-theme-blaupause .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 14px;
+    background: linear-gradient(var(--tss-bp-ink), var(--tss-bp-ink)) center / 100% 1px no-repeat, var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-slider:hover::-webkit-slider-thumb {
+    border-color: var(--tss-bp-ink);
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-blaupause .tss-slider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-blaupause .tss-slider::-moz-range-progress {
+    border-radius: 0;
+    height: 4px;
+    background-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: var(--tss-bp-sheet);
+}

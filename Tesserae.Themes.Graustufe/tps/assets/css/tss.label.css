@@ -1,0 +1,11 @@
+/* ==========================================================================
+   Graustufe theme - Label
+   --------------------------------------------------------------------------
+   A field's caption is chrome: the legible sans, semibold, in ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-label > label {
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+    color: var(--tss-gs-0);
+}

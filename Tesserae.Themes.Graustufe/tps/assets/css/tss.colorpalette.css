@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Graustufe theme - ColorPalette
+   --------------------------------------------------------------------------
+   The panel cannot show colour, so a swatch shows its lightness: grey, a
+   square framed in ink; the chosen one framed twice.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-colorpalette-swatch {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px var(--tss-gs-15), 0 0 0 4px var(--tss-gs-0);
+}

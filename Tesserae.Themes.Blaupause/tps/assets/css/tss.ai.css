@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Blaupause theme - AI tone
+   --------------------------------------------------------------------------
+   What a model produced is marked in violet pencil: one flat colour rather
+   than a gradient, as a line, a light wash and lettering. Filled AI keys
+   are solid violet, double-ruled like any solid key; nothing casts a
+   shadow.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-textblock.tss-ai-surface {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause {
+    --tss-ai-from: rgb(110, 64, 190);
+    --tss-ai-to: rgb(110, 64, 190);
+    --tss-ai-accent: rgb(110, 64, 190);
+    --tss-ai-gradient: linear-gradient(rgb(110, 64, 190), rgb(110, 64, 190));
+    --tss-ai-gradient-hover: linear-gradient(rgb(126, 80, 208), rgb(126, 80, 208));
+    --tss-ai-gradient-text: linear-gradient(rgb(96, 52, 176), rgb(96, 52, 176));
+    --tss-ai-surface: linear-gradient(rgba(110, 64, 190, 0.07), rgba(110, 64, 190, 0.07));
+    --tss-ai-surface-strong: linear-gradient(rgba(110, 64, 190, 0.13), rgba(110, 64, 190, 0.13));
+    --tss-ai-border-color: rgba(110, 64, 190, 0.6);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(110, 64, 190) 0deg, rgb(110, 64, 190) 270deg, rgba(110, 64, 190, 0) 271deg);
+    --tss-ai-on-fill: rgb(255, 255, 255);
+}
+
+body.tss-theme-blaupause.tss-dark-mode {
+    --tss-ai-from: rgb(206, 182, 255);
+    --tss-ai-to: rgb(206, 182, 255);
+    --tss-ai-accent: rgb(206, 182, 255);
+    --tss-ai-gradient: linear-gradient(rgb(206, 182, 255), rgb(206, 182, 255));
+    --tss-ai-gradient-hover: linear-gradient(rgb(222, 204, 255), rgb(222, 204, 255));
+    --tss-ai-gradient-text: linear-gradient(rgb(214, 194, 255), rgb(214, 194, 255));
+    --tss-ai-surface: linear-gradient(rgba(206, 182, 255, 0.1), rgba(206, 182, 255, 0.1));
+    --tss-ai-surface-strong: linear-gradient(rgba(206, 182, 255, 0.18), rgba(206, 182, 255, 0.18));
+    --tss-ai-border-color: rgba(206, 182, 255, 0.7);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(206, 182, 255) 0deg, rgb(206, 182, 255) 270deg, rgba(206, 182, 255, 0) 271deg);
+    --tss-ai-on-fill: rgb(16, 50, 104);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-ai:not(.tss-disabled) {
+    outline: 1px solid var(--tss-ai-border-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-blaupause .tss-card-container.tss-ai > .tss-card.tss-has-layout {
+    filter: none;
+}
+
+body.tss-theme-blaupause .tss-token.tss-token-ai {
+    border-color: var(--tss-ai-accent);
+}

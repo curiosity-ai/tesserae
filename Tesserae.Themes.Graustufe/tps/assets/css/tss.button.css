@@ -1,0 +1,196 @@
+/* ==========================================================================
+   Graustufe theme - Button
+   --------------------------------------------------------------------------
+   A button is a key printed on the page. A solid key (primary, danger,
+   success, warning) is a block of its grey with an ink frame and a 2px
+   dithered drop edge; pressed, it sits down into its edge (2px right and
+   down) and the edge is gone. Primary is solid ink with paper type. Danger
+   is ink too, framed twice, so it is told apart by shape and not only by
+   its grey. Success is a dark grey, warning a light one with ink type.
+
+   The default button is a ghost, the way an e-reader prints its toolbar:
+   type and icon only. Under the pointer an ink frame appears round it;
+   held down it inverts (ink block, paper type), the flash an e-ink panel
+   gives a tap. Link buttons stay type. Disabled is a dashed outline and a
+   faded legend. Nothing eases: every state is drawn at once.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-btn {
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border-radius: var(--tss-gs-radius);
+    box-shadow: none;
+}
+
+/* Focus is the theme's thick ink frame, never a halo. */
+body.tss-theme-graustufe .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-btn:focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+/* --------------------------------------------------------------------------
+   The ghost: type at rest, a frame under the pointer, inverted when pressed
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-fontcolor-default {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+/* A ghost that asked for no border keeps none, even under the pointer: it gets the wash instead. */
+body.tss-theme-graustufe .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled):hover {
+    border-color: transparent;
+    background-color: var(--tss-gs-13);
+}
+
+/* --------------------------------------------------------------------------
+   Solid keys
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-graustufe .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-graustufe .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-image: var(--tss-gs-edge-sm);
+    filter: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    filter: none;
+    box-shadow: none;
+}
+
+/* Pressed: the key sits down into its edge. */
+body.tss-theme-graustufe .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    border-image: none;
+    border-color: var(--tss-gs-0);
+    transform: translate(2px, 2px);
+    filter: none;
+    box-shadow: none;
+}
+
+/* Danger is framed twice: a second ink rule 2px outside the key. */
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    outline: 1px solid var(--tss-gs-0);
+    outline-offset: 2px;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Without a background: the tone is the weight of the type
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-btn.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: transparent;
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-gs-4);
+}
+
+/* --------------------------------------------------------------------------
+   Links: ink type, underlined when they go somewhere (Tesserae's own rule)
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-btn.tss-btn-link,
+body.tss-theme-graustufe .tss-btn.tss-btn-link .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:hover .tss-fontcolor-default {
+    color: var(--tss-gs-0);
+    border-image: none;
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-link:hover > span {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-link:focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: a dashed outline, the legend faded
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-btn.tss-disabled {
+    background: transparent;
+    border: 1px dashed var(--tss-gs-9);
+    border-image: none;
+    color: var(--tss-gs-9);
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-disabled.tss-btn-link,
+body.tss-theme-graustufe .tss-btn.tss-disabled.tss-btn-noborder {
+    border-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   The spinner, still
+   --------------------------------------------------------------------------
+   Tesserae's spinner is a dot that orbits and stretches into an arc. Here
+   nothing orbits: while the action runs the ring is drawn as a dotted circle
+   (sixteen dots on the ring), the e-paper sign for "working". An outcome
+   still closes into the solid circle and draws its check or cross.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-btn.tss-btn-spinning .tss-btn-spin-ring .tss-btn-spin-track {
+    opacity: 0;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-spinning .tss-btn-spin-ring .tss-btn-spin-arc {
+    opacity: 1;
+    stroke-dasharray: 0.01 7.853;
+}
+
+/* The outcome on a ghost: ink for both; the mark itself says which. */
+body.tss-theme-graustufe .tss-btn.tss-btn-default.tss-btn-spin-success .tss-btn-spin-ring,
+body.tss-theme-graustufe .tss-btn.tss-btn-default.tss-btn-spin-error .tss-btn-spin-ring {
+    color: var(--tss-gs-0);
+}
+
+/* A ToggleButton that is off: its label in the muted grey. */
+body.tss-theme-graustufe .tss-toggle-btn-unchecked .tss-fontcolor-default {
+    color: var(--tss-gs-6);
+}

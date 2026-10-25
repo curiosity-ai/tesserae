@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Zeitung theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is a notice set in a box: the modal's page, squared, with the
+   question as its headline and the answers as a row of buttons ruled off
+   below a hairline.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-modal.tss-dialog {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-dialog .tss-modal-header {
+    padding: 4px 16px 0 20px;
+}
+
+body.tss-theme-zeitung .tss-dialog .tss-modal-content {
+    padding: 12px 20px 8px 20px;
+    line-height: var(--tss-zt-leading);
+}
+
+body.tss-theme-zeitung .tss-dialog .tss-modal-footer {
+    padding: 4px 14px 8px 20px;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-dialog {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

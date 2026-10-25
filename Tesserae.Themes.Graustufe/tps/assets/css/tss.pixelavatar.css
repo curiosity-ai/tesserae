@@ -1,0 +1,11 @@
+/* ==========================================================================
+   Graustufe theme - PixelAvatar
+   --------------------------------------------------------------------------
+   Pixel art suits e-paper; its colours do not. The sprite is shown in
+   grey, toned to the paper, its pixels untouched.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-pixelavatar,
+body.tss-theme-graustufe .tss-pixelavatar-badge {
+    filter: var(--tss-gs-panel);
+}

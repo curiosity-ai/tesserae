@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Glas theme - Mermaid diagrams
+   --------------------------------------------------------------------------
+   A diagram is drawn on a pane of clear glass framed like the code blocks.
+   Pele's own background and node surfaces stay solid (a node has to hide
+   the lines it sits on), in the pale lavender of the light glass or the
+   deep navy of the smoked; lines and type in the ink, the accent the iris,
+   and the series follow the chart palette.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-mermaid {
+    --pele-bg: rgb(var(--tss-default-background-color-root));
+    --pele-surface: rgb(252, 252, 255);
+    --pele-surface-alt: rgb(236, 235, 250);
+    --pele-border: rgba(70, 72, 140, 0.45);
+    --pele-line: rgba(40, 40, 80, 0.6);
+    --pele-accent: rgb(var(--tss-gl-accent-rgb));
+    --pele-radius: 10px;
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-mermaid {
+    --pele-bg: rgb(var(--tss-default-background-color-root));
+    --pele-surface: rgb(34, 34, 66);
+    --pele-surface-alt: rgb(44, 44, 80);
+    --pele-border: rgba(200, 204, 255, 0.35);
+    --pele-line: rgba(220, 220, 255, 0.55);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-glas .tss-markdown pre.tss-mermaid-source {
+    border-left: 3px solid rgba(var(--tss-warning-background-color-root), 0.8);
+}

@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Phosphor theme - Charts
+   --------------------------------------------------------------------------
+   A chart is a plot on a vector display. Tesserae's charts have no
+   stylesheet of their own; a series without an explicit colour reads
+   --tss-chart-series-N (ChartBase.DefaultPalette), so the palette is set
+   here. On the screen it is the phosphors a terminal can light: P1 green,
+   P3 amber, P4 white, P7 blue-white, then a dim green, orange, red and a
+   violet, every trace blooming slightly. On paper it is the inks of a
+   plotter: carbon black, green-bar green, ribbon red, amber, blue, grey,
+   teal and violet. Gridlines are dotted like a printed graticule; labels
+   are the terminal face, dim. A series an app coloured itself keeps its
+   colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor {
+    --tss-chart-series-1: rgb(28, 33, 38);
+    --tss-chart-series-2: rgb(22, 120, 62);
+    --tss-chart-series-3: rgb(178, 28, 36);
+    --tss-chart-series-4: rgb(176, 104, 0);
+    --tss-chart-series-5: rgb(40, 82, 160);
+    --tss-chart-series-6: rgb(122, 128, 132);
+    --tss-chart-series-7: rgb(0, 122, 128);
+    --tss-chart-series-8: rgb(112, 60, 150);
+}
+
+body.tss-theme-phosphor.tss-dark-mode {
+    --tss-chart-series-1: rgb(92, 255, 140);
+    --tss-chart-series-2: rgb(255, 182, 40);
+    --tss-chart-series-3: rgb(214, 236, 226);
+    --tss-chart-series-4: rgb(110, 210, 255);
+    --tss-chart-series-5: rgb(40, 150, 76);
+    --tss-chart-series-6: rgb(255, 128, 48);
+    --tss-chart-series-7: rgb(255, 96, 88);
+    --tss-chart-series-8: rgb(200, 140, 255);
+}
+
+body.tss-theme-phosphor .tss-chart {
+    font-family: var(--tss-ph-mono);
+}
+
+/* The bloom of a lit trace: a soft halo round everything drawn, in a near-white so it suits every phosphor. */
+body.tss-theme-phosphor.tss-dark-mode .tss-chart svg {
+    filter: drop-shadow(0 0 2px rgba(220, 255, 230, 0.22));
+}
+
+/* Gridlines: a dotted graticule. */
+body.tss-theme-phosphor .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(var(--tss-ph-ink-root), 0.22);
+    stroke-dasharray: 1 3;
+}
+
+/* Axes, the crosshair and the scale labels: dim. */
+body.tss-theme-phosphor .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-chart text {
+    fill: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-ph-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tss-chart text[font-size="11"] {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The tooltip drawn into the SVG: a square window. */
+body.tss-theme-phosphor .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: rgb(var(--tss-secondary-background-color-root));
+    stroke: var(--tss-ph-rule-hi);
+    rx: 0;
+}
+
+body.tss-theme-phosphor .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-chart rect[rx="2"],
+body.tss-theme-phosphor .tss-chart rect[fill-opacity] {
+    rx: 0;
+}
+
+/* Traces are drawn with a square pen. */
+body.tss-theme-phosphor .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+}
+
+/* HeatMap: the toolkit's blue scale becomes the first phosphor. */
+body.tss-theme-phosphor .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-chart-series-1);
+}
+
+body.tss-theme-phosphor .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-chart-series-1);
+}

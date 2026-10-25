@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Zeitung theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   A segmented control is a row of boxed options in one ink frame, divided by
+   hairline rules. The chosen segment is reversed out: paper type on a solid
+   block of ink. Under the pointer a segment takes a wash of ink. The AI
+   variant keeps its own colours.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) > .tss-segmentedpivot-titlebar {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+    padding: 0;
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab {
+    border-radius: 0;
+    box-shadow: inset -1px 0 0 var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:last-child {
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover {
+    background-color: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background-color: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: none;
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 1px;
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:active {
+    background-color: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: 0;
+}

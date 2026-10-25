@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Phosphor theme - Markdown
+   --------------------------------------------------------------------------
+   Rendered markdown is a document paged on the terminal (or printed from
+   it). Headings are in the bitmap face, h1 and h2 underlined with a double
+   rule like a text-mode banner; a rule is a dashed line of "-" cells; a
+   quote hangs off a double bar; code blocks are framed panes; inline code
+   is a faint cell-wash; tables are ruled with a double line under the head
+   and green-bar striping on paper.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-markdown h1,
+body.tss-theme-phosphor .tss-markdown h2,
+body.tss-theme-phosphor .tss-markdown h3 {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-markdown h1 {
+    font-size: 2.6em;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-markdown h2 {
+    font-size: 2em;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-markdown h3 {
+    font-size: 1.55em;
+}
+
+body.tss-theme-phosphor .tss-markdown h4,
+body.tss-theme-phosphor .tss-markdown h5,
+body.tss-theme-phosphor .tss-markdown h6 {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-phosphor .tss-markdown hr {
+    height: 1px;
+    background: repeating-linear-gradient(90deg, var(--tss-ph-rule) 0 6px, transparent 6px 10px);
+}
+
+body.tss-theme-phosphor .tss-markdown blockquote {
+    border-left: var(--tss-ph-double);
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-markdown code {
+    font-weight: 500;
+    padding: 0.1em 0.35em;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-ph-tint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-markdown pre {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    font-size: 90%;
+}
+
+body.tss-theme-phosphor .tss-markdown pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-weight: 400;
+}
+
+body.tss-theme-phosphor .tss-markdown kbd {
+    border-radius: 0;
+    border-bottom-width: 2px;
+    background: transparent;
+    font-family: var(--tss-ph-mono);
+}
+
+body.tss-theme-phosphor .tss-markdown table th {
+    font-size: 11px;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+    border: var(--tss-ph-single);
+    border-bottom: var(--tss-ph-double);
+    padding: 6px 13px;
+}
+
+body.tss-theme-phosphor .tss-markdown table td {
+    border-color: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-markdown table tr {
+    background: transparent;
+    border-top-color: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-ph-bar);
+}
+
+body.tss-theme-phosphor .tss-markdown a {
+    color: rgb(var(--tss-link-color-root));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}

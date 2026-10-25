@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Graustufe theme - TextBox
+   --------------------------------------------------------------------------
+   A field is a box ruled on the paper: the page's own colour inside a 1px
+   ink frame, corners barely rounded. Focused, the frame thickens to 3px
+   (two more pixels drawn outside it, so nothing moves). Invalid, a solid
+   ink bar runs down the leading edge and the message is set in bold italic
+   under it: told by shape and weight, never by a colour the panel does not
+   have. Disabled is a grey frame on a grey ground, the text faded.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-textbox {
+    font-family: var(--tss-gs-ui);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-textbox::placeholder {
+    color: var(--tss-gs-8) !important;
+    opacity: 1;
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-textbox:hover {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-textbox:focus {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-textbox.tss-disabled {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-10);
+    color: var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: var(--tss-gs-0);
+    box-shadow: inset 4px 0 0 var(--tss-gs-0);
+    padding-left: 14px;
+}
+
+body.tss-theme-graustufe .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: inset 4px 0 0 var(--tss-gs-0), 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-textbox-error {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-textbox.tss-textbox-noborder,
+body.tss-theme-graustufe .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-graustufe .tss-textbox.tss-textbox-noborder:focus {
+    border-color: transparent;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* A table inside a text block: ruled like a printed table. */
+body.tss-theme-graustufe .tss-textblock table {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-textblock table thead {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-textblock table th {
+    font-family: var(--tss-gs-ui);
+    color: var(--tss-gs-0);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-textblock table td {
+    border-bottom: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-textblock table tbody tr:hover {
+    background: var(--tss-gs-13);
+}

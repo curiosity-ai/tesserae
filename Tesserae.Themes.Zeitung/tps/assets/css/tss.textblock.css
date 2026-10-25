@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Zeitung theme - TextBlock
+   --------------------------------------------------------------------------
+   Copy. The serif at the reading leading, with old-style figures (set on the
+   body); text a caller asks to be selectable gets the reverse-block
+   selection like everything else. A glow is a print impossibility, so it is
+   dropped for a heavier weight. Tables in a TextBlock are drawn by
+   tss.textbox.css (the same split as Tesserae's own stylesheets).
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-textblock {
+    font-optical-sizing: auto;
+}
+
+/* Running copy gets the reading leading; a text block set in a row beside an icon or a control keeps the
+   toolkit's, so it stays level with what it labels. */
+body.tss-theme-zeitung .tss-textblock.tss-fontsize-small:not(.tss-text-ellipsis):not(.tss-text-nowrap):not(.tss-stack-horizontal > *),
+body.tss-theme-zeitung .tss-textblock.tss-fontsize-smallplus:not(.tss-text-ellipsis):not(.tss-text-nowrap):not(.tss-stack-horizontal > *) {
+    line-height: var(--tss-zt-leading);
+}
+
+body.tss-theme-zeitung .tss-text-glow {
+    text-shadow: none;
+    font-weight: 700;
+}

@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Glas theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   The editor is the theme's field (a well, see tss.textbox.css). Entity
+   highlights are drawn as rounded washes; in the smoked edition the
+   highlight colours an app passes (often pastel, picked for a light page)
+   are let down to a tint, so the pale type over them stays readable.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-annotated-text-container {
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge-strong);
+    border-radius: var(--tss-gl-radius-ctrl);
+    box-shadow: var(--tss-gl-field-shade);
+}
+
+body.tss-theme-glas .tss-annotated-text-container:hover {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.45);
+}
+
+body.tss-theme-glas .tss-annotated-text-container:focus-within {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas .tss-annotated-text-container.tss-annotated-text-readonly {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-annotated-text-container.tss-annotated-text-readonly {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.tss-theme-glas .tss-annotated-text-entity {
+    border-radius: 4px;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-annotated-text-entity {
+    opacity: 0.42;
+}
+
+body.tss-theme-glas .tss-annotated-text-hover-tag {
+    border-radius: 8px;
+    box-shadow: var(--tss-gl-rim), 0 6px 16px -8px rgba(40, 38, 100, 0.45);
+}

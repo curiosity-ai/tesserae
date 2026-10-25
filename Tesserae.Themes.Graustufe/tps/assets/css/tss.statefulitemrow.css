@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Graustufe theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A row in a ruled list. Its state is a band at the leading edge, as on
+   the banners: primary a solid ink bar, success a dither, warning a hatch,
+   danger a solid bar and bold type. Under the pointer it takes the wash.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-statefulitemrow {
+    --tss-statefulitemrow-surface: var(--tss-gs-15);
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-primary,
+body.tss-theme-graustufe .tss-statefulitemrow-success,
+body.tss-theme-graustufe .tss-statefulitemrow-warning,
+body.tss-theme-graustufe .tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: var(--tss-gs-15);
+    --tss-statefulitemrow-accent: var(--tss-gs-0);
+    position: relative;
+    box-shadow: inset 6px 0 0 var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-success {
+    box-shadow: none;
+    background: var(--tss-gs-dither) , var(--tss-gs-15);
+    background-size: 2px 2px, auto;
+    background-repeat: repeat-y, no-repeat;
+    background-position: 0 0, 0 0;
+    background-clip: border-box;
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-success,
+body.tss-theme-graustufe .tss-statefulitemrow-warning {
+    box-shadow: none;
+    background: linear-gradient(90deg, transparent 6px, var(--tss-gs-15) 6px), var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-success::before,
+body.tss-theme-graustufe .tss-statefulitemrow-warning::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    pointer-events: none;
+    background: var(--tss-gs-dither);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-warning::before {
+    background: var(--tss-gs-hatch);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-danger .tss-statefulitemrow-title {
+    font-weight: 800;
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-interactive:hover {
+    background: var(--tss-gs-13);
+}

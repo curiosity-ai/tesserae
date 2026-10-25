@@ -36,7 +36,7 @@
     <Authors>Curiosity GmbH</Authors>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
     <PackageId>Tesserae.Themes.Phosphor</PackageId>
-    <Description>A CRT-terminal Tesserae custom theme: green or amber phosphor on black, scanlines, glowing monospace text and a block-cursor focus.</Description>
+    <Description>A character-terminal Tesserae custom theme: green phosphor on black glass with scanlines in dark mode, a green-bar line-printer printout in light mode; monospace type, box-drawing frames and an inverse-video block cursor.</Description>
     <PackageTags>transpose, HTML, UI, components, user interface, tesserae, theme</PackageTags>
     <NoWarn>1701;1702;1591</NoWarn>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

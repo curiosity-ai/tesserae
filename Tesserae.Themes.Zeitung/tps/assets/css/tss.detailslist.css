@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Zeitung theme - DetailsList
+   --------------------------------------------------------------------------
+   A details list is the market page: the head of the table under the
+   thick-and-thin rule, column heads in condensed tracked capitals standing
+   on a line of ink, rows divided by hairlines, every figure lining and
+   tabular so columns of numbers read down their places. A row under the
+   pointer takes a wash of ink; a selected row is marked with a spot-red rule
+   at its leading edge.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-detailslist {
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-detailslist-header {
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper);
+    padding-top: var(--tss-zt-band-h);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-detailslist-column-header,
+body.tss-theme-zeitung .tss-detailslist-column-header .tss-textblock,
+body.tss-theme-zeitung .tss-detailslist-column-header .tss-btn > span {
+    font-family: var(--tss-zt-head);
+    font-size: 12px;
+    font-weight: 500;
+    font-variant-caps: normal;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-detailslist-list-item-container:hover {
+    background-color: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-detailslist-list-item-container.tss-selected,
+body.tss-theme-zeitung .tss-detailslist-list-item-container.tss-detailslist-selected {
+    background-color: var(--tss-zt-tint-strong);
+    box-shadow: inset 3px 0 0 var(--tss-zt-red);
+}

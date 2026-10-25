@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Blaupause theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is the margin of the sheet: plain paper (no grid), divided
+   from the drawing by the sheet's border, a heavy line with a fine one
+   beside it. The brand is lettered in stencil capitals, section legends in
+   small tracked capitals with a leader running out to a tick at the edge.
+   Under the pointer an entry is boxed in; the current entry is boxed in ink
+   and swiped with the yellow highlighter, the way a checker marks the item
+   being worked on.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-sidebar {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image:
+        linear-gradient(var(--tss-bp-line-strong), var(--tss-bp-line-strong)),
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line));
+    background-size: 2px 100%, 1px 100%;
+    background-position: right 4px top, right top;
+    background-repeat: no-repeat;
+}
+
+/* The brand: stencil capitals. */
+body.tss-theme-blaupause .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-blaupause .tss-sidebar-identity-title,
+body.tss-theme-blaupause .tss-sidebar-page-bar-brand > .tss-textblock {
+    font-family: var(--tss-bp-stencil);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-sidebar-identity-subtitle {
+    font-family: var(--tss-bp-mono);
+    font-size: 11px;
+}
+
+/* Section legends: capitals, tracked, with a leader ending in a tick. */
+body.tss-theme-blaupause .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: var(--tss-bp-label-size);
+    font-weight: 600;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 7px;
+    margin-right: 4px;
+    background:
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line)) left center / 100% 1px no-repeat,
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line)) right center / 1px 100% no-repeat;
+}
+
+/* Entries: lettering in sentence case (they are names, not chrome). */
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-nav-button.tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-sidebar-btn-open:not(.tss-sidebar-selected) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-sidebar-btn-open:not(.tss-sidebar-selected) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+    border-color: var(--tss-bp-line);
+    color: var(--tss-bp-text);
+}
+
+/* The current entry: boxed in ink and highlighted. */
+body.tss-theme-blaupause .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: linear-gradient(90deg, var(--tss-bp-yellow) 0 4px, transparent 4px), linear-gradient(var(--tss-bp-yellow-wash), var(--tss-bp-yellow-wash));
+    border-color: var(--tss-bp-line-strong);
+    color: var(--tss-bp-text);
+    font-weight: 600;
+}
+
+/* On the blue paper the highlighter is a stripe at the entry's edge over a chalk wash, not a yellow wash
+   (yellow over Prussian blue reads as olive). */
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-blaupause.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background-image: linear-gradient(90deg, var(--tss-bp-yellow) 0 4px, transparent 4px), linear-gradient(rgba(232, 242, 252, 0.14), rgba(232, 242, 252, 0.14));
+}
+
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
+body.tss-theme-blaupause .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default {
+    color: var(--tss-bp-text);
+}
+
+/* A group that holds the current entry: its header is underlined in ink, not boxed. */
+body.tss-theme-blaupause .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-blaupause .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-bp-line-strong);
+}
+
+/* Rows: the fade under commands and badges paints with the row's flat colour. */
+body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after,
+body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > .tss-sidebar-btn::after,
+body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > a > .tss-sidebar-btn::after {
+    background-image: inherit;
+}
+
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: -2px;
+}
+
+/* .Rounded() rows and boxes stay square: drawn corners are square. */
+body.tss-theme-blaupause .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-blaupause .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-btn.tss-btn.tss-rounded-full,
+body.tss-theme-blaupause .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-blaupause .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-blaupause .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon,
+body.tss-theme-blaupause .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: 0 !important;
+}
+
+body.tss-theme-blaupause .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: var(--tss-bp-wash);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+/* The search field: a ruled box on the margin, not the sheet. */
+body.tss-theme-blaupause .tss-sidebar .tss-searchbox-container {
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-sidebar .tss-searchbox {
+    background: transparent;
+}
+
+/* An outlined row (the one that pairs with the search box) is a ruled box at rest. */
+body.tss-theme-blaupause .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-blaupause .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border-color: var(--tss-bp-line);
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-blaupause .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: transparent;
+    border: var(--tss-bp-rule);
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Groups: an open group's pages hang off a vertical leader line
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-radius: 0;
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-blaupause .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    background:
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line)) 19px 4px / 1px calc(100% - 8px) no-repeat,
+        linear-gradient(var(--tss-bp-line), var(--tss-bp-line)) 15px calc(100% - 4px) / 9px 1px no-repeat;
+}
+
+body.tss-theme-blaupause .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-blaupause .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: var(--tss-bp-sheet);
+    border: 1px dashed var(--tss-bp-line-strong);
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Commands and badges
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-blaupause .tss-sidebar-commands-line-extra .tss-btn,
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: 0;
+}
+
+/* A count is a measurement: monospace in a ruled cell. */
+body.tss-theme-blaupause .tss-sidebar-badges > .tss-btn {
+    border-radius: 0;
+    font-family: var(--tss-bp-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+body.tss-theme-blaupause .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: transparent;
+    border: var(--tss-bp-rule);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Identity rows, section header, status card
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-sidebar-brand-logo > img {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-sidebar-section-header {
+    box-shadow: inset 0 -1px 0 var(--tss-bp-line);
+    margin-bottom: 6px;
+}
+
+body.tss-theme-blaupause .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    border-radius: 0;
+    border: var(--tss-bp-rule);
+}
+
+body.tss-theme-blaupause .tss-sidebar-status-card {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-ticks), transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    border-color: var(--tss-bp-line-strong);
+    background: var(--tss-bp-ticks), linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+}
+
+body.tss-theme-blaupause .tss-sidebar-status-dot {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-bp-line);
+    box-sizing: border-box;
+}
+
+body.tss-theme-blaupause .tss-sidebar-status-success .tss-sidebar-status-dot {
+    background: rgb(var(--tss-success-background-color-root));
+    border-color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-blaupause .tss-sidebar-status-warning .tss-sidebar-status-dot {
+    background: var(--tss-bp-yellow);
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    background: var(--tss-bp-red);
+    border-color: var(--tss-bp-red);
+}
+
+/* The segmented pivot stacked on the collapsed rail: one ruled column of cells. */
+body.tss-theme-blaupause .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    border-radius: 0 !important;
+}
+
+/* The child sidebar of a shift slides in on the same margin. */
+body.tss-theme-blaupause .tss-sidebar-shift-panel-child > .tss-sidebar {
+    background-image: none;
+}
+
+/* The page bar (narrow screens): the strip along the top of the sheet. */
+body.tss-theme-blaupause .tss-sidebar-page-bar {
+    background: rgb(var(--tss-sidebar-background-color-root));
+    box-shadow: inset 0 -1px 0 var(--tss-bp-line);
+}

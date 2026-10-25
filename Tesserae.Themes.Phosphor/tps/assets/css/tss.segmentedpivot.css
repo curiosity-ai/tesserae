@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Phosphor theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   A segmented control is a row of option cells in one frame,
+   "[ Day | Week | Month ]": square, a single-line box, the chosen cell the
+   cursor block. No inset shadow, no lifted pill.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar,
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar-wrapper {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar:not(.tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar) {
+    border: var(--tss-ph-single);
+    padding: 2px;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab {
+    border-radius: 0;
+    font-size: 13px;
+    color: var(--tss-ph-ink);
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: none;
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}

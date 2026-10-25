@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Glas theme - SectionTitle
+   --------------------------------------------------------------------------
+   A section title is set large and tight; its icon sits in a bead of clear
+   glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-sectiontitle-title {
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
+body.tss-theme-glas .tss-sectiontitle-icon {
+    width: 34px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 4px 12px -6px rgba(60, 58, 130, 0.35);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sectiontitle-icon {
+    background: rgba(255, 255, 255, 0.08);
+}

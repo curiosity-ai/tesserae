@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Graustufe theme - Conversation
+   --------------------------------------------------------------------------
+   A thread printed down a 1px ink rail. A comment is a ruled slip with a
+   running head (one step darker than the paper) and its body in the book
+   face; events are italic notes on the rail.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-conversation-item::before {
+    background: var(--tss-gs-0);
+    width: 1px;
+}
+
+body.tss-theme-graustufe .tss-conversation-comment {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-conversation-comment-header {
+    background: var(--tss-gs-14);
+    border-bottom: var(--tss-gs-rule);
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-conversation-comment-author {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-conversation-comment-meta {
+    color: var(--tss-gs-6);
+}

@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Blaupause theme - Card
+   --------------------------------------------------------------------------
+   A card is a boxed detail on the sheet: a 1px object line, the sheet's own
+   colour inside it (no grid), and a registration tick standing in each
+   corner where two edges cross. A card with a layout has a title strip over
+   its body, lettered in capitals, that ends in a title-block cell carrying
+   the detail's number ("DET. 01", counted down the page), and a footer
+   that is the bottom strip of the same frame.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-sectionstack,
+body.tss-theme-blaupause .tss-pagesstack {
+    counter-reset: tss-bp-detail;
+}
+
+body.tss-theme-blaupause .tss-card {
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-bp-rule);
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-card.tss-card-hover:hover {
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+    background-color: var(--tss-bp-sheet);
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-card.tss-card-hover:active {
+    background: var(--tss-bp-ticks), var(--tss-bp-hatch), var(--tss-bp-sheet);
+}
+
+/* With a layout the card is only the frame's owner: header, content and footer draw it. */
+body.tss-theme-blaupause .tss-card.tss-has-layout {
+    background: transparent !important;
+    border: none !important;
+}
+
+body.tss-theme-blaupause .tss-card-header {
+    border: var(--tss-bp-rule);
+    border-bottom: none;
+    border-radius: 0;
+    background-color: var(--tss-bp-sheet);
+    counter-increment: tss-bp-detail;
+    padding-right: 0;
+}
+
+body.tss-theme-blaupause .tss-card-title {
+    color: var(--tss-bp-text);
+    font-size: var(--tss-bp-label-size);
+    font-weight: 600;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+}
+
+/* The title-block cell: the detail's number, boxed at the right end of the strip. */
+body.tss-theme-blaupause .tss-card-header::after {
+    content: "DET. " counter(tss-bp-detail, decimal-leading-zero);
+    content: "DET. " counter(tss-bp-detail, decimal-leading-zero) / "";
+    flex: 0 0 auto;
+    align-self: stretch;
+    display: flex;
+    align-items: flex-start;
+    margin: -8px 0 -24px auto;
+    padding: 9px 12px 0;
+    border-left: var(--tss-bp-rule);
+    font-family: var(--tss-bp-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--tss-bp-muted);
+    white-space: nowrap;
+}
+
+body.tss-theme-blaupause .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header::after {
+    margin-bottom: -12px;
+}
+
+body.tss-theme-blaupause .tss-card-content {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-card-footer {
+    border: var(--tss-bp-rule);
+    border-top: none;
+    border-radius: 0;
+    background-color: var(--tss-bp-paper);
+    background-image: var(--tss-bp-grid-small);
+}

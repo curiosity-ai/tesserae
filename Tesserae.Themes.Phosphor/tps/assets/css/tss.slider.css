@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Phosphor theme - Slider
+   --------------------------------------------------------------------------
+   A slider is a progress row you can push: a track of faint cells, the
+   value as lit cells, and the thumb a solid block cursor standing a little
+   taller than the row. Under the pointer the lit cells take the full cursor
+   colour. Disabled is all dim.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-slider-fake-background {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.16) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.26) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-fake-progress {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-cursor-root), 0.75) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background: repeating-linear-gradient(90deg, var(--tss-ph-cursor) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-phosphor .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background: repeating-linear-gradient(90deg, rgb(var(--tss-disabled-foreground-color-root)) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.08) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-slider::-webkit-slider-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: 0;
+    border: 0;
+    background: var(--tss-ph-cursor);
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-slider::-moz-range-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: 0;
+    border: 0;
+    background: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-slider.tss-disabled::-webkit-slider-thumb {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 3px;
+}
+
+body.tss-theme-phosphor .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 12px;
+}

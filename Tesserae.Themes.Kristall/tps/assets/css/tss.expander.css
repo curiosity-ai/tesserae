@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Kristall theme - Expander and Accordion
+   --------------------------------------------------------------------------
+   An expander is a grouped box with a disclosure row: the box's white pane
+   and hairline, a semibold title, the chevron in tertiary grey, the body
+   ruled off by a hairline when open.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-expander {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: var(--tss-kr-box);
+    box-shadow: var(--tss-kr-shadow-box);
+}
+
+body.tss-theme-kristall .tss-expander-header:hover {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-expander-chevron {
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-expander-content {
+    border-top: 0.5px solid var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-expander-icon {
+    border-radius: 8px;
+}

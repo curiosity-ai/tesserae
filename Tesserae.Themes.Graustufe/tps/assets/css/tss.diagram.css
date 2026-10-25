@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Graustufe theme - Diagram
+   --------------------------------------------------------------------------
+   Nodes are ruled slips, square, greyed from their colours; edges ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-diagram-node {
+    filter: var(--tss-gs-panel);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.diagram.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-diagram {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-diagram-node,
+body.tss-theme-graustufe .tss-diagram-node.tss-diagram-node-dragging,
+body.tss-theme-graustufe .tss-diagram-node:hover {
+    box-shadow: none;
+}
+

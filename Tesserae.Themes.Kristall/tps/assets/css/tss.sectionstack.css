@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Kristall theme - SectionStack
+   --------------------------------------------------------------------------
+   A section stack is the scrolling content of a settings pane: grouped
+   boxes on the window. The secondary variant is the window itself, so it
+   is left transparent and the body's window pane (with its faint breath of
+   the wallpaper) shows; a section card is a grouped box like a Card.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-sectionstack-secondary {
+    background: transparent;
+}
+
+body.tss-theme-kristall .tss-sectionstack-card {
+    background: var(--tss-kr-box);
+    border-radius: var(--tss-kr-r-box);
+    box-shadow: var(--tss-kr-shadow-box);
+}

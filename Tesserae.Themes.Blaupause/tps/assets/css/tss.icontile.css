@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Blaupause theme - IconTile
+   --------------------------------------------------------------------------
+   A tile is a square symbol cell: square corners and a ruled edge in the
+   tile's own colour, its tint kept as a light fill.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-icontile {
+    --tss-icontile-radius: 0;
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px currentColor;
+}
+
+body.tss-theme-blaupause .tss-icontile.tss-icontile-plain,
+body.tss-theme-blaupause.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-bp-sheet);
+    color: var(--tss-bp-ink);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-icontile-text {
+    letter-spacing: 0.06em;
+}

@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Phosphor theme - Spinner
+   --------------------------------------------------------------------------
+   A spinner is the terminal's busy cursor, the "| / - \" that turns in
+   place: a square cell with one lit edge, turning in eight hard steps
+   rather than a smooth spin. The progress variant fills its square like a
+   clock face of cells. Under reduced motion it stands still (the toolkit's
+   own rule).
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-spinner {
+    border-radius: 0;
+    animation-timing-function: steps(8, end);
+    filter: drop-shadow(0 0 2px rgba(var(--tss-ph-hot-root), 0.4));
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-spinner {
+    filter: none;
+}
+
+body.tss-theme-phosphor .tss-spinner.tss-spinner-progress {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-spinner-label {
+    color: var(--tss-ph-hot);
+}

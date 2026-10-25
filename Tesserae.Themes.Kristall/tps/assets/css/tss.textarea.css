@@ -1,0 +1,7 @@
+/* Kristall theme - TextArea: the text field's well, grown; it shares the TextBox rules (it is a .tss-textbox). */
+
+body.tss-theme-kristall .tss-textarea {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 1.45;
+}

@@ -1,0 +1,255 @@
+/* ==========================================================================
+   Kristall theme - Button
+   --------------------------------------------------------------------------
+   Native push buttons in the current, rounder generation: capsules.
+
+   A coloured button (primary, danger, success, warning) is a push button
+   filled with its colour: a faint top light in the face, a 0.5px edge, a
+   small soft shadow. Primary is the default button, in system blue. Held
+   down the face darkens a shade; there is no travel and no hover glow,
+   the desktop does not light a button under the pointer.
+
+   Tesserae's default button is the desktop's borderless toolbar button: a
+   label or glyph at rest, so a dense toolbar stays quiet, and under the
+   pointer a capsule of glass appears behind it (a translucent fill with a
+   light inner stroke), the way a toolbar item answers the pointer. Icon-only
+   ones become circles. Link buttons stay type, in the link blue.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-btn {
+    border-radius: var(--tss-kr-r-pill);
+    font-weight: 500;
+    letter-spacing: -0.003em;
+    transition: background-color 120ms linear, color 120ms linear, box-shadow 120ms linear, filter 120ms linear;
+}
+
+/* Tesserae pads a button 16px left and 20px right, which puts the label off centre on a capsule. */
+body.tss-theme-kristall .tss-btn:not(.tss-btn-only-icon):not(.tss-small):not(.tss-btn-remove-padding):not(.tss-btn-less-padding):not(.tss-btn-link) {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+body.tss-theme-kristall .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-btn:focus-visible {
+    outline: 3.5px solid var(--tss-kr-focus-ring);
+    outline-offset: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Coloured push buttons
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-kr-k: var(--tss-kr-accent);
+    --tss-kr-k-face: var(--tss-kr-accent-face);
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-kr-k: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-kr-k: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-kr-k: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-kristall .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-kristall .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-kristall .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border: 0;
+    background-color: var(--tss-kr-k);
+    background-image: var(--tss-kr-k-face, linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 100%));
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.3), 0 0 0 0.5px rgba(0, 0, 0, 0.12), 0 0.5px 2px rgba(0, 0, 0, 0.16), 0 2px 6px -2px rgba(0, 0, 0, 0.12);
+    filter: none;
+    font-weight: 600;
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-kristall.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-kristall.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-kristall.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.28), 0 0 0 0.5px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* No glow under the pointer: the desktop leaves a button alone until it is pressed. */
+body.tss-theme-kristall .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    background-color: var(--tss-kr-k);
+    filter: brightness(1.04);
+}
+
+/* Held down: the face darkens a shade. */
+body.tss-theme-kristall .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-kristall .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-kristall .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-kristall .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    filter: brightness(0.88);
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-kristall .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default {
+    color: var(--tss-kr-on-accent);
+}
+
+/* --------------------------------------------------------------------------
+   The default button: borderless at rest, a glass capsule under the pointer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):not(.tss-btn-filter-effects):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):not(.tss-btn-filter-effects):hover {
+    background-color: var(--tss-kr-fill-3);
+    border-color: transparent;
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):not(.tss-btn-filter-effects):hover,
+body.tss-theme-kristall.tss-dark-mode .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):not(.tss-btn-filter-effects):hover {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-filter-effects):active,
+body.tss-theme-kristall .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-filter-effects):active {
+    background-color: var(--tss-kr-fill);
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* A coloured ghost (primary/danger/... with NoBackground) fills with a wash of its own colour. */
+body.tss-theme-kristall .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: rgba(var(--tss-kr-accent-rgb), 0.1);
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active {
+    background-color: rgba(var(--tss-danger-background-color-root), 0.1);
+    color: rgb(var(--tss-danger-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-kristall .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active {
+    background-color: rgba(var(--tss-warning-background-color-root), 0.14);
+    color: rgb(var(--tss-warning-border-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-kristall .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active {
+    background-color: rgba(var(--tss-success-background-color-root), 0.12);
+    color: rgb(var(--tss-success-border-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-kristall .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: rgb(var(--tss-success-border-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Link buttons: type in the link blue
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-btn.tss-btn-link:not(.tss-disabled) {
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: the push button with its colour drained
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-btn.tss-disabled:not(.tss-btn-link):not(.tss-btn-nobg):not(.tss-btn-default) {
+    background: var(--tss-kr-fill-4);
+    border: 0;
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline);
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-btn.tss-disabled.tss-btn-default:not(.tss-btn-link) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-btn.tss-disabled .tss-fontcolor-default {
+    color: var(--tss-kr-label-3);
+}
+
+/* --------------------------------------------------------------------------
+   Split button: a push button with a pull-down segment
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-btn-and-icon {
+    border-radius: var(--tss-kr-r-pill);
+    overflow: hidden;
+}
+
+body.tss-theme-kristall .tss-btn-and-icon .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-kristall .tss-btn-and-icon:hover {
+    background: var(--tss-kr-control);
+    border-color: transparent;
+    box-shadow: var(--tss-kr-shadow-control);
+}
+
+body.tss-theme-kristall .tss-btn-and-icon .tss-btn.tss-btn-and-icon-icon {
+    box-shadow: inset 0.5px 0 0 var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-btn-and-icon .tss-btn:hover {
+    background: var(--tss-kr-fill-4) !important;
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-btn-and-icon .tss-btn.tss-btn-and-icon-icon:hover {
+    box-shadow: inset 0.5px 0 0 var(--tss-kr-separator);
+}
+
+/* --------------------------------------------------------------------------
+   The spinner: an outcome fills the button with its colour
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    --tss-kr-k: rgb(var(--tss-success-background-color-root));
+    --tss-kr-k-face: none;
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    --tss-kr-k: rgb(var(--tss-danger-background-color-root));
+    --tss-kr-k-face: none;
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-kristall .tss-btn {
+        transition: none;
+    }
+}

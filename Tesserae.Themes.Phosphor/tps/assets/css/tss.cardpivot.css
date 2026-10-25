@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Phosphor theme - CardPivot
+   --------------------------------------------------------------------------
+   Card tabs are the cells of a framed tab strip: a single-line box divided
+   by rules, the current cell inverted.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-cardpivot-titlebar {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab {
+    background: transparent;
+    border-right: var(--tss-ph-single);
+    border-bottom: 0;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab:last-child {
+    border-right: 0;
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab.tss-cardpivot-selected,
+body.tss-theme-phosphor .tss-cardpivot-tab.tss-cardpivot-selected:hover {
+    border-bottom: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-cardpivot .tss-cardpivot-tab.tss-cardpivot-selected * {
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}

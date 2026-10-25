@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Graustufe theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A printer's rule: 1px ink, the label between the two halves in the book
+   face's italic, like a section break.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-horizontalseparator-container::before,
+body.tss-theme-graustufe .tss-horizontalseparator-container::after {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-horizontalseparator {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-horizontalseparator.tss-primary {
+    color: var(--tss-gs-0);
+    font-weight: 700;
+}

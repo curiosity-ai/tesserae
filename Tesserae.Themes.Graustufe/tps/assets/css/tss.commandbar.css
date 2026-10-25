@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Graustufe theme - CommandBar
+   --------------------------------------------------------------------------
+   A ruled toolbar, square: ghost commands get an ink frame under the
+   pointer; the primary command is inverted.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-commandbar {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item {
+    border-radius: 0;
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item-primary,
+body.tss-theme-graustufe .tss-commandbar-item-primary:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+}

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Blaupause theme - Plan
+   --------------------------------------------------------------------------
+   A plan is a ruled job sheet: square box, each step's state a square mark
+   in its tone, soft tones as light washes of the tone rather than pastel
+   fills.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-plan,
+body.tss-theme-blaupause .tss-plan-cmd,
+body.tss-theme-blaupause .tss-plan-step-toggle,
+body.tss-theme-blaupause .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-blaupause .tss-plan .tss-plan-startstop {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-plan {
+    border: var(--tss-bp-rule);
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+    box-shadow: none;
+    --plan-accent-soft: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-plan-pending { --plan-accent: var(--tss-bp-muted); --plan-accent-soft: var(--tss-bp-wash); }
+body.tss-theme-blaupause .tss-plan-running { --plan-accent: var(--tss-bp-ink); --plan-accent-soft: var(--tss-bp-wash); }
+body.tss-theme-blaupause .tss-plan-completed { --plan-accent: rgb(var(--tss-success-background-color-root)); --plan-accent-soft: color-mix(in srgb, rgb(var(--tss-success-background-color-root)) 14%, transparent); }
+body.tss-theme-blaupause .tss-plan-failed { --plan-accent: var(--tss-bp-red); --plan-accent-soft: var(--tss-bp-red-soft); }
+body.tss-theme-blaupause .tss-plan-canceled { --plan-accent: rgb(var(--tss-warning-border-color-root)); --plan-accent-soft: var(--tss-bp-yellow-wash); }

@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Glas theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is a modal (tss.modal.css draws the glass); it only keeps the
+   radius and a little more air round its title and buttons.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-dialog {
+    border-radius: var(--tss-gl-radius-pane);
+}
+
+body.tss-theme-glas .tss-dialog .tss-modal-header {
+    padding: 16px 16px 0 22px;
+}
+
+body.tss-theme-glas .tss-dialog .tss-modal-content {
+    padding: 4px 22px;
+}
+
+body.tss-theme-glas .tss-dialog .tss-modal-footer {
+    padding: 6px 16px 14px 22px;
+}

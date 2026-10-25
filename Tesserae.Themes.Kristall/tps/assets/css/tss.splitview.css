@@ -1,0 +1,17 @@
+/* Kristall theme - SplitView: a hairline divider with a small capsule grip; the accent while it is hovered or dragged. */
+
+body.tss-theme-kristall .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-kristall .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    background: var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-kristall .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: var(--tss-kr-label-4);
+    border-radius: 2px;
+}
+
+body.tss-theme-kristall .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-kristall .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-kr-accent) !important;
+}

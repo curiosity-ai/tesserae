@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Phosphor theme - DataTable
+   --------------------------------------------------------------------------
+   A data table is a ruled printout: a single-line frame, the header in
+   capitals over a double rule, dashed row rules, a lit row under the
+   pointer. An accented row keeps its accent as a bar at its edge.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-datatable {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-datatable-header {
+    background: transparent;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 0;
+}
+
+body.tss-theme-phosphor .tss-datatable-row {
+    border-color: var(--tss-ph-faint);
+    border-style: dashed;
+}
+
+body.tss-theme-phosphor .tss-datatable-row:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-datatable-heading {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-datatable-cell {
+    font-variant-numeric: tabular-nums;
+}

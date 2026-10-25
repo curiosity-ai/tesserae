@@ -1,2 +1,654 @@
-/* Zeitung theme - tokens (scaffold; to be written) */
-body.tss-theme-zeitung { }
+/* ==========================================================================
+   Zeitung theme - tokens
+   --------------------------------------------------------------------------
+   A broadsheet newspaper. The morning edition (light) is warm off-white
+   newsprint with a faint grain, black ink and one spot red, printed
+   sparingly: the primary action, a selection mark, the folio rule. The night
+   edition (dark) is the same paper turned to dark grey-black stock with
+   ink-white type and the red a little brighter so it carries.
+
+   Typography is the whole design. A serif for reading (Zeitung Serif:
+   Source Serif 4, variable in weight and optical size, with real small caps
+   and old-style figures), a condensed gothic for headlines and kickers
+   (Oswald), a blackletter nameplate for the one masthead line, and a
+   typewriter for wire copy and code (Courier Prime). There are no shadows,
+   no boxes that float, no rounded corners: rules do the work - hairline
+   column rules, and the thick-and-thin double rule across the head of a
+   page, a boxed article or a table.
+
+   Everything is scoped under body.tss-theme-zeitung. A derived variable
+   (--tss-x-color: rgb(var(--tss-x-color-root))) is resolved where it is
+   declared, so both are restated, light and dark.
+
+   Tokens a component file can use (they follow the edition):
+
+   Colour
+     --tss-zt-ink / --tss-zt-muted       type, and secondary type (a caption, a dateline)
+     --tss-zt-paper / --tss-zt-surface   the page, and a boxed item laid on it
+     --tss-zt-red / --tss-zt-red-ink     the spot colour as a fill, and as type on paper
+     --tss-zt-on-red                     type on the red
+     --tss-zt-hair / --tss-zt-rule       a hairline (column rule, row rule), and a heavier grey rule
+     --tss-zt-tint / -tint-strong        a wash of ink: hover, a zebra row, a pressed control
+     --tss-zt-grain                      the paper's fibre, a background-image layer
+
+   Rules and screens
+     --tss-zt-band (+ -band-h)           the thick-and-thin head rule, as a background layer
+     --tss-zt-band-thin                  its lighter cousin (1px, gap, 1px) for small boxes
+     --tss-zt-frame / -frame-hair        a 1px ink / grey box drawn as a box-shadow ring
+     --tss-zt-halftone (-light, -red)    a dot screen, the fill of bars and placeholders
+
+   Type
+     --tss-zt-serif                      body copy (the --tss-sansserif-font-family too)
+     --tss-zt-head                       the condensed headline / kicker face
+     --tss-zt-mast                       the blackletter nameplate (one line per page)
+     --tss-zt-mono                       code and wire copy
+     --tss-zt-caps                       tracking for capitals set in --tss-zt-head (0.1em)
+     --tss-zt-sc                         tracking for small caps in the serif (0.05em)
+     --tss-zt-measure                    the comfortable reading measure (66ch)
+     --tss-zt-leading                    body leading (1.5)
+
+   Motion
+     --tss-zt-ease / --tss-zt-quick      ink does not bounce: 120ms, eased out
+   ========================================================================== */
+
+body.tss-theme-zeitung {
+    --tss-zt-red: rgb(190, 28, 34);
+    --tss-zt-red-ink: rgb(168, 22, 30);
+    --tss-zt-on-red: rgb(250, 247, 240);
+    --tss-zt-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .27 0 0 0 0 .2 0 0 0 -.9 .52'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+
+    --tss-zt-serif: "Zeitung Serif", "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --tss-zt-head: "Zeitung Headline", Oswald, "Arial Narrow", "Roboto Condensed", sans-serif;
+    --tss-zt-mast: "Zeitung Masthead", "UnifrakturMaguntia", "Old English Text MT", serif;
+    --tss-zt-mono: "Courier Prime", "Courier New", Courier, ui-monospace, monospace;
+    --tss-zt-caps: 0.1em;
+    --tss-zt-sc: 0.05em;
+    --tss-zt-measure: 66ch;
+    --tss-zt-leading: 1.5;
+    --tss-zt-ease: cubic-bezier(0.2, 0.6, 0.3, 1);
+    --tss-zt-quick: 120ms;
+
+    --tss-zt-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-zt-muted: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-zt-paper: rgb(var(--tss-default-background-color-root));
+    --tss-zt-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-zt-hair: rgb(var(--tss-default-separator-color-root));
+    --tss-zt-rule: rgb(var(--tss-default-border-color-root));
+    --tss-zt-tint: rgba(var(--tss-default-foreground-color-root), 0.055);
+    --tss-zt-tint-strong: rgba(var(--tss-default-foreground-color-root), 0.1);
+    /* The thick-and-thin rule across the head of a page, a box or a table, drawn as a background layer so it
+       sits on any surface: 3px of ink, 2px of paper, a 1px hairline. Use it with
+       background: var(--tss-zt-band) top / 100% 6px no-repeat (and pad the box by --tss-zt-band-h). */
+    --tss-zt-band: linear-gradient(to bottom, var(--tss-zt-ink) 0 3px, transparent 3px 5px, var(--tss-zt-ink) 5px 6px);
+    --tss-zt-band-thin: linear-gradient(to bottom, var(--tss-zt-ink) 0 1px, transparent 1px 3px, var(--tss-zt-ink) 3px 4px);
+    --tss-zt-band-h: 6px;
+    /* A halftone screen of ink dots: the fill of a bar, a skeleton, an empty photo block. */
+    --tss-zt-halftone: radial-gradient(circle, rgba(var(--tss-default-foreground-color-root), 0.55) 0.9px, transparent 1.3px) 0 0 / 4px 4px;
+    --tss-zt-halftone-light: radial-gradient(circle, rgba(var(--tss-default-foreground-color-root), 0.28) 0.8px, transparent 1.2px) 0 0 / 4px 4px;
+    --tss-zt-halftone-red: radial-gradient(circle, var(--tss-zt-red) 1px, transparent 1.4px) 0 0 / 4px 4px;
+    /* Hairline frames, the only "elevation" the paper has: a box is drawn, never lifted. */
+    --tss-zt-frame: 0 0 0 1px var(--tss-zt-ink);
+    --tss-zt-frame-hair: 0 0 0 1px var(--tss-zt-rule);
+
+    --tss-sansserif-font-family: var(--tss-zt-serif);
+    --tss-monospace-font-family: var(--tss-zt-mono);
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 600;
+    --tss-font-weight-bold: 700;
+    --tss-font-size-small: 14px;
+    --tss-font-size-xsmall: 12px;
+    --tss-font-size-tiny: 11px;
+
+    /* No shadows: a box is drawn with a rule. The few things that float above the page (a menu, a modal, a
+       toast) get a 1px ink frame and the faintest lift so the eye can still sort the layers. */
+    --tss-zt-float: 0 0 0 1px var(--tss-zt-ink), 0 14px 32px -18px rgba(30, 24, 16, 0.4);
+    --tss-primary-shadow: none;
+    --tss-shadow-sm: none;
+    --tss-shadow-sm-hover: none;
+    --tss-shadow: var(--tss-zt-frame-hair);
+    --tss-shadow-hover: var(--tss-zt-frame);
+    --tss-shadow-md: var(--tss-zt-frame-hair);
+    --tss-shadow-md-hover: var(--tss-zt-frame);
+    --tss-shadow-lg: var(--tss-zt-float);
+    --tss-shadow-lg-hover: var(--tss-zt-float);
+    --tss-shadow-xl: var(--tss-zt-float);
+    --tss-shadow-xl-hover: var(--tss-zt-float);
+    --tss-box-shadow: var(--tss-zt-float);
+    --tss-box-shadow-darker: var(--tss-zt-float);
+    --tss-card-shadow: none;
+    --tss-toast-shadow: var(--tss-zt-float);
+
+    /* Square corners: type is set in rectangles. Only a portrait (an avatar) and a dot stay round. */
+    --tss-border-radius-sm: 0px;
+    --tss-border-radius-md: 0px;
+    --tss-border-radius-lg: 0px;
+    --tss-border-radius-xl: 0px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-ring-offset-width: 2px;
+    --tss-ring-opacity: 1;
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.15);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-overlay-light: rgba(241, 237, 227, 0.72);
+    --tss-overlay-dark: rgba(24, 22, 20, 0.42);
+
+    /* The palette for charts: ink first, then the spot red, then the greys and muted inks of a colour
+       supplement. */
+    --tss-chart-series-1: rgb(24, 22, 20);
+    --tss-chart-series-2: rgb(190, 28, 34);
+    --tss-chart-series-3: rgb(140, 132, 118);
+    --tss-chart-series-4: rgb(38, 76, 118);
+    --tss-chart-series-5: rgb(196, 138, 26);
+    --tss-chart-series-6: rgb(52, 108, 72);
+    --tss-chart-series-7: rgb(96, 62, 104);
+    --tss-chart-series-8: rgb(200, 190, 172);
+
+    /* Morning edition: newsprint, black ink, one spot red. */
+    --tss-default-background-color-root: 241, 237, 227;
+    --tss-default-foreground-color-root: 24, 22, 20;
+    --tss-secondary-background-color-root: 246, 243, 235;
+    --tss-secondary-foreground-color-root: 94, 88, 79;
+    --tss-sidebar-background-color-root: 236, 231, 219;
+    --tss-disabled-background-color-root: 230, 225, 213;
+    --tss-disabled-foreground-color-root: 150, 143, 131;
+    --tss-default-border-color-root: 190, 182, 167;
+    --tss-dark-border-color-root: 24, 22, 20;
+    --tss-default-separator-color-root: 206, 199, 185;
+    --tss-invalid-border-color-root: 184, 28, 34;
+    --tss-default-background-hover-color-root: 230, 225, 212;
+    --tss-default-foreground-hover-color-root: 10, 9, 8;
+    --tss-default-background-active-color-root: 221, 215, 201;
+    --tss-default-foreground-active-color-root: 10, 9, 8;
+    --tss-progress-background-color-root: 220, 214, 200;
+    --tss-link-color-root: 168, 22, 30;
+    --tss-highlight-color-root: 196, 30, 36;
+    --tss-tooltip-background-color-root: 24, 22, 20;
+    --tss-tooltip-foreground-color-root: 241, 237, 227;
+    --tss-primary-background-color-root: 190, 28, 34;
+    --tss-primary-foreground-color-root: 250, 247, 240;
+    --tss-primary-border-color-root: 150, 18, 24;
+    --tss-primary-background-hover-color-root: 168, 20, 27;
+    --tss-primary-foreground-hover-color-root: 250, 247, 240;
+    --tss-primary-background-active-color-root: 140, 14, 20;
+    --tss-primary-foreground-active-color-root: 250, 247, 240;
+    --tss-warning-background-color-root: 196, 138, 26;
+    --tss-warning-foreground-color-root: 24, 22, 20;
+    --tss-warning-border-color-root: 150, 102, 12;
+    --tss-warning-background-hover-color-root: 210, 152, 40;
+    --tss-warning-foreground-hover-color-root: 24, 22, 20;
+    --tss-warning-background-active-color-root: 178, 122, 18;
+    --tss-warning-foreground-active-color-root: 24, 22, 20;
+    --tss-danger-background-color-root: 160, 24, 30;
+    --tss-danger-foreground-color-root: 250, 247, 240;
+    --tss-danger-border-color-root: 120, 14, 20;
+    --tss-danger-background-hover-color-root: 140, 18, 24;
+    --tss-danger-foreground-hover-color-root: 250, 247, 240;
+    --tss-danger-background-active-color-root: 118, 12, 18;
+    --tss-danger-foreground-active-color-root: 250, 247, 240;
+    --tss-success-background-color-root: 34, 98, 62;
+    --tss-success-foreground-color-root: 250, 247, 240;
+    --tss-success-border-color-root: 22, 74, 44;
+    --tss-success-background-hover-color-root: 28, 86, 54;
+    --tss-success-foreground-hover-color-root: 250, 247, 240;
+    --tss-success-background-active-color-root: 22, 74, 44;
+    --tss-success-foreground-active-color-root: 250, 247, 240;
+    --tss-slider-color-root: 24, 22, 20;
+    --tss-slider-active-color-root: 190, 28, 34;
+    --tss-slider-disabled-color-root: 190, 182, 167;
+    --tss-primary-shadow-color-root: 190, 28, 34;
+
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-ring-color: rgb(var(--tss-primary-background-color-root));
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-simplebar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-zeitung.tss-dark-mode {
+    --tss-zt-red: rgb(236, 70, 62);
+    --tss-zt-red-ink: rgb(246, 110, 98);
+    --tss-zt-on-red: rgb(255, 250, 244);
+    --tss-zt-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .92 0 0 0 0 .85 0 0 0 -.45 .24'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+
+    --tss-zt-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-zt-muted: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-zt-paper: rgb(var(--tss-default-background-color-root));
+    --tss-zt-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-zt-hair: rgb(var(--tss-default-separator-color-root));
+    --tss-zt-rule: rgb(var(--tss-default-border-color-root));
+    --tss-zt-tint: rgba(var(--tss-default-foreground-color-root), 0.055);
+    --tss-zt-tint-strong: rgba(var(--tss-default-foreground-color-root), 0.1);
+    /* The thick-and-thin rule across the head of a page, a box or a table, drawn as a background layer so it
+       sits on any surface: 3px of ink, 2px of paper, a 1px hairline. Use it with
+       background: var(--tss-zt-band) top / 100% 6px no-repeat (and pad the box by --tss-zt-band-h). */
+    --tss-zt-band: linear-gradient(to bottom, var(--tss-zt-ink) 0 3px, transparent 3px 5px, var(--tss-zt-ink) 5px 6px);
+    --tss-zt-band-thin: linear-gradient(to bottom, var(--tss-zt-ink) 0 1px, transparent 1px 3px, var(--tss-zt-ink) 3px 4px);
+    --tss-zt-band-h: 6px;
+    /* A halftone screen of ink dots: the fill of a bar, a skeleton, an empty photo block. */
+    --tss-zt-halftone: radial-gradient(circle, rgba(var(--tss-default-foreground-color-root), 0.55) 0.9px, transparent 1.3px) 0 0 / 4px 4px;
+    --tss-zt-halftone-light: radial-gradient(circle, rgba(var(--tss-default-foreground-color-root), 0.28) 0.8px, transparent 1.2px) 0 0 / 4px 4px;
+    --tss-zt-halftone-red: radial-gradient(circle, var(--tss-zt-red) 1px, transparent 1.4px) 0 0 / 4px 4px;
+    /* Hairline frames, the only "elevation" the paper has: a box is drawn, never lifted. */
+    --tss-zt-frame: 0 0 0 1px var(--tss-zt-ink);
+    --tss-zt-frame-hair: 0 0 0 1px var(--tss-zt-rule);
+
+    --tss-zt-float: 0 0 0 1px var(--tss-zt-ink), 0 16px 36px -16px rgba(0, 0, 0, 0.8);
+    --tss-shadow: var(--tss-zt-frame-hair);
+    --tss-shadow-hover: var(--tss-zt-frame);
+    --tss-shadow-md: var(--tss-zt-frame-hair);
+    --tss-shadow-md-hover: var(--tss-zt-frame);
+    --tss-shadow-lg: var(--tss-zt-float);
+    --tss-shadow-lg-hover: var(--tss-zt-float);
+    --tss-shadow-xl: var(--tss-zt-float);
+    --tss-shadow-xl-hover: var(--tss-zt-float);
+    --tss-box-shadow: var(--tss-zt-float);
+    --tss-box-shadow-darker: var(--tss-zt-float);
+    --tss-toast-shadow: var(--tss-zt-float);
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.15);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-overlay-light: rgba(25, 24, 22, 0.72);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.6);
+
+    --tss-chart-series-1: rgb(232, 227, 214);
+    --tss-chart-series-2: rgb(236, 70, 62);
+    --tss-chart-series-3: rgb(150, 143, 130);
+    --tss-chart-series-4: rgb(110, 152, 200);
+    --tss-chart-series-5: rgb(224, 170, 64);
+    --tss-chart-series-6: rgb(110, 176, 132);
+    --tss-chart-series-7: rgb(170, 132, 180);
+    --tss-chart-series-8: rgb(96, 92, 84);
+
+    /* Night edition: dark grey-black stock, ink-white type, a brighter red. */
+    --tss-default-background-color-root: 25, 24, 22;
+    --tss-default-foreground-color-root: 232, 227, 214;
+    --tss-secondary-background-color-root: 32, 31, 28;
+    --tss-secondary-foreground-color-root: 162, 155, 142;
+    --tss-sidebar-background-color-root: 30, 29, 26;
+    --tss-disabled-background-color-root: 38, 37, 34;
+    --tss-disabled-foreground-color-root: 108, 103, 95;
+    --tss-default-border-color-root: 78, 75, 69;
+    --tss-dark-border-color-root: 232, 227, 214;
+    --tss-default-separator-color-root: 62, 60, 55;
+    --tss-invalid-border-color-root: 240, 92, 82;
+    --tss-default-background-hover-color-root: 40, 39, 35;
+    --tss-default-foreground-hover-color-root: 246, 242, 232;
+    --tss-default-background-active-color-root: 48, 46, 42;
+    --tss-default-foreground-active-color-root: 246, 242, 232;
+    --tss-progress-background-color-root: 52, 50, 46;
+    --tss-link-color-root: 246, 110, 98;
+    --tss-highlight-color-root: 236, 70, 62;
+    --tss-tooltip-background-color-root: 232, 227, 214;
+    --tss-tooltip-foreground-color-root: 25, 24, 22;
+    --tss-primary-background-color-root: 222, 56, 50;
+    --tss-primary-foreground-color-root: 255, 250, 244;
+    --tss-primary-border-color-root: 176, 34, 30;
+    --tss-primary-background-hover-color-root: 236, 72, 64;
+    --tss-primary-foreground-hover-color-root: 255, 250, 244;
+    --tss-primary-background-active-color-root: 196, 42, 38;
+    --tss-primary-foreground-active-color-root: 255, 250, 244;
+    --tss-warning-background-color-root: 224, 170, 64;
+    --tss-warning-foreground-color-root: 25, 24, 22;
+    --tss-warning-border-color-root: 170, 122, 30;
+    --tss-warning-background-hover-color-root: 236, 184, 82;
+    --tss-warning-foreground-hover-color-root: 25, 24, 22;
+    --tss-warning-background-active-color-root: 204, 152, 50;
+    --tss-warning-foreground-active-color-root: 25, 24, 22;
+    --tss-danger-background-color-root: 214, 52, 46;
+    --tss-danger-foreground-color-root: 255, 250, 244;
+    --tss-danger-border-color-root: 160, 30, 26;
+    --tss-danger-background-hover-color-root: 230, 66, 58;
+    --tss-danger-foreground-hover-color-root: 255, 250, 244;
+    --tss-danger-background-active-color-root: 190, 40, 36;
+    --tss-danger-foreground-active-color-root: 255, 250, 244;
+    --tss-success-background-color-root: 96, 176, 126;
+    --tss-success-foreground-color-root: 20, 20, 18;
+    --tss-success-border-color-root: 60, 130, 88;
+    --tss-success-background-hover-color-root: 112, 190, 140;
+    --tss-success-foreground-hover-color-root: 20, 20, 18;
+    --tss-success-background-active-color-root: 82, 160, 112;
+    --tss-success-foreground-active-color-root: 20, 20, 18;
+    --tss-slider-color-root: 232, 227, 214;
+    --tss-slider-active-color-root: 236, 70, 62;
+    --tss-slider-disabled-color-root: 78, 75, 69;
+    --tss-primary-shadow-color-root: 222, 56, 50;
+
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-ring-color: rgb(var(--tss-primary-background-color-root));
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-simplebar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+
+/* --------------------------------------------------------------------------
+   Base: the page, the type, selection, focus
+   -------------------------------------------------------------------------- */
+
+/* The page is newsprint: the paper colour with its fibre over it. Text is the serif, with old-style figures
+   that sit in a line of lower-case like small letters do; tables and readings switch to lining tabular
+   figures where they want them (tss.detailslist.css, tss.metric.css...). */
+body.tss-theme-zeitung {
+    background-color: var(--tss-zt-paper);
+    background-image: var(--tss-zt-grain);
+    font-family: var(--tss-zt-serif);
+    font-optical-sizing: auto;
+    font-kerning: normal;
+    font-variant-numeric: oldstyle-nums proportional-nums;
+    font-variant-ligatures: common-ligatures;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    hanging-punctuation: first;
+}
+
+/* Selection is a reverse block, the way a newspaper prints a word white out of black. */
+body.tss-theme-zeitung ::selection {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+/* Focus is the spot red: a 2px rule round the thing, set off from it by a hair of paper. */
+body.tss-theme-zeitung :focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 2px;
+}
+
+/* A text field shows focus as its own red underline (tss.textbox.css): no ring on top of it. Checkboxes,
+   radios and range inputs keep the outline, which is their only focus mark. */
+body.tss-theme-zeitung input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-zeitung textarea:focus-visible {
+    outline: none;
+}
+
+/* A link takes the link token (Tesserae's own rule on a); underlined, the line is a hairline set clear of
+   the descenders. Nothing here sets a colour, so a component drawn as an anchor keeps its own. */
+body.tss-theme-zeitung :where(a) {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-zeitung :where(code, kbd, pre, samp) {
+    font-family: var(--tss-zt-mono);
+}
+
+/* Big type is headline type. Tesserae's size classes carry the hierarchy, so the large ones take the condensed
+   face, set tight, and the serif keeps everything from mediumplus down. */
+body.tss-theme-zeitung .tss-fontsize-mega,
+body.tss-theme-zeitung .tss-fontsize-xxlarge,
+body.tss-theme-zeitung .tss-fontsize-xlarge {
+    font-family: var(--tss-zt-head);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.08;
+}
+
+body.tss-theme-zeitung .tss-fontsize-large {
+    font-family: var(--tss-zt-serif);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+}
+
+body.tss-theme-zeitung .tss-fontsize-mediumplus,
+body.tss-theme-zeitung .tss-fontsize-medium {
+    line-height: 1.25;
+}
+
+body.tss-theme-zeitung h1,
+body.tss-theme-zeitung h2 {
+    font-family: var(--tss-zt-head);
+    font-weight: 600;
+    line-height: 1.08;
+}
+
+body.tss-theme-zeitung h3,
+body.tss-theme-zeitung h4,
+body.tss-theme-zeitung h5,
+body.tss-theme-zeitung h6 {
+    font-family: var(--tss-zt-serif);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-zeitung *,
+    body.tss-theme-zeitung *::before,
+    body.tss-theme-zeitung *::after {
+        transition-duration: 0ms !important;
+        animation-duration: 0ms !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbars: a hairline column rule with a block of ink on it
+   --------------------------------------------------------------------------
+   An 8px slot: a 1px rule down its middle for the track, and a square thumb,
+   a ghost at rest, grey with the rule while the pointer is over the scroller,
+   solid ink under the pointer and the spot red while dragged. CSS only, on
+   purpose (see the repository's "Scrollbars are CSS only"): no script
+   watches scrolling or draws a bar.
+
+   Chromium 121+ stops drawing ::-webkit-scrollbar once scrollbar-color or
+   scrollbar-width is set, so the standard properties sit under
+   @supports not selector(::-webkit-scrollbar), which is Firefox alone.
+   Chromium draws the page scrollbar from body, not html, so body is in every
+   selector list, and html:has() reaches Firefox's.
+   -------------------------------------------------------------------------- */
+
+html:has(> body.tss-theme-zeitung),
+body.tss-theme-zeitung {
+    --tss-zt-sb-rest: rgba(24, 22, 20, 0.16);
+    --tss-zt-sb-near: rgba(24, 22, 20, 0.42);
+    --tss-zt-sb-hot: rgb(24, 22, 20);
+    --tss-zt-sb-drag: rgb(190, 28, 34);
+    --tss-zt-sb-rail: rgba(24, 22, 20, 0.18);
+}
+
+html:has(> body.tss-theme-zeitung.tss-dark-mode),
+body.tss-theme-zeitung.tss-dark-mode {
+    --tss-zt-sb-rest: rgba(232, 227, 214, 0.14);
+    --tss-zt-sb-near: rgba(232, 227, 214, 0.4);
+    --tss-zt-sb-hot: rgb(232, 227, 214);
+    --tss-zt-sb-drag: rgb(236, 70, 62);
+    --tss-zt-sb-rail: rgba(232, 227, 214, 0.16);
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-zeitung)::-webkit-scrollbar,
+    body.tss-theme-zeitung::-webkit-scrollbar,
+    body.tss-theme-zeitung ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-zeitung)::-webkit-scrollbar-corner,
+    body.tss-theme-zeitung::-webkit-scrollbar-corner,
+    body.tss-theme-zeitung ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-zeitung)::-webkit-scrollbar-track,
+    body.tss-theme-zeitung::-webkit-scrollbar-track,
+    body.tss-theme-zeitung ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-zeitung):hover::-webkit-scrollbar-track:vertical,
+    body.tss-theme-zeitung:hover::-webkit-scrollbar-track:vertical,
+    body.tss-theme-zeitung *:hover::-webkit-scrollbar-track:vertical {
+        background: linear-gradient(to right, transparent 4px, var(--tss-zt-sb-rail) 4px 5px, transparent 5px);
+    }
+
+    html:has(> body.tss-theme-zeitung):hover::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-zeitung:hover::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-zeitung *:hover::-webkit-scrollbar-track:horizontal {
+        background: linear-gradient(to bottom, transparent 4px, var(--tss-zt-sb-rail) 4px 5px, transparent 5px);
+    }
+
+    html:has(> body.tss-theme-zeitung)::-webkit-scrollbar-thumb,
+    body.tss-theme-zeitung::-webkit-scrollbar-thumb,
+    body.tss-theme-zeitung ::-webkit-scrollbar-thumb {
+        background: var(--tss-zt-sb-rest);
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        border-radius: 0;
+        min-height: 32px;
+        min-width: 32px;
+    }
+
+    html:has(> body.tss-theme-zeitung):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-zeitung:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-zeitung *:hover::-webkit-scrollbar-thumb {
+        background: var(--tss-zt-sb-near);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-zeitung)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-zeitung::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-zeitung ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-zeitung *:hover::-webkit-scrollbar-thumb:hover {
+        background: var(--tss-zt-sb-hot);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-zeitung)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-zeitung::-webkit-scrollbar-thumb:active,
+    body.tss-theme-zeitung ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-zeitung *:hover::-webkit-scrollbar-thumb:active {
+        background: var(--tss-zt-sb-drag);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-zeitung)::-webkit-scrollbar-button,
+    body.tss-theme-zeitung::-webkit-scrollbar-button,
+    body.tss-theme-zeitung ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+/* Firefox: no thumb part to hover, so it stops at grey on the scroller. */
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-zeitung),
+    body.tss-theme-zeitung,
+    body.tss-theme-zeitung * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-zt-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-zeitung):hover,
+    body.tss-theme-zeitung *:hover {
+        scrollbar-color: var(--tss-zt-sb-near) transparent;
+    }
+}

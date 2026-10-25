@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Graustufe theme - NotificationCenter
+   --------------------------------------------------------------------------
+   The bell is a square ruled key; the count an inverted stamp; each
+   notice's dot a shape: info solid, success a ring, warning half-filled,
+   danger a solid dot in a ring.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-notif-bell,
+body.tss-theme-graustufe [class*="tss-notif-"] {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-notif-dot {
+    border-radius: 50%;
+}
+
+body.tss-theme-graustufe .tss-notif-count,
+body.tss-theme-graustufe .tss-notif-badge {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-info { background: var(--tss-gs-0); }
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-success { background: var(--tss-gs-15); box-shadow: inset 0 0 0 2px var(--tss-gs-0); }
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-warning { background: linear-gradient(90deg, var(--tss-gs-0) 50%, var(--tss-gs-15) 50%); box-shadow: inset 0 0 0 1px var(--tss-gs-0); }
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-danger { background: var(--tss-gs-0); box-shadow: 0 0 0 2px var(--tss-gs-15), 0 0 0 3px var(--tss-gs-0); }

@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Phosphor theme - Skeleton
+   --------------------------------------------------------------------------
+   A placeholder is a run of dim shade cells, "░░░░", square; the shimmer
+   passes over it as a faint lit band.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-skeleton {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.12) 0 6px, rgba(var(--tss-ph-ink-root), 0.06) 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-skeleton-circle {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, rgba(var(--tss-ph-cursor-root), 0.18), transparent);
+}

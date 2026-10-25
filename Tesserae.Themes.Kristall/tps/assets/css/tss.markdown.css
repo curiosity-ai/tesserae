@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Kristall theme - Markdown
+   --------------------------------------------------------------------------
+   Rendered Markdown reads like a document in a native editor: Inter for
+   prose with bold headings set tight, JetBrains Mono for code. Inline code
+   is a quiet fill capsule with no edge; a code block is a grouped well in
+   the system fill with a 10px radius; a quote is set off by a 3px rounded
+   rule in the tertiary label grey; tables are a list view with hairline
+   rows and a header in secondary semibold.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-markdown h1,
+body.tss-theme-kristall .tss-markdown h2 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    border-bottom-color: var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-markdown h3,
+body.tss-theme-kristall .tss-markdown h4,
+body.tss-theme-kristall .tss-markdown h5,
+body.tss-theme-kristall .tss-markdown h6 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-kristall .tss-markdown code {
+    padding: 0.12em 0.4em;
+    margin: 0 1px;
+    font-size: 0.92em;
+    font-weight: 500;
+    background: var(--tss-kr-fill-3);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 0;
+    border-radius: var(--tss-kr-r-small);
+}
+
+body.tss-theme-kristall .tss-markdown pre {
+    padding: 14px 16px;
+    background: var(--tss-kr-fill-4);
+    border-radius: var(--tss-kr-r-box);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-markdown pre code {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    font-size: 100%;
+    font-weight: 400;
+}
+
+body.tss-theme-kristall .tss-markdown blockquote {
+    border-left: 0;
+    padding-left: 16px;
+    position: relative;
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-markdown blockquote::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    bottom: 2px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--tss-kr-label-4);
+}
+
+body.tss-theme-kristall .tss-markdown table {
+    border-radius: var(--tss-kr-r-box);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline);
+}
+
+body.tss-theme-kristall .tss-markdown table th,
+body.tss-theme-kristall .tss-markdown table td {
+    border: 0;
+    border-bottom: 0.5px solid var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-markdown table th {
+    color: var(--tss-kr-label-2);
+    font-size: 12px;
+    text-align: left;
+}
+
+body.tss-theme-kristall .tss-markdown table tr {
+    background: transparent;
+    border-top: 0;
+}
+
+body.tss-theme-kristall .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-markdown kbd {
+    background: var(--tss-kr-control);
+    border: 0;
+    border-radius: var(--tss-kr-r-small);
+    box-shadow: var(--tss-kr-shadow-control);
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-kristall .tss-markdown hr {
+    border-color: var(--tss-kr-separator);
+}

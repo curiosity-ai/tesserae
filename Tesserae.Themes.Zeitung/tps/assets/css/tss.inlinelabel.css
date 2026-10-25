@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Zeitung theme - InlineLabel
+   --------------------------------------------------------------------------
+   An inline label is a cross-reference in the copy ("see page 4"): a square
+   hairline box, the label in the serif, its mark in ink. Clickable, it
+   gets the ink frame and a red underline under the pointer.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-inlinelabel:not(.tss-ai) {
+    border-radius: 0;
+    border-color: var(--tss-zt-rule);
+    background: transparent;
+    font-size: 13.5px;
+}
+
+body.tss-theme-zeitung a.tss-inlinelabel:hover,
+body.tss-theme-zeitung .tss-inlinelabel[role="button"]:hover,
+body.tss-theme-zeitung .tss-inlinelabel.tss-inlinelabel-clickable:hover {
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung a.tss-inlinelabel:hover .tss-inlinelabel-text,
+body.tss-theme-zeitung .tss-inlinelabel.tss-inlinelabel-clickable:hover .tss-inlinelabel-text {
+    text-decoration: underline;
+    text-decoration-color: var(--tss-zt-red);
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-zeitung .tss-inlinelabel-mark-color,
+body.tss-theme-zeitung .tss-inlinelabel-mark-image img,
+body.tss-theme-zeitung .tss-inlinelabel-image {
+    border-radius: 0;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-inlinelabel-mark-color,
+body.tss-theme-zeitung .tss-inlinelabel-mark-image img,
+body.tss-theme-zeitung .tss-inlinelabel-mark-image svg,
+body.tss-theme-zeitung .tss-inlinelabel-image {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

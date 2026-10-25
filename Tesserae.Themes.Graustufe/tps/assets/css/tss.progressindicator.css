@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Graustufe theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   A ruled bar: paper inside a 1px ink frame, filled with solid ink. An
+   indeterminate bar does not sweep: it is the whole bar hatched, still.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-progressindicator {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+    height: 10px;
+}
+
+body.tss-theme-graustufe .tss-progressindicator > .tss-progressindicator-bar {
+    background: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    left: 0;
+    width: 100% !important;
+    transform: none;
+    background: var(--tss-gs-hatch);
+}

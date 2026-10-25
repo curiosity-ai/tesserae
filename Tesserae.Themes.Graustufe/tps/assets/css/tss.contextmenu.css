@@ -1,0 +1,76 @@
+/* ==========================================================================
+   Graustufe theme - ContextMenu
+   --------------------------------------------------------------------------
+   A menu is a leaf: paper, ink frame, 3px dithered edge, square. The row
+   under the pointer is inverted, ink with paper type, the way a reader
+   marks the line you are on; the keyboard's row gets an ink frame. Section
+   headers are small italic captions; dividers 1px rules.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-contextmenu {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-popup {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover,
+body.tss-theme-graustufe .tss-contextmenu-item.tss-selected {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover *,
+body.tss-theme-graustufe .tss-contextmenu-item.tss-selected * {
+    color: var(--tss-gs-15) !important;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item:focus {
+    border: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    border-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-header {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-divider {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-graustufe .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-error {
+    color: var(--tss-gs-0);
+    font-style: italic;
+    font-weight: 600;
+}

@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Blaupause theme - Keyboard shortcut
+   --------------------------------------------------------------------------
+   A key is a small ruled box with a heavier foot line (the key drawn in
+   elevation), its legend in monospace.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-kbd-key {
+    font-family: var(--tss-bp-mono);
+    font-size: 10.5px;
+    color: var(--tss-bp-text);
+    background: var(--tss-bp-sheet);
+    border: 1px solid var(--tss-bp-line);
+    border-bottom: 2px solid var(--tss-bp-line-strong);
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-shortcut-guide-section-title {
+    font-size: var(--tss-bp-label-size);
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-shortcut-guide-row {
+    border-bottom: 1px dashed var(--tss-bp-line-faint);
+}

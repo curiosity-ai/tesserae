@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Blaupause theme - Skeleton
+   --------------------------------------------------------------------------
+   Something not drawn yet is shown in hidden lines: a dashed outline with
+   light construction hatching inside. The shimmer is a pale band of paper
+   passing over it.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-skeleton {
+    border-radius: 0;
+    background: var(--tss-bp-hatch);
+    background-color: var(--tss-bp-wash);
+    outline: 1px dashed var(--tss-bp-line);
+    outline-offset: -1px;
+}
+
+body.tss-theme-blaupause .tss-skeleton-circle {
+    border-radius: 50%;
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, var(--tss-bp-sheet), transparent);
+    opacity: 0.6;
+}

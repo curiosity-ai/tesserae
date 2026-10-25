@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Blaupause theme - Nav
+   --------------------------------------------------------------------------
+   Links are rows lettered on the sheet; the current one is swiped with the
+   highlighter and carries a heavy ink rule at its leading edge.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: var(--tss-bp-yellow-wash);
+    border-left-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-nav-link-button:after,
+body.tss-theme-blaupause .tss-nav-link > .tss-nav-link-header:hover > .tss-nav-link-button:after {
+    border-color: var(--tss-bp-line-strong);
+}

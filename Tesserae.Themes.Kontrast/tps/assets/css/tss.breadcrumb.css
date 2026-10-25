@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Kontrast theme - Breadcrumb
+   --------------------------------------------------------------------------
+   Crumbs are links: underlined and in the link colour; the last crumb (the
+   page you are on) is bold ink, not underlined. Separators are a heavy
+   chevron in ink. The strip clips, so a crumb's focus ring is drawn inside.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-breadcrumb-chevron {
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-breadcrumb .tss-btn:not(:last-child):not(.tss-disabled) > span,
+body.tss-theme-kontrast .tss-breadcrumb > .tss-btn:not(:last-of-type) > span {
+    color: var(--tss-kt-link);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-kontrast .tss-breadcrumb .tss-btn {
+    background: transparent;
+    font-weight: 500;
+    min-height: 32px;
+}
+
+body.tss-theme-kontrast .tss-breadcrumb .tss-btn:last-of-type {
+    font-weight: 750;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-breadcrumb .tss-btn:hover {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-breadcrumb .tss-btn:focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}

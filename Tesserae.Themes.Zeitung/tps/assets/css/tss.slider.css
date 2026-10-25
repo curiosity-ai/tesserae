@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Zeitung theme - Slider
+   --------------------------------------------------------------------------
+   A slider is a scale printed in the margin: the track a band of halftone
+   dots between two hairlines, the travelled part solid ink, and the thumb a
+   square slug of paper framed in 2px of ink, standing up from the scale. Under
+   the pointer the thumb's frame turns spot red. Disabled is grey.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-slider-fake-background {
+    border-radius: 0;
+    background: var(--tss-zt-halftone-light);
+    box-shadow: inset 0 1px 0 var(--tss-zt-ink), inset 0 -1px 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background: var(--tss-zt-halftone);
+}
+
+body.tss-theme-zeitung .tss-slider-fake-progress,
+body.tss-theme-zeitung .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    border-radius: 0;
+    background-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    border-radius: 0;
+    box-shadow: inset 1px 0 0 var(--tss-zt-ink), inset -1px 0 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-zeitung .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-slider::-webkit-slider-thumb {
+    border-radius: 0;
+    width: 12px;
+    background-color: var(--tss-zt-paper);
+    border: 2px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-slider::-moz-range-thumb {
+    border-radius: 0;
+    width: 12px;
+    background-color: var(--tss-zt-paper);
+    border: 2px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 12px;
+}
+
+body.tss-theme-zeitung .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: 24px;
+    height: 12px;
+}
+
+body.tss-theme-zeitung .tss-slider:hover::-webkit-slider-thumb,
+body.tss-theme-zeitung .tss-slider:active::-webkit-slider-thumb {
+    border-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-slider:hover::-moz-range-thumb,
+body.tss-theme-zeitung .tss-slider:active::-moz-range-thumb {
+    border-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-zeitung .tss-slider:disabled::-webkit-slider-thumb {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}

@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Zeitung theme - Menu
+   --------------------------------------------------------------------------
+   A menu is the same slip of newsprint as a context menu (square, ink
+   hairline frame, the faint lift): rows in the serif, a wash of ink under
+   the pointer, the highlighted row and the one whose submenu is open
+   reversed out of ink. A toned item keeps its colour as type. Headers are
+   kickers in the spot red, dividers hairlines.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-menu {
+    background: var(--tss-zt-paper);
+    border: none;
+    border-radius: 0;
+    box-shadow: var(--tss-zt-float);
+}
+
+body.tss-theme-zeitung .tss-menu-item {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-menu-item-icon,
+body.tss-theme-zeitung .tss-menu-item-submenu-icon {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-menu-item:not(.tss-disabled):hover {
+    background: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-menu-item:not(.tss-disabled):focus-visible,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-open,
+body.tss-theme-zeitung .tss-menu-item:not(.tss-disabled):active {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-menu-item:not(.tss-disabled):focus-visible .tss-menu-item-icon,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-open .tss-menu-item-icon,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-open .tss-menu-item-submenu-icon,
+body.tss-theme-zeitung .tss-menu-item:not(.tss-disabled):active .tss-menu-item-icon {
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-menu-item:not(.tss-disabled):focus:not(:focus-visible):not(:hover):not(.tss-menu-item-open) {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) .tss-menu-item-icon {
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-zeitung.tss-dark-mode .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-success:not(.tss-disabled),
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-success:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus,
+body.tss-theme-zeitung .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-menu-header {
+    font-family: var(--tss-zt-head);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-menu-divider {
+    background: var(--tss-zt-hair);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-menu {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

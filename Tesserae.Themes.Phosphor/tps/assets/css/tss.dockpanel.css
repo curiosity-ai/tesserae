@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Phosphor theme - DockPanel
+   --------------------------------------------------------------------------
+   A dock panel is a split-screen text editor: panes are single-line boxes
+   on the screen, square; tab strips are ruled off underneath and the
+   active tab is the cursor block; splitters light in the cursor colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-dockpanel {
+    --tss-dockpanel-radius: 0;
+    --tss-dockpanel-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-dockpanel-canvas: rgb(var(--tss-default-background-color-root));
+    --tss-dockpanel-accent: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-slot,
+body.tss-theme-phosphor .tss-dockpanel-document {
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-header {
+    border-bottom: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab.tss-dockpanel-tab-active,
+body.tss-theme-phosphor .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dockpanel-splitter:hover::after,
+body.tss-theme-phosphor .tss-dockpanel-splitter-active::after {
+    background: var(--tss-ph-cursor);
+    border-radius: 0;
+}

@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Graustufe theme - NodeView
+   --------------------------------------------------------------------------
+   A node graph drawn on paper: nodes greyed from their colours, square, with
+   ink frames; connections ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .baklava-editor,
+body.tss-theme-graustufe .tss-nodeview {
+    filter: var(--tss-gs-panel);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.nodeview.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe ﻿
+.tss-nodeview,
+body.tss-theme-graustufe .tss-dark-mode .tss-nodeview,
+body.tss-theme-graustufe .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+    border-radius: 0;
+}
+

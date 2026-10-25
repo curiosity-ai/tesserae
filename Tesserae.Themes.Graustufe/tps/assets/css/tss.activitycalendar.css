@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Graustufe theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   Day cells as a 1-bit density chart: square, empty days a faint ruled
+   cell, busier days darker greys toward ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-gs-0);
+    --tss-activitycalendar-empty-color: var(--tss-gs-13);
+    --tss-activitycalendar-radius: 0px;
+}
+
+body.tss-theme-graustufe .tss-activitycalendar-summary-value {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.activitycalendar.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-activitycalendar-day,
+body.tss-theme-graustufe .tss-activitycalendar-tooltip {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-activitycalendar-tooltip {
+    box-shadow: none;
+}
+

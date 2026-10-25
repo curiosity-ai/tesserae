@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Blaupause theme - Markdown
+   --------------------------------------------------------------------------
+   Rich text set as the notes on a drawing. Headings h1 and h2 in stencil
+   capitals over a double rule; lesser headings in tracked capitals. Code
+   is monospace in a ruled box on the fine grid; inline code a ruled cell.
+   A rule (hr) is a dimension line with arrowheads. Quotes hang off a heavy
+   ink line; tables are ruled schedules.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-markdown {
+    font-family: var(--tss-bp-letter);
+}
+
+body.tss-theme-blaupause .tss-markdown h1,
+body.tss-theme-blaupause .tss-markdown h2 {
+    font-family: var(--tss-bp-stencil);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    border-bottom: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-markdown h3,
+body.tss-theme-blaupause .tss-markdown h4 {
+    letter-spacing: 0.03em;
+}
+
+body.tss-theme-blaupause .tss-markdown h5,
+body.tss-theme-blaupause .tss-markdown h6 {
+    font-size: 0.85em;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-markdown hr {
+    height: 9px;
+    background-color: var(--tss-bp-line);
+    clip-path: polygon(0 0, 1px 0, 1px 50%, 10px calc(50% - 2.5px), 10px calc(50% - 0.5px), calc(100% - 10px) calc(50% - 0.5px), calc(100% - 10px) calc(50% - 2.5px), calc(100% - 1px) 50%, calc(100% - 1px) 0, 100% 0, 100% 100%, calc(100% - 1px) 100%, calc(100% - 1px) 50%, calc(100% - 10px) calc(50% + 2.5px), calc(100% - 10px) calc(50% + 0.5px), 10px calc(50% + 0.5px), 10px calc(50% + 2.5px), 1px 50%, 1px 100%, 0 100%);
+}
+
+body.tss-theme-blaupause .tss-markdown blockquote {
+    color: var(--tss-bp-muted);
+    border-left: 3px solid var(--tss-bp-line-strong);
+    background: linear-gradient(90deg, var(--tss-bp-wash), transparent 60%);
+}
+
+body.tss-theme-blaupause .tss-markdown code {
+    font-weight: 500;
+    background-color: transparent;
+    border-radius: 0;
+    color: var(--tss-bp-text);
+    border: 1px solid var(--tss-bp-line-faint);
+    font-size: 0.92em;
+}
+
+body.tss-theme-blaupause .tss-markdown pre {
+    border-radius: 0;
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+    border: var(--tss-bp-rule);
+    box-shadow: inset 3px 0 0 var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-markdown pre code {
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-markdown kbd {
+    background-color: var(--tss-bp-sheet);
+    border: 1px solid var(--tss-bp-line);
+    border-bottom-width: 2px;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-markdown table th {
+    font-size: 0.85em;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+    border-bottom: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-markdown table th,
+body.tss-theme-blaupause .tss-markdown table td {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-markdown table tr {
+    background-color: var(--tss-bp-sheet);
+    border-top-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-markdown table tr:nth-child(2n) {
+    background-color: var(--tss-bp-sheet);
+    background-image: linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+}
+
+body.tss-theme-blaupause .tss-markdown img {
+    border: var(--tss-bp-rule);
+}

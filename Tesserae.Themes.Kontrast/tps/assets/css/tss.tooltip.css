@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Kontrast theme - Tooltip
+   --------------------------------------------------------------------------
+   An ink plate with paper type (reversed in dark), 2px edge in the page's
+   colour so it separates from anything it overlaps, square corners, a solid
+   arrow. Type is the body size, never smaller, and the box is wide enough
+   to wrap a sentence rather than truncate it. No fade or scale: it appears.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tippy-box {
+    background: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    font-size: var(--tss-font-size-small);
+    line-height: 1.45;
+    border-radius: var(--tss-kt-radius);
+    box-shadow: 0 0 0 var(--tss-kt-border) var(--tss-kt-paper), 0 0 0 calc(var(--tss-kt-border) * 2) var(--tss-kt-ink);
+    font-weight: 500;
+    transition-duration: 0ms !important;
+}
+
+body.tss-theme-kontrast .tippy-content {
+    padding: 6px 10px;
+}
+
+body.tss-theme-kontrast .tippy-box[data-animation=fade][data-state=hidden] {
+    opacity: 0;
+}
+
+body.tss-theme-kontrast .tippy-arrow {
+    color: var(--tss-tooltip-background-color);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tippy-box {
+        border: 2px solid CanvasText;
+    }
+}

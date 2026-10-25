@@ -1,0 +1,22 @@
+/* Kristall theme - Banner: an inline notice is a grouped box washed faintly in its tone, with a hairline in the same tone and a rounded-square tile. */
+
+body.tss-theme-kristall .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 8%, var(--tss-kr-box));
+    --tss-banner-border-color: color-mix(in srgb, var(--tss-banner-accent) 22%, transparent);
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    box-shadow: inset 0 0 0 0.5px var(--tss-banner-border-color), 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+body.tss-theme-kristall .tss-banner-flat {
+    border-radius: 0;
+}
+
+body.tss-theme-kristall .tss-banner-title {
+    font-size: 14px;
+    letter-spacing: -0.008em;
+}
+
+body.tss-theme-kristall .tss-icontile.tss-banner-icon-tile {
+    --tss-icontile-radius: 8px;
+}

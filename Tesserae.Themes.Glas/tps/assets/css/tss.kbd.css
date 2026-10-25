@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Glas theme - KeyboardShortcut
+   --------------------------------------------------------------------------
+   A key is a small glass keycap: a clear, bright tint, a lit top edge and a
+   thicker shade along its foot, the way light pools under a lens.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-kbd-key {
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 100%);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 600;
+    box-shadow: inset 0 1px 0 rgb(255, 255, 255), inset 0 -2px 0 rgba(84, 86, 150, 0.16), 0 0 0 1px rgba(84, 86, 150, 0.2), 0 1px 3px rgba(60, 58, 130, 0.14);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-kbd-key {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.07) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -2px 0 rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(200, 204, 255, 0.14), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-glas .tss-shortcut-guide-row {
+    border-bottom: 1px solid var(--tss-gl-edge);
+}

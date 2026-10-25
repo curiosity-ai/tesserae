@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Phosphor theme - IconToggle
+   --------------------------------------------------------------------------
+   An icon toggle is a row of cells in one single-line frame; the chosen
+   cell is the cursor block, its glyph knocked out.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-icon-toggle {
+    --tss-icon-toggle-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: var(--tss-ph-tint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-phosphor.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: -3px;
+}

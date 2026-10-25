@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Kontrast theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   A 12px channel with a 2px ink edge (the track is visible against any page)
+   filled solid in the accent: no gradient, so the end of the bar is a hard
+   edge you can read the amount off. Indeterminate is a hatched block that
+   travels (it stays put, hatched, under reduced motion).
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-progressindicator {
+    height: 12px;
+    border-radius: var(--tss-kt-radius-sm);
+    background: var(--tss-kt-paper);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-progressindicator > .tss-progressindicator-bar {
+    background: var(--tss-kt-accent);
+    border-radius: 0;
+    box-shadow: inset -2px 0 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    background: repeating-linear-gradient(135deg, var(--tss-kt-accent) 0 6px, transparent 6px 10px);
+    box-shadow: inset 2px 0 0 0 var(--tss-kt-ink), inset -2px 0 0 0 var(--tss-kt-ink);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-progressindicator {
+        border: 2px solid CanvasText;
+    }
+
+    body.tss-theme-kontrast .tss-progressindicator > .tss-progressindicator-bar {
+        forced-color-adjust: none;
+        background: Highlight;
+    }
+}

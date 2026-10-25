@@ -1,0 +1,410 @@
+/* ==========================================================================
+   Glas theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is a tall slab of glass floating over the field, held a few
+   pixels off the window's edges. The slab is drawn on the sidebar's own
+   ::before (inset, behind the content), so the sidebar box keeps its size
+   and layout and nothing inside it gets a new containing block from the
+   blur.
+
+   Entries are clear: under the pointer one condenses into a small pane of
+   frosted glass; the current entry is a tinted lozenge of the accent, its
+   label in accent ink. Section legends are small, spaced, muted.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-sidebar {
+    background: transparent;
+    isolation: isolate;
+    --tss-gl-sb-inset: 8px 0 8px 4px;
+}
+
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-page):not(.tss-navbar) {
+    position: relative;
+}
+
+body.tss-theme-glas .tss-sidebar::before {
+    content: "";
+    position: absolute;
+    inset: var(--tss-gl-sb-inset);
+    z-index: -1;
+    border-radius: var(--tss-gl-radius-pane);
+    background: var(--tss-gl-pane);
+    box-shadow: var(--tss-gl-surface);
+    -webkit-backdrop-filter: var(--tss-gl-blur);
+    backdrop-filter: var(--tss-gl-blur);
+    pointer-events: none;
+}
+
+/* The nested sidebar of a shift draws on its host's slab. */
+body.tss-theme-glas .tss-sidebar-shift-panel-child > .tss-sidebar::before {
+    display: none;
+}
+
+/* The brand, set tight. */
+body.tss-theme-glas .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-glas .tss-sidebar-identity-title {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    padding-left: 4px;
+}
+
+/* Section legends: small, spaced, muted. */
+body.tss-theme-glas .tss-sidebar-separator-with-text {
+    margin-top: 14px;
+    margin-bottom: 6px;
+    margin-left: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   Rows
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-glas .tss-sidebar-btn-open > a > .tss-btn {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+body.tss-theme-glas .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar .tss-sidebar-nav-button.tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-color: transparent;
+    box-shadow: var(--tss-gl-rim), 0 2px 8px -4px rgba(60, 58, 130, 0.25);
+    transform: none;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar .tss-sidebar-nav-button.tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.09);
+    box-shadow: var(--tss-gl-rim), 0 2px 8px -4px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-glas .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled):active {
+    transform: scale(0.985);
+}
+
+/* The current entry: a lozenge of tinted glass. */
+body.tss-theme-glas .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-gl-accent-ink);
+    font-weight: 650;
+    border-color: transparent;
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0.2) 0%, rgba(var(--tss-gl-accent-rgb), 0.12) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.26), 0 4px 14px -6px rgba(var(--tss-gl-accent-rgb), 0.55);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0.34) 0%, rgba(var(--tss-gl-accent-rgb), 0.2) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.4), 0 4px 16px -6px rgba(var(--tss-gl-accent-rgb), 0.7);
+}
+
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn i,
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-glas .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn .tss-fontcolor-default {
+    color: var(--tss-gl-accent-ink);
+}
+
+/* A nav header that holds the current entry: a faint pane, no lozenge. */
+body.tss-theme-glas .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    border-color: transparent;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-glas .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.8);
+    outline-offset: -2px;
+}
+
+/* --------------------------------------------------------------------------
+   The label fade under a row's commands or badge
+   --------------------------------------------------------------------------
+   Tesserae fades a long name out under the commands with a scrim painted
+   in the row's own background (background-color: inherit). On glass that
+   background is translucent, so the scrim cannot hide anything. Instead the
+   row's fill moves to the row itself (the wrapper the commands also sit
+   in) and the button's content is masked out where the commands begin.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after,
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-btn::after,
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-sidebar-btn::after,
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > .tss-sidebar-btn::after,
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > a > .tss-sidebar-btn::after {
+    display: none;
+}
+
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover,
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open),
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover {
+    --tss-gl-row-mask: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px));
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim), 0 2px 8px -4px rgba(60, 58, 130, 0.25);
+}
+
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands):not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover {
+    --tss-gl-row-mask: calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px));
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover {
+    background-color: rgba(255, 255, 255, 0.09);
+    box-shadow: var(--tss-gl-rim), 0 2px 8px -4px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: transparent;
+    box-shadow: none;
+    -webkit-mask-image: linear-gradient(to left, transparent var(--tss-gl-row-mask), #000 calc(var(--tss-gl-row-mask) + var(--tss-sidebar-label-fade, 28px)));
+    mask-image: linear-gradient(to left, transparent var(--tss-gl-row-mask), #000 calc(var(--tss-gl-row-mask) + var(--tss-sidebar-label-fade, 28px)));
+}
+
+/* Row commands: small round glass buttons. */
+body.tss-theme-glas .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+body.tss-theme-glas .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+    border-radius: 8px;
+}
+
+body.tss-theme-glas .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-sidebar-commands.tss-sidebar-command-menu-is-open > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-commands.tss-sidebar-command-menu-is-open > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-glas .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: var(--tss-gl-rim), 0 2px 6px -2px rgba(60, 58, 130, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-commands.tss-sidebar-command-menu-is-open > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-commands.tss-sidebar-command-menu-is-open > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    box-shadow: var(--tss-gl-rim), 0 2px 6px -2px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-glas .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-glas .tss-sidebar-commands-line-extra .tss-btn {
+    border-radius: 10px;
+}
+
+/* A count is a small pill; a coloured one keeps its colour. */
+body.tss-theme-glas .tss-sidebar-badges > .tss-btn {
+    border-radius: 999px;
+    padding: 0 6px;
+}
+
+body.tss-theme-glas .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: rgba(var(--tss-gl-accent-rgb), 0.14);
+    color: var(--tss-gl-accent-ink);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+/* A row's icon that is a control of its own: a small glass chip under the pointer. */
+body.tss-theme-glas .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+body.tss-theme-glas .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: var(--tss-gl-rim);
+    border-radius: 8px;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+/* .Rounded() rows and boxes are pills. */
+body.tss-theme-glas .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-glas .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-glas .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn {
+    border-radius: 999px;
+}
+
+/* An outlined row is a pane at rest. */
+body.tss-theme-glas .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-glas .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: transparent;
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-glas.tss-dark-mode .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* The collapsed rail: round icon panes under the pointer. */
+body.tss-theme-glas .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+/* --------------------------------------------------------------------------
+   Groups
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-radius: 6px;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgba(var(--tss-secondary-foreground-color-root), 0.6);
+}
+
+/* The open group's pages hang from a hairline of light. */
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    box-shadow: inset 1px 0 0 var(--tss-gl-edge);
+    margin-left: 19px;
+}
+
+body.tss-theme-glas .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children > .tss-stack-item {
+    margin-left: 9px;
+}
+
+body.tss-theme-glas .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-glas .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    color: var(--tss-gl-accent-ink);
+    background: rgba(var(--tss-gl-accent-rgb), 0.16);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.3);
+}
+
+/* The tooltip the collapsed rail shows for a row is a glass chip (tss.tooltip.css draws the glass). */
+body.tss-theme-glas .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success) {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgba(var(--tss-gl-accent-rgb), 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Page mode: a group's pages open as a pane sliding over the rail
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-sidebar.tss-sidebar-page {
+    --tss-gl-sb-inset: 0;
+}
+
+body.tss-theme-glas .tss-sidebar.tss-sidebar-page::before {
+    border-radius: 0;
+}
+
+body.tss-theme-glas .tss-sidebar-nav-overlay-backdrop {
+    background-color: var(--tss-overlay-dark);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+body.tss-theme-glas .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-rim), var(--tss-gl-shadow-float);
+    border-radius: var(--tss-gl-radius-pane) 0 0 var(--tss-gl-radius-pane);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-sidebar-nav-overlay-title {
+    border-bottom: 1px solid var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-sidebar-page-bar {
+    background: var(--tss-gl-pane-thick);
+    border-bottom: none;
+    box-shadow: inset 0 -1px 0 var(--tss-gl-edge), 0 6px 20px -12px rgba(60, 58, 130, 0.35);
+    -webkit-backdrop-filter: var(--tss-gl-blur);
+    backdrop-filter: var(--tss-gl-blur);
+}
+
+/* --------------------------------------------------------------------------
+   Navbar mode: the slab laid across the top
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-navbar {
+    --tss-gl-sb-inset: 0;
+    background: transparent;
+    box-shadow: 0 8px 24px -14px rgba(60, 58, 130, 0.45);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-navbar {
+    box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.7);
+}
+
+body.tss-theme-glas .tss-navbar::before {
+    border-radius: 0;
+}
+
+body.tss-theme-glas .tss-navbar-burger:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-navbar-drawer {
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    border-radius: 0 0 0 var(--tss-gl-radius-pane);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}

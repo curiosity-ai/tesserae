@@ -1,7 +1,13 @@
 namespace Tesserae.Themes.Kristall
 {
     /// <summary>
-    /// A desktop-glass Tesserae custom theme after the translucent macOS look: vibrancy sidebars and toolbars over a wallpaper, window chrome, system-blue accent and native-feeling controls.
+    /// A desktop-glass Tesserae custom theme after the translucent macOS desktop look: the page is a soft, static
+    /// wallpaper with the window's content pane laid over it, the sidebar a frosted source list with an accent
+    /// selection pill, menus, popovers, toasts and sheets frosted rounded panels lit by a 1px inner stroke, and the
+    /// controls native: capsule push buttons with a blue default button, borderless toolbar buttons that answer the
+    /// pointer with a glass capsule, pop-up buttons with a double chevron, the accent switch, segmented controls and a
+    /// translucent accent focus halo. Dark mode is the dark appearance: graphite glass over a night wallpaper. Inter
+    /// and JetBrains Mono are bundled (SIL OFL 1.1).
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

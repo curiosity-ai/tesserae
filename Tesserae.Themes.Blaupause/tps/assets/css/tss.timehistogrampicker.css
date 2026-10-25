@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Blaupause theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   The histogram is drawn as outlined bars on a base line, the chosen range
+   filled in ink; the range is a ruled band and the thumbs are square
+   cursors with a hairline index.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-time-histogram-picker-bar,
+body.tss-theme-blaupause .tss-time-histogram-picker-track::before,
+body.tss-theme-blaupause .tss-time-histogram-picker-selection,
+body.tss-theme-blaupause .tss-time-histogram-picker-thumb,
+body.tss-theme-blaupause .tss-time-histogram-picker-empty {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-bars {
+    border-bottom-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-bar {
+    background: var(--tss-bp-wash);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+    opacity: 1;
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-bp-hatch-dense);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-track::before {
+    height: 1px;
+    background: var(--tss-bp-line);
+    margin-top: 2px;
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-selection {
+    height: 4px;
+    background: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-thumb {
+    background: linear-gradient(var(--tss-bp-ink), var(--tss-bp-ink)) center / 1px 100% no-repeat, var(--tss-bp-sheet);
+    border: 1px solid var(--tss-bp-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-empty {
+    border-color: var(--tss-bp-line);
+}

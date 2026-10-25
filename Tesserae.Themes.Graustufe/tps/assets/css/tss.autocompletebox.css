@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Graustufe theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The list opens on a leaf with the dithered edge; the highlighted row is
+   inverted and the matched letters are underlined rather than coloured.
+   The status after the field says valid / warning / invalid with its icon
+   and its weight, all in ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-autocompletebox-list {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-match {
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-status,
+body.tss-theme-graustufe .tss-autocompletebox-status-valid,
+body.tss-theme-graustufe .tss-autocompletebox-status-warning,
+body.tss-theme-graustufe .tss-autocompletebox-status-invalid {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-status-invalid {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-color: var(--tss-gs-0);
+    box-shadow: inset 4px 0 0 var(--tss-gs-0);
+}

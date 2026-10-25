@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Phosphor theme - Metric
+   --------------------------------------------------------------------------
+   A metric is a readout on the screen: the number in the bitmap face, big,
+   in the brightest phosphor with a bloom; its title a dim legend in
+   capitals; its icon in a framed cell. A filled value is an inverse block.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-metric-value,
+body.tss-theme-phosphor .tss-metric-value .tss-textblock {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-phosphor .tss-metric-value .tss-textblock {
+    font-size: max(1em, 34px);
+    line-height: 1;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-metric-compact .tss-metric-value .tss-textblock {
+    font-size: 26px;
+}
+
+body.tss-theme-phosphor .tss-metric-title,
+body.tss-theme-phosphor .tss-metric-title .tss-textblock {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-metric-icon > .tss-icontile,
+body.tss-theme-phosphor .tss-metric-compact .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-metric-value-filled .tss-metric-value {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-metric-value-filled .tss-metric-value .tss-textblock {
+    text-shadow: none;
+}

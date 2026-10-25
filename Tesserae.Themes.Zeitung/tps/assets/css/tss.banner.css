@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Zeitung theme - Banner
+   --------------------------------------------------------------------------
+   A banner is a boxed notice in the column: a hairline box on the paper with
+   the tone printed as a 3px rule down its leading edge and the faintest wash
+   of it behind. The title is the serif bold, the time in lining figures and
+   italic; the icon sits in a square plate of its tone. A flat banner is a
+   band between two hairlines.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 5%, var(--tss-zt-paper));
+    --tss-banner-border-color: var(--tss-zt-hair);
+    border-radius: 0;
+    box-shadow: inset 3px 0 0 var(--tss-banner-accent, var(--tss-zt-ink));
+}
+
+body.tss-theme-zeitung .tss-banner:not(.tss-banner-primary):not(.tss-banner-success):not(.tss-banner-warning):not(.tss-banner-danger) {
+    --tss-banner-accent: var(--tss-zt-ink);
+    --tss-banner-surface: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-banner-primary {
+    --tss-banner-accent: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-banner-flat {
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-zeitung.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    --tss-icontile-radius: 0px;
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-zeitung .tss-banner-title {
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-banner-time {
+    font-style: italic;
+    font-variant-numeric: lining-nums;
+}
+
+body.tss-theme-zeitung .tss-banner-badge-pill.tss-badge {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-btn.tss-banner-dismiss-button {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-btn.tss-banner-dismiss-button:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-toast-container > .tss-banner {
+    border: none;
+}

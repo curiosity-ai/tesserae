@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Kontrast theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A toned row keeps its wash but gains a 6px bar in the tone at its leading
+   edge (caution stripes for warning), so the state is a shape. A muted row
+   is hatched and its text stays readable (no 45% opacity); a struck row is
+   struck through with a 2px line.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-statefulitemrow {
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-primary,
+body.tss-theme-kontrast .tss-statefulitemrow-success,
+body.tss-theme-kontrast .tss-statefulitemrow-danger {
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-statefulitemrow-accent);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-warning {
+    background:
+        repeating-linear-gradient(135deg, #000 0 5px, var(--tss-kt-signal) 5px 10px) left top / var(--tss-kt-bar) 100% no-repeat,
+        var(--tss-statefulitemrow-surface);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-muted {
+    opacity: 1;
+    background: var(--tss-kt-paper) var(--tss-kt-hatch);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-muted .tss-statefulitemrow-title,
+body.tss-theme-kontrast .tss-statefulitemrow-muted .tss-statefulitemrow-subtitle {
+    color: var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-interactive:hover {
+    background: var(--tss-kt-hover);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-title {
+    font-weight: 700;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-subtitle {
+    color: var(--tss-kt-muted);
+}
+
+body.tss-theme-kontrast .tss-statefulitemrow-struck .tss-statefulitemrow-title {
+    color: var(--tss-kt-muted);
+    text-decoration-thickness: 2px;
+}

@@ -1,0 +1,240 @@
+/* ==========================================================================
+   Kontrast theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed box is a field: 2px ink edge, 40px, a heavy chevron. Focus is
+   drawn on the box (the inner element that takes focus is clipped by it).
+   The popup is a floating plate: 2px ink edge and a hard offset slab. Rows
+   are 36px; under the pointer or the keyboard a row takes a fill and a 2px
+   ink edge; the chosen row is set bold with the "you are here" bar at its
+   leading edge, and in a multi-select its box carries a heavy tick.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-dropdown-container {
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+body.tss-theme-kontrast .tss-dropdown {
+    height: 36px;
+}
+
+body.tss-theme-kontrast .tss-dropdown-container:hover {
+    background: var(--tss-kt-hover);
+    color: var(--tss-kt-ink);
+    box-shadow: inset 0 -2px 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dropdown-container.tss-dropdown-nobg {
+    background: transparent;
+}
+
+body.tss-theme-kontrast .tss-dropdown-container.tss-noborder {
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-dropdown:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-kontrast .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-color: var(--tss-kt-focus-outer);
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer);
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 var(--tss-kt-ring-gap) var(--tss-kt-signal);
+}
+
+/* The chevron: the icon font's glyph, set heavier and in ink. */
+body.tss-theme-kontrast .tss-dropdown-container > .tss-dropdown-icon {
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+    -webkit-text-stroke: 0.6px currentColor;
+}
+
+body.tss-theme-kontrast .tss-dropdown-container.tss-disabled {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+    color: var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-dropdown-container.tss-disabled .tss-dropdown-item-on-box {
+    color: var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-dropdown-container.tss-invalid {
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-danger);
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-kt-danger);
+}
+
+body.tss-theme-kontrast .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+    padding-left: 12px;
+}
+
+body.tss-theme-kontrast .tss-dropdown-error {
+    color: var(--tss-kt-danger);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-dropdown-error:not(:empty)::before {
+    content: "\26A0\FE0E\00A0";
+}
+
+body.tss-theme-kontrast .tss-dropdown-container.tss-has-validation {
+    margin-bottom: calc(var(--tss-font-size-xsmall) * 1.5);
+}
+
+body.tss-theme-kontrast .tss-dropdown-item-on-box {
+    color: var(--tss-kt-ink);
+}
+
+/* The popup. */
+body.tss-theme-kontrast .tss-dropdown-popup {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.9);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-dropdown-popup {
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+body.tss-theme-kontrast .tss-dropdown-item,
+body.tss-theme-kontrast .tss-dropdown-popup .tss-dropdown-item {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius-sm);
+    min-height: 36px;
+}
+
+body.tss-theme-kontrast .tss-dropdown-item:hover {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-dropdown-item:focus,
+body.tss-theme-kontrast .tss-dropdown-item.tss-dropdown-item-focus {
+    background: var(--tss-kt-hover);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dropdown-item:focus-visible {
+    outline-offset: -3px !important;
+    box-shadow: inset 0 0 0 6px var(--tss-kt-focus-inner) !important;
+}
+
+body.tss-theme-kontrast .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus,
+body.tss-theme-kontrast .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+}
+
+/* The chosen row in a single-select: bold, with the bar. */
+body.tss-theme-kontrast .tss-dropdown-popup:not(.tss-dropdown-multi) .tss-dropdown-item.tss-selected,
+body.tss-theme-kontrast .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    font-weight: 750;
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-kt-accent);
+    padding-left: 16px;
+}
+
+body.tss-theme-kontrast .tss-dropdown-popup:not(.tss-dropdown-multi) .tss-dropdown-item.tss-selected:not(.tss-dropdown-item-focus):not(:hover) {
+    background: var(--tss-kt-surface);
+}
+
+body.tss-theme-kontrast .tss-dropdown-header {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    font-weight: 750;
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: 0.02em;
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dropdown-divider {
+    height: var(--tss-kt-border);
+    background: var(--tss-kt-line);
+}
+
+/* Multi-select: the checkbox at the row's start. */
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item:before {
+    width: 22px;
+    height: 22px;
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    border-radius: var(--tss-kt-radius-sm);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item:hover:not(.tss-selected):after {
+    display: none;
+}
+
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item:after {
+    left: 16px;
+    width: 7px;
+    height: 12px;
+    border-width: 0 3px 3px 0;
+}
+
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-kt-on-accent);
+}
+
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item.tss-selected {
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-dropdown-item.tss-disabled {
+    color: var(--tss-kt-disabled);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-kontrast .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+}
+
+/* The search band at the top of the popup is a field. */
+body.tss-theme-kontrast .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius-sm);
+}
+
+body.tss-theme-kontrast .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    box-shadow: inset 0 0 0 3px var(--tss-kt-signal);
+}
+
+body.tss-theme-kontrast .tss-dropdown-popup .tss-dropdown-searchbox.tss-searchbox-container,
+body.tss-theme-kontrast .tss-dropdown-popup .tss-dropdown-searchbox .tss-searchbox {
+    height: 36px;
+    line-height: 36px;
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-dropdown-container,
+    body.tss-theme-kontrast .tss-dropdown-popup {
+        border-color: CanvasText;
+    }
+
+    body.tss-theme-kontrast .tss-dropdown-item.tss-dropdown-item-focus,
+    body.tss-theme-kontrast .tss-dropdown-item.tss-selected {
+        forced-color-adjust: none;
+        background: Highlight;
+        color: HighlightText;
+    }
+}

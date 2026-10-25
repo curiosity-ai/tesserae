@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Graustufe theme - ToolCall
+   --------------------------------------------------------------------------
+   A tool call is a ruled slip, square, its name in the mono, the icon a
+   square stamp; expanded, its body is ruled off below. Progress text is
+   italic and still.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-toolcall,
+body.tss-theme-graustufe .tss-toolsused {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toolcall-header,
+body.tss-theme-graustufe .tss-toolsused-header {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toolcall-header:hover,
+body.tss-theme-graustufe .tss-toolsused-header:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-toolcall-icon,
+body.tss-theme-graustufe .tss-toolsused-list-icon {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.toolcall.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-toolcall,
+body.tss-theme-graustufe .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-graustufe .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-graustufe .tss-toolcall > .tss-toolcall-content,
+body.tss-theme-graustufe .tss-toolcall-icon,
+body.tss-theme-graustufe .tss-toolcall-secondary-action,
+body.tss-theme-graustufe .tss-toolsused-inline-list,
+body.tss-theme-graustufe .tss-toolsused-modal-detail-icon,
+body.tss-theme-graustufe .tss-toolsused-list-icon,
+body.tss-theme-graustufe .tss-toolcallinspect-response {
+    border-radius: 0;
+}
+

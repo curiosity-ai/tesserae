@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Phosphor theme - TextBlock
+   --------------------------------------------------------------------------
+   Body text is the terminal's one face. Headlines (Large and up) switch to
+   the bitmap display face, a size larger to make up for its small x-height,
+   in the brightest phosphor with a stronger bloom; on paper, the blackest
+   ink. Text marked glowing (.tss-text-glow) keeps its glow, tightened to
+   the tube's.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-textblock:is(.tss-fontsize-large, .tss-fontsize-xlarge, .tss-fontsize-xxlarge, .tss-fontsize-mega):not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-textblock:is(.tss-fontsize-large, .tss-fontsize-xlarge, .tss-fontsize-xxlarge, .tss-fontsize-mega).tss-fontcolor-default {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-large:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-large) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-xlarge:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-xlarge) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-xxlarge:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-xxlarge) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-mega:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-mega) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-text-glow {
+    text-shadow: 0 0 2px var(--tss-text-glow-color, currentColor), 0 0 12px color-mix(in srgb, var(--tss-text-glow-color, currentColor) 50%, transparent);
+}

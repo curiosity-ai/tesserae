@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Graustufe theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   Histogram bars in mid grey; the bars in the chosen range solid ink.
+   ========================================================================== */
+
+
+body.tss-theme-graustufe .tss-time-histogram-picker-bar {
+    background: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-gs-0);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.timehistogrampicker.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-time-histogram-picker-bar,
+body.tss-theme-graustufe .tss-time-histogram-picker-track::before,
+body.tss-theme-graustufe .tss-time-histogram-picker-selection,
+body.tss-theme-graustufe .tss-time-histogram-picker-thumb,
+body.tss-theme-graustufe .tss-time-histogram-picker-empty {
+    border-radius: 0;
+}
+

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Kristall theme - Tree
+   --------------------------------------------------------------------------
+   A tree is an outline view: rows with a 6px radius, a quiet fill under the
+   pointer, and the selection pill in the accent wash with the row's text
+   and icon in the accent.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-tree-item-content {
+    border-radius: 6px;
+}
+
+body.tss-theme-kristall .tss-tree-item-content:hover {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-tree-item-content.tss-selected {
+    background: var(--tss-kr-selection);
+    color: var(--tss-kr-accent);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-tree-item-content.tss-selected {
+    color: rgb(110, 180, 255);
+}
+
+body.tss-theme-kristall .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 3px solid var(--tss-kr-focus-ring);
+    outline-offset: -3px;
+}

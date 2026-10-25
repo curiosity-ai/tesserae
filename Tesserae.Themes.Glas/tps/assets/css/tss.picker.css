@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Glas theme - Picker
+   --------------------------------------------------------------------------
+   The suggestions float as a lens of thick glass; the highlighted one is a
+   tinted pill (Tesserae fills it with the solid primary hover colour).
+   ========================================================================== */
+
+body.tss-theme-glas .tss-layer-picker-suggestions {
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+    padding: 4px;
+}
+
+body.tss-theme-glas .tss-picker-suggestions > .tss-picker-suggestion {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: rgba(var(--tss-gl-accent-rgb), 0.14);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-picker-selection {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-picker-selection:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-picker-selection:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-picker-remove:hover {
+    border-color: transparent;
+    border-radius: 999px;
+    background: rgba(var(--tss-danger-background-color-root), 0.14);
+}

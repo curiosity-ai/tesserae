@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Graustufe theme - Plan
+   --------------------------------------------------------------------------
+   A plan is a ruled leaf: the steps run down a 1px ink rail, a step done
+   is a solid ink mark, the running step a dotted ring (it does not turn),
+   a step to come an empty ring. The progress bar is the ruled ink bar.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-plan {
+    --plan-accent: var(--tss-gs-0);
+    --plan-accent-soft: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-plan-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-plan-step-progress-bar {
+    background: var(--tss-gs-0);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.plan.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-plan,
+body.tss-theme-graustufe .tss-plan-cmd,
+body.tss-theme-graustufe .tss-plan-step-toggle,
+body.tss-theme-graustufe .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-graustufe .tss-plan .tss-plan-startstop {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-plan,
+body.tss-theme-graustufe .tss-plan .tss-plan-startstop:hover {
+    box-shadow: none;
+}
+

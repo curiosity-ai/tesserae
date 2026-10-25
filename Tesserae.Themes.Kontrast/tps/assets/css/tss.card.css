@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Kontrast theme - Card
+   --------------------------------------------------------------------------
+   A card is a sign panel: paper, a 2px edge, square-ish corners. Under the
+   pointer an interactive card's edge turns ink and a 4px bar runs along its
+   foot. No rise-and-fade on mount.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-card {
+    background: var(--tss-kt-paper);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-line);
+    transition: none;
+}
+
+body.tss-theme-kontrast .tss-card.tss-card-hover:hover,
+body.tss-theme-kontrast .tss-card.tss-card-hover:active {
+    background: var(--tss-kt-paper);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-ink), inset 0 -4px 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-card.tss-has-layout {
+    box-shadow: none !important;
+}
+
+body.tss-theme-kontrast .tss-card-title {
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-card-footer {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-line);
+}

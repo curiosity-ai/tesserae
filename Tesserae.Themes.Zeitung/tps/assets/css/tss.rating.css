@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Zeitung theme - Rating
+   --------------------------------------------------------------------------
+   A rating is the critic's stars: filled stars in ink, empty ones a hairline
+   grey, nothing gold. The star under the pointer does not grow.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-rating-star {
+    color: var(--tss-zt-rule);
+}
+
+body.tss-theme-zeitung .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-rating-color, var(--tss-zt-ink));
+}
+
+body.tss-theme-zeitung .tss-rating-star.tss-rating-star-hover {
+    transform: none;
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-rating-star:focus-visible {
+    outline-color: var(--tss-zt-red);
+    border-radius: 0;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-rating-star:focus-visible {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

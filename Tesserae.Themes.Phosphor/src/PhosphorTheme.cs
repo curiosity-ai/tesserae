@@ -1,7 +1,13 @@
 namespace Tesserae.Themes.Phosphor
 {
     /// <summary>
-    /// A CRT-terminal Tesserae custom theme: green or amber phosphor on black, scanlines, glowing monospace text and a block-cursor focus.
+    /// A character-terminal Tesserae custom theme. Dark mode is the screen: green P1 phosphor on near-black glass,
+    /// every glyph blooming slightly, faint scanlines and a vignette over the tube, amber P3 as the second colour.
+    /// Light mode is the printout: green-bar continuous-feed paper with a tractor-feed margin, the same characters in
+    /// carbon-ribbon ink. Both share one monospace face (IBM Plex Mono, with VT323 for headlines), box-drawing frames
+    /// (single for fields and cells, double for windows, a window's title set into its top border), square corners,
+    /// bracketed "[ OK ]" buttons, prompt-line fields with a block caret, and inverse video for focus, selection and
+    /// every "current" state.
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Glas theme - DetailsList
+   --------------------------------------------------------------------------
+   The sticky header is the one place in a list where content passes behind
+   glass, so it is real glass: a thicker tint that blurs and saturates the
+   rows scrolling under it, ruled off by a hairline of light. Rows are clear,
+   divided by hairlines; under the pointer a row condenses into a faint pane.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-detailslist-header {
+    background: var(--tss-gl-pane-thick);
+    box-shadow: inset 0 -1px 0 var(--tss-gl-edge-strong);
+    -webkit-backdrop-filter: var(--tss-gl-blur);
+    backdrop-filter: var(--tss-gl-blur);
+}
+
+body.tss-theme-glas .tss-detailslist-column-header {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-detailslist-list-item-container,
+body.tss-theme-glas .tss-detailslist-list-item-container:last-of-type {
+    border-color: var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-detailslist-list-item-container:hover {
+    background-color: rgba(255, 255, 255, 0.45);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-detailslist-list-item-container:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}

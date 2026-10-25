@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Kontrast theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail of the wayfinding board: a 3px ink rule on its inner edge,
+   44px tiles, labels at 12px (not 10). The current tile is the solid block
+   with the bar, as in the sidebar; the others are ghosts that take an edge.
+   A notification dot has a paper ring so it reads on any tile.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-sidenav {
+    width: 76px;
+    min-width: 76px;
+    background: var(--tss-kt-paper);
+    border-right: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidenav.tss-sidenav-secondary {
+    background: var(--tss-kt-surface);
+}
+
+body.tss-theme-kontrast .tss-sidenav-footer {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn,
+body.tss-theme-kontrast .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
+    background: transparent;
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius);
+    color: var(--tss-kt-ink);
+    min-height: 44px !important;
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover,
+body.tss-theme-kontrast .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-label {
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-kontrast .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover,
+body.tss-theme-kontrast .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    box-shadow: inset 0 calc(-1 * var(--tss-kt-bar)) 0 0 var(--tss-kt-signal);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-kontrast.tss-dark-mode .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover,
+body.tss-theme-kontrast.tss-dark-mode .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
+    box-shadow: inset 0 calc(-1 * var(--tss-kt-bar)) 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-label {
+    font-weight: 800;
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--tss-kt-ink);
+    box-shadow: 0 0 0 2px var(--tss-kt-paper), 0 0 0 3px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
+    background: var(--tss-kt-danger);
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-dot.tss-sidenav-btn-dot-warning {
+    background: var(--tss-kt-signal);
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}

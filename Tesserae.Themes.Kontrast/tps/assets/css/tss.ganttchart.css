@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Kontrast theme - GanttChart
+   --------------------------------------------------------------------------
+   A timetable: 2px rules, a bold header band, labels in ink. Bars are solid
+   in their colour with a 2px ink edge (not a 20% tint), square-ended.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-gantt {
+    --tss-gantt-border: var(--tss-kt-border) solid var(--tss-kt-line);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-gantt-header-label,
+body.tss-theme-kontrast .tss-gantt-header-track {
+    border-bottom: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-gantt-column-label,
+body.tss-theme-kontrast .tss-gantt-tick-label {
+    color: var(--tss-kt-ink);
+    font-weight: 600;
+}
+
+body.tss-theme-kontrast .tss-gantt-line {
+    border-left: 1px dashed var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-gantt-bar {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    background: var(--tss-gantt-bar-color);
+    border-radius: var(--tss-kt-radius-sm);
+}
+
+body.tss-theme-kontrast .tss-gantt-bar:hover {
+    background: var(--tss-gantt-bar-color);
+    box-shadow: 0 0 0 2px var(--tss-kt-paper), 0 0 0 4px var(--tss-kt-ink);
+}

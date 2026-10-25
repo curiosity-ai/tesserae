@@ -1,0 +1,22 @@
+/* Kristall theme - Stepper: numbered discs (accent when current, green when done), a grouped box for the step, push buttons to move. */
+
+body.tss-theme-kristall .tss-stepper-content {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: var(--tss-kr-box);
+    box-shadow: var(--tss-kr-shadow-box);
+}
+
+body.tss-theme-kristall .tss-stepper-nav {
+    border: 0;
+    border-radius: var(--tss-kr-r-pill);
+    background: var(--tss-kr-control);
+    box-shadow: var(--tss-kr-shadow-control);
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding: 5px 16px;
+    font-weight: 500;
+}
+
+body.tss-theme-kristall .tss-stepper-nav:active {
+    background: var(--tss-kr-control-pressed);
+}

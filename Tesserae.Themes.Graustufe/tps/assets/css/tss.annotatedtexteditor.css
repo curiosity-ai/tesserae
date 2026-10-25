@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Graustufe theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   Annotations are greyed from their colours and underlined; chips square.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-annotatedtexteditor [style*="background"] {
+    filter: var(--tss-gs-panel);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.annotatedtexteditor.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-annotated-text-container,
+body.tss-theme-graustufe .tss-annotated-text-entity,
+body.tss-theme-graustufe .tss-annotated-text-hover-tag {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-annotated-text-container,
+body.tss-theme-graustufe .tss-annotated-text-container:hover,
+body.tss-theme-graustufe .tss-annotated-text-hover-tag {
+    box-shadow: none;
+}
+

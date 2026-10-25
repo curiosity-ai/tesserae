@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Blaupause theme - SearchBox
+   --------------------------------------------------------------------------
+   The same ruled box as a field (tss.textbox.css): inked under the pointer,
+   underlined in red pencil while focused. The underlined variant is a single
+   lettering line, like the guide line a draughtsman letters on.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-searchbox-container {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    box-shadow: none;
+    transition: border-color var(--tss-bp-quick) linear, box-shadow var(--tss-bp-quick) linear;
+}
+
+body.tss-theme-blaupause .tss-searchbox-container:hover {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-searchbox-container:focus-within {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-searchbox::placeholder {
+    font-style: italic;
+}
+
+body.tss-theme-blaupause .tss-searchbox-container.tss-underlined {
+    background: transparent;
+    border-color: var(--tss-bp-line);
+    border-width: 0 0 1px;
+}
+
+body.tss-theme-blaupause .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-bp-red);
+    border-width: 0 0 2px;
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-searchbox-container.tss-disabled {
+    border: var(--tss-bp-hidden);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-searchbox-icon {
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-searchbox-clear {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-searchbox-progress-bar {
+    background: var(--tss-bp-red);
+}

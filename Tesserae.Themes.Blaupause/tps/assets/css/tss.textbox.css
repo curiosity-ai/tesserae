@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Blaupause theme - TextBox
+   --------------------------------------------------------------------------
+   A field is a ruled box on the sheet to letter into. Under the pointer its
+   line is inked in; focused, the checker's red pencil underlines it (a 2px
+   red rule along the foot of the box) and the box's line goes to full ink.
+   Invalid: the whole box redlined, the note under it in small red lettering.
+   Disabled: the box in the dashed hidden-line style.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-textbox {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    box-shadow: none;
+    font-family: var(--tss-bp-letter);
+    transition: border-color var(--tss-bp-quick) linear, box-shadow var(--tss-bp-quick) linear;
+}
+
+body.tss-theme-blaupause .tss-textbox::placeholder {
+    font-style: italic;
+}
+
+body.tss-theme-blaupause .tss-textbox:hover {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-textbox:focus {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: var(--tss-bp-red);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-bp-red-root), 0.35);
+}
+
+body.tss-theme-blaupause .tss-textbox-error {
+    color: var(--tss-bp-red);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-blaupause .tss-textbox.tss-disabled {
+    border: var(--tss-bp-hidden);
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-textbox.tss-textbox-noborder,
+body.tss-theme-blaupause .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-blaupause .tss-textbox.tss-textbox-noborder:focus {
+    border-color: transparent;
+    box-shadow: none;
+    background: transparent;
+}

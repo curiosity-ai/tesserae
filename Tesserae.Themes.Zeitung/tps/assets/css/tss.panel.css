@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Zeitung theme - Panel
+   --------------------------------------------------------------------------
+   A panel is a column pulled out from the edge of the page: newsprint,
+   ruled off from the page by an ink hairline on its inner edge, with the
+   thick-and-thin rule across its head. Its title is a headline; the close
+   mark is a square ghost button. The page behind is washed back as for a
+   modal.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-panel-container {
+    background-color: rgba(241, 237, 227, 0.6);
+}
+
+body.tss-theme-zeitung .tss-panel-container.tss-dark {
+    background-color: rgba(24, 22, 20, 0.45);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-panel-container {
+    background-color: rgba(18, 17, 15, 0.6);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-panel-container.tss-dark {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+body.tss-theme-zeitung .tss-panel-container.tss-panel-modeless {
+    background-color: transparent;
+}
+
+body.tss-theme-zeitung .tss-panel {
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper);
+    box-shadow: -1px 0 0 var(--tss-zt-ink), -18px 0 36px -24px rgba(0, 0, 0, 0.35);
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-panel.tss-panelSide-near {
+    box-shadow: 1px 0 0 var(--tss-zt-ink), 18px 0 36px -24px rgba(0, 0, 0, 0.35);
+}
+
+body.tss-theme-zeitung .tss-panel-command {
+    margin-top: var(--tss-zt-band-h);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-panel-title > .tss-textblock {
+    font-family: var(--tss-zt-head);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+body.tss-theme-zeitung .tss-panel-command-button {
+    border-radius: 0;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-panel-command-button:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-panel-command-button:active {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-panel-command-button:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: -2px;
+}
+
+body.tss-theme-zeitung .tss-panel-footer:not(:empty) {
+    box-shadow: inset 0 1px 0 var(--tss-zt-hair);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-panel-command-button {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

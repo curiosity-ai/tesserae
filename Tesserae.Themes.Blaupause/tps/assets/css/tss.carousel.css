@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Blaupause theme - Carousel
+   --------------------------------------------------------------------------
+   A ruled viewport; the arrows are drawn circles, the position marks small
+   squares, the current one inked.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-carousel-viewport {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-carousel-viewport {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-carousel-nav {
+    border-color: var(--tss-bp-line-strong);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-carousel-nav:hover {
+    background: var(--tss-bp-sheet);
+    background-image: linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+}
+
+body.tss-theme-blaupause .tss-carousel-indicator {
+    border-radius: 0;
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-carousel-indicator.tss-active {
+    background: var(--tss-bp-ink);
+    border-color: var(--tss-bp-ink);
+}

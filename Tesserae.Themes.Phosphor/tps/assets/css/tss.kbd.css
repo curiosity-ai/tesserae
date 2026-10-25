@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Phosphor theme - Keyboard shortcut
+   --------------------------------------------------------------------------
+   A key is a square keycap drawn in lines: a 1px frame with a heavier
+   bottom edge, the legend in the terminal face. A shortcut guide is a
+   ruled listing with dim section legends.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-kbd-key {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+    border-bottom-width: 2px;
+    color: var(--tss-ph-hot);
+    font-family: var(--tss-ph-mono);
+}
+
+body.tss-theme-phosphor .tss-kbd-separator {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-shortcut-guide-section-title {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-shortcut-guide-row {
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}

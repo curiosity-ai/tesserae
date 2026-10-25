@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Glas theme - Stepper
+   --------------------------------------------------------------------------
+   Steps are glass pills; each number sits in a round bead. The current step
+   is an accent bead with its glow, a finished one a bead of success green.
+   The step's content is a clear pane inside the pane; the nav buttons are
+   the theme's pills (the next one a lozenge).
+   ========================================================================== */
+
+body.tss-theme-glas .tss-stepper-step {
+    border-radius: 999px;
+    padding: 5px 12px 5px 5px;
+}
+
+body.tss-theme-glas .tss-stepper-step:hover {
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-stepper-step:hover {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-glas .tss-stepper-circle {
+    border: 1px solid var(--tss-gl-edge-strong);
+    background: var(--tss-gl-well);
+    box-shadow: var(--tss-gl-field-shade);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid rgba(var(--tss-gl-accent-rgb), 0.6);
+}
+
+body.tss-theme-glas .tss-stepper-active .tss-stepper-circle {
+    border-color: transparent;
+    color: rgb(255, 255, 255);
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    box-shadow: var(--tss-gl-lozenge-rim), 0 3px 10px -3px rgba(var(--tss-gl-accent-rgb), 0.8);
+}
+
+body.tss-theme-glas .tss-stepper-complete .tss-stepper-circle {
+    border-color: transparent;
+    color: rgb(var(--tss-success-foreground-color-root));
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-success-background-color-root));
+    box-shadow: var(--tss-gl-lozenge-rim), 0 3px 10px -3px rgba(var(--tss-success-background-color-root), 0.7);
+}
+
+body.tss-theme-glas .tss-stepper-content {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+    padding: 16px;
+}
+
+body.tss-theme-glas .tss-stepper-nav {
+    border: none;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 4px 12px -6px rgba(60, 58, 130, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-stepper-nav {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-stepper-nav:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.75);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-stepper-nav:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+body.tss-theme-glas .tss-stepper-nav:last-child:not(:disabled) {
+    color: rgb(255, 255, 255);
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    box-shadow: var(--tss-gl-lozenge-rim), 0 6px 16px -6px rgba(var(--tss-gl-accent-rgb), 0.7);
+    text-shadow: 0 1px 1px rgba(10, 0, 60, 0.28);
+}
+
+body.tss-theme-glas .tss-stepper-nav:disabled,
+body.tss-theme-glas .tss-stepper-nav.tss-disabled {
+    box-shadow: none;
+}

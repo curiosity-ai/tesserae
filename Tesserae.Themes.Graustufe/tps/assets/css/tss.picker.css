@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Graustufe theme - Picker
+   --------------------------------------------------------------------------
+   Suggestions open on a leaf with the dithered edge; the suggestion under
+   the pointer is inverted. Chosen items are square ink-ruled tags.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-layer-picker-suggestions {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-picker-suggestions > .tss-picker-label {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-picker-selection {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-picker-selection:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-picker-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-picker-remove:hover {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}

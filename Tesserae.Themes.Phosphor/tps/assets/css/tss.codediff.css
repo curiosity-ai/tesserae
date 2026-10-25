@@ -1,0 +1,80 @@
+/* ==========================================================================
+   Phosphor theme - CodeDiff
+   --------------------------------------------------------------------------
+   A diff is a listing printed off the terminal: the surface of the screen
+   or the sheet, file headers ruled off, added lines on a green wash with a
+   lit "+", removed lines on a red wash, the changed characters a stronger
+   cell of the same colour. Both diff2html colour schemes read the same
+   tokens, so the diff follows the theme's mode whichever one it was given.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-codediff {
+    --tss-ph-ins: rgba(var(--tss-success-background-color-root), 0.12);
+    --tss-ph-ins-hi: rgba(var(--tss-success-background-color-root), 0.32);
+    --tss-ph-del: rgba(var(--tss-ph-red-root), 0.12);
+    --tss-ph-del-hi: rgba(var(--tss-ph-red-root), 0.32);
+
+    --d2h-bg-color: rgb(var(--tss-secondary-background-color-root));
+    --d2h-border-color: var(--tss-ph-rule);
+    --d2h-dim-color: var(--tss-ph-dim);
+    --d2h-line-border-color: var(--tss-ph-faint);
+    --d2h-file-header-bg-color: var(--tss-ph-field);
+    --d2h-file-header-border-color: var(--tss-ph-rule);
+    --d2h-empty-placeholder-bg-color: var(--tss-ph-field);
+    --d2h-empty-placeholder-border-color: var(--tss-ph-faint);
+    --d2h-selected-color: var(--tss-ph-tint);
+    --d2h-ins-bg-color: var(--tss-ph-ins);
+    --d2h-ins-border-color: rgba(var(--tss-success-background-color-root), 0.4);
+    --d2h-ins-highlight-bg-color: var(--tss-ph-ins-hi);
+    --d2h-ins-label-color: rgb(var(--tss-success-background-color-root));
+    --d2h-del-bg-color: var(--tss-ph-del);
+    --d2h-del-border-color: rgba(var(--tss-ph-red-root), 0.4);
+    --d2h-del-highlight-bg-color: var(--tss-ph-del-hi);
+    --d2h-del-label-color: var(--tss-ph-red);
+    --d2h-change-del-color: var(--tss-ph-del);
+    --d2h-change-ins-color: var(--tss-ph-ins);
+    --d2h-change-label-color: var(--tss-ph-amber);
+    --d2h-info-bg-color: var(--tss-ph-tint);
+    --d2h-info-border-color: var(--tss-ph-faint);
+    --d2h-moved-label-color: var(--tss-ph-amber);
+
+    --d2h-dark-color: var(--tss-ph-ink);
+    --d2h-dark-bg-color: rgb(var(--tss-secondary-background-color-root));
+    --d2h-dark-border-color: var(--tss-ph-rule);
+    --d2h-dark-dim-color: var(--tss-ph-dim);
+    --d2h-dark-line-border-color: var(--tss-ph-faint);
+    --d2h-dark-file-header-bg-color: var(--tss-ph-field);
+    --d2h-dark-file-header-border-color: var(--tss-ph-rule);
+    --d2h-dark-empty-placeholder-bg-color: var(--tss-ph-field);
+    --d2h-dark-empty-placeholder-border-color: var(--tss-ph-faint);
+    --d2h-dark-selected-color: var(--tss-ph-tint);
+    --d2h-dark-ins-bg-color: var(--tss-ph-ins);
+    --d2h-dark-ins-border-color: rgba(var(--tss-success-background-color-root), 0.4);
+    --d2h-dark-ins-highlight-bg-color: var(--tss-ph-ins-hi);
+    --d2h-dark-ins-label-color: rgb(var(--tss-success-background-color-root));
+    --d2h-dark-del-bg-color: var(--tss-ph-del);
+    --d2h-dark-del-border-color: rgba(var(--tss-ph-red-root), 0.4);
+    --d2h-dark-del-highlight-bg-color: var(--tss-ph-del-hi);
+    --d2h-dark-del-label-color: var(--tss-ph-red);
+    --d2h-dark-change-del-color: var(--tss-ph-del);
+    --d2h-dark-change-ins-color: var(--tss-ph-ins);
+    --d2h-dark-change-label-color: var(--tss-ph-amber);
+    --d2h-dark-info-bg-color: var(--tss-ph-tint);
+    --d2h-dark-info-border-color: var(--tss-ph-faint);
+    --d2h-dark-moved-label-color: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-codediff .d2h-wrapper,
+body.tss-theme-phosphor .tss-codediff .d2h-file-wrapper,
+body.tss-theme-phosphor .tss-codediff .d2h-file-side-diff,
+body.tss-theme-phosphor .tss-codediff .d2h-file-diff,
+body.tss-theme-phosphor .tss-codediff .d2h-diff-table {
+    font-family: var(--tss-ph-mono);
+    border-radius: 0;
+    color: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tss-codediff .d2h-tag {
+    border-radius: 0;
+    background: transparent;
+}

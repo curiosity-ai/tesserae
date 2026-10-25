@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Zeitung theme - omniresult
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-omniresult-icon-badge img,
+body.tss-theme-zeitung .tss-omniresult-icon-badge svg,
+body.tss-theme-zeitung .tss-omniresult-icon-inline .tss-omniresult-icon-badge img,
+body.tss-theme-zeitung .tss-omniresult-icon-inline .tss-omniresult-icon-badge svg,
+body.tss-theme-zeitung .tss-omniresult-highlight,
+body.tss-theme-zeitung .tss-omniresult-source .tss-inlinelabel-mark-color,
+body.tss-theme-zeitung .tss-modal.tss-omniresult-modal {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

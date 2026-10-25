@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Phosphor theme - SearchBox
+   --------------------------------------------------------------------------
+   A search box is a prompt line like any field (tss.textbox.css), with the
+   search glyph standing in for the ">". The clear and cancel buttons are
+   square cells that invert under the pointer; the progress line is a solid
+   cursor-coloured bar along the underline.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-searchbox-container {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-container:hover {
+    border-bottom-color: var(--tss-ph-rule-hi);
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-container:focus-within {
+    border-bottom-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-field-focus);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+}
+
+/* No icon: the prompt takes the icon's place. */
+body.tss-theme-phosphor .tss-searchbox-container.tss-noicon {
+    padding-left: 22px;
+    background: var(--tss-ph-prompt) 8px 50% / 8px 12px no-repeat, var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-noicon:focus-within {
+    background: var(--tss-ph-prompt-hot) 8px 50% / 8px 12px no-repeat, var(--tss-ph-field-focus);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-underlined {
+    border-bottom-color: var(--tss-ph-rule);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-underlined:focus-within {
+    border-bottom-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-disabled {
+    border-bottom: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-searchbox {
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+}
+
+body.tss-theme-phosphor .tss-searchbox::placeholder {
+    color: var(--tss-ph-dim) !important;
+    opacity: 0.8;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-container:focus-within > .tss-searchbox-icon {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-searchbox-clear,
+body.tss-theme-phosphor .tss-searchbox-cancel {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-searchbox-clear:hover,
+body.tss-theme-phosphor .tss-searchbox-cancel:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-clear:hover i,
+body.tss-theme-phosphor .tss-searchbox-cancel:hover i {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-searchbox-progress-bar {
+    background: var(--tss-ph-cursor);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-searchbox-shortcut {
+    color: var(--tss-ph-dim);
+}

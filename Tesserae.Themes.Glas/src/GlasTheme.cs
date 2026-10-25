@@ -1,7 +1,13 @@
 namespace Tesserae.Themes.Glas
 {
     /// <summary>
-    /// A frosted-glass Tesserae custom theme: translucent blurred panels over a soft colour field, specular edges and generous radii.
+    /// A liquid-glass Tesserae custom theme. The page is a soft field of colour (pastel in light mode, deep and saturated in
+    /// dark mode) and every surface is a pane of glass over it: a translucent tint with a fine frost, a specular rim along the
+    /// top-left edge, a faint inner glow and a soft deep shadow, with generous radii and pill-shaped buttons. Overlays (menus,
+    /// dropdowns, modals, panels, tooltips, toasts, the command palette) blur and saturate the page behind them and, in
+    /// Chromium, refract it through an SVG displacement filter. Coloured controls are tinted glass lozenges with a gloss and a
+    /// glow of their own colour. Light mode is clear frosted glass, dark mode smoked glass. Plus Jakarta Sans and JetBrains
+    /// Mono are bundled (OFL).
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Graustufe theme - PagesStack
+   --------------------------------------------------------------------------
+   A stack of leaves: each page paper with an ink rule, set off from the one
+   under it by a hard 1px ink edge instead of a soft shadow; the text lines
+   drawn as grey rules. They fan out at once under the pointer.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-pagesstack-page,
+body.tss-theme-graustufe.tss-dark-mode .tss-pagesstack-page {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: -2px 0 0 var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-page:hover {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-lines,
+body.tss-theme-graustufe.tss-dark-mode .tss-pagesstack-lines {
+    background: repeating-linear-gradient(to bottom, var(--tss-gs-10) 0 1px, transparent 1px 5px);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-more {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}

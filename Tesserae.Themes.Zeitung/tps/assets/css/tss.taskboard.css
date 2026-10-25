@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Zeitung theme - TaskBoard
+   --------------------------------------------------------------------------
+   A task board is a page of columns: each card a boxed brief (tss.card.css),
+   the columns divided by the page's own hairline rules.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-taskboard-card {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-taskboard-card.tss-taskboard-card-locked {
+    opacity: 0.75;
+}

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Phosphor theme - File selector and drop area
+   --------------------------------------------------------------------------
+   A drop area is a dashed box on the screen, square; dragging over it
+   lights it like a row under the pointer.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-filedroparea,
+body.tss-theme-phosphor .tss-filedroparea-overlay {
+    border: 1px dashed var(--tss-ph-rule-hi);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-filedroparea:hover,
+body.tss-theme-phosphor .tss-filedroparea.tss-dropping {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-filedroparea-message,
+body.tss-theme-phosphor .tss-filedroparea-icon {
+    color: var(--tss-ph-dim);
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-phosphor .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-overlay {
+    background: rgba(var(--tss-default-background-color-root), 0.85);
+}

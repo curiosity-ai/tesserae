@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Blaupause theme - DataTable
+   --------------------------------------------------------------------------
+   A ruled schedule: square box, capitals header on the fine grid over a
+   double rule, rows divided by fine lines, the accent stripe kept.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-datatable {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-datatable-header {
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+    border-bottom: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-blaupause .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 1px solid var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-datatable-row:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-datatable-heading {
+    color: var(--tss-bp-text);
+}

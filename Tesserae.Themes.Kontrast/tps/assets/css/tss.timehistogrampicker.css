@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Kontrast theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   Bars outside the chosen range are hatched rather than faded; the chosen ones are solid accent. Thumbs are 2px-edged handles.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-time-histogram-picker-bar {
+    opacity: 1 !important;
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    box-shadow: inset 0 0 0 1px var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-kt-accent);
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast .tss-time-histogram-picker-thumb {
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-ink) !important;
+    background: var(--tss-kt-paper) !important;
+}
+
+body.tss-theme-kontrast .tss-time-histogram-picker-bars {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-time-histogram-picker-empty {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}

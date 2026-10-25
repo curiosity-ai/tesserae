@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Kontrast theme - Avatar
+   --------------------------------------------------------------------------
+   Initials are bold; the presence lamp is 14px with a paper ring and an
+   ink edge, and each state has its own shape inside it as well as a
+   colour: online solid, away a half, busy a bar, offline hollow.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-avatar-initials {
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-avatar-presence {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--tss-kt-paper);
+    box-shadow: 0 0 0 1px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-presence-away {
+    background: linear-gradient(90deg, var(--tss-kt-signal) 50%, var(--tss-kt-paper) 50%);
+}
+
+body.tss-theme-kontrast .tss-presence-busy {
+    background: linear-gradient(var(--tss-danger-foreground-color), var(--tss-danger-foreground-color)) center / 70% 2px no-repeat, var(--tss-danger-background-color);
+}
+
+body.tss-theme-kontrast .tss-presence-offline {
+    background: var(--tss-kt-paper);
+    box-shadow: 0 0 0 1px var(--tss-kt-ink), inset 0 0 0 2px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-persona-secondary {
+    color: var(--tss-kt-muted);
+}

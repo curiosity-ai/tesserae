@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Glas theme - DataTable
+   --------------------------------------------------------------------------
+   A data table is a pane of clear glass: rim, hairline edge, its header a
+   frostier band, rows divided by hairlines of light and condensing under
+   the pointer.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-datatable {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 8px 22px -14px rgba(60, 58, 130, 0.35);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-datatable {
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 8px 22px -14px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-glas .tss-datatable-header {
+    background: rgba(255, 255, 255, 0.35);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-datatable-header {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-glas .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-glas .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 1px solid var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-datatable-row:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-datatable-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}

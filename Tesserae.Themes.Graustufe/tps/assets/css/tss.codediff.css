@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Graustufe theme - CodeDiff
+   --------------------------------------------------------------------------
+   diff2html draws its own colours (green additions, red deletions, yellow
+   changes). On the panel they become greys of the same lightness, toned to
+   the paper, and the +/- in the gutter carries the meaning; the frame is
+   a 1px ink rule, square, and the text the theme's mono.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-codediff .d2h-wrapper {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-codediff .d2h-file-wrapper,
+body.tss-theme-graustufe .tss-codediff .d2h-file-list-wrapper {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-codediff .d2h-code-line,
+body.tss-theme-graustufe .tss-codediff .d2h-code-side-line,
+body.tss-theme-graustufe .tss-codediff .d2h-code-linenumber,
+body.tss-theme-graustufe .tss-codediff .d2h-code-side-linenumber {
+    font-family: var(--tss-gs-mono);
+}
+
+body.tss-theme-graustufe .tss-codediff .d2h-file-header {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-codediff del,
+body.tss-theme-graustufe .tss-codediff ins {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}

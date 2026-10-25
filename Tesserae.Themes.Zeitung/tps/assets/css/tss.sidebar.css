@@ -1,0 +1,297 @@
+/* ==========================================================================
+   Zeitung theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is the index column on the front page: the same newsprint,
+   ruled off from the page by a hairline of ink. At its head the nameplate
+   is set in blackletter over the thick-and-thin rule. Section labels are
+   kickers: condensed capitals, widely tracked, with a hairline running out
+   to the column's edge. Entries are lines of the index in the serif; the
+   pointer underlines one, and the page you are on is set bold with a small
+   spot-red square before it, the mark a paper prints before the story
+   "inside". Nothing is boxed.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-sidebar {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-zt-grain);
+    box-shadow: inset -1px 0 0 var(--tss-zt-ink);
+}
+
+/* The nameplate: blackletter, with the double rule under it. */
+body.tss-theme-zeitung .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-family: var(--tss-zt-mast);
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1.15;
+    letter-spacing: 0;
+    padding: 0 0 calc(6px + var(--tss-zt-band-h)) 2px;
+    margin-bottom: 8px;
+    background: var(--tss-zt-band) bottom / 100% var(--tss-zt-band-h) no-repeat;
+}
+
+/* Collapsed, the nameplate shrinks to its blackletter initial: the rest of the name is still there for
+   whoever reads the DOM, just not inked. */
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-size: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    color: transparent !important;
+    text-align: center;
+    padding-left: 0;
+}
+
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge::first-letter {
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidebar-identity-title {
+    font-family: var(--tss-zt-head);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-zeitung .tss-sidebar-identity-subtitle {
+    font-style: italic;
+}
+
+/* Section labels are kickers. */
+body.tss-theme-zeitung .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    font-family: var(--tss-zt-head);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--tss-zt-ink);
+    opacity: 0.35;
+}
+
+/* Index lines. */
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: 0;
+    font-weight: 400;
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn > i {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn:not(.tss-disabled):hover > span,
+body.tss-theme-zeitung .tss-sidebar-btn-open:hover > .tss-sidebar-btn:not(.tss-disabled) > span,
+body.tss-theme-zeitung .tss-sidebar-btn-open:hover > a > .tss-sidebar-btn:not(.tss-disabled) > span {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn:not(.tss-disabled):hover > i {
+    color: var(--tss-zt-ink);
+}
+
+/* The page you are on: bold, with the spot-red square before it. */
+body.tss-theme-zeitung .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-zeitung.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: linear-gradient(var(--tss-zt-red), var(--tss-zt-red)) 3px 50% / 6px 6px no-repeat, rgb(var(--tss-sidebar-background-color-root));
+    border-color: transparent;
+    box-shadow: inset 0 1px 0 var(--tss-zt-hair), inset 0 -1px 0 var(--tss-zt-hair);
+    color: var(--tss-zt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn > i,
+body.tss-theme-zeitung .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn > i,
+body.tss-theme-zeitung .tss-sidebar-btn.tss-sidebar-selected > i {
+    color: var(--tss-zt-red);
+}
+
+/* A group that holds the current page: no fill, just the label set bold. */
+body.tss-theme-zeitung .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-zeitung .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-zeitung .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    background: linear-gradient(var(--tss-zt-hair), var(--tss-zt-hair)) 19px 4px / 1px calc(100% - 8px) no-repeat;
+}
+
+/* Row commands: small ghost buttons, framed in ink under the pointer. */
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: rgb(var(--tss-sidebar-background-color-root));
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+/* The search field at the head of the column: a ruled line to write on. */
+body.tss-theme-zeitung .tss-sidebar .tss-searchbox-container {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-searchbox-container:focus-within {
+    box-shadow: inset 0 -2px 0 var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-searchbox {
+    background: transparent;
+    font-style: italic;
+}
+
+/* The collapsed column: icons only. */
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-zeitung .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn.tss-rounded-full,
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-zeitung .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: 0 !important;
+}
+
+/* An outlined row (the one that pairs with a search box) is a hairline box. */
+body.tss-theme-zeitung .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-zeitung .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: transparent;
+    border-color: var(--tss-zt-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-zeitung .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border-color: transparent;
+}
+
+body.tss-theme-zeitung .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-zeitung .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: transparent;
+    border: none;
+    box-shadow: inset 0 -1px 0 var(--tss-zt-ink);
+    font-style: italic;
+}
+
+body.tss-theme-zeitung .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-zeitung .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: var(--tss-zt-paper);
+    color: var(--tss-zt-ink);
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+/* Counts are set in lining tabular figures, in a hairline box. */
+body.tss-theme-zeitung .tss-sidebar-badges > .tss-btn {
+    border-radius: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: transparent;
+    border: 1px solid var(--tss-zt-ink);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: 0;
+}
+
+/* Identity rows and the section header: ruled off with ink hairlines. */
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidebar-brand-logo > img {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-sidebar-section-header {
+    background: var(--tss-zt-band) bottom / 100% var(--tss-zt-band-h) no-repeat;
+    padding-bottom: var(--tss-zt-band-h);
+    margin-bottom: 6px;
+}
+
+body.tss-theme-zeitung .tss-sidebar-section-header .tss-sidebar-identity-title {
+    font-family: var(--tss-zt-mast);
+    font-weight: 400;
+    font-size: 22px;
+}
+
+body.tss-theme-zeitung .tss-sidebar-status-card {
+    border-radius: 0;
+    border: 1px solid var(--tss-zt-ink);
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: -2px;
+}

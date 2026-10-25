@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Blaupause theme - InlinePagination
+   --------------------------------------------------------------------------
+   A small ruled cell: arrows either side of a monospace "3 / 12".
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-inlinepagination {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-inlinepagination-button {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-inlinepagination-button:hover:not(:disabled) {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-inlinepagination-button:focus-visible {
+    outline-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-inlinepagination-label {
+    font-family: var(--tss-bp-mono);
+    font-size: 11px;
+}

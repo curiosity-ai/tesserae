@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Blaupause theme - Uptime
+   --------------------------------------------------------------------------
+   Status bars are ruled cells: operational green, incidents in amber and
+   red pencil, maintenance in ink, empty days outlined and future days
+   dashed. The month card is a ruled box on the sheet (the base stylesheet
+   paints it white, which this restates for both modes).
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-uptime-bars span,
+body.tss-theme-blaupause .tss-uptime-bars-compact span,
+body.tss-theme-blaupause .tss-uptime-month-card,
+body.tss-theme-blaupause .tss-uptime-month-day,
+body.tss-theme-blaupause .tss-uptime-month-empty,
+body.tss-theme-blaupause .tippy-box[data-theme~='uptime'] {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-uptime-bars span,
+body.tss-theme-blaupause .tss-uptime-bars span.none,
+body.tss-theme-blaupause .tss-uptime-month-day {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-uptime-bars span.future,
+body.tss-theme-blaupause .tss-uptime-month-day.future {
+    background: transparent;
+    box-shadow: none;
+    outline: 1px dashed var(--tss-bp-line-faint);
+    outline-offset: -1px;
+}
+
+body.tss-theme-blaupause .tss-uptime-bars span.operational,
+body.tss-theme-blaupause .tss-uptime-month-day.operational {
+    background: rgb(var(--tss-success-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-uptime-bars span.minor,
+body.tss-theme-blaupause .tss-uptime-month-day.minor {
+    background: var(--tss-bp-yellow);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-uptime-bars span.major,
+body.tss-theme-blaupause .tss-uptime-month-day.major {
+    background: var(--tss-bp-red);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-uptime-bars span.maintenance,
+body.tss-theme-blaupause .tss-uptime-month-day.maintenance {
+    background: var(--tss-bp-hatch-dense);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-uptime-month-empty {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-uptime-month-card {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tippy-box[data-theme~='uptime'] {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    border-color: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    box-shadow: none;
+}

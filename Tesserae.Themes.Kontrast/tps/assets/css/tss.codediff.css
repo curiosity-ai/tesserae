@@ -1,0 +1,111 @@
+/* ==========================================================================
+   Kontrast theme - CodeDiff
+   --------------------------------------------------------------------------
+   diff2html colours everything from its --d2h-* variables; both its light
+   and its dark set are pointed at the theme here, so the diff follows the
+   mode whichever scheme the component asked for. Added and removed lines
+   keep a tint, but the line's sign (+ / -) column is bold ink and the
+   changed words are underlined (added) or struck (removed), so a change is
+   readable without telling green from red.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-codediff {
+    --d2h-bg-color: var(--tss-kt-paper);
+    --d2h-border-color: var(--tss-kt-line);
+    --d2h-dim-color: var(--tss-kt-muted);
+    --d2h-line-border-color: var(--tss-kt-line);
+    --d2h-file-header-bg-color: var(--tss-kt-surface);
+    --d2h-file-header-border-color: var(--tss-kt-ink);
+    --d2h-empty-placeholder-bg-color: var(--tss-kt-surface);
+    --d2h-empty-placeholder-border-color: var(--tss-kt-line);
+    --d2h-selected-color: rgba(var(--tss-kt-signal-root), 0.4);
+    --d2h-ins-bg-color: #e3f5e8;
+    --d2h-ins-border-color: #005a26;
+    --d2h-ins-highlight-bg-color: #a8e0b9;
+    --d2h-ins-label-color: #005a26;
+    --d2h-del-bg-color: #fbe6e9;
+    --d2h-del-border-color: #9a0019;
+    --d2h-del-highlight-bg-color: #f3b8c0;
+    --d2h-del-label-color: #9a0019;
+    --d2h-change-del-color: #fbe6e9;
+    --d2h-change-ins-color: #e3f5e8;
+    --d2h-info-bg-color: var(--tss-kt-surface);
+    --d2h-info-border-color: var(--tss-kt-line);
+    --d2h-change-label-color: #000000;
+    --d2h-moved-label-color: var(--tss-kt-link);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-codediff {
+    --d2h-ins-bg-color: #0b2a17;
+    --d2h-ins-highlight-bg-color: #1d5a33;
+    --d2h-ins-label-color: #5fe08f;
+    --d2h-ins-border-color: #5fe08f;
+    --d2h-del-bg-color: #3a0d12;
+    --d2h-del-highlight-bg-color: #6e1e28;
+    --d2h-del-label-color: #ff8f8f;
+    --d2h-del-border-color: #ff8f8f;
+    --d2h-change-del-color: #3a0d12;
+    --d2h-change-ins-color: #0b2a17;
+    --d2h-change-label-color: var(--tss-kt-signal);
+}
+
+body.tss-theme-kontrast .tss-codediff,
+body.tss-theme-kontrast .tss-codediff .d2h-dark-color-scheme,
+body.tss-theme-kontrast .tss-codediff .d2h-auto-color-scheme {
+    --d2h-dark-color: var(--tss-kt-ink);
+    --d2h-dark-bg-color: var(--tss-kt-paper);
+    --d2h-dark-border-color: var(--tss-kt-line);
+    --d2h-dark-dim-color: var(--tss-kt-muted);
+    --d2h-dark-line-border-color: var(--tss-kt-line);
+    --d2h-dark-file-header-bg-color: var(--tss-kt-surface);
+    --d2h-dark-file-header-border-color: var(--tss-kt-ink);
+    --d2h-dark-empty-placeholder-bg-color: var(--tss-kt-surface);
+    --d2h-dark-empty-placeholder-border-color: var(--tss-kt-line);
+    --d2h-dark-selected-color: rgba(var(--tss-kt-signal-root), 0.3);
+    --d2h-dark-ins-bg-color: var(--d2h-ins-bg-color);
+    --d2h-dark-ins-border-color: var(--d2h-ins-border-color);
+    --d2h-dark-ins-highlight-bg-color: var(--d2h-ins-highlight-bg-color);
+    --d2h-dark-ins-label-color: var(--d2h-ins-label-color);
+    --d2h-dark-del-bg-color: var(--d2h-del-bg-color);
+    --d2h-dark-del-border-color: var(--d2h-del-border-color);
+    --d2h-dark-del-highlight-bg-color: var(--d2h-del-highlight-bg-color);
+    --d2h-dark-del-label-color: var(--d2h-del-label-color);
+    --d2h-dark-change-del-color: var(--d2h-change-del-color);
+    --d2h-dark-change-ins-color: var(--d2h-change-ins-color);
+    --d2h-dark-info-bg-color: var(--tss-kt-surface);
+    --d2h-dark-info-border-color: var(--tss-kt-line);
+    --d2h-dark-change-label-color: var(--d2h-change-label-color);
+    --d2h-dark-moved-label-color: var(--tss-kt-link);
+}
+
+body.tss-theme-kontrast .tss-codediff .d2h-file-wrapper {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-codediff .d2h-code-line-prefix {
+    font-weight: 800;
+}
+
+body.tss-theme-kontrast .tss-codediff .d2h-code-line ins,
+body.tss-theme-kontrast .tss-codediff .d2h-code-side-line ins {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-kontrast .tss-codediff .d2h-code-line del,
+body.tss-theme-kontrast .tss-codediff .d2h-code-side-line del {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-kontrast .tss-codediff .d2h-ins .d2h-code-line-prefix,
+body.tss-theme-kontrast .tss-codediff .d2h-del .d2h-code-line-prefix {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-codediff .d2h-tag {
+    border-width: 2px;
+    font-weight: 700;
+}

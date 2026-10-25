@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Glas theme - Markdown
+   --------------------------------------------------------------------------
+   Code blocks are wells of darker, smoked glass with a lit lower edge, in
+   both editions, so code reads as a different material from prose; inline
+   code is a small chip of tinted glass. Tables are panes with hairlines of
+   light, quotes hang from a capsule of the accent.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-markdown pre {
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: rgba(28, 26, 64, 0.06);
+    box-shadow: inset 0 1px 3px rgba(60, 58, 130, 0.14), inset 0 0 0 1px rgba(84, 86, 150, 0.14), 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-markdown pre {
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(200, 204, 255, 0.08), 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-glas .tss-markdown code {
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 0.15em 0.4em;
+    background: rgba(var(--tss-gl-accent-rgb), 0.1);
+    color: var(--tss-gl-accent-ink);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.16);
+}
+
+body.tss-theme-glas .tss-markdown pre code {
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font-weight: 400;
+    padding: 0;
+}
+
+body.tss-theme-glas .tss-markdown blockquote {
+    border-left: 3px solid rgba(var(--tss-gl-accent-rgb), 0.55);
+    border-radius: 2px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-markdown hr {
+    background: linear-gradient(90deg, rgba(84, 86, 150, 0), var(--tss-gl-edge-strong), rgba(84, 86, 150, 0));
+}
+
+body.tss-theme-glas .tss-markdown table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--tss-gl-radius-ctrl);
+    overflow: hidden;
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-markdown table th,
+body.tss-theme-glas .tss-markdown table td {
+    border: none;
+    border-bottom: 1px solid var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-markdown table tr,
+body.tss-theme-glas .tss-markdown table tr:nth-child(2n) {
+    background-color: transparent;
+}
+
+body.tss-theme-glas .tss-markdown table tr:nth-child(2n) {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-markdown table tr:nth-child(2n) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+body.tss-theme-glas .tss-markdown kbd {
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 1px 0 rgb(255, 255, 255), inset 0 -2px 0 rgba(84, 86, 150, 0.16), 0 0 0 1px rgba(84, 86, 150, 0.2);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-markdown kbd {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(200, 204, 255, 0.14);
+}

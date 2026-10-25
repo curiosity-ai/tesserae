@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Graustufe theme - DockPanel
+   --------------------------------------------------------------------------
+   An IDE laid out like a page: ruled panes, square tabs in the sans with
+   the active tab inverted, splitters ink.
+   ========================================================================== */
+
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.dockpanel.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-dockpanel,
+body.tss-theme-graustufe .tss-dockpanel-splitter::after,
+body.tss-theme-graustufe .tss-dockpanel-slot,
+body.tss-theme-graustufe .tss-dockpanel-document,
+body.tss-theme-graustufe .tss-dockpanel-button,
+body.tss-theme-graustufe .tss-dockpanel-restore,
+body.tss-theme-graustufe .tss-dockpanel-rail-tab,
+body.tss-theme-graustufe .tss-dockpanel-drag-ghost,
+body.tss-theme-graustufe .tss-dockpanel-preview,
+body.tss-theme-graustufe .tss-dockpanel-guide,
+body.tss-theme-graustufe .tss-dockpanel-guide::before,
+body.tss-theme-graustufe .tss-dockpanel-guide-fill {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dockpanel-flyout > .tss-dockpanel-slot,
+body.tss-theme-graustufe .tss-dockpanel-drag-ghost,
+body.tss-theme-graustufe .tss-dockpanel-guide {
+    box-shadow: none;
+}
+
+
+/* The active tab inverted; splitters ink. */
+body.tss-theme-graustufe .tss-dockpanel-tab {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-dockpanel-tab.tss-dockpanel-tab-active,
+body.tss-theme-graustufe .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-dockpanel-splitter-active::after {
+    background: var(--tss-gs-0);
+}

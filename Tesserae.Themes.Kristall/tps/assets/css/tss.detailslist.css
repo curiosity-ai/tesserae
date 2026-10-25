@@ -1,0 +1,30 @@
+/* Kristall theme - DetailsList: a list view; hairline rows, a quiet fill under the pointer, the selection wash. */
+
+body.tss-theme-kristall .tss-detailslist-header {
+    background: var(--tss-kr-box);
+    box-shadow: inset 0 -0.5px 0 var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-detailslist-column-header {
+    color: var(--tss-kr-label-2);
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-kr-separator);
+    border-top-width: 0.5px;
+}
+
+body.tss-theme-kristall .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-kr-separator);
+    border-bottom-width: 0.5px;
+}
+
+body.tss-theme-kristall .tss-detailslist-list-item-container:hover {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-detailslist-list-item-container.tss-selected,
+body.tss-theme-kristall .tss-detailslist-list-item-container.tss-detailslist-list-item-selected {
+    background: var(--tss-kr-selection);
+}

@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Zeitung theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   The editor is a coupon field with more lines: surface panel, grey hairline
+   frame on a line of ink that turns 2px red while you write; read-only, it
+   sits on the paper.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-annotated-text-container {
+    border: 1px solid var(--tss-zt-rule);
+    border-bottom-color: var(--tss-zt-ink);
+    background: var(--tss-zt-surface);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-annotated-text-container:hover {
+    border-color: var(--tss-zt-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-annotated-text-container:focus-within {
+    border-color: var(--tss-zt-ink);
+    border-bottom-color: var(--tss-zt-red);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-annotated-text-container.tss-annotated-text-readonly {
+    background: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-annotated-text-container.tss-disabled {
+    border-style: dotted;
+    background: transparent;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-annotated-text-entity,
+body.tss-theme-zeitung .tss-annotated-text-hover-tag {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Blaupause theme - CardPivot
+   --------------------------------------------------------------------------
+   A row of ruled cells, like the columns of a title block; the current one
+   is underlined with a heavy ink rule and washed.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-cardpivot-titlebar {
+    border-radius: 0;
+    border: var(--tss-bp-rule);
+    background: var(--tss-bp-sheet);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+body.tss-theme-blaupause .tss-cardpivot-tab {
+    border-right: var(--tss-bp-rule);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-cardpivot-tab:hover {
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: 3px solid var(--tss-bp-ink);
+    background-color: var(--tss-bp-wash);
+}

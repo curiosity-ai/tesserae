@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Blaupause theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a detail sheet laid over the drawing: square, a full ink line
+   round it with registration ticks in its corners, and its outline repeated
+   5px down and right (--tss-bp-lift) instead of a shadow. The header is
+   ruled off with a fine line; the footer is the sheet's title block, ruled
+   off with a double line and lettered on the fine grid. The page behind is
+   washed back with the paper's own colour.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-modal {
+    border-radius: 0;
+    border: var(--tss-bp-rule-strong);
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-modal.tss-embedded {
+    box-shadow: none;
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-modal-header {
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    box-shadow: inset 0 -1px 0 var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-modal-header-content .tss-textblock.tss-fontweight-bold,
+body.tss-theme-blaupause .tss-modal-header-content .tss-textblock.tss-fontweight-semibold {
+    font-family: var(--tss-bp-stencil);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-modal-footer {
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-modal-footer:has(> .tss-modal-footer-content:not(:empty)) {
+    border-top: 3px double var(--tss-bp-line);
+    background-image: var(--tss-bp-grid-small);
+}
+
+body.tss-theme-blaupause .tss-modal-header-commands > .tss-btn,
+body.tss-theme-blaupause .tss-modal-header-commands > button,
+body.tss-theme-blaupause .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-blaupause .tss-modal-left-header-commands > button {
+    border-radius: 0;
+    border: 1px solid transparent;
+}
+
+body.tss-theme-blaupause .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-blaupause .tss-modal-header-commands > button:hover,
+body.tss-theme-blaupause .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-blaupause .tss-modal-left-header-commands > button:hover {
+    background-color: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-blaupause .tss-modal-header-commands > button:active,
+body.tss-theme-blaupause .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-blaupause .tss-modal-left-header-commands > button:active {
+    background-image: var(--tss-bp-hatch);
+    color: var(--tss-bp-text);
+}

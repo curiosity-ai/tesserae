@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Graustufe theme - FileSelector / FileDropArea
+   --------------------------------------------------------------------------
+   The drop area is a dashed ink frame on paper; hovered with a file, it
+   fills with the sparse dither.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-filedroparea {
+    border: 2px dashed var(--tss-gs-0);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-filedroparea:hover,
+body.tss-theme-graustufe .tss-filedroparea.tss-dragover,
+body.tss-theme-graustufe .tss-filedroparea.tss-drag-over {
+    background: var(--tss-gs-bayer-12), var(--tss-gs-15);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.files.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-filedroparea,
+body.tss-theme-graustufe .tss-filedroparea-overlay {
+    border-radius: 0;
+}
+

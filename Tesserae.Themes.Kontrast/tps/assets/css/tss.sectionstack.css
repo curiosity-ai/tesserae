@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Kontrast theme - SectionStack
+   --------------------------------------------------------------------------
+   Sections are panels with a 2px edge, appearing in place (no slide-up).
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-sectionstack-item {
+    transition: none;
+}
+
+body.tss-theme-kontrast .tss-sectionstack-card {
+    background: var(--tss-kt-paper);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-line);
+}

@@ -1,0 +1,350 @@
+/* ==========================================================================
+   Kristall theme - Dropdown
+   --------------------------------------------------------------------------
+   Closed, a dropdown is the desktop's pop-up button: a push button face
+   (white, hairline edge, soft shadow) with the double chevron at its
+   trailing end on a small accent square. The keyboard lights the accent
+   halo round it; invalid draws a red edge.
+
+   Open, the list is a menu: a frosted, translucent rounded panel lit by a
+   1px inner stroke, floating on a soft shadow. Rows are 26px with a 5px
+   radius; the row under the pointer or the keyboard is the menu highlight,
+   solid accent with white type. A single select marks its chosen row with
+   a check at the leading edge; a multi select draws the native check box.
+   Headers are small grey captions, dividers hairlines. The row tokens are
+   shared with the Picker and the AutoCompleteBox lists.
+   ========================================================================== */
+
+body.tss-theme-kristall {
+    --tss-kr-chevrons: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M5.2 6.4 8 3.8l2.8 2.6M5.2 9.6 8 12.2l2.8-2.6' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --tss-kr-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.2 6.4 4.8 9 9.8 3.2' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   The closed box: a pop-up button
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-dropdown-container {
+    border: 0;
+    border-radius: 8px;
+    background: var(--tss-kr-control);
+    box-shadow: var(--tss-kr-shadow-control);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-dropdown-container {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.1));
+}
+
+body.tss-theme-kristall .tss-dropdown-container:hover {
+    background: var(--tss-kr-control);
+    box-shadow: var(--tss-kr-shadow-control);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-dropdown-container:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.12));
+}
+
+body.tss-theme-kristall .tss-dropdown-container:active {
+    background: var(--tss-kr-control-pressed);
+}
+
+body.tss-theme-kristall .tss-dropdown {
+    padding: 5px 10px;
+}
+
+body.tss-theme-kristall .tss-dropdown.tss-dropdown-custom-icon {
+    margin-right: 28px;
+    width: calc(100% - 28px);
+}
+
+body.tss-theme-kristall .tss-dropdown.tss-dropdown-noarrow {
+    padding: 0;
+}
+
+/* The double chevron on its accent square, in place of the default arrow glyph. */
+body.tss-theme-kristall .tss-dropdown-container > .tss-dropdown-icon.fi-rr-angle-down {
+    right: 7px;
+    top: calc(50% - 8px);
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+    background: var(--tss-kr-chevrons) center / 16px 16px no-repeat, var(--tss-kr-accent-face);
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.3), 0 0 0 0.5px rgba(0, 0, 0, 0.1);
+}
+
+body.tss-theme-kristall .tss-dropdown-container > .tss-dropdown-icon.fi-rr-angle-down::before {
+    display: none;
+}
+
+body.tss-theme-kristall .tss-dropdown-container > .tss-dropdown-icon {
+    color: var(--tss-kr-label-2);
+}
+
+/* A dropdown with no background or border is a pull-down in a toolbar: just the label and the chevrons, grey. */
+body.tss-theme-kristall .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-kristall .tss-dropdown-container.tss-dropdown-nobg:hover,
+body.tss-theme-kristall .tss-dropdown-container.tss-noborder,
+body.tss-theme-kristall .tss-dropdown-container.tss-noborder:hover {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-dropdown-nobg:hover,
+body.tss-theme-kristall .tss-dropdown-container.tss-noborder:hover {
+    background: var(--tss-kr-fill-3);
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-dropdown-nobg > .tss-dropdown-icon.fi-rr-angle-down,
+body.tss-theme-kristall .tss-dropdown-container.tss-noborder > .tss-dropdown-icon.fi-rr-angle-down {
+    background: var(--tss-kr-label-2);
+    -webkit-mask: var(--tss-kr-chevrons) center / 16px 16px no-repeat;
+    mask: var(--tss-kr-chevrons) center / 16px 16px no-repeat;
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    box-shadow: var(--tss-kr-shadow-control), var(--tss-kr-focus);
+}
+
+body.tss-theme-kristall .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-disabled {
+    background: var(--tss-kr-fill-4);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-separator);
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-disabled .tss-dropdown-item-on-box {
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-disabled > .tss-dropdown-icon.fi-rr-angle-down {
+    background: var(--tss-kr-chevrons) center / 16px 16px no-repeat, var(--tss-kr-fill);
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-invalid,
+body.tss-theme-kristall .tss-dropdown-container.tss-invalid:hover {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-invalid-border-color-root)), 0 0.5px 1.5px rgba(0, 0, 0, 0.12);
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+}
+
+body.tss-theme-kristall .tss-dropdown-error {
+    font-size: 11px;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-has-validation {
+    margin-bottom: 18px;
+}
+
+body.tss-theme-kristall .tss-dropdown-container.tss-has-validation > .tss-dropdown-error {
+    top: calc(100% + 3px);
+}
+
+/* --------------------------------------------------------------------------
+   The open list: a menu
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-dropdown-popup {
+    border: 0;
+    border-radius: var(--tss-kr-r-pop);
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-pop);
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+body.tss-theme-kristall .tss-dropdown-item,
+body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-item {
+    background: transparent;
+    border: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-item {
+    margin: 0 5px;
+    width: calc(100% - 10px);
+    border-radius: var(--tss-kr-r-small);
+    min-height: 26px;
+    padding: 3px 10px;
+}
+
+/* The highlight: solid accent, white type. */
+body.tss-theme-kristall .tss-dropdown-item:hover,
+body.tss-theme-kristall .tss-dropdown-item:focus,
+body.tss-theme-kristall .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-item:hover {
+    border: 0;
+    background: var(--tss-kr-accent);
+    color: var(--tss-kr-on-accent);
+    outline: none;
+}
+
+body.tss-theme-kristall .tss-dropdown-item:hover .tss-fontcolor-default,
+body.tss-theme-kristall .tss-dropdown-item:hover .tss-fontcolor-secondary,
+body.tss-theme-kristall .tss-dropdown-item.tss-dropdown-item-focus .tss-fontcolor-default,
+body.tss-theme-kristall .tss-dropdown-item.tss-dropdown-item-focus .tss-fontcolor-secondary,
+body.tss-theme-kristall .tss-dropdown-item:hover .tss-btn,
+body.tss-theme-kristall .tss-dropdown-item.tss-dropdown-item-focus .tss-btn {
+    color: var(--tss-kr-on-accent);
+}
+
+body.tss-theme-kristall .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus:not(:hover),
+body.tss-theme-kristall .tss-dropdown-popup.tss-no-focus .tss-dropdown-item:focus:not(:hover) {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus:not(:hover) .tss-fontcolor-default,
+body.tss-theme-kristall .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus:not(:hover) .tss-btn {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-dropdown-item.tss-disabled,
+body.tss-theme-kristall .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+    color: var(--tss-kr-label-3);
+}
+
+/* Single select: a check at the leading edge of the chosen row. */
+body.tss-theme-kristall .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item {
+    padding-left: 26px;
+}
+
+body.tss-theme-kristall .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    background: currentColor;
+    -webkit-mask: var(--tss-kr-check) center / 12px 12px no-repeat;
+    mask: var(--tss-kr-check) center / 12px 12px no-repeat;
+}
+
+/* Multi select: the native check box on every row. */
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item {
+    padding-left: 30px !important;
+}
+
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item:before {
+    left: 8px;
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 4px;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.22), 0 0.5px 1px rgba(0, 0, 0, 0.12);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-dropdown-multi > .tss-dropdown-item:before {
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item:after {
+    left: 13px;
+    width: 4px;
+    height: 8px;
+    border-color: transparent;
+    border-width: 0 2px 2px 0;
+    transform: translateY(calc(-50% - 1px)) rotate(45deg);
+}
+
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background: var(--tss-kr-accent-face);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.14);
+}
+
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before,
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item.tss-selected.tss-dropdown-item-focus:before {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-kr-on-accent);
+}
+
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
+    background: var(--tss-kr-fill-4);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline);
+}
+
+body.tss-theme-kristall .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background: var(--tss-kr-fill);
+}
+
+/* Headers and dividers. */
+body.tss-theme-kristall .tss-dropdown-header {
+    background: transparent;
+    min-height: 24px;
+    padding: 6px 15px 2px;
+    color: var(--tss-kr-label-2);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-dropdown-header .tss-btn,
+body.tss-theme-kristall .tss-dropdown-header .tss-btn:hover,
+body.tss-theme-kristall .tss-dropdown-header .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: default;
+}
+
+body.tss-theme-kristall .tss-dropdown-divider {
+    height: 1px;
+    margin: 5px 14px;
+    width: calc(100% - 28px);
+    background: var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-dropdown-popup mark {
+    background: rgba(var(--tss-kr-accent-rgb), 0.2);
+    color: inherit;
+    border-radius: 2px;
+}
+
+body.tss-theme-kristall .tss-dropdown-item:hover mark,
+body.tss-theme-kristall .tss-dropdown-item.tss-dropdown-item-focus mark {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+/* The search field at the top of the menu: the capsule search field. */
+body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-searchbox {
+    margin: 0 6px 2px;
+    width: calc(100% - 12px);
+    border: 0;
+    border-radius: var(--tss-kr-r-pill);
+    background: var(--tss-kr-fill-3);
+}
+
+body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 0;
+}
+
+body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
+    border-color: var(--tss-kr-accent) var(--tss-kr-fill) var(--tss-kr-fill);
+}

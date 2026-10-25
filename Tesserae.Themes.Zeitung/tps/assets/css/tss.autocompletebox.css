@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Zeitung theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The field is a coupon field; the suggestion list is a slip of newsprint
+   in an ink frame, the highlighted suggestion reversed out of ink and the
+   matched letters underlined in the spot red. The check status is set in
+   italic with its tone.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-autocompletebox-list {
+    background: var(--tss-zt-paper);
+    border: none;
+    border-radius: 0;
+    box-shadow: var(--tss-zt-float);
+}
+
+body.tss-theme-zeitung .tss-autocompletebox-item:hover {
+    background: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-autocompletebox-match {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--tss-zt-red);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+body.tss-theme-zeitung .tss-autocompletebox-status-text {
+    font-style: italic;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-autocompletebox-list {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

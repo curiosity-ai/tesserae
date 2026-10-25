@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Kontrast theme - DockPanel
+   --------------------------------------------------------------------------
+   The workspace is ruled in 2px; pane headers are ruled off from their
+   bodies. The active tab is bold with a 4px accent bar (not a 2px colour
+   line); rail tabs have an ink edge and the open one is filled. The 26px
+   pane buttons grow to 28px and take an edge under the pointer. Everything
+   in here clips, so focus rings are drawn inside.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-dockpanel {
+    --tss-dockpanel-radius: var(--tss-kt-radius);
+    --tss-dockpanel-accent: var(--tss-kt-accent);
+    --tss-dockpanel-header-height: 38px;
+    --tss-dockpanel-rail-size: 32px;
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-slot,
+body.tss-theme-kontrast .tss-dockpanel-document {
+    border: var(--tss-kt-border) solid var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-header {
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-caption {
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-dockpanel-icon,
+body.tss-theme-kontrast .tss-dockpanel-tab {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-tab {
+    border-bottom: 4px solid transparent;
+    margin-bottom: -2px;
+}
+
+body.tss-theme-kontrast .tss-dockpanel-tab:hover {
+    background: var(--tss-kt-hover);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-tab.tss-dockpanel-tab-active {
+    font-weight: 750;
+    border-bottom-color: var(--tss-kt-accent);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-button,
+body.tss-theme-kontrast .tss-dockpanel-restore {
+    width: 28px;
+    height: 28px;
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid transparent;
+}
+
+body.tss-theme-kontrast .tss-dockpanel-button:hover,
+body.tss-theme-kontrast .tss-dockpanel-restore:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-tab:focus-visible,
+body.tss-theme-kontrast .tss-dockpanel-button:focus-visible,
+body.tss-theme-kontrast .tss-dockpanel-rail-tab:focus-visible,
+body.tss-theme-kontrast .tss-dockpanel-restore:focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}
+
+body.tss-theme-kontrast .tss-dockpanel-rail-tab {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+    font-weight: 600;
+}
+
+body.tss-theme-kontrast .tss-dockpanel-rail-tab:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-rail-tab.tss-dockpanel-rail-tab-open {
+    background: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    border-color: var(--tss-kt-accent);
+    font-weight: 750;
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on {
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on i {
+    color: var(--tss-kt-on-accent);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-flyout {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.5);
+}
+
+body.tss-theme-kontrast .tss-dockpanel-splitter-active::after {
+    background: var(--tss-kt-accent);
+}

@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Phosphor theme - Rating
+   --------------------------------------------------------------------------
+   Unlit stars are dim; lit stars glow (amber, the second phosphor, so a
+   rating reads as a reading rather than a selection).
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-rating-star {
+    color: rgba(var(--tss-ph-ink-root), 0.28);
+}
+
+body.tss-theme-phosphor .tss-rating-star:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    border-radius: 0;
+}

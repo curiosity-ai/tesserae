@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Blaupause theme - ToolAgentSelector
+   --------------------------------------------------------------------------
+   The trigger is a ruled field, its list a sheet laid over the drawing
+   with ruled check boxes; the count is a callout balloon.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-toolagent-trigger,
+body.tss-theme-blaupause .tss-toolagent-popup,
+body.tss-theme-blaupause .tss-toolagent-item,
+body.tss-theme-blaupause .tss-toolagent-item-checkmark,
+body.tss-theme-blaupause .tss-toolagent-item-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-toolagent-trigger {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-toolagent-trigger:hover,
+body.tss-theme-blaupause .tss-toolagent-item:hover,
+body.tss-theme-blaupause .tss-toolagent-item.tss-toolagent-item-highlight {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-bp-line-strong);
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-toolagent-badge {
+    background: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+    box-shadow: none;
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-toolagent-popup {
+    border: var(--tss-bp-rule-strong);
+    background: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-toolagent-item-checkmark {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    background: var(--tss-bp-ink);
+    border-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after {
+    border-color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-toolagent-item-icon {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}

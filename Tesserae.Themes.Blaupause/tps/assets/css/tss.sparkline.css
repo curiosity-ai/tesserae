@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Blaupause theme - Sparkline
+   --------------------------------------------------------------------------
+   The reference line is a dashed centre line; the end point is a small
+   square mark.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-sparkline-reference {
+    stroke: var(--tss-bp-line);
+    stroke-dasharray: 6 2 1 2;
+    opacity: 1;
+}
+
+body.tss-theme-blaupause .tss-sparkline-end {
+    border-radius: 0;
+}

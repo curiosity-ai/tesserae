@@ -1,2 +1,639 @@
-/* Glas theme - tokens (scaffold; to be written) */
-body.tss-theme-glas { }
+/* ==========================================================================
+   Glas theme - tokens
+   --------------------------------------------------------------------------
+   Liquid glass over a colour field. The page is a soft, slowly varying wash
+   of colour (layered radial gradients fixed to the viewport), and everything
+   that holds content is a pane of glass laid over it: a translucent tint, a
+   frost of fine grain, a specular rim where the light catches the top-left
+   edge, a faint inner glow, and a soft deep shadow. Overlays (menus, modals,
+   panels, tooltips, toasts, the command palette) are the thick glass: they
+   blur and saturate what is behind them, and where the engine can, refract
+   it through a gentle displacement field. Light is clear frosted glass over
+   pastel light; dark is smoked glass over deep, saturated colour.
+
+   Everything is scoped under body.tss-theme-glas, the class GlasTheme adds
+   to the body while it is active. A derived variable
+   (--tss-x-color: rgb(var(--tss-x-color-root))) is resolved where it is
+   declared, so both are restated here.
+
+   One departure from the other themes: the derived surface colours
+   (--tss-default-background-color, --tss-secondary-background-color,
+   --tss-sidebar-background-color and the hover / active / disabled fills)
+   are translucent, while their -root triplets stay opaque. Every
+   component that paints var(--tss-default-background-color) becomes a pane
+   of glass without a rule of its own; anything that uses the root with its
+   own alpha (fades, overlays) still gets a solid colour to mix.
+
+   The tokens a component file can use (they follow the mode):
+
+   Colour
+     --tss-gl-ink / --tss-gl-muted        text and secondary text
+     --tss-gl-accent                      the iris accent (primary), as a colour
+     --tss-gl-accent-rgb                  the same as an r, g, b triplet for rgba()
+     --tss-gl-accent-ink                  accent used AS text on glass (contrast-safe)
+     --tss-gl-field                       the colour field (background shorthand for body)
+     --tss-gl-edge                        a hairline border on glass
+     --tss-gl-edge-strong                 the border of a field or a control that must be found
+
+   Glass (background values)
+     --tss-gl-pane                        a top-level pane: card, section, sidebar (tint + frost)
+     --tss-gl-pane-thick                  an overlay: menu, modal, popover (more tint, for text)
+     --tss-gl-pane-inner                  glass inside glass: a flat tint, no blur of its own
+     --tss-gl-well                        the fill of a field (input, track)
+     --tss-gl-frost                       the fine grain alone, to layer over any tint
+     --tss-gl-sheen                       a diagonal light sweep to layer over a tint
+
+   Glass (filter values for backdrop-filter)
+     --tss-gl-blur                        top-level panes
+     --tss-gl-blur-thick                  overlays
+     --tss-gl-refract                     overlays, where url() backdrop filters work (Chromium):
+                                          the displacement field, then the thick blur
+
+   Light (box-shadow values)
+     --tss-gl-rim                         the specular rim: top-left highlight, faint far edge
+     --tss-gl-glow                        a faint inner glow
+     --tss-gl-shadow                      a pane resting over the field
+     --tss-gl-shadow-float                anything lifted: menus, modals, toasts
+     --tss-gl-surface                     rim + glow + shadow, the whole pane
+     --tss-gl-surface-float               rim + glow + float shadow, the whole overlay
+     --tss-gl-focus                       the focus halo (an accent glow ring)
+
+   Lozenges (tinted glass for coloured controls)
+     --tss-gl-lozenge-shine               the gloss over the top half of a lozenge (background-image)
+     --tss-gl-lozenge-rim                 a lozenge's own rim
+
+   Shape and motion
+     --tss-gl-radius-pane    22px         modal, panel, section card, sidebar
+     --tss-gl-radius-card    16px         a card, a menu, a popover, a toast
+     --tss-gl-radius-ctrl    12px         a field, a list row, a tab
+     --tss-gl-radius-chip     8px         a chip, a tag, a small key
+     --tss-gl-ease                        a soft settle with a hint of overshoot
+     --tss-gl-quick                       160ms
+   ========================================================================== */
+
+body.tss-theme-glas {
+    --tss-gl-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-gl-muted: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-gl-accent-rgb: 92, 84, 236;
+    --tss-gl-accent: rgb(var(--tss-gl-accent-rgb));
+    --tss-gl-accent-ink: rgb(72, 62, 214);
+    --tss-gl-edge: rgba(84, 86, 150, 0.16);
+    --tss-gl-edge-strong: rgba(70, 72, 140, 0.32);
+
+    /* The colour field: lilac, sky, peach, mint and a breath of rose over a cool paper. */
+    --tss-gl-field:
+        radial-gradient(60% 55% at 6% 4%, rgba(176, 160, 255, 0.78) 0%, rgba(176, 160, 255, 0) 70%),
+        radial-gradient(50% 50% at 96% 6%, rgba(132, 206, 255, 0.72) 0%, rgba(132, 206, 255, 0) 70%),
+        radial-gradient(55% 55% at 92% 96%, rgba(255, 184, 156, 0.72) 0%, rgba(255, 184, 156, 0) 70%),
+        radial-gradient(55% 55% at 4% 98%, rgba(140, 232, 200, 0.66) 0%, rgba(140, 232, 200, 0) 70%),
+        radial-gradient(45% 40% at 55% 48%, rgba(255, 200, 236, 0.5) 0%, rgba(255, 200, 236, 0) 70%),
+        linear-gradient(160deg, rgb(238, 238, 252) 0%, rgb(244, 240, 248) 50%, rgb(240, 246, 250) 100%);
+
+    --tss-gl-frost: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px;
+    --tss-gl-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.08) 38%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.16) 100%);
+    --tss-gl-pane: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(255, 255, 255, 0.4);
+    --tss-gl-pane-thick: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(250, 250, 255, 0.58);
+    --tss-gl-pane-inner: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.22) 100%);
+    --tss-gl-well: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.72) 100%);
+
+    --tss-gl-blur: blur(20px) saturate(170%);
+    --tss-gl-blur-thick: blur(28px) saturate(190%) brightness(1.04);
+    --tss-gl-refract: blur(12px) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='r' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006 0.009' numOctaves='2' seed='11' result='n'/%3E%3CfeGaussianBlur in='n' stdDeviation='3' result='s'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='s' scale='40' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3C/svg%3E%23r") saturate(190%) brightness(1.04);
+
+    --tss-gl-rim: inset 1px 1px 0 rgba(255, 255, 255, 0.92), inset -1px -1px 0 rgba(255, 255, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.36);
+    --tss-gl-glow: inset 0 0 22px rgba(255, 255, 255, 0.28);
+    --tss-gl-shadow: 0 0 0 1px rgba(72, 70, 140, 0.07), 0 1px 3px rgba(60, 58, 130, 0.06), 0 10px 30px -10px rgba(60, 58, 130, 0.24);
+    --tss-gl-shadow-float: 0 0 0 1px rgba(72, 70, 140, 0.1), 0 4px 12px -4px rgba(50, 48, 120, 0.16), 0 26px 60px -18px rgba(50, 48, 120, 0.42);
+    --tss-gl-surface: var(--tss-gl-rim), var(--tss-gl-glow), var(--tss-gl-shadow);
+    --tss-gl-surface-float: var(--tss-gl-rim), var(--tss-gl-glow), var(--tss-gl-shadow-float);
+    --tss-gl-focus: 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.9), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.24);
+
+    --tss-gl-lozenge-shine: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.14) 48%, rgba(255, 255, 255, 0) 52%, rgba(255, 255, 255, 0.1) 100%);
+    --tss-gl-lozenge-rim: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+
+    --tss-gl-radius-pane: 22px;
+    --tss-gl-radius-card: 16px;
+    --tss-gl-radius-ctrl: 12px;
+    --tss-gl-radius-chip: 8px;
+    --tss-gl-ease: cubic-bezier(0.22, 1.2, 0.36, 1);
+    --tss-gl-quick: 160ms;
+
+    --tss-sansserif-font-family: "Glas Sans", "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --tss-monospace-font-family: "Glas Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 600;
+    --tss-font-weight-bold: 700;
+
+    /* Tesserae's shadow tokens, mapped onto the light. */
+    --tss-primary-shadow: 0 6px 16px -6px rgba(var(--tss-gl-accent-rgb), 0.55);
+    --tss-shadow-sm: var(--tss-gl-rim), 0 1px 2px rgba(60, 58, 130, 0.08);
+    --tss-shadow-sm-hover: var(--tss-gl-rim), 0 4px 12px -4px rgba(60, 58, 130, 0.22);
+    --tss-shadow: var(--tss-gl-surface);
+    --tss-shadow-hover: var(--tss-gl-rim), var(--tss-gl-glow), 0 0 0 1px rgba(72, 70, 140, 0.08), 0 16px 36px -12px rgba(60, 58, 130, 0.32);
+    --tss-shadow-md: var(--tss-gl-surface);
+    --tss-shadow-md-hover: var(--tss-gl-surface-float);
+    --tss-shadow-lg: var(--tss-gl-surface-float);
+    --tss-shadow-lg-hover: var(--tss-gl-surface-float);
+    --tss-shadow-xl: var(--tss-gl-surface-float);
+    --tss-shadow-xl-hover: var(--tss-gl-surface-float);
+    --tss-box-shadow: var(--tss-gl-surface-float);
+    --tss-box-shadow-darker: var(--tss-gl-surface-float);
+    --tss-card-shadow: var(--tss-gl-surface);
+    --tss-toast-shadow: var(--tss-gl-surface-float);
+
+    --tss-border-radius-sm: 8px;
+    --tss-border-radius-md: 12px;
+    --tss-border-radius-lg: 16px;
+    --tss-border-radius-xl: 22px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-ring-offset-width: 2px;
+    --tss-ring-offset-color: rgba(255, 255, 255, 0.8);
+    --tss-ring-opacity: 0.6;
+    --tss-ring-color: rgba(var(--tss-gl-accent-rgb), 0.6);
+
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: rgba(60, 58, 130, 0.28);
+    --tss-scrollbar-thumb-hidden-color: rgba(60, 58, 130, 0.12);
+    --tss-simplebar-thumb-color: rgba(60, 58, 130, 0.3);
+    --tss-overlay-light: rgba(236, 234, 252, 0.42);
+    --tss-overlay-dark: rgba(40, 36, 90, 0.28);
+
+    --tss-default-background-color-root: 244, 243, 252;
+    --tss-default-foreground-color-root: 26, 26, 52;
+    --tss-secondary-background-color-root: 236, 236, 248;
+    --tss-secondary-foreground-color-root: 76, 78, 112;
+    --tss-sidebar-background-color-root: 240, 239, 252;
+    --tss-disabled-background-color-root: 226, 226, 238;
+    --tss-disabled-foreground-color-root: 132, 134, 160;
+    --tss-default-border-color-root: 206, 206, 228;
+    --tss-dark-border-color-root: 136, 138, 176;
+    --tss-default-separator-color-root: 214, 214, 234;
+    --tss-invalid-border-color-root: 214, 36, 84;
+    --tss-default-background-hover-color-root: 228, 226, 246;
+    --tss-default-foreground-hover-color-root: 18, 18, 42;
+    --tss-default-background-active-color-root: 216, 214, 240;
+    --tss-default-foreground-active-color-root: 18, 18, 42;
+    --tss-progress-background-color-root: 220, 218, 240;
+    --tss-link-color-root: 72, 62, 214;
+    --tss-highlight-color-root: 92, 84, 236;
+    --tss-tooltip-background-color-root: 250, 250, 255;
+    --tss-tooltip-foreground-color-root: 26, 26, 52;
+    --tss-primary-background-color-root: 92, 84, 236;
+    --tss-primary-foreground-color-root: 255, 255, 255;
+    --tss-primary-border-color-root: 72, 62, 214;
+    --tss-primary-background-hover-color-root: 104, 96, 246;
+    --tss-primary-foreground-hover-color-root: 255, 255, 255;
+    --tss-primary-background-active-color-root: 78, 68, 220;
+    --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 250, 176, 52;
+    --tss-warning-foreground-color-root: 48, 30, 0;
+    --tss-warning-border-color-root: 214, 140, 20;
+    --tss-warning-background-hover-color-root: 252, 190, 80;
+    --tss-warning-foreground-hover-color-root: 48, 30, 0;
+    --tss-warning-background-active-color-root: 236, 160, 36;
+    --tss-warning-foreground-active-color-root: 48, 30, 0;
+    --tss-danger-background-color-root: 218, 36, 92;
+    --tss-danger-foreground-color-root: 255, 255, 255;
+    --tss-danger-border-color-root: 186, 24, 74;
+    --tss-danger-background-hover-color-root: 232, 52, 106;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
+    --tss-danger-background-active-color-root: 196, 28, 80;
+    --tss-danger-foreground-active-color-root: 255, 255, 255;
+    --tss-success-background-color-root: 8, 136, 104;
+    --tss-success-foreground-color-root: 255, 255, 255;
+    --tss-success-border-color-root: 6, 112, 86;
+    --tss-success-background-hover-color-root: 16, 152, 116;
+    --tss-success-foreground-hover-color-root: 255, 255, 255;
+    --tss-success-background-active-color-root: 6, 118, 90;
+    --tss-success-foreground-active-color-root: 255, 255, 255;
+    --tss-slider-color-root: 196, 196, 224;
+    --tss-slider-active-color-root: 92, 84, 236;
+    --tss-slider-disabled-color-root: 214, 214, 230;
+    --tss-primary-shadow-color-root: 92, 84, 236;
+
+    /* Chart series: the hues of the field, deepened so a line reads on glass. */
+    --tss-chart-series-1: rgb(92, 84, 236);
+    --tss-chart-series-2: rgb(20, 160, 210);
+    --tss-chart-series-3: rgb(236, 96, 120);
+    --tss-chart-series-4: rgb(16, 170, 130);
+    --tss-chart-series-5: rgb(244, 150, 40);
+    --tss-chart-series-6: rgb(184, 80, 220);
+    --tss-chart-series-7: rgb(60, 120, 240);
+    --tss-chart-series-8: rgb(120, 130, 160);
+
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Smoked glass over deep, saturated colour. */
+body.tss-theme-glas.tss-dark-mode {
+    --tss-gl-accent-rgb: 132, 122, 255;
+    --tss-gl-accent-ink: rgb(172, 164, 255);
+    --tss-gl-edge: rgba(200, 204, 255, 0.12);
+    --tss-gl-edge-strong: rgba(200, 204, 255, 0.34);
+
+    /* Violet, teal, magenta and cobalt glowing out of an ink-blue night. */
+    --tss-gl-field:
+        radial-gradient(60% 55% at 6% 4%, rgba(112, 56, 255, 0.62) 0%, rgba(112, 56, 255, 0) 70%),
+        radial-gradient(50% 50% at 96% 8%, rgba(0, 168, 196, 0.5) 0%, rgba(0, 168, 196, 0) 70%),
+        radial-gradient(55% 55% at 92% 96%, rgba(228, 36, 140, 0.48) 0%, rgba(228, 36, 140, 0) 70%),
+        radial-gradient(55% 55% at 4% 98%, rgba(36, 86, 255, 0.5) 0%, rgba(36, 86, 255, 0) 70%),
+        radial-gradient(45% 40% at 55% 48%, rgba(150, 40, 220, 0.26) 0%, rgba(150, 40, 220, 0) 70%),
+        linear-gradient(160deg, rgb(12, 12, 34) 0%, rgb(14, 10, 30) 50%, rgb(8, 14, 30) 100%);
+
+    --tss-gl-frost: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px;
+    --tss-gl-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 38%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.04) 100%);
+    --tss-gl-pane: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(20, 20, 46, 0.5);
+    --tss-gl-pane-thick: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(22, 22, 48, 0.6);
+    --tss-gl-pane-inner: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%);
+    --tss-gl-well: linear-gradient(180deg, rgba(4, 4, 20, 0.42) 0%, rgba(10, 10, 30, 0.3) 100%);
+
+    --tss-gl-blur: blur(20px) saturate(160%);
+    --tss-gl-blur-thick: blur(28px) saturate(170%) brightness(0.9);
+    --tss-gl-refract: blur(12px) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='r' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006 0.009' numOctaves='2' seed='11' result='n'/%3E%3CfeGaussianBlur in='n' stdDeviation='3' result='s'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='s' scale='40' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3C/svg%3E%23r") saturate(170%) brightness(0.9);
+
+    --tss-gl-rim: inset 1px 1px 0 rgba(255, 255, 255, 0.24), inset -1px -1px 0 rgba(255, 255, 255, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --tss-gl-glow: inset 0 0 26px rgba(150, 140, 255, 0.07);
+    --tss-gl-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3), 0 12px 32px -10px rgba(0, 0, 0, 0.6);
+    --tss-gl-shadow-float: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 4px 12px -4px rgba(0, 0, 0, 0.5), 0 28px 64px -16px rgba(0, 0, 0, 0.8);
+    --tss-gl-focus: 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.95), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.32);
+
+    --tss-gl-lozenge-shine: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.08) 48%, rgba(255, 255, 255, 0) 52%, rgba(255, 255, 255, 0.06) 100%);
+    --tss-gl-lozenge-rim: inset 0 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+
+    --tss-primary-shadow: 0 6px 18px -6px rgba(var(--tss-gl-accent-rgb), 0.7);
+    --tss-shadow-sm: var(--tss-gl-rim), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --tss-shadow-sm-hover: var(--tss-gl-rim), 0 4px 12px -4px rgba(0, 0, 0, 0.5);
+    --tss-shadow: var(--tss-gl-surface);
+    --tss-shadow-hover: var(--tss-gl-rim), var(--tss-gl-glow), 0 0 0 1px rgba(0, 0, 0, 0.35), 0 16px 36px -12px rgba(0, 0, 0, 0.7);
+    --tss-shadow-md: var(--tss-gl-surface);
+    --tss-shadow-md-hover: var(--tss-gl-surface-float);
+    --tss-shadow-lg: var(--tss-gl-surface-float);
+    --tss-shadow-lg-hover: var(--tss-gl-surface-float);
+    --tss-shadow-xl: var(--tss-gl-surface-float);
+    --tss-shadow-xl-hover: var(--tss-gl-surface-float);
+    --tss-box-shadow: var(--tss-gl-surface-float);
+    --tss-box-shadow-darker: var(--tss-gl-surface-float);
+    --tss-card-shadow: var(--tss-gl-surface);
+    --tss-toast-shadow: var(--tss-gl-surface-float);
+    --tss-gl-surface: var(--tss-gl-rim), var(--tss-gl-glow), var(--tss-gl-shadow);
+    --tss-gl-surface-float: var(--tss-gl-rim), var(--tss-gl-glow), var(--tss-gl-shadow-float);
+    --tss-border-radius-sm: 8px;
+    --tss-border-radius-md: 12px;
+    --tss-border-radius-lg: 16px;
+    --tss-border-radius-xl: 22px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-ring-offset-color: rgba(20, 20, 46, 0.8);
+    --tss-ring-color: rgba(var(--tss-gl-accent-rgb), 0.7);
+    --tss-scrollbar-thumb-color: rgba(220, 220, 255, 0.28);
+    --tss-scrollbar-thumb-hidden-color: rgba(220, 220, 255, 0.1);
+    --tss-simplebar-thumb-color: rgba(220, 220, 255, 0.3);
+    --tss-overlay-light: rgba(16, 14, 40, 0.42);
+    --tss-overlay-dark: rgba(4, 2, 16, 0.5);
+
+    --tss-default-background-color-root: 22, 22, 46;
+    --tss-default-foreground-color-root: 238, 238, 255;
+    --tss-secondary-background-color-root: 30, 30, 58;
+    --tss-secondary-foreground-color-root: 184, 186, 222;
+    --tss-sidebar-background-color-root: 20, 20, 44;
+    --tss-disabled-background-color-root: 36, 36, 62;
+    --tss-disabled-foreground-color-root: 120, 122, 160;
+    --tss-default-border-color-root: 62, 62, 104;
+    --tss-dark-border-color-root: 110, 112, 160;
+    --tss-default-separator-color-root: 50, 50, 88;
+    --tss-invalid-border-color-root: 255, 92, 136;
+    --tss-default-background-hover-color-root: 44, 44, 82;
+    --tss-default-foreground-hover-color-root: 255, 255, 255;
+    --tss-default-background-active-color-root: 54, 54, 96;
+    --tss-default-foreground-active-color-root: 255, 255, 255;
+    --tss-progress-background-color-root: 46, 46, 84;
+    --tss-link-color-root: 172, 164, 255;
+    --tss-highlight-color-root: 132, 122, 255;
+    --tss-tooltip-background-color-root: 30, 30, 60;
+    --tss-tooltip-foreground-color-root: 238, 238, 255;
+    --tss-primary-background-color-root: 104, 92, 246;
+    --tss-primary-foreground-color-root: 255, 255, 255;
+    --tss-primary-border-color-root: 132, 122, 255;
+    --tss-primary-background-hover-color-root: 118, 106, 255;
+    --tss-primary-foreground-hover-color-root: 255, 255, 255;
+    --tss-primary-background-active-color-root: 88, 78, 228;
+    --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 252, 184, 64;
+    --tss-warning-foreground-color-root: 40, 24, 0;
+    --tss-warning-border-color-root: 252, 196, 96;
+    --tss-warning-background-hover-color-root: 255, 198, 96;
+    --tss-warning-foreground-hover-color-root: 40, 24, 0;
+    --tss-warning-background-active-color-root: 236, 164, 44;
+    --tss-warning-foreground-active-color-root: 40, 24, 0;
+    --tss-danger-background-color-root: 226, 44, 100;
+    --tss-danger-foreground-color-root: 255, 255, 255;
+    --tss-danger-border-color-root: 255, 96, 144;
+    --tss-danger-background-hover-color-root: 240, 60, 116;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
+    --tss-danger-background-active-color-root: 200, 34, 86;
+    --tss-danger-foreground-active-color-root: 255, 255, 255;
+    --tss-success-background-color-root: 26, 178, 136;
+    --tss-success-foreground-color-root: 4, 24, 18;
+    --tss-success-border-color-root: 80, 220, 176;
+    --tss-success-background-hover-color-root: 40, 196, 152;
+    --tss-success-foreground-hover-color-root: 4, 24, 18;
+    --tss-success-background-active-color-root: 20, 156, 118;
+    --tss-success-foreground-active-color-root: 4, 24, 18;
+    --tss-slider-color-root: 70, 70, 116;
+    --tss-slider-active-color-root: 132, 122, 255;
+    --tss-slider-disabled-color-root: 50, 50, 84;
+    --tss-primary-shadow-color-root: 132, 122, 255;
+
+    --tss-chart-series-1: rgb(146, 136, 255);
+    --tss-chart-series-2: rgb(60, 206, 236);
+    --tss-chart-series-3: rgb(255, 112, 164);
+    --tss-chart-series-4: rgb(64, 220, 170);
+    --tss-chart-series-5: rgb(255, 184, 76);
+    --tss-chart-series-6: rgb(214, 120, 255);
+    --tss-chart-series-7: rgb(96, 156, 255);
+    --tss-chart-series-8: rgb(170, 176, 210);
+
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The derived colours, restated so they resolve against the roots above (one block serves both modes:
+   the roots are on the same element). */
+body.tss-theme-glas {
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+}
+
+/* ...and the surfaces among them are glass: translucent over the field, while the roots stay solid. */
+body.tss-theme-glas {
+    --tss-default-background-color: rgba(255, 255, 255, 0.5);
+    --tss-secondary-background-color: rgba(255, 255, 255, 0.3);
+    --tss-sidebar-background-color: rgba(255, 255, 255, 0.36);
+    --tss-default-background-hover-color: rgba(84, 76, 200, 0.08);
+    --tss-default-background-active-color: rgba(84, 76, 200, 0.14);
+    --tss-disabled-background-color: rgba(120, 122, 160, 0.12);
+    --tss-progress-background-color: rgba(84, 76, 200, 0.12);
+    --tss-default-border-color: rgba(84, 86, 150, 0.2);
+    --tss-default-separator-color: rgba(84, 86, 150, 0.14);
+    --tss-tooltip-background-color: rgba(250, 250, 255, 0.8);
+}
+
+body.tss-theme-glas.tss-dark-mode {
+    --tss-default-background-color: rgba(22, 22, 50, 0.48);
+    --tss-secondary-background-color: rgba(255, 255, 255, 0.05);
+    --tss-sidebar-background-color: rgba(16, 16, 40, 0.42);
+    --tss-default-background-hover-color: rgba(200, 196, 255, 0.1);
+    --tss-default-background-active-color: rgba(200, 196, 255, 0.16);
+    --tss-disabled-background-color: rgba(200, 200, 255, 0.06);
+    --tss-progress-background-color: rgba(200, 196, 255, 0.12);
+    --tss-default-border-color: rgba(200, 204, 255, 0.16);
+    --tss-default-separator-color: rgba(200, 204, 255, 0.1);
+    --tss-tooltip-background-color: rgba(28, 28, 58, 0.82);
+}
+
+
+/* --------------------------------------------------------------------------
+   Base: the field, type, selection, focus
+   -------------------------------------------------------------------------- */
+
+html:has(> body.tss-theme-glas) {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-glas {
+    background: var(--tss-gl-field);
+    background-attachment: fixed;
+    background-color: rgb(var(--tss-default-background-color-root));
+    font-family: var(--tss-sansserif-font-family);
+    font-feature-settings: "kern" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Native controls (date and time pickers, number spinners, the canvas of form widgets) follow the mode. */
+body.tss-theme-glas {
+    color-scheme: light;
+}
+
+body.tss-theme-glas.tss-dark-mode {
+    color-scheme: dark;
+}
+
+body.tss-theme-glas ::selection {
+    background: rgba(var(--tss-gl-accent-rgb), 0.24);
+}
+
+body.tss-theme-glas.tss-dark-mode ::selection {
+    background: rgba(var(--tss-gl-accent-rgb), 0.42);
+}
+
+/* Focus is a soft accent halo, the glow of light caught in the glass. */
+body.tss-theme-glas :focus-visible {
+    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.75);
+    outline-offset: 2px;
+}
+
+body.tss-theme-glas input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-glas textarea:focus-visible {
+    outline: none;
+}
+
+/* Tesserae's global button colour rule never matches (a stray "tss-btn-nobg" before it in
+   tss.button.css turns it into a descendant selector), so a raw <button> falls back to the
+   browser's black. :where() keeps this at element specificity, below every component's class. */
+:where(body.tss-theme-glas) button {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-glas a {
+    color: rgb(var(--tss-link-color-root));
+    text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   The glass utility: a class-free recipe, restated per component
+   --------------------------------------------------------------------------
+   A top-level pane:
+       background: var(--tss-gl-pane);
+       border: 1px solid transparent (or none);
+       border-radius: var(--tss-gl-radius-pane);
+       box-shadow: var(--tss-gl-surface);
+       (backdrop-filter only where something detailed can pass behind it)
+   An overlay:
+       background: var(--tss-gl-pane-thick);
+       box-shadow: var(--tss-gl-surface-float);
+       -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+       backdrop-filter: var(--tss-gl-blur-thick);
+       and, inside the refraction @supports block below, backdrop-filter: var(--tss-gl-refract).
+   Glass inside glass never blurs again: a backdrop-filter nested in another
+   only sees its parent's tint, not the page, so it would come out as mud.
+   It takes --tss-gl-pane-inner and the rim, nothing else.
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   Scrollbars: a slim liquid capsule
+   --------------------------------------------------------------------------
+   No track; a rounded thumb inset in a 10px slot. A ghost at rest, a deeper
+   tint while the pointer is over the scroller, the accent under the pointer
+   and while dragged. CSS only (see "Scrollbars are CSS only"): no script
+   watches scrolling or draws a bar. Firefox has no thumb to hover, so it
+   stops at the deeper tint.
+   -------------------------------------------------------------------------- */
+
+html:has(> body.tss-theme-glas),
+body.tss-theme-glas {
+    --tss-gl-sb-rest: rgba(60, 58, 130, 0.16);
+    --tss-gl-sb-near: rgba(60, 58, 130, 0.36);
+    --tss-gl-sb-hot: rgba(92, 84, 236, 0.85);
+}
+
+html:has(> body.tss-theme-glas.tss-dark-mode),
+body.tss-theme-glas.tss-dark-mode {
+    --tss-gl-sb-rest: rgba(220, 220, 255, 0.14);
+    --tss-gl-sb-near: rgba(220, 220, 255, 0.34);
+    --tss-gl-sb-hot: rgba(146, 136, 255, 0.9);
+}
+
+@supports selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-glas)::-webkit-scrollbar,
+    body.tss-theme-glas::-webkit-scrollbar,
+    body.tss-theme-glas ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-glas)::-webkit-scrollbar-corner,
+    body.tss-theme-glas::-webkit-scrollbar-corner,
+    body.tss-theme-glas ::-webkit-scrollbar-corner,
+    html:has(> body.tss-theme-glas)::-webkit-scrollbar-track,
+    body.tss-theme-glas::-webkit-scrollbar-track,
+    body.tss-theme-glas ::-webkit-scrollbar-track,
+    body.tss-theme-glas *:hover::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-glas)::-webkit-scrollbar-thumb,
+    body.tss-theme-glas::-webkit-scrollbar-thumb,
+    body.tss-theme-glas ::-webkit-scrollbar-thumb {
+        background: var(--tss-gl-sb-rest);
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        min-height: 32px;
+        min-width: 32px;
+    }
+
+    html:has(> body.tss-theme-glas):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-glas:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-glas *:hover::-webkit-scrollbar-thumb {
+        background: var(--tss-gl-sb-near);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-glas)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-glas::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-glas ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-glas *:hover::-webkit-scrollbar-thumb:hover,
+    html:has(> body.tss-theme-glas)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-glas::-webkit-scrollbar-thumb:active,
+    body.tss-theme-glas ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-glas *:hover::-webkit-scrollbar-thumb:active {
+        background: var(--tss-gl-sb-hot);
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+
+    html:has(> body.tss-theme-glas)::-webkit-scrollbar-button,
+    body.tss-theme-glas::-webkit-scrollbar-button,
+    body.tss-theme-glas ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-glas),
+    body.tss-theme-glas,
+    body.tss-theme-glas * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-gl-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-glas):hover,
+    body.tss-theme-glas *:hover {
+        scrollbar-color: var(--tss-gl-sb-near) transparent;
+    }
+}
+
+/* Skeletons shimmer like light running over glass. */
+body.tss-theme-glas .tss-skeleton .tss-image,
+body.tss-theme-glas .tss-skeleton .tss-label label,
+body.tss-theme-glas .tss-skeleton .tss-icon,
+body.tss-theme-glas .tss-skeleton .tss-textblock,
+body.tss-theme-glas .tss-skeleton .tss-btn {
+    border-radius: var(--tss-gl-radius-chip);
+}
+
+/* A Sandbox frame shows a document the app does not style: its type is the browser's default black, on a
+   transparent canvas. On smoked glass that would be black on near-black, so the frame gets a clear, light
+   pane of its own in both modes, the way a page of paper would sit behind glass. */
+body.tss-theme-glas iframe.tss-sandbox {
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode iframe.tss-sandbox {
+    background: rgba(246, 246, 255, 0.94);
+}

@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Blaupause theme - Spinner
+   --------------------------------------------------------------------------
+   A compass arc turning on a hairline circle, in ink.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-spinner {
+    --tss-spinner-color: var(--tss-bp-ink);
+    border-color: var(--tss-spinner-color) var(--tss-bp-line-faint) var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-spinner.tss-spinner-progress {
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-bp-line-faint) 0);
+}
+
+body.tss-theme-blaupause .tss-spinner-label {
+    color: var(--tss-bp-ink);
+    font-family: var(--tss-bp-mono);
+}

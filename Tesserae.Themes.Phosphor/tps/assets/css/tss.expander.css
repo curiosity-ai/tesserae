@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Phosphor theme - Expander / Accordion
+   --------------------------------------------------------------------------
+   An expander is a fold in a text listing: a single-line box whose header
+   row is marked "+" closed and "-" open in front of the title (the chevron
+   stays, at the end of the row), lit faintly under the pointer. The body
+   is ruled off from the header by a dashed line.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-expander {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-accordion .tss-expander + .tss-expander {
+    border-top-color: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-expander-header:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-expander-header:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: -2px;
+}
+
+body.tss-theme-phosphor .tss-expander-title::before {
+    content: "+ ";
+    white-space: pre;
+    color: var(--tss-ph-dim);
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-expander.tss-expanded .tss-expander-title::before {
+    content: "- ";
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-expander.tss-expanded .tss-expander-title {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-expander-content {
+    border-top: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-expander-icon {
+    border-radius: 0;
+}

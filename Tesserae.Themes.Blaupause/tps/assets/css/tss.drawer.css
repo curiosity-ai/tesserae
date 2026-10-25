@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Blaupause theme - Drawer
+   --------------------------------------------------------------------------
+   A drawer is a sheet slid up from the foot of the drawing: square, inked
+   along its edges, its handle a short dimension line.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-drawer {
+    border-radius: 0;
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+    border: var(--tss-bp-rule-strong);
+    border-bottom: none;
+    box-shadow: 0 -5px 0 -1px var(--tss-bp-paper), 0 -5px 0 0 var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-drawer-handle-bar {
+    border-radius: 0;
+    height: 7px;
+    width: 44px;
+    background: var(--tss-bp-line);
+    clip-path: polygon(0 0, 1px 0, 1px calc(50% - 0.5px), calc(100% - 1px) calc(50% - 0.5px), calc(100% - 1px) 0, 100% 0, 100% 100%, calc(100% - 1px) 100%, calc(100% - 1px) calc(50% + 0.5px), 1px calc(50% + 0.5px), 1px 100%, 0 100%);
+}
+
+body.tss-theme-blaupause .tss-drawer-close {
+    border-radius: 0;
+    border: 1px solid transparent;
+}
+
+body.tss-theme-blaupause .tss-drawer-close:hover {
+    background-color: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-drawer-footer {
+    border-top: 3px double var(--tss-bp-line);
+}

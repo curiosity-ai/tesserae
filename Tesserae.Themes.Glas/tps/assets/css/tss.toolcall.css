@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Glas theme - ToolCall, ToolsUsed
+   --------------------------------------------------------------------------
+   A tool call is a small pane of clear glass with a lit rim; the "tools
+   used" summary is a capsule of the same glass. Their icons sit in beads.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-toolcall {
+    border: none;
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-toolcall > .tss-toolcall-header {
+    border-radius: 11px;
+}
+
+body.tss-theme-glas .tss-toolcall-header:hover,
+body.tss-theme-glas .tss-toolsused-header:hover,
+body.tss-theme-glas .tss-toolsused-list-row:hover,
+body.tss-theme-glas .tss-toolcall-secondary-action:hover,
+body.tss-theme-glas .tss-toolsused-back:hover {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-toolcall-header:hover,
+body.tss-theme-glas.tss-dark-mode .tss-toolsused-header:hover,
+body.tss-theme-glas.tss-dark-mode .tss-toolsused-list-row:hover,
+body.tss-theme-glas.tss-dark-mode .tss-toolcall-secondary-action:hover,
+body.tss-theme-glas.tss-dark-mode .tss-toolsused-back:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-glas .tss-toolcall-content {
+    background: transparent;
+}
+
+body.tss-theme-glas .tss-toolsused-header {
+    border: none;
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-toolsused-header {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-glas .tss-toolsused-inline-list,
+body.tss-theme-glas .tss-toolcallinspect-response {
+    border: none;
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-toolcall-icon,
+body.tss-theme-glas .tss-toolsused-icon,
+body.tss-theme-glas .tss-toolsused-list-icon,
+body.tss-theme-glas .tss-toolsused-modal-detail-icon {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-toolcall-icon,
+body.tss-theme-glas.tss-dark-mode .tss-toolsused-icon,
+body.tss-theme-glas.tss-dark-mode .tss-toolsused-list-icon,
+body.tss-theme-glas.tss-dark-mode .tss-toolsused-modal-detail-icon {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-toolcall-secondary-action {
+    border-color: var(--tss-gl-edge);
+    border-radius: 999px;
+}

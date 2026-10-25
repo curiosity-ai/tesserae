@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Blaupause theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   A badge is a revision tag on a drawing: square, ruled, lettered in small
+   capitals. Filled tones are filled regions of the same box. A pill is the
+   one round shape the theme keeps, because a drawing's callout balloons are
+   round. A tinted token keeps its tint as its line and lettering, over a
+   light wash of it.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-token {
+    border-radius: 0;
+    border: 1px solid var(--tss-bp-line);
+    background: transparent;
+    color: var(--tss-bp-text);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 10.5px;
+}
+
+body.tss-theme-blaupause .tss-chip {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-blaupause .tss-token-filled {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-tag {
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-token-primary {
+    background: var(--tss-bp-ink);
+    border-color: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-token-success {
+    background: rgb(var(--tss-success-background-color-root));
+    border-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-token-warning {
+    background: rgb(var(--tss-warning-background-color-root));
+    border-color: rgb(var(--tss-warning-border-color-root));
+    color: rgb(var(--tss-warning-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-token-danger {
+    background: rgb(var(--tss-danger-background-color-root));
+    border-color: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-token-info {
+    background: rgb(var(--tss-link-color-root));
+    border-color: rgb(var(--tss-link-color-root));
+    color: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-token-outline {
+    background: transparent;
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-token-outline.tss-token-success {
+    color: rgb(var(--tss-success-background-color-root));
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-token-outline.tss-token-info {
+    color: rgb(var(--tss-link-color-root));
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-token-outline.tss-token-primary {
+    color: var(--tss-bp-ink);
+    border-color: var(--tss-bp-ink);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-token-outline.tss-token-danger {
+    color: var(--tss-bp-red);
+    border-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-token-outline.tss-token-warning {
+    color: var(--tss-bp-text);
+    border-color: rgb(var(--tss-warning-border-color-root));
+    background: var(--tss-bp-yellow-wash);
+}
+
+body.tss-theme-blaupause .tss-token-tinted {
+    background: color-mix(in srgb, var(--tss-token-tint) 12%, transparent);
+    border-color: color-mix(in srgb, var(--tss-token-tint) 70%, transparent);
+}
+
+body.tss-theme-blaupause .tss-token-dot {
+    border-radius: 0;
+}

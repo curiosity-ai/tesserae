@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Zeitung theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A separator is a column rule laid flat: a hairline of ink. With a label,
+   the label is a kicker - condensed capitals, tracked - set into the rule.
+   The primary variant sets the kicker in the spot red.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-horizontalseparator-container::before,
+body.tss-theme-zeitung .tss-horizontalseparator-container::after {
+    background-color: var(--tss-zt-ink);
+    opacity: 0.55;
+}
+
+body.tss-theme-zeitung .tss-horizontalseparator:not(:empty) {
+    font-family: var(--tss-zt-head);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-zeitung .tss-horizontalseparator.tss-primary {
+    color: var(--tss-zt-red-ink);
+}

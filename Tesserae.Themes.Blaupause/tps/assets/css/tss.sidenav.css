@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Blaupause theme - Sidenav
+   --------------------------------------------------------------------------
+   The rail is the sheet's margin, ruled off from the drawing like the
+   sidebar. Entries are square cells; the current one is boxed in ink with
+   the highlighter stripe at its edge. Notification dots are square marks.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-sidenav {
+    border-right: var(--tss-bp-rule);
+    box-shadow: 4px 0 0 -3px var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-sidenav-footer {
+    border-top: var(--tss-bp-rule);
+}
+
+body.tss-theme-blaupause .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    letter-spacing: 0;
+}
+
+body.tss-theme-blaupause .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-blaupause .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: linear-gradient(90deg, var(--tss-bp-yellow) 0 3px, transparent 3px), var(--tss-bp-wash);
+    color: var(--tss-bp-text);
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-sidenav-btn-dot {
+    border-radius: 0;
+    background: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
+    background: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-sidenav-btn-dot.tss-sidenav-btn-dot-warning {
+    background: var(--tss-bp-yellow);
+}
+
+body.tss-theme-blaupause .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    border: var(--tss-bp-rule-strong);
+}

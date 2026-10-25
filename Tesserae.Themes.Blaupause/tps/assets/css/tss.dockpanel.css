@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Blaupause theme - DockPanel
+   --------------------------------------------------------------------------
+   A workspace is a sheet divided into ruled viewports: panes are boxes
+   with a fine line, their headers lettered strips, the canvas between them
+   the drafting grid. The current tab is underlined in ink; the drop
+   preview is hatched, the guides ruled cells.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-dockpanel,
+body.tss-theme-blaupause .tss-dockpanel-splitter::after,
+body.tss-theme-blaupause .tss-dockpanel-slot,
+body.tss-theme-blaupause .tss-dockpanel-document,
+body.tss-theme-blaupause .tss-dockpanel-button,
+body.tss-theme-blaupause .tss-dockpanel-restore,
+body.tss-theme-blaupause .tss-dockpanel-rail-tab,
+body.tss-theme-blaupause .tss-dockpanel-drag-ghost,
+body.tss-theme-blaupause .tss-dockpanel-preview,
+body.tss-theme-blaupause .tss-dockpanel-guide,
+body.tss-theme-blaupause .tss-dockpanel-guide::before,
+body.tss-theme-blaupause .tss-dockpanel-guide-fill {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-dockpanel {
+    --tss-dockpanel-radius: 0;
+    --tss-dockpanel-accent: var(--tss-bp-ink);
+    background: var(--tss-bp-grid);
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-slot,
+body.tss-theme-blaupause .tss-dockpanel-document {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-header {
+    border-bottom-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-tab {
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-blaupause .tss-dockpanel-tab:hover,
+body.tss-theme-blaupause .tss-dockpanel-button:hover,
+body.tss-theme-blaupause .tss-dockpanel-restore:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-tab.tss-dockpanel-tab-active {
+    border-bottom-color: var(--tss-bp-ink);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-restore {
+    box-shadow: 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-splitter:hover::after,
+body.tss-theme-blaupause .tss-dockpanel-splitter-active::after {
+    background: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-rail-tab {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-flyout > .tss-dockpanel-slot,
+body.tss-theme-blaupause .tss-dockpanel-drag-ghost {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-preview {
+    background: var(--tss-bp-hatch);
+    border: 1px dashed var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-guide {
+    border-color: var(--tss-bp-line-strong);
+    background: var(--tss-bp-sheet);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-dockpanel-guide-hover {
+    background: var(--tss-bp-yellow-wash);
+}
+
+body.tss-theme-blaupause .tss-dockpanel-guide::before {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on {
+    background: var(--tss-bp-wash);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-ink);
+}

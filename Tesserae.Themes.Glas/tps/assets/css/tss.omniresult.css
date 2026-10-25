@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Glas theme - OmniResult
+   --------------------------------------------------------------------------
+   A result row condenses into a pane of clear glass under the pointer; the
+   selected one is tinted with the accent; the footer popup and the preview
+   modal are the theme's floating glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-omniresult {
+    border-radius: var(--tss-gl-radius-card);
+}
+
+body.tss-theme-glas .tss-omniresult:hover,
+body.tss-theme-glas .tss-omniresult.tss-omniresult-menu-open {
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-omniresult:hover,
+body.tss-theme-glas.tss-dark-mode .tss-omniresult.tss-omniresult-menu-open {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-glas .tss-omniresult.tss-omniresult-selected {
+    background: rgba(var(--tss-gl-accent-rgb), 0.1);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas .tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 2px rgba(var(--tss-gl-accent-rgb), 0.8);
+}
+
+body.tss-theme-glas .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border: none;
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-omniresult-menu-button {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-modal.tss-omniresult-modal {
+    border-radius: var(--tss-gl-radius-pane);
+}
+
+body.tss-theme-glas .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: inset 0 1px 0 var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.tss-theme-glas .tss-omniresult-modal-button {
+    border-radius: 999px;
+}

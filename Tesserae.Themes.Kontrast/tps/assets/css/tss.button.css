@@ -1,0 +1,345 @@
+/* ==========================================================================
+   Kontrast theme - Button
+   --------------------------------------------------------------------------
+   A button is a sign you can press: a 2px-edged plate, bold label, at least
+   40px tall (28px small), square-ish corners. The default button carries an
+   ink edge so its boundary is always visible; an icon-only or no-background
+   button is a ghost at rest and takes the edge under the pointer. Primary is
+   the accent plate (ink in light, signal yellow in dark); danger and success
+   are solid with an icon in their sample, and warning is the yellow plate
+   with black type in both modes.
+
+   State never rides on colour alone: hover adds a fill, pressed adds an
+   inner rule along the bottom edge and shifts the plate a pixel, disabled is
+   hatched with a dashed edge (and stays readable), and a link button is
+   always underlined.
+   ========================================================================== */
+
+/* Geometry is set with :where() so it carries one class of weight: a component that sizes a button it
+   embeds (a dropdown's chip, a pivot's tab, a toolbar's 24px command) with two classes keeps its size. */
+body.tss-theme-kontrast :where(.tss-btn) {
+    border-width: var(--tss-kt-border);
+    border-style: solid;
+    border-radius: var(--tss-kt-radius);
+    font-weight: 700;
+    min-height: 40px;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-kontrast :where(.tss-btn:not(.tss-btn-only-icon):not(.tss-small):not(.tss-btn-link):not(.tss-btn-less-padding):not(.tss-btn-remove-padding)) {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+body.tss-theme-kontrast :where(.tss-btn.tss-small) {
+    min-height: 28px;
+}
+
+body.tss-theme-kontrast :where(.tss-btn.tss-btn-nominsize) {
+    min-height: 24px;
+    min-width: 24px;
+}
+
+body.tss-theme-kontrast .tss-btn:focus {
+    box-shadow: none;
+}
+
+/* Default: paper plate with an ink edge. */
+body.tss-theme-kontrast .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-kt-edge);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):hover {
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-edge);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active {
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-pressed);
+    border-color: var(--tss-kt-edge);
+    box-shadow: inset 0 -3px 0 0 var(--tss-kt-ink);
+}
+
+/* A button rendered as the content of another component's row or chip is part of that row: no frame of
+   its own. */
+body.tss-theme-kontrast .tss-dropdown-item-on-box .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+body.tss-theme-kontrast .tss-dropdown-item .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
+    border-color: transparent;
+    background: transparent;
+    font-weight: inherit;
+    box-shadow: none;
+}
+
+/* Icon-only, no-background and no-border buttons are ghosts at rest: they sit in toolbars, headers and rows
+   where a frame on each would turn the strip into a grid. Under the pointer they take the ink edge. */
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-btn-only-icon:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-noborder:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-btn-only-icon:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-noborder:not(.tss-disabled):hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-edge);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-default.tss-btn-only-icon:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-noborder:not(.tss-disabled):active {
+    background: var(--tss-kt-pressed);
+    border-color: var(--tss-kt-edge);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-nohover:hover {
+    background: transparent;
+    border-color: transparent;
+}
+
+/* Primary: the accent plate. Pressed in light turns the label signal yellow; in dark the plate goes white. */
+body.tss-theme-kontrast .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg) {
+    color: var(--tss-primary-foreground-color);
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-border-color);
+    filter: none;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):hover {
+    color: var(--tss-primary-foreground-hover-color);
+    background: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-border-color);
+    box-shadow: none;
+    filter: none;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):active {
+    color: var(--tss-primary-foreground-active-color);
+    background: var(--tss-primary-background-active-color);
+    border-color: var(--tss-kt-ink);
+    box-shadow: inset 0 -3px 0 0 var(--tss-primary-foreground-active-color);
+    filter: none;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg) .tss-fontcolor-default,
+body.tss-theme-kontrast .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):hover .tss-fontcolor-default,
+body.tss-theme-kontrast .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):active .tss-fontcolor-default {
+    color: inherit;
+}
+
+/* Danger, success, warning: solid plates; the edge goes ink under the pointer so hover is not only a shade. */
+body.tss-theme-kontrast .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg),
+body.tss-theme-kontrast .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg),
+body.tss-theme-kontrast .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg) {
+    filter: none;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):hover {
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg):active {
+    border-color: var(--tss-kt-ink);
+    box-shadow: inset 0 -3px 0 0 currentColor;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nobg) {
+    border-color: var(--tss-kt-ink);
+}
+
+/* A toned button with no background is type in its tone, and stays readable: warning text is ink with
+   a yellow underline in light (yellow type on white would be 1.4:1). */
+body.tss-theme-kontrast .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-kontrast.tss-dark-mode .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-danger);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-success);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-kontrast.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-signal);
+}
+
+/* Disabled: a hatched plate with a dashed edge. The label stays at AA, so it can still be read. */
+body.tss-theme-kontrast .tss-btn.tss-disabled {
+    color: var(--tss-kt-disabled);
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+    box-shadow: none;
+    filter: none;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-disabled .tss-fontcolor-default {
+    color: var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-disabled,
+body.tss-theme-kontrast .tss-btn.tss-btn-nobg.tss-disabled {
+    background: none;
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-disabled > span {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+/* Links: always underlined, link-coloured, thicker under the pointer. */
+body.tss-theme-kontrast .tss-btn.tss-btn-link {
+    min-height: 32px;
+    border: none;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-link:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-link);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link > span,
+body.tss-theme-kontrast .tss-btn.tss-btn-linkonhover:hover > span {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-link:not(.tss-disabled):active {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link:not(.tss-disabled):hover > span {
+    text-decoration-thickness: 4px;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-link);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-danger);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-success);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-kontrast.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-kt-signal);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-dark,
+body.tss-theme-kontrast .tss-btn.tss-btn-link.tss-dark .tss-fontcolor-default {
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-linkonhover:hover,
+body.tss-theme-kontrast .tss-btn.tss-btn-linkonhover:hover .tss-fontcolor-default {
+    color: var(--tss-kt-link);
+}
+
+/* A toggle button that is off: its label is not greyed into illegibility; it is struck through instead. */
+body.tss-theme-kontrast .tss-toggle-btn-unchecked .tss-fontcolor-default {
+    color: var(--tss-kt-muted);
+}
+
+/* Button + icon pair (split button): one plate with an inner rule. */
+body.tss-theme-kontrast .tss-btn-and-icon {
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-btn-and-icon .tss-btn {
+    border-width: 0 !important;
+    min-height: 36px;
+}
+
+body.tss-theme-kontrast .tss-btn-and-icon .tss-btn + .tss-btn {
+    border-left: var(--tss-kt-border) solid var(--tss-kt-edge) !important;
+}
+
+/* The spinner ring is drawn thicker, and its outcome keeps a mark (check or cross), never only a colour. */
+body.tss-theme-kontrast .tss-btn .tss-btn-spin-ring > svg {
+    stroke-width: 4;
+}
+
+body.tss-theme-kontrast .tss-btn .tss-btn-spin-ring .tss-btn-spin-track {
+    stroke-opacity: .35;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default),
+body.tss-theme-kontrast .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    color: var(--tss-success-foreground-color);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    color: var(--tss-danger-foreground-color);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-btn {
+        border-color: ButtonText !important;
+        forced-color-adjust: auto;
+    }
+
+    body.tss-theme-kontrast .tss-btn.tss-disabled {
+        border-color: GrayText !important;
+        color: GrayText;
+    }
+
+    body.tss-theme-kontrast .tss-btn.tss-btn-link {
+        color: LinkText;
+    }
+}

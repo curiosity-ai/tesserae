@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Kristall theme - OmniBox
+   --------------------------------------------------------------------------
+   The omnibox is a text field when it searches and a composer when it
+   chats: the field's white well with a hairline edge (a faint lift of glass
+   in the dark appearance), 8px corners for a field and 16px for the chat
+   panel, and the accent halo when it has focus. Its end buttons lose their
+   dividers and become borderless glyphs that get a quiet fill under the
+   pointer. Inside the command palette it gives all of that up.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-omnibox-container:not(.tss-commandpalette-search) {
+    --tss-omnibox-radius: 8px;
+    border-color: transparent;
+    background: var(--tss-kr-field);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline), inset 0 0.5px 0 rgba(0, 0, 0, 0.05);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-omnibox-container:not(.tss-commandpalette-search) {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.14);
+}
+
+body.tss-theme-kristall .tss-omnibox-container.tss-omnibox-chat-and-search:not(.tss-commandpalette-search),
+body.tss-theme-kristall .tss-omnibox-container.tss-omnibox-mode-chat:not(.tss-commandpalette-search) {
+    --tss-omnibox-radius: 16px;
+}
+
+body.tss-theme-kristall .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-commandpalette-search) {
+    --tss-omnibox-radius: 999px;
+}
+
+body.tss-theme-kristall .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search:not(.tss-commandpalette-search),
+body.tss-theme-kristall .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat:not(.tss-commandpalette-search) {
+    --tss-omnibox-radius: 24px;
+}
+
+body.tss-theme-kristall .tss-omnibox-container:not(.tss-commandpalette-search):focus-within {
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-kr-accent-rgb), 0.8), var(--tss-kr-focus);
+}
+
+body.tss-theme-kristall .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container,
+body.tss-theme-kristall .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+body.tss-theme-kristall .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-kristall .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn,
+body.tss-theme-kristall .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left-color: transparent;
+    border-right-color: transparent;
+    background: transparent;
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-omnibox-container .tss-omnibox-search-container .tss-btn:hover {
+    background: var(--tss-kr-fill-4) !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-kristall .tss-omnibox-search-input::placeholder,
+body.tss-theme-kristall .tss-omnibox-chat-input::placeholder {
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-omnibox-container.tss-disabled .tss-omnibox-search-container {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-omnibox-inline-chip {
+    border-radius: var(--tss-kr-r-pill);
+}

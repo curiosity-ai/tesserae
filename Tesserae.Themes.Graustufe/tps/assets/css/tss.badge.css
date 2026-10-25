@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Graustufe theme - Badge / Tag / Chip (tokens)
+   --------------------------------------------------------------------------
+   Tokens are small printed stamps: square (a chip keeps a 2px corner, a
+   pill stays a pill because its shape is its meaning), 1px ink rule, the
+   sans at semibold. Tones are greys and frames: primary is inverted (ink,
+   paper type), danger inverted and framed twice, success a dark grey,
+   warning a light grey with ink type, info paper with an ink underline. An
+   outline token is ink on paper whatever its tone. A tinted token keeps the
+   lightness of its tint and drops its hue.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-token {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-chip {
+    border-radius: 2px;
+}
+
+body.tss-theme-graustufe .tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-graustufe .tss-token-filled {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-token-primary {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-token-danger {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    outline: 1px solid var(--tss-gs-0);
+    outline-offset: 1px;
+}
+
+body.tss-theme-graustufe .tss-token-success {
+    background: var(--tss-gs-6);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-token-warning {
+    background: var(--tss-gs-12);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-token-info {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+body.tss-theme-graustufe .tss-token-outline,
+body.tss-theme-graustufe .tss-token-outline.tss-token-primary,
+body.tss-theme-graustufe .tss-token-outline.tss-token-success,
+body.tss-theme-graustufe .tss-token-outline.tss-token-warning,
+body.tss-theme-graustufe .tss-token-outline.tss-token-danger,
+body.tss-theme-graustufe .tss-token-outline.tss-token-info {
+    background: transparent;
+    color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-token-outline.tss-token-danger {
+    border-style: double;
+    border-width: 3px;
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-token-outline.tss-token-warning {
+    border-style: dashed;
+}
+
+body.tss-theme-graustufe .tss-token-tinted {
+    filter: var(--tss-gs-panel);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-token-remove:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tag {
+    background: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+}

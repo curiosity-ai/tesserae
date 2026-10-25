@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Phosphor theme - OmniResult
+   --------------------------------------------------------------------------
+   A search result is a listing row: square, lit faintly under the pointer
+   or with its menu open, selected with a lit bar at its edge.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-omniresult {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-omniresult:hover,
+body.tss-theme-phosphor .tss-omniresult.tss-omniresult-menu-open {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-omniresult.tss-omniresult-selected {
+    background: var(--tss-ph-tint);
+    box-shadow: inset 3px 0 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 1px var(--tss-ph-cursor);
+}

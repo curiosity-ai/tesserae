@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Graustufe theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   Radio buttons stay round (a round mark is the one shape that says "one of
+   these"): an ink ring, and when chosen a solid ink dot inside it. Under
+   the pointer an unchosen ring shows a grey dot.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-option-container {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-option-container .tss-option-mark {
+    border: 1px solid var(--tss-gs-0);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-option-container .tss-option-mark:after {
+    border-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-option-container:hover .tss-option-mark {
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-graustufe .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-graustufe .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+body.tss-theme-graustufe .tss-option-container.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-option-container.tss-disabled .tss-option-mark {
+    border: 1px dashed var(--tss-gs-9);
+    background: var(--tss-gs-14);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-gs-9);
+}

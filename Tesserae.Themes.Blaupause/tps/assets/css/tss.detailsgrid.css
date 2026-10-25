@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Blaupause theme - DetailsGrid
+   --------------------------------------------------------------------------
+   Label and value pairs as the rows of a title block: a ruled box, rows
+   divided by fine lines, labels in small capitals.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-detailsgrid {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-detailsgrid-row {
+    border-bottom: 1px solid var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-detailsgrid-row:last-child {
+    border-bottom: none;
+}
+
+body.tss-theme-blaupause .tss-detailsgrid-label {
+    color: var(--tss-bp-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-detailsgrid-borderless,
+body.tss-theme-blaupause .tss-detailsgrid-stacked,
+body.tss-theme-blaupause .tss-detailsgrid-stacked.tss-detailsgrid-multicolumn {
+    border: none;
+}
+
+body.tss-theme-blaupause .tss-detailsgrid-borderless .tss-detailsgrid-row,
+body.tss-theme-blaupause .tss-detailsgrid-multicolumn .tss-detailsgrid-row,
+body.tss-theme-blaupause .tss-detailsgrid-stacked .tss-detailsgrid-row {
+    border-bottom: none;
+}

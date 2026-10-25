@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Kontrast theme - Mermaid diagrams
+   --------------------------------------------------------------------------
+   A diagram is a wayfinding map: paper, ink lines (not grey), nodes on the
+   surface with an ink edge, bold labels, the accent for what is called out.
+   The frame matches a code block: a 2px ink edge, square-ish corners.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-mermaid {
+    --pele-bg: var(--tss-kt-paper);
+    --pele-fg: var(--tss-kt-ink);
+    --pele-muted: var(--tss-kt-muted);
+    --pele-line: var(--tss-kt-ink);
+    --pele-surface: var(--tss-kt-surface);
+    --pele-surface-alt: var(--tss-kt-hover);
+    --pele-border: var(--tss-kt-ink);
+    --pele-accent: var(--tss-kt-accent);
+    --pele-title-weight: 750;
+    --pele-heading-weight: 750;
+    --pele-radius: var(--tss-kt-radius);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast:not(.tss-dark-mode) .tss-mermaid {
+    --pele-accent: var(--tss-kt-link);
+}

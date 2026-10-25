@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Kontrast theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   A row of keys in one 2px frame, divided by 2px rules. The chosen segment
+   is reversed (accent fill, bold), so it reads by fill and weight, and its
+   neighbours stay legible at 7:1 (they are ink, not grey).
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-kontrast .tss-segmentedpivot-titlebar {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: none;
+    padding: 0;
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    border: none;
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot-tab {
+    color: var(--tss-kt-ink);
+    border-radius: 0;
+    font-size: var(--tss-font-size-small);
+    font-weight: 600;
+    padding: 9px 16px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    transition: none;
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot-tab + .tss-segmentedpivot-tab {
+    box-shadow: inset var(--tss-kt-border) 0 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot-tab:hover {
+    background: var(--tss-kt-hover);
+    color: var(--tss-kt-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-kontrast .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    font-weight: 750;
+    text-decoration: none;
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-kt-on-accent);
+}
+
+body.tss-theme-kontrast .tss-segmentedpivot-tab:focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+        forced-color-adjust: none;
+        background: Highlight;
+        color: HighlightText;
+    }
+}

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Phosphor theme - Timeline
+   --------------------------------------------------------------------------
+   A timeline is a log: a single vertical rule with a square tick for each
+   entry, each entry a single-line box.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-ph-rule), var(--tss-ph-rule)) no-repeat center/1px 100%;
+}
+
+body.tss-theme-phosphor .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-ph-rule), var(--tss-ph-rule)) no-repeat 20px 0px/1px 100%;
+}
+
+body.tss-theme-phosphor .tss-timeline-container::after {
+    border-radius: 0;
+    width: 12px;
+    height: 12px;
+    border-width: 1px;
+    background: var(--tss-timeline-circle-color, var(--tss-ph-cursor));
+    border-color: var(--tss-timeline-circle-color, var(--tss-ph-cursor));
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-timeline-container .tss-timeline-content {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    box-shadow: none;
+    background: rgb(var(--tss-secondary-background-color-root));
+}

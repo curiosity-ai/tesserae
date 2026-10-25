@@ -1,7 +1,17 @@
 namespace Tesserae.Themes.Zeitung
 {
     /// <summary>
-    /// A broadsheet-newspaper Tesserae custom theme: off-white newsprint, serif text, hairline column rules, small-caps labels and one spot red.
+    /// A broadsheet-newspaper Tesserae custom theme. The light mode is the morning edition: warm off-white newsprint with a
+    /// faint fibre, black ink and one spot red printed sparingly (the primary action, the "you are here" marks, focus). The
+    /// dark mode is the night edition: the same pages on dark grey-black stock with ink-white type and a brighter red.
+    ///
+    /// <para>
+    /// Typography carries the design: a variable serif with real small caps and old-style figures for text (Source Serif 4,
+    /// bundled as "Zeitung Serif"), a condensed gothic for headlines and kickers (Oswald), a blackletter nameplate
+    /// (UnifrakturMaguntia) and a typewriter for code (Courier Prime), all OFL and bundled. There are no shadows and no
+    /// rounded corners: hairline column rules and the thick-and-thin double rule do the work, cards are boxed articles,
+    /// tables are market listings with tabular figures, Markdown opens with a drop cap and sets blockquotes as pull quotes.
+    /// </para>
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Graustufe theme - Timeline
+   --------------------------------------------------------------------------
+   A 1px ink spine with ink rings on it; each entry a ruled slip with the
+   small dithered edge.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-gs-0), var(--tss-gs-0)) no-repeat center/1px 100%;
+}
+
+body.tss-theme-graustufe .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-gs-0), var(--tss-gs-0)) no-repeat 20px 0px/1px 100%;
+}
+
+body.tss-theme-graustufe .tss-timeline-container::after {
+    background: var(--tss-gs-15);
+    border: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-timeline-container .tss-timeline-content {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-sm);
+}

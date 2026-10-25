@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Glas theme - MetadataPanel
+   --------------------------------------------------------------------------
+   Sections are divided by hairlines of light; links are accent ink.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-metadata-section {
+    border-bottom-color: var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-metadata-item-link {
+    color: var(--tss-gl-accent-ink);
+}

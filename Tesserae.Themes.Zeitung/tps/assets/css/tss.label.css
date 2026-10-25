@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Zeitung theme - Label
+   --------------------------------------------------------------------------
+   A field's label is a caption: the serif's small caps, tracked, in ink,
+   over or beside the field. The required mark is the spot red.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-label > label {
+    font-variant-caps: all-small-caps;
+    font-variant-numeric: lining-nums;
+    letter-spacing: var(--tss-zt-sc);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-label.tss-required > label::after,
+body.tss-theme-zeitung .tss-label > label.tss-required::after {
+    color: var(--tss-zt-red);
+}

@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Zeitung theme - toolagentselector
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-toolagent-trigger,
+body.tss-theme-zeitung .tss-toolagent-badge,
+body.tss-theme-zeitung .tss-toolagent-popup,
+body.tss-theme-zeitung .tss-toolagent-item,
+body.tss-theme-zeitung .tss-toolagent-item-checkmark,
+body.tss-theme-zeitung .tss-toolagent-item-icon {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

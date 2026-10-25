@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Blaupause theme - Layer
+   --------------------------------------------------------------------------
+   A layer's content is a sheet laid over the drawing.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-layer-content {
+    background-color: var(--tss-bp-sheet);
+    border: var(--tss-bp-rule-strong);
+}
+
+body.tss-theme-blaupause .tss-layer-content.tss-layer-content-transparent {
+    background-color: transparent;
+    border-color: transparent;
+}

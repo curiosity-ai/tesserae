@@ -1,0 +1,25 @@
+/* Kristall theme - DataTable: a list view in a grouped box; header in small secondary semibold, hairline rows. */
+
+body.tss-theme-kristall .tss-datatable {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: var(--tss-kr-box);
+    box-shadow: var(--tss-kr-shadow-box);
+}
+
+body.tss-theme-kristall .tss-datatable-header {
+    background: transparent;
+    border-bottom: 0.5px solid var(--tss-kr-separator);
+    color: var(--tss-kr-label-2);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-kristall .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 0.5px solid var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-datatable-row:hover {
+    background: var(--tss-kr-fill-4);
+}

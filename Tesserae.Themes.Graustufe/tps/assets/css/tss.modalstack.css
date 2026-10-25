@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Graustufe theme - ModalStack
+   --------------------------------------------------------------------------
+   Stacked sheets: each a leaf with the dithered edge, square.
+   ========================================================================== */
+
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.modalstack.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-modalstack-trail-step {
+    border-radius: 0;
+}
+
+
+body.tss-theme-graustufe .tss-modalstack-scrim {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-modalstack-sheets > .tss-modalstack-sheet {
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-modalstack-trail-current {
+    font-weight: 700;
+}

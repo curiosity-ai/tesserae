@@ -1,0 +1,193 @@
+/* ==========================================================================
+   Graustufe theme - Sidebar
+   --------------------------------------------------------------------------
+   The reader's table of contents: a plate one step darker than the page,
+   closed off by a 1px ink rule. Rows are set in the legible sans; a section
+   is a small heading in the book face with a hairline running after it,
+   the way a contents page heads a part. Under the pointer a row gets an ink
+   frame. The page you are on is inverted: an ink bar with paper type, the
+   reader's "current chapter" mark. Collapsing the rail is instant.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-sidebar {
+    background: var(--tss-gs-14);
+    border-right: var(--tss-gs-rule);
+    font-family: var(--tss-gs-ui);
+}
+
+/* The brand: the book's title. */
+body.tss-theme-graustufe .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-graustufe .tss-sidebar-identity-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-sidebar-identity-subtitle {
+    font-family: var(--tss-gs-ui);
+    color: var(--tss-gs-6);
+}
+
+/* --------------------------------------------------------------------------
+   Rows
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: 0;
+    font-weight: 500;
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-gs-0);
+    background-color: var(--tss-gs-14);
+    border-color: var(--tss-gs-0);
+}
+
+/* The current page: inverted. */
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-gs-15);
+    background: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) i,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) i,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) i {
+    color: var(--tss-gs-15);
+}
+
+/* The commands on the current row sit on the ink too. */
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn i,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands > a > .tss-btn {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    border-color: var(--tss-gs-15);
+    background: transparent;
+}
+
+/* A nav group that contains the current page: the frame, not the inversion (it is not a destination). */
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    color: var(--tss-gs-0);
+    background: transparent;
+    border-color: transparent;
+    border-left: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-graustufe .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border: solid var(--tss-gs-0);
+    border-width: 0 1.5px 1.5px 0;
+}
+
+/* The sorting ghost: a dithered row. */
+body.tss-theme-graustufe .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-graustufe .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-bayer-25);
+}
+
+/* --------------------------------------------------------------------------
+   Section headings: the contents page's part titles
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 0;
+    border-top: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-sidebar-section-header {
+    font-family: var(--tss-gs-text);
+}
+
+body.tss-theme-graustufe .tss-sidebar.tss-sidebar-closed .tss-sidebar-header .tss-sidebar-identity-separated,
+body.tss-theme-graustufe .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated,
+body.tss-theme-graustufe .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-sidebar-status-card {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+/* --------------------------------------------------------------------------
+   The search field in the rail
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-sidebar .tss-searchbox-container {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container {
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Pages, overlays and the flyout of a collapsed rail
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-sidebar-page-bar {
+    border-bottom: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-sidebar-page-bar-title,
+body.tss-theme-graustufe .tss-sidebar-nav-overlay-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    border-image: var(--tss-gs-edge);
+    box-shadow: none;
+}
+
+/* Badges on a row: ink chips. */
+body.tss-theme-graustufe .tss-sidebar-badges > .tss-btn {
+    border-radius: 0;
+}
+
+/* The navbar (the sidebar laid out as a top bar). */
+body.tss-theme-graustufe .tss-navbar {
+    box-shadow: none !important;
+    border-bottom: var(--tss-gs-rule);
+    border-right: 0;
+}

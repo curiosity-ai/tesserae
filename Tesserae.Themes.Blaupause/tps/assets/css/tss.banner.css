@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Blaupause theme - Banner
+   --------------------------------------------------------------------------
+   A banner is a general note across the drawing: a square box ruled in its
+   tone with a heavier stripe at its leading edge, lettered in the drawing's
+   ink. Warning uses the highlighter, danger the red pencil.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-banner {
+    border-radius: 0;
+    border-color: color-mix(in srgb, var(--tss-banner-accent) 70%, transparent);
+    background: color-mix(in srgb, var(--tss-banner-accent) 6%, var(--tss-bp-sheet));
+    box-shadow: inset 4px 0 0 var(--tss-banner-accent);
+}
+
+body.tss-theme-blaupause .tss-banner-flat {
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-banner-danger {
+    --tss-banner-accent: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-banner-warning {
+    --tss-banner-accent: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-blaupause.tss-dark-mode .tss-banner-warning {
+    --tss-banner-accent: var(--tss-bp-yellow);
+}
+
+body.tss-theme-blaupause .tss-banner-title {
+    font-size: 12px;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-blaupause.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-banner-accent);
+}
+
+body.tss-theme-blaupause .tss-banner-badge-pill.tss-badge {
+    border-color: var(--tss-banner-accent);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-btn.tss-banner-dismiss-button {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-toast-container > .tss-banner {
+    border: none;
+}

@@ -1,0 +1,9 @@
+/* ==========================================================================
+   Blaupause theme - Popover
+   --------------------------------------------------------------------------
+   The popover's arrow takes the sheet colour of the panel it points from.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-bp-line-strong);
+}

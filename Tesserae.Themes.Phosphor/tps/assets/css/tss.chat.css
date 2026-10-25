@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Phosphor theme - Chat
+   --------------------------------------------------------------------------
+   A chat is a talk session on a terminal: the area is the screen, messages
+   are lines of text, the scroll-down button and remove buttons square
+   cells that invert under the pointer.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-chatarea {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-chatarea-scrollbtn,
+body.tss-theme-phosphor .tss-chatmessage-remove,
+body.tss-theme-phosphor.tss-dark-mode .tss-chatmessage-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-chatmessage-remove,
+body.tss-theme-phosphor.tss-dark-mode .tss-chatmessage-remove {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-chatmessage-remove:hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-chatmessage-remove:hover {
+    background: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-chatmessage-avatar {
+    border-radius: 0;
+}

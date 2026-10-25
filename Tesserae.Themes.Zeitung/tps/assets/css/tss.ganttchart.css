@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Zeitung theme - GanttChart
+   --------------------------------------------------------------------------
+   A Gantt chart is a printed schedule: no outer box but the thick-and-thin
+   rule over the head and an ink line under it, the header in condensed
+   tracked capitals, rows divided by hairlines, the time grid dotted, the
+   bars square in the chart inks.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-gantt {
+    --tss-gantt-border: 1px solid var(--tss-zt-hair);
+    border: none;
+    border-bottom: 1px solid var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, transparent;
+    padding-top: var(--tss-zt-band-h);
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-gantt-header-label,
+body.tss-theme-zeitung .tss-gantt-header-track {
+    background: transparent;
+    border-bottom: 1px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-gantt-header-label {
+    font-family: var(--tss-zt-head);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-zeitung .tss-gantt-row-label {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-gantt-line {
+    border-left: 1px dotted var(--tss-zt-rule);
+}
+
+body.tss-theme-zeitung .tss-gantt-bar {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-gantt-bar-blue    { --tss-gantt-bar-color: var(--tss-chart-series-4); }
+body.tss-theme-zeitung .tss-gantt-bar-green   { --tss-gantt-bar-color: var(--tss-chart-series-6); }
+body.tss-theme-zeitung .tss-gantt-bar-orange  { --tss-gantt-bar-color: var(--tss-chart-series-5); }
+body.tss-theme-zeitung .tss-gantt-bar-red     { --tss-gantt-bar-color: var(--tss-chart-series-2); }
+body.tss-theme-zeitung .tss-gantt-bar-yellow  { --tss-gantt-bar-color: var(--tss-chart-series-5); }
+body.tss-theme-zeitung .tss-gantt-bar-neutral { --tss-gantt-bar-color: var(--tss-chart-series-3); }

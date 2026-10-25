@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Blaupause theme - IconToggle
+   --------------------------------------------------------------------------
+   A ruled strip of symbol cells; the chosen cell is filled with ink and its
+   symbol drawn out of it in paper. No inset shadow.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-icon-toggle {
+    --tss-icon-toggle-radius: 0;
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: var(--tss-bp-wash);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background-image: var(--tss-bp-hatch);
+}
+
+body.tss-theme-blaupause .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-blaupause .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-blaupause.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-blaupause.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline-color: var(--tss-bp-red);
+}

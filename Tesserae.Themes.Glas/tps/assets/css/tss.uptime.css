@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Glas theme - Uptime
+   --------------------------------------------------------------------------
+   Tesserae paints this one in fixed light greys and white. On glass the
+   empty and future days are frosted, the month cards are panes of clear
+   glass, and the coloured days carry a little gloss, in both modes.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-uptime-bars span,
+body.tss-theme-glas .tss-uptime-bars span.none,
+body.tss-theme-glas .tss-uptime-month-empty {
+    background: rgba(84, 86, 150, 0.14);
+}
+
+body.tss-theme-glas .tss-uptime-bars span.future,
+body.tss-theme-glas .tss-uptime-month-day.future {
+    background: rgba(84, 86, 150, 0.07);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-uptime-bars span,
+body.tss-theme-glas.tss-dark-mode .tss-uptime-bars span.none,
+body.tss-theme-glas.tss-dark-mode .tss-uptime-month-empty {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-uptime-bars span.future,
+body.tss-theme-glas.tss-dark-mode .tss-uptime-month-day.future {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-glas .tss-uptime-bars span.operational { background: rgba(var(--tss-success-background-color-root), 0.85); }
+body.tss-theme-glas .tss-uptime-bars span.minor { background: rgba(var(--tss-warning-background-color-root), 0.9); }
+body.tss-theme-glas .tss-uptime-bars span.major { background: rgba(var(--tss-danger-background-color-root), 0.88); }
+body.tss-theme-glas .tss-uptime-bars span.maintenance { background: rgba(var(--tss-gl-accent-rgb), 0.85); }
+
+body.tss-theme-glas .tss-uptime-bars span:not(.none):not(.future) {
+    background-image: var(--tss-gl-lozenge-shine);
+}
+
+body.tss-theme-glas .tss-uptime-month-card {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 8px 20px -12px rgba(60, 58, 130, 0.35);
+}
+
+body.tss-theme-glas .tss-uptime-month-empty.tss-uptime-month-empty,
+body.tss-theme-glas.tss-dark-mode .tss-uptime-month-empty.tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-glas .tippy-box[data-theme~='uptime'] {
+    border: none;
+}

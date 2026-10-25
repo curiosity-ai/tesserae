@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Blaupause theme - Diagram
+   --------------------------------------------------------------------------
+   A diagram canvas is the drafting board: the dot field becomes a fine
+   grid, nodes are square ruled boxes with no shadow, connectors inked.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-diagram {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-diagram {
+    --tss-diagram-dot-color: var(--tss-bp-grid-coarse);
+    --tss-diagram-line-color: var(--tss-bp-line-strong);
+    border-color: var(--tss-bp-line);
+    background-color: var(--tss-bp-paper);
+    background-image: linear-gradient(var(--tss-bp-grid-fine) 1px, transparent 1px), linear-gradient(90deg, var(--tss-bp-grid-fine) 1px, transparent 1px);
+    background-size: 12px 12px;
+}
+
+body.tss-theme-blaupause .tss-diagram.tss-diagram-no-dots {
+    background-image: none;
+}
+
+body.tss-theme-blaupause .tss-diagram-node {
+    border-radius: 0;
+    box-shadow: none;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-blaupause .tss-diagram-node:hover,
+body.tss-theme-blaupause .tss-diagram-node.tss-diagram-node-dragging {
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-diagram-node-default {
+    border-color: var(--tss-bp-line-strong);
+    background-color: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-diagram-node-secondary {
+    border-color: var(--tss-bp-line);
+    border-style: dashed;
+    background-color: var(--tss-bp-sheet);
+}

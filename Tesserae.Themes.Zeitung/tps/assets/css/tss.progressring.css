@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Zeitung theme - ProgressRing
+   --------------------------------------------------------------------------
+   A ring is drawn in ink on a hairline track, its reading in lining figures.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-progressring {
+    --tss-progressring-track-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-progressring-fill {
+    stroke: var(--tss-zt-ink);
+    stroke-linecap: butt;
+}
+
+body.tss-theme-zeitung .tss-progressring-label {
+    font-variant-numeric: lining-nums tabular-nums;
+    font-weight: 700;
+}

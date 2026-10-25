@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Graustufe theme - Markdown
+   --------------------------------------------------------------------------
+   Markdown is the most book-like thing in the toolkit, so it is set as a
+   book: the reading face at a comfortable measure and leading, headings in
+   the same face (bold, the first two ruled underneath in ink), links
+   underlined ink, block quotes indented behind a 3px ink rule in italic,
+   tables ruled like a printed table, inline code a small ruled box in the
+   mono, code blocks on paper inside a 1px frame with a dithered drop edge.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-markdown {
+    font-family: var(--tss-gs-text);
+    line-height: 1.6;
+    color: var(--tss-gs-0);
+    hyphens: auto;
+}
+
+body.tss-theme-graustufe .tss-markdown h1,
+body.tss-theme-graustufe .tss-markdown h2,
+body.tss-theme-graustufe .tss-markdown h3,
+body.tss-theme-graustufe .tss-markdown h4,
+body.tss-theme-graustufe .tss-markdown h5,
+body.tss-theme-graustufe .tss-markdown h6 {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-markdown h1,
+body.tss-theme-graustufe .tss-markdown h2 {
+    border-bottom: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-markdown h6 {
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-markdown a {
+    color: var(--tss-gs-0);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe .tss-markdown a:hover {
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-graustufe .tss-markdown hr {
+    background: var(--tss-gs-0);
+    height: 1px;
+}
+
+body.tss-theme-graustufe .tss-markdown blockquote {
+    color: var(--tss-gs-4);
+    font-style: italic;
+    border-left: 3px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-markdown table th,
+body.tss-theme-graustufe .tss-markdown table td {
+    border: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-markdown table th {
+    font-family: var(--tss-gs-ui);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-markdown table tr,
+body.tss-theme-graustufe .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-gs-15);
+    border-top: 0;
+}
+
+body.tss-theme-graustufe .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-gs-14);
+}
+
+body.tss-theme-graustufe .tss-markdown code {
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule-faint);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-markdown pre {
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tss-markdown pre code {
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-markdown kbd {
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-bottom-width: 3px;
+    border-radius: 2px;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-markdown mark {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}

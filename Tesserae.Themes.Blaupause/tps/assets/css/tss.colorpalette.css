@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Blaupause theme - ColorPalette
+   --------------------------------------------------------------------------
+   Swatches are colour chips cut square, ringed with a fine line; the
+   chosen one boxed in ink.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-colorpalette-swatch {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 1px var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-colorpalette-swatch:focus-visible {
+    outline-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px var(--tss-bp-sheet), 0 0 0 3px var(--tss-bp-ink);
+}

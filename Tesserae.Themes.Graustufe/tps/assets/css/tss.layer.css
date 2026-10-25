@@ -1,0 +1,11 @@
+/* ==========================================================================
+   Graustufe theme - Layer
+   --------------------------------------------------------------------------
+   A plain layer's content is a leaf: paper, ink frame, dithered edge.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-layer-content:not(.tss-layer-content-transparent) {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+}

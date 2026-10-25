@@ -1,0 +1,161 @@
+/* ==========================================================================
+   Kontrast theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   A token is a small plate with a 2px edge, square-ish corners and bold
+   type, at least 22px tall. Filled tones use the status pairs (each 7:1);
+   outlined tones keep their type in the tone where that is 7:1 on the page,
+   and fall back to ink where it is not (warning in light). A user-tinted
+   label keeps its tint as the edge and a wash, and its text in ink. The
+   remove button is a 20px target with an edge under the pointer.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-token {
+    border: var(--tss-kt-border) solid var(--tss-kt-line);
+    border-radius: var(--tss-kt-radius-sm);
+    min-height: 22px;
+    padding: 1px 8px;
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: 650;
+    line-height: 1.35;
+    background: var(--tss-kt-surface);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-badge {
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-tag {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-chip,
+body.tss-theme-kontrast .tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-kontrast .tss-token-outline {
+    background: transparent;
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-token-filled {
+    background: var(--tss-kt-surface);
+}
+
+body.tss-theme-kontrast .tss-token-primary {
+    background: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    border-color: var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-token-success {
+    background: var(--tss-success-background-color);
+    color: var(--tss-success-foreground-color);
+    border-color: var(--tss-success-background-color);
+}
+
+body.tss-theme-kontrast .tss-token-danger {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+    border-color: var(--tss-danger-background-color);
+}
+
+body.tss-theme-kontrast .tss-token-warning {
+    background: var(--tss-warning-background-color);
+    color: var(--tss-warning-foreground-color);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-token-warning {
+    border-color: var(--tss-kt-signal);
+}
+
+body.tss-theme-kontrast .tss-token-info {
+    background: var(--tss-kt-link);
+    border-color: var(--tss-kt-link);
+    color: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-token-outline.tss-token-primary {
+    color: var(--tss-kt-ink);
+    border-color: var(--tss-kt-ink);
+    background: transparent;
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-token-outline.tss-token-primary {
+    color: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-token-outline.tss-token-success,
+body.tss-theme-kontrast .tss-token-outline.tss-token-danger,
+body.tss-theme-kontrast .tss-token-outline.tss-token-info {
+    background: transparent;
+}
+
+body.tss-theme-kontrast .tss-token-outline.tss-token-success {
+    color: var(--tss-kt-success);
+    border-color: var(--tss-kt-success);
+}
+
+body.tss-theme-kontrast .tss-token-outline.tss-token-danger {
+    color: var(--tss-kt-danger);
+    border-color: var(--tss-kt-danger);
+}
+
+body.tss-theme-kontrast .tss-token-outline.tss-token-info {
+    color: var(--tss-kt-link);
+    border-color: var(--tss-kt-link);
+}
+
+/* Yellow type on white is 1.4:1: in light the outlined warning is ink on a yellow wash, edged in ink. */
+body.tss-theme-kontrast .tss-token-outline.tss-token-warning {
+    color: var(--tss-kt-ink);
+    border-color: var(--tss-kt-ink);
+    background: rgba(var(--tss-kt-signal-root), 0.35);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-token-outline.tss-token-warning {
+    color: var(--tss-kt-signal);
+    border-color: var(--tss-kt-signal);
+    background: transparent;
+}
+
+body.tss-theme-kontrast .tss-token-tinted {
+    background: color-mix(in srgb, var(--tss-token-tint) 14%, var(--tss-kt-paper));
+    border-color: var(--tss-token-tint);
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-token-dot {
+    width: 8px;
+    height: 8px;
+    box-shadow: 0 0 0 1px var(--tss-kt-paper), 0 0 0 2px currentColor;
+}
+
+body.tss-theme-kontrast .tss-token-remove {
+    min-width: 20px;
+    min-height: 20px;
+    margin-left: 2px;
+    margin-right: -4px;
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius-sm);
+}
+
+body.tss-theme-kontrast .tss-token-remove:hover {
+    border-color: currentColor;
+}
+
+body.tss-theme-kontrast .tss-token-icon,
+body.tss-theme-kontrast .tss-token-remove i {
+    font-size: 13px;
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-token {
+        border-color: CanvasText;
+    }
+}

@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Blaupause theme - PagesStack
+   --------------------------------------------------------------------------
+   Pages are sheets in a drawing set: square, ruled, offset by their
+   outlines rather than shadows.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-pagesstack-page,
+body.tss-theme-blaupause .tss-pagesstack-more {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-pagesstack-page,
+body.tss-theme-blaupause.tss-dark-mode .tss-pagesstack-page {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+    box-shadow: -3px 0 0 -1px var(--tss-bp-paper), -3px 0 0 0 var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-pagesstack-page:hover {
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-bp-red);
+    box-shadow: 0 0 0 1px var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-pagesstack-more {
+    font-family: var(--tss-bp-mono);
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}

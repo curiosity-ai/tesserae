@@ -1,0 +1,73 @@
+/* ==========================================================================
+   Graustufe theme - Menu
+   --------------------------------------------------------------------------
+   Same leaf as the context menu: paper, ink frame, dithered edge, the row
+   under the pointer inverted. Tones are weights and marks, not colours:
+   danger is bold and underlined, warning italic, primary and success bold.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-menu {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-menu-item {
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-menu-item:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-open,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-menu-item:focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
+    color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) .tss-menu-item-label {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-label {
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-menu-header {
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-menu-divider {
+    background-color: var(--tss-gs-0);
+}

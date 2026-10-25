@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Zeitung theme - Pivot (tabs)
+   --------------------------------------------------------------------------
+   A tab strip is the section bar under a newspaper's nameplate: the labels
+   in the serif's small caps (tss.button.css), standing on a hairline of ink
+   that runs the width of the strip. The open section is set bold and
+   underlined with a 3px bar of spot red that slides to it; under the
+   pointer a section's label is underlined in ink. No boxes, no fills.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-pivot-titlebar {
+    box-shadow: inset 0 -1px 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-btn.tss-pivot-tab {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-btn.tss-pivot-tab .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):hover {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-zt-ink), inset 0 -3px 0 var(--tss-zt-tint-strong);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title,
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:hover,
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:active {
+    background: transparent;
+    box-shadow: none;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-pivot-selected-title > span,
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-pivot-selected-title > div {
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: -2px;
+}
+
+body.tss-theme-zeitung .tss-pivot-line {
+    height: 3px;
+    border-radius: 0;
+    background-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-pivot-tab-close {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-pivot-tab-close:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-pivot-tab-needs-saving::after,
+body.tss-theme-zeitung .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after {
+    border-radius: 0;
+    background: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-pivot-tab-ghost {
+    background: var(--tss-zt-paper);
+    box-shadow: var(--tss-zt-frame);
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-pivot-titlebar-wrapper,
+body.tss-theme-zeitung .tss-pivot-titlebar-more,
+body.tss-theme-zeitung .tss-pivot-titlebar-scroll-left,
+body.tss-theme-zeitung .tss-pivot-titlebar-scroll-right {
+    background: transparent;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-pivot-line {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

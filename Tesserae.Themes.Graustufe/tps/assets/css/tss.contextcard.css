@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Graustufe theme - ContextCard
+   --------------------------------------------------------------------------
+   A slip of paper: 1px ink frame, square. Its icon is an ink tile with a
+   paper glyph (or whatever grey the caller gave it). A clickable slip lifts
+   under the pointer: the dithered drop edge appears, nothing else moves.
+   The name is in the sans, the detail line in the book face's italic.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-contextcard {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextcard-clickable:hover,
+body.tss-theme-graustufe .tss-contextcard-menu-open {
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-contextcard-clickable:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-image: none;
+}
+
+body.tss-theme-graustufe .tss-contextcard-clickable:active .tss-contextcard-sublabel,
+body.tss-theme-graustufe .tss-contextcard-clickable:active .tss-contextcard-chevron {
+    color: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-contextcard-icon {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-contextcard-icon-nobackground,
+body.tss-theme-graustufe .tss-contextcard-icon-image {
+    border: 0;
+}
+
+body.tss-theme-graustufe .tss-contextcard-label {
+    font-family: var(--tss-gs-ui);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-contextcard-sublabel {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-contextcard-mono .tss-contextcard-sublabel {
+    font-style: normal;
+}
+
+body.tss-theme-graustufe .tss-contextcard-badge {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-contextcard-badge-custom {
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-contextcard-chevron {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextcard-remove,
+body.tss-theme-graustufe.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-contextcard-remove:hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-contextcard-remove:hover,
+body.tss-theme-graustufe .tss-contextcard-remove:active,
+body.tss-theme-graustufe.tss-dark-mode .tss-contextcard-remove:active {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    outline: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextcard-compact,
+body.tss-theme-graustufe .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: 0;
+}

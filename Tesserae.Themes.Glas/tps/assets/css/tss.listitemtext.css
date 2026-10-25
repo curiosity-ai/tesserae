@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Glas theme - ListItemText
+   --------------------------------------------------------------------------
+   The leading icon sits in a small bead of clear glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-listitemtext-icon {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-listitemtext-icon {
+    background: rgba(255, 255, 255, 0.08);
+}

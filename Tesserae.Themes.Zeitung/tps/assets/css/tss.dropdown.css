@@ -1,0 +1,208 @@
+/* ==========================================================================
+   Zeitung theme - Dropdown
+   --------------------------------------------------------------------------
+   The box is a coupon field (tss.textbox.css): surface panel, grey hairline
+   frame on a line of ink that turns red while the dropdown has focus. The
+   popup is a slip of newsprint: square, ink hairline frame, rows in the
+   serif. Under the pointer a row takes a wash of ink; the keyboard's row is
+   reversed out; the chosen row of a single-choice list carries the spot-red
+   square the sidebar uses for "you are here". Multi-select boxes are square
+   ink boxes, filled with ink and a paper tick when chosen. Headers are
+   kickers in the spot red, dividers hairlines.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-dropdown-container {
+    border: 1px solid var(--tss-zt-rule);
+    border-bottom-color: var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-surface);
+}
+
+body.tss-theme-zeitung .tss-dropdown-container:hover {
+    border-color: var(--tss-zt-ink);
+    background: var(--tss-zt-surface);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-color: var(--tss-zt-ink);
+    border-bottom-color: var(--tss-zt-red);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-zeitung .tss-dropdown-container.tss-invalid,
+body.tss-theme-zeitung .tss-dropdown-container.tss-invalid:hover {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: inset 0 -1px 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-zeitung .tss-dropdown-error {
+    font-style: italic;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-zeitung .tss-dropdown-container.tss-disabled {
+    border: 1px dotted rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-dropdown-container.tss-noborder,
+body.tss-theme-zeitung .tss-dropdown-container.tss-noborder:hover,
+body.tss-theme-zeitung .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-zeitung .tss-dropdown-container.tss-dropdown-nobg:hover {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* The popup. */
+body.tss-theme-zeitung .tss-dropdown-popup {
+    background: var(--tss-zt-paper);
+    border: none;
+    border-radius: 0;
+    box-shadow: var(--tss-zt-float);
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+body.tss-theme-zeitung .tss-dropdown-item,
+body.tss-theme-zeitung .tss-dropdown-header {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-dropdown-popup .tss-dropdown-item {
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+    padding-left: 14px;
+    padding-right: 12px;
+}
+
+body.tss-theme-zeitung .tss-dropdown-popup .tss-dropdown-item:hover,
+body.tss-theme-zeitung .tss-dropdown-item:hover {
+    background: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-dropdown-item:focus,
+body.tss-theme-zeitung .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+    background: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-dropdown-popup:not(.tss-no-focus) > .tss-dropdown-items > .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-zeitung .tss-dropdown-popup:not(.tss-no-focus) .tss-dropdown-item:focus-visible {
+    background: var(--tss-zt-tint-strong);
+    border-color: transparent;
+    box-shadow: inset 2px 0 0 var(--tss-zt-ink);
+    outline: none;
+}
+
+body.tss-theme-zeitung .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus:not(:hover),
+body.tss-theme-zeitung .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus:not(:hover) {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Single choice: the chosen row is set bold behind the spot-red square. */
+body.tss-theme-zeitung .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    background-image: linear-gradient(var(--tss-zt-red), var(--tss-zt-red));
+    background-size: 6px 6px;
+    background-position: 4px 50%;
+    background-repeat: no-repeat;
+    font-weight: 700;
+    color: var(--tss-zt-ink);
+}
+
+/* Multi choice: square ink boxes. */
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item:before {
+    width: 16px;
+    height: 16px;
+    left: 10px;
+    border-radius: 0;
+    background-color: transparent;
+    border: 1px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item:after {
+    left: 15px;
+    width: 5px;
+    height: 9px;
+    border-color: var(--tss-zt-muted);
+    border-width: 0 2px 2px 0;
+    transform: translateY(calc(-50% - 1.5px)) rotate(45deg);
+}
+
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
+    background-color: transparent;
+    border-style: dotted;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-dropdown-header {
+    font-family: var(--tss-zt-head);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-red-ink);
+    padding-left: 14px;
+}
+
+body.tss-theme-zeitung .tss-dropdown-divider {
+    background-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: inset 0 -1px 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: none;
+    box-shadow: inset 0 -2px 0 var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-dropdown-popup mark {
+    background: transparent;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--tss-zt-red);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-dropdown-container,
+body.tss-theme-zeitung .tss-dropdown-popup,
+body.tss-theme-zeitung .tss-dropdown-multi > .tss-dropdown-item:before,
+body.tss-theme-zeitung .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

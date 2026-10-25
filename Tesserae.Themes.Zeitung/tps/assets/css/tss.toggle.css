@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Zeitung theme - Toggle
+   --------------------------------------------------------------------------
+   A toggle is a two-position slide set in a ruled box: square track framed
+   in ink, square slug inside. Off, the slug is ink on paper at the start;
+   on, the track fills with ink and the slug is reversed out in paper at the
+   end. Disabled is dotted and grey. (Every size keeps its geometry; only the
+   corners and colours change.)
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-toggle-container .tss-toggle-mark,
+body.tss-theme-zeitung .tss-toggle-container[class*="tss-fontsize-"] .tss-toggle-mark {
+    border-radius: 0;
+    background-color: transparent;
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-toggle-container .tss-toggle-mark:after {
+    border-radius: 0;
+    background-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-toggle-container:hover .tss-toggle-mark {
+    background-color: var(--tss-zt-tint);
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-zeitung .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-zeitung .tss-toggle-container .tss-toggle-text {
+    font-variant-numeric: lining-nums;
+}
+
+body.tss-theme-zeitung .tss-toggle-container.tss-disabled .tss-toggle-mark {
+    background-color: transparent;
+    border-style: dotted;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+    border-style: solid;
+}
+
+body.tss-theme-zeitung .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-zt-paper);
+}

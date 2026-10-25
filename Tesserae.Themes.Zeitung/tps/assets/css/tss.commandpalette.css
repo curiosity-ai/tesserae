@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Zeitung theme - CommandPalette
+   --------------------------------------------------------------------------
+   The palette is the index page of the paper laid over the one you were
+   reading: newsprint in an ink frame with the thick-and-thin rule across its
+   head, the search on a ruled line, results as index lines in the serif.
+   The active result is reversed out of ink (its shortcut keys turn to paper
+   frames); sections are kickers.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-commandpalette-overlay {
+    background: rgba(241, 237, 227, 0.72);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-commandpalette-overlay {
+    background: rgba(12, 11, 10, 0.72);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-animator {
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper);
+    padding-top: var(--tss-zt-band-h);
+    border: none;
+    border-radius: 0;
+    box-shadow: var(--tss-zt-float);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-search-container {
+    border-bottom-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-close {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-commandpalette-close:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-section {
+    font-family: var(--tss-zt-head);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-item,
+body.tss-theme-zeitung .tss-commandpalette-result {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-commandpalette-item:hover,
+body.tss-theme-zeitung .tss-commandpalette-result:hover {
+    background: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-item.tss-active,
+body.tss-theme-zeitung .tss-commandpalette-result.tss-active {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-commandpalette-result.tss-active * {
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle {
+    color: var(--tss-zt-paper);
+    opacity: 0.8;
+}
+
+body.tss-theme-zeitung .tss-commandpalette-title {
+    font-weight: 600;
+}
+
+body.tss-theme-zeitung .tss-commandpalette-subtitle {
+    font-style: italic;
+}
+
+body.tss-theme-zeitung .tss-commandpalette-icon {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-shortcut {
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+    font-family: var(--tss-zt-mono);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    border-color: var(--tss-zt-paper);
+    background: transparent;
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-commandpalette-empty {
+    font-style: italic;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-commandpalette-animator,
+body.tss-theme-zeitung .tss-commandpalette-close,
+body.tss-theme-zeitung .tss-commandpalette-item,
+body.tss-theme-zeitung .tss-commandpalette-icon,
+body.tss-theme-zeitung .tss-commandpalette-shortcut {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

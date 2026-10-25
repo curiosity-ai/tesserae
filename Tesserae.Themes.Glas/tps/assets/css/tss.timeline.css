@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Glas theme - Timeline
+   --------------------------------------------------------------------------
+   The spine is a hairline of light; each event hangs from a bead of clear
+   glass ringed in its colour, and its card is a small pane of glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-timeline-container::after {
+    background: radial-gradient(circle at 40% 30%, rgb(255, 255, 255) 0 25%, rgb(var(--tss-default-background-color-root)) 70%);
+    box-shadow: 0 1px 4px rgba(60, 58, 130, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-timeline-container::after {
+    background: radial-gradient(circle at 40% 30%, rgb(90, 90, 140) 0 20%, rgb(var(--tss-default-background-color-root)) 70%);
+}
+
+body.tss-theme-glas .tss-timeline-container .tss-timeline-content {
+    border: none;
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 6px 16px -10px rgba(60, 58, 130, 0.35);
+}

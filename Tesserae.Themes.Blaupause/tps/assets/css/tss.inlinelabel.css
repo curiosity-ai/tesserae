@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Blaupause theme - InlineLabel
+   --------------------------------------------------------------------------
+   One small fact, boxed in a ruled cell on the line of text. Interactive:
+   washed under the pointer, red-pencil focus.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-inlinelabel {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-inlinelabel-mark-color,
+body.tss-theme-blaupause .tss-inlinelabel-mark-image img,
+body.tss-theme-blaupause .tss-inlinelabel-mark-image svg,
+body.tss-theme-blaupause .tss-inlinelabel-image,
+body.tss-theme-blaupause .tss-inlinelabel-skeleton {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-inlinelabel-interactive:hover {
+    background: var(--tss-bp-sheet);
+    background-image: linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-inlinelabel-interactive:active {
+    background-image: var(--tss-bp-hatch);
+}
+
+body.tss-theme-blaupause .tss-inlinelabel-interactive:focus-visible {
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-blaupause .tss-inlinelabel-loading,
+body.tss-theme-blaupause .tss-omniresult-footer .tss-inlinelabel {
+    border: none;
+    background: none;
+}
+
+body.tss-theme-blaupause .tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+body.tss-theme-blaupause .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-bp-wash);
+}

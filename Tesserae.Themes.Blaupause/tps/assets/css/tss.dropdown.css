@@ -1,0 +1,160 @@
+/* ==========================================================================
+   Blaupause theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed dropdown is a ruled field (tss.textbox.css). Its list is a
+   sheet laid over the drawing: square, a full ink line round it and its
+   outline repeated 5px down and right (--tss-bp-lift), no blur. Items are
+   rows lettered on it; the row under the pointer is washed, the focused row
+   is boxed in ink, the chosen one is swiped with the highlighter. Group
+   headers are tracked capitals, dividers fine dashed lines.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-dropdown-container {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-dropdown-container:hover {
+    border-color: var(--tss-bp-line-strong);
+    background-color: var(--tss-bp-sheet);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-dropdown-container:has(> .tss-dropdown:focus-visible),
+body.tss-theme-blaupause .tss-dropdown-container:focus-within {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-dropdown-container.tss-dropdown-nobg {
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-dropdown-container.tss-noborder,
+body.tss-theme-blaupause .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-dropdown-container.tss-disabled {
+    border: var(--tss-bp-hidden);
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-dropdown-container.tss-invalid {
+    border-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-dropdown-error {
+    color: var(--tss-bp-red);
+}
+
+/* The list: a sheet laid over the drawing. */
+body.tss-theme-blaupause .tss-dropdown-popup {
+    border-radius: 0;
+    border: var(--tss-bp-rule-strong);
+    background: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-dropdown-item {
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-dropdown-item:hover {
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-dropdown-item:focus,
+body.tss-theme-blaupause .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: var(--tss-bp-line-strong);
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus,
+body.tss-theme-blaupause .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    background-color: var(--tss-bp-yellow-wash);
+    box-shadow: inset 3px 0 0 var(--tss-bp-yellow);
+    font-weight: 600;
+}
+
+body.tss-theme-blaupause .tss-dropdown-header {
+    background: transparent;
+    color: var(--tss-bp-muted);
+    font-size: 10.5px;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-dropdown-divider {
+    background: repeating-linear-gradient(90deg, var(--tss-bp-line) 0 4px, transparent 4px 7px);
+}
+
+/* Options are content, not chrome: lettered in their own case, not capitals. */
+body.tss-theme-blaupause .tss-dropdown-item .tss-btn,
+body.tss-theme-blaupause .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-blaupause .tss-dropdown-item-on-box {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Multi-select: each row carries a ruled check box (tss.checkbox.css). */
+body.tss-theme-blaupause .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: 0;
+    background-color: var(--tss-bp-sheet);
+    border: 1px solid var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-blaupause .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-bp-ink);
+    border-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: var(--tss-bp-line);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-blaupause .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-blaupause .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-dropdown-item.tss-disabled:hover {
+    background-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: transparent;
+    border: var(--tss-bp-rule);
+}
+
+body.tss-theme-blaupause .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
+    border-color: var(--tss-bp-ink) var(--tss-bp-line-faint) var(--tss-bp-line-faint);
+}

@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Phosphor theme - Uptime
+   --------------------------------------------------------------------------
+   An uptime strip is a row of status cells, "▮▮▮▮▮": square, in the status
+   colours of the theme (green, amber, red, and the second-phosphor blue for
+   maintenance), empty and future days as faint cells. The month cards are
+   single-line boxes on the surface; the tooltip is the inverse status line.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-uptime-bars span,
+body.tss-theme-phosphor .tss-uptime-bars-compact span,
+body.tss-theme-phosphor .tss-uptime-month-empty,
+body.tss-theme-phosphor .tss-uptime-month-day {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span,
+body.tss-theme-phosphor .tss-uptime-bars span.none,
+body.tss-theme-phosphor .tss-uptime-month-day {
+    background: rgba(var(--tss-ph-ink-root), 0.14);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.future,
+body.tss-theme-phosphor .tss-uptime-month-day.future {
+    background: rgba(var(--tss-ph-ink-root), 0.06);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.operational,
+body.tss-theme-phosphor .tss-uptime-month-day.operational {
+    background: var(--tss-chart-series-1);
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-uptime-bars span.operational,
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-uptime-month-day.operational {
+    background: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.minor,
+body.tss-theme-phosphor .tss-uptime-month-day.minor {
+    background: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.major,
+body.tss-theme-phosphor .tss-uptime-month-day.major {
+    background: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.maintenance,
+body.tss-theme-phosphor .tss-uptime-month-day.maintenance {
+    background: var(--tss-chart-series-4);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 1px;
+}
+
+body.tss-theme-phosphor .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-uptime-month-card {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tippy-box[data-theme~='uptime'] {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    border: 0;
+    border-radius: 0;
+}

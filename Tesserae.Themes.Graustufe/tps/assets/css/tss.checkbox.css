@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Graustufe theme - CheckBox
+   --------------------------------------------------------------------------
+   A square box ruled in ink. Ticked, it fills solid ink and the tick is
+   drawn in paper, two pixels thick so it survives the panel. Under the
+   pointer an unticked box shows a grey ghost of the tick. Disabled boxes
+   are drawn in the grey of a disabled field, dashed.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-checkbox-container {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container .tss-checkbox-mark {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container .tss-checkbox-mark:after {
+    border-color: var(--tss-gs-9);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-graustufe .tss-checkbox-container:hover .tss-checkbox-mark {
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-graustufe .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
+    background-color: var(--tss-gs-14);
+    border: 1px dashed var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-gs-10);
+    border-color: var(--tss-gs-10);
+}

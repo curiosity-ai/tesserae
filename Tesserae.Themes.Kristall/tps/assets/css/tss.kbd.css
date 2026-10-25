@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Kristall theme - KeyboardShortcut
+   --------------------------------------------------------------------------
+   A key chip is a key cap: the push button's white face (a lift of glass in
+   the dark appearance), a hairline edge, a soft shadow under it, 11px
+   medium type in secondary grey, a 5px radius.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-kbd-key {
+    background: var(--tss-kr-control);
+    border: 0;
+    border-radius: var(--tss-kr-r-small);
+    box-shadow: var(--tss-kr-shadow-control);
+    color: var(--tss-kr-label-2);
+    font-weight: 500;
+}
+
+body.tss-theme-kristall .tss-kbd-separator {
+    color: var(--tss-kr-label-3);
+}

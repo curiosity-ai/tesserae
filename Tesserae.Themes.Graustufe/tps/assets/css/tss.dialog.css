@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Graustufe theme - Dialog
+   --------------------------------------------------------------------------
+   A modal (tss.modal.css), square, with its question set in the book face
+   and its answers ruled off below a 1px line.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-dialog {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dialog .tss-modal-footer {
+    border-top: var(--tss-gs-rule-faint);
+}

@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Kontrast theme - Slider
+   --------------------------------------------------------------------------
+   The rail is an 8px channel with a 2px edge (so it shows against any page),
+   the travelled part filled solid in the accent. The thumb is a squared
+   paddle, paper with a 3px ink edge and a grip line down its middle, 20 by
+   28px so it can be caught. Focus draws the two-tone ring around the thumb
+   itself (the input is invisible), hover thickens nothing but darkens the
+   rail edge to ink. Disabled: hatched rail, dashed thumb.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-slider-fake-background {
+    background: var(--tss-kt-paper);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-line);
+    border-radius: var(--tss-kt-radius-sm);
+}
+
+body.tss-theme-kontrast .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background: var(--tss-kt-paper);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-slider-fake-progress,
+body.tss-theme-kontrast .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background: var(--tss-kt-accent);
+    border-radius: var(--tss-kt-radius-sm) 0 0 var(--tss-kt-radius-sm);
+}
+
+body.tss-theme-kontrast .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    border-radius: 0 0 var(--tss-kt-radius-sm) var(--tss-kt-radius-sm);
+}
+
+body.tss-theme-kontrast .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background,
+body.tss-theme-kontrast .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-background {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-kontrast .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background: var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-slider,
+body.tss-theme-kontrast .tss-slider:hover,
+body.tss-theme-kontrast .tss-slider.tss-disabled {
+    background-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 28px;
+    border-radius: var(--tss-kt-radius);
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+    background: linear-gradient(var(--tss-kt-ink), var(--tss-kt-ink)) center / 2px 50% no-repeat, var(--tss-kt-paper);
+    cursor: grab;
+}
+
+body.tss-theme-kontrast .tss-slider::-moz-range-thumb {
+    width: 20px;
+    height: 28px;
+    border-radius: var(--tss-kt-radius);
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+    background: linear-gradient(var(--tss-kt-ink), var(--tss-kt-ink)) center / 2px 50% no-repeat, var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 28px;
+    height: 20px;
+    background: linear-gradient(var(--tss-kt-ink), var(--tss-kt-ink)) center / 50% 2px no-repeat, var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-slider:hover::-webkit-slider-thumb {
+    border-color: var(--tss-kt-ink);
+    background: linear-gradient(var(--tss-kt-paper), var(--tss-kt-paper)) center / 2px 50% no-repeat, var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-slider:hover::-moz-range-thumb {
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-slider::-moz-range-progress {
+    background-color: var(--tss-kt-accent);
+}
+
+/* The input itself is invisible, so focus is drawn on the thumb. */
+body.tss-theme-kontrast .tss-slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 var(--tss-kt-ring-gap) var(--tss-kt-focus-inner), 0 0 0 calc(var(--tss-kt-ring-gap) + var(--tss-kt-ring-width)) var(--tss-kt-focus-outer);
+}
+
+body.tss-theme-kontrast .tss-slider:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 var(--tss-kt-ring-gap) var(--tss-kt-focus-inner), 0 0 0 calc(var(--tss-kt-ring-gap) + var(--tss-kt-ring-width)) var(--tss-kt-focus-outer);
+}
+
+body.tss-theme-kontrast .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+    background: var(--tss-kt-surface);
+    cursor: not-allowed;
+}
+
+body.tss-theme-kontrast .tss-slider.tss-disabled::-moz-range-thumb {
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+    background: var(--tss-kt-surface);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-slider-fake-background {
+        border: 2px solid CanvasText;
+    }
+
+    body.tss-theme-kontrast .tss-slider-fake-progress {
+        forced-color-adjust: none;
+        background: Highlight;
+    }
+
+    body.tss-theme-kontrast .tss-slider::-webkit-slider-thumb {
+        forced-color-adjust: none;
+        background: ButtonFace;
+        border-color: ButtonText;
+    }
+}
+
+/* The taller paddle reaches 6px above and below the 16px rail box; the box makes room so a label above it is
+   never covered. */
+body.tss-theme-kontrast .tss-slider-div:not(.tss-slider-div-vertical) {
+    padding-top: 8px;
+    padding-bottom: 12px;
+}

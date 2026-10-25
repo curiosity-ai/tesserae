@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Glas theme - FileSelector, FileDropArea
+   --------------------------------------------------------------------------
+   The drop area is a well of clear glass with a dashed rim; while a file is
+   over it the rim and a wash turn to the accent.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-filedroparea {
+    border: 1.5px dashed var(--tss-gl-edge-strong);
+    border-radius: var(--tss-gl-radius-card);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-filedroparea {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.tss-theme-glas .tss-filedroparea.tss-dropping {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.8);
+    background: rgba(var(--tss-gl-accent-rgb), 0.08);
+}
+
+body.tss-theme-glas .tss-filedroparea-overlay {
+    border: 1.5px dashed rgba(var(--tss-gl-accent-rgb), 0.8);
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-thick);
+    -webkit-backdrop-filter: var(--tss-gl-blur);
+    backdrop-filter: var(--tss-gl-blur);
+}

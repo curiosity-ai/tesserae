@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Graustufe theme - DataTable
+   --------------------------------------------------------------------------
+   A printed table in an ink frame: the head row over a 2px ink rule, its
+   headings in the sans; hairlines between rows; the row under the pointer
+   takes the wash. An accented row's bar is ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-datatable {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+body.tss-theme-graustufe .tss-datatable-header {
+    background: var(--tss-gs-15);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-datatable-heading {
+    font-family: var(--tss-gs-ui);
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-graustufe .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 0;
+}
+
+body.tss-theme-graustufe .tss-datatable-row:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-datatable-accented::before {
+    background: var(--tss-gs-0);
+}

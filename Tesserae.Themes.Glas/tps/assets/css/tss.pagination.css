@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Glas theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers are small round glass beads that condense under the pointer;
+   the current page is the accent lozenge. The footer strip is a hairline
+   of light, not a band.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-pagination-footer {
+    background: transparent;
+    border-top: 1px solid var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-pagination-button {
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-glas .tss-pagination-button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim), 0 2px 8px -4px rgba(60, 58, 130, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-pagination-button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-glas .tss-pagination-button.tss-active,
+body.tss-theme-glas .tss-pagination-button.tss-active:hover:not(:disabled) {
+    color: rgb(255, 255, 255);
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    box-shadow: var(--tss-gl-lozenge-rim), 0 4px 12px -4px rgba(var(--tss-gl-accent-rgb), 0.75);
+}
+
+body.tss-theme-glas .tss-pagination-button:focus-visible {
+    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.8);
+}
+
+body.tss-theme-glas .tss-pagination-status {
+    font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Zeitung theme - SplitView
+   --------------------------------------------------------------------------
+   A split is a column rule: a hairline of ink between the panes. Under the
+   pointer the rule thickens to 2px of spot red, the handle you can drag.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-zeitung .tss-splitview.tss-splitview-vertical > .tss-splitter:before,
+body.tss-theme-zeitung .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-zeitung .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: var(--tss-zt-ink);
+    opacity: 0.6;
+}
+
+body.tss-theme-zeitung .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-zeitung .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-zt-red) !important;
+    opacity: 1;
+}
+
+body.tss-theme-zeitung .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after,
+body.tss-theme-zeitung .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    background: var(--tss-zt-ink) !important;
+    opacity: 1;
+}

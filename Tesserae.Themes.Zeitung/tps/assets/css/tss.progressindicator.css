@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Zeitung theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   A progress bar is a printed bar chart of one: the track a band of light
+   halftone in a hairline frame, the done part solid ink, square at both
+   ends. Indeterminate, a block of halftone ink slides along it.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-progressindicator {
+    border-radius: 0;
+    background: var(--tss-zt-halftone-light);
+    box-shadow: inset 0 0 0 1px var(--tss-zt-rule);
+}
+
+body.tss-theme-zeitung .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar {
+    border-radius: 0;
+    background: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar-indeterminate {
+    background: var(--tss-zt-halftone), transparent;
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-progressindicator,
+body.tss-theme-zeitung .tss-progressindicator > .tss-progressindicator-bar {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

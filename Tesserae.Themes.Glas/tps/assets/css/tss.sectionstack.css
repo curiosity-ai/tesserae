@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Glas theme - SectionStack
+   --------------------------------------------------------------------------
+   The secondary wash a section stack lays over its area would fog the whole
+   field behind every card; it is reduced to a breath, so the colour still
+   comes through between the panes. A section card is a pane of glass like
+   a Card.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-sectionstack-secondary {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sectionstack-secondary {
+    background: rgba(255, 255, 255, 0.015);
+}
+
+body.tss-theme-glas .tss-sectionstack-card {
+    padding: 20px;
+    background: var(--tss-gl-pane);
+    border-radius: var(--tss-gl-radius-pane);
+    box-shadow: var(--tss-gl-surface);
+}

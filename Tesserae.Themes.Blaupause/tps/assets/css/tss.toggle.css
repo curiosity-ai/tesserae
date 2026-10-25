@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Blaupause theme - Toggle
+   --------------------------------------------------------------------------
+   A toggle is a slide switch in plan view: a ruled rectangular slot and a
+   square slider block in it. Off, the slot is empty and the block is drawn
+   in outline at the left; on, the slot is filled with section hatching and
+   the block is solid ink at the right. Disabled: dashed hidden lines.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-toggle-container .tss-toggle-mark {
+    border-radius: 0 !important;
+    border: 1px solid var(--tss-bp-line);
+    background-color: var(--tss-bp-sheet);
+    transition: background-color var(--tss-bp-quick) linear, border-color var(--tss-bp-quick) linear;
+}
+
+body.tss-theme-blaupause .tss-toggle-container .tss-toggle-mark:after {
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line-strong);
+    transition: transform 160ms var(--tss-bp-ease);
+}
+
+body.tss-theme-blaupause .tss-toggle-container:hover .tss-toggle-mark {
+    background-color: var(--tss-bp-sheet);
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-blaupause .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-bp-sheet);
+    background-image: var(--tss-bp-hatch);
+    border-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-bp-ink);
+    box-shadow: 0 0 0 2px var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-blaupause .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-blaupause .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-blaupause .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}

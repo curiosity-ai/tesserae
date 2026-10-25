@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Kristall theme - Card
+   --------------------------------------------------------------------------
+   A card is a grouped box, the rounded inset panel of a settings window: a
+   solid white pane (a faint lift of glass in the dark appearance) with a
+   10px radius and a hairline edge, barely raised off the window. A card
+   with a layout keeps that box for its content and puts its title above it
+   as a small semibold caption, the way a settings pane labels a group,
+   and its footer below. A hoverable card lifts on a soft shadow.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-card {
+    background: var(--tss-kr-box);
+    border-radius: var(--tss-kr-r-box);
+    box-shadow: var(--tss-kr-shadow-box);
+}
+
+body.tss-theme-kristall .tss-card.tss-card-hover {
+    transition: transform 200ms var(--tss-kr-ease), box-shadow 200ms var(--tss-kr-ease), background-color 120ms linear, opacity 300ms linear;
+}
+
+body.tss-theme-kristall .tss-card.tss-card-hover:hover {
+    background: var(--tss-kr-box);
+    box-shadow: var(--tss-kr-shadow-card-hover);
+    transform: translateY(-1px);
+}
+
+body.tss-theme-kristall .tss-card.tss-card-hover:active {
+    box-shadow: var(--tss-kr-shadow-box);
+    transform: none;
+}
+
+body.tss-theme-kristall .tss-card-container.tss-small > .tss-card {
+    border-radius: var(--tss-kr-r-control);
+}
+
+/* With a layout: caption above, box, footer below. */
+body.tss-theme-kristall .tss-card-header {
+    border: 0;
+    background: transparent;
+    padding: 0 4px 22px 4px;
+    min-height: 0;
+}
+
+body.tss-theme-kristall .tss-card-title,
+body.tss-theme-kristall .tss-card-title .tss-textblock {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.006em;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-card-content {
+    background: var(--tss-kr-box);
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    box-shadow: var(--tss-kr-shadow-box) !important;
+}
+
+body.tss-theme-kristall .tss-card-footer {
+    border: 0;
+    background: transparent;
+    padding: 22px 4px 0 4px;
+}
+
+body.tss-theme-kristall i.tss-card-title-icon {
+    color: var(--tss-kr-accent);
+}

@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Zeitung theme - IconTile
+   --------------------------------------------------------------------------
+   An icon tile is a square plate: no rounding, whatever colour the caller
+   gave it. A plain tile is framed in a hairline of ink on the paper.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-zeitung .tss-icontile.tss-icontile-plain,
+body.tss-theme-zeitung.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-icontile {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

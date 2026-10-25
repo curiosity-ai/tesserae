@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Blaupause theme - Message
+   --------------------------------------------------------------------------
+   An empty state or a notice is a boxed note. Its icon is a symbol drawn in
+   a circle (the drawing's reference balloon) on the fine grid; a toned note
+   keeps its tone as its line and a faint wash, never a pastel fill.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-message-icon {
+    color: var(--tss-bp-ink);
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+    border: var(--tss-bp-rule);
+    box-sizing: border-box;
+}
+
+body.tss-theme-blaupause .tss-message-title {
+    color: var(--tss-bp-text);
+    font-family: var(--tss-bp-stencil);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-blaupause .tss-message-text {
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-message-note,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-note {
+    border-radius: 0;
+    background: var(--tss-bp-wash);
+    border: 1px dashed var(--tss-bp-line);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause.tss-dark-mode .tss-message-note i {
+    color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-message-info,
+body.tss-theme-blaupause .tss-message-success,
+body.tss-theme-blaupause .tss-message-warning,
+body.tss-theme-blaupause .tss-message-error {
+    --tss-bp-tone: var(--tss-bp-ink);
+    border-radius: 0;
+    border: 1px solid var(--tss-bp-tone);
+    background: color-mix(in srgb, var(--tss-bp-tone) 7%, var(--tss-bp-sheet));
+    box-shadow: inset 4px 0 0 var(--tss-bp-tone);
+}
+
+body.tss-theme-blaupause .tss-message-success { --tss-bp-tone: rgb(var(--tss-success-background-color-root)); }
+body.tss-theme-blaupause .tss-message-warning { --tss-bp-tone: rgb(var(--tss-warning-border-color-root)); }
+body.tss-theme-blaupause .tss-message-error { --tss-bp-tone: var(--tss-bp-red); }
+
+body.tss-theme-blaupause.tss-dark-mode .tss-message-info,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-success,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-warning,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-error {
+    background: color-mix(in srgb, var(--tss-bp-tone) 9%, var(--tss-bp-sheet));
+}
+
+body.tss-theme-blaupause.tss-dark-mode .tss-message-warning { --tss-bp-tone: var(--tss-bp-yellow); }
+
+body.tss-theme-blaupause .tss-message-info .tss-message-icon,
+body.tss-theme-blaupause .tss-message-success .tss-message-icon,
+body.tss-theme-blaupause .tss-message-warning .tss-message-icon,
+body.tss-theme-blaupause .tss-message-error .tss-message-icon,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-info .tss-message-icon,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-success .tss-message-icon,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-warning .tss-message-icon,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-error .tss-message-icon {
+    color: var(--tss-bp-tone);
+    background: transparent;
+    border-color: var(--tss-bp-tone);
+}
+
+body.tss-theme-blaupause .tss-message-info .tss-message-title,
+body.tss-theme-blaupause .tss-message-success .tss-message-title,
+body.tss-theme-blaupause .tss-message-warning .tss-message-title,
+body.tss-theme-blaupause .tss-message-error .tss-message-title,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-info .tss-message-title,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-success .tss-message-title,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-warning .tss-message-title,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-error .tss-message-title {
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-message-info .tss-message-text,
+body.tss-theme-blaupause .tss-message-success .tss-message-text,
+body.tss-theme-blaupause .tss-message-warning .tss-message-text,
+body.tss-theme-blaupause .tss-message-error .tss-message-text,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-info .tss-message-text,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-success .tss-message-text,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-warning .tss-message-text,
+body.tss-theme-blaupause.tss-dark-mode .tss-message-error .tss-message-text {
+    color: var(--tss-bp-text);
+}

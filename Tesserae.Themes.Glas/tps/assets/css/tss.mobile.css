@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Glas theme - Mobile
+   --------------------------------------------------------------------------
+   On a phone the navbar's drawer is a slab of thick glass sliding in over a
+   veiled page; the veil blurs the page a little, like the overlays.
+   ========================================================================== */
+
+body.tss-theme-glas.tss-mobile .tss-navbar .tss-navbar-drawer {
+    background: var(--tss-gl-pane-thick) !important;
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas.tss-mobile .tss-navbar .tss-navbar-drawer:not(.tss-collapse) {
+    box-shadow: var(--tss-gl-rim), 0 0 60px -10px rgba(40, 38, 110, 0.45) !important;
+}
+
+body.tss-theme-glas .tss-mobile-backdrop {
+    background: var(--tss-overlay-dark);
+    -webkit-backdrop-filter: blur(3px) saturate(120%);
+    backdrop-filter: blur(3px) saturate(120%);
+}
+
+body.tss-theme-glas.tss-mobile .tss-navbar-mobile-close {
+    border-radius: 999px !important;
+}

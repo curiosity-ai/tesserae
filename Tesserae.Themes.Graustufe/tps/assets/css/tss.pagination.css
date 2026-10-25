@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Graustufe theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers like a reader's footer: square ruled keys in the sans, the
+   current page inverted; arrows bare.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-pagination-footer {
+    border-top: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-pagination-button {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-graustufe .tss-pagination-button:hover:not(:disabled) {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-pagination-button:focus-visible {
+    outline: var(--tss-gs-focus);
+}
+
+body.tss-theme-graustufe .tss-pagination-button.tss-active,
+body.tss-theme-graustufe .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pagination-ellipsis {
+    color: var(--tss-gs-6);
+}

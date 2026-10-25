@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Blaupause theme - GridPicker
+   --------------------------------------------------------------------------
+   Cells are ruled squares, filled with ink when chosen.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-gridpicker-button {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}

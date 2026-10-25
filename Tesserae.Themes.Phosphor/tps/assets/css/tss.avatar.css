@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Phosphor theme - Avatar
+   --------------------------------------------------------------------------
+   An avatar is a user's cell on a "who" listing: square, framed, initials
+   in the terminal face. A generated avatar keeps its hue so people stay
+   told apart, darkened to sit on the screen. Presence is a square lamp.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-avatar,
+body.tss-theme-phosphor .tss-avatar-image {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-avatar:not(.tss-avatar-generated) {
+    background: transparent;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-avatar-initials {
+    font-family: var(--tss-ph-mono);
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-avatar-presence {
+    border-radius: 0;
+}

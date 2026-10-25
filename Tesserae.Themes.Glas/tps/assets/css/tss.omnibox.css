@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Glas theme - OmniBox
+   --------------------------------------------------------------------------
+   The OmniBox is the theme's field (a well of clearer glass) drawn as a
+   generous rounded capsule; its side buttons are clear and condense under
+   the pointer; the chat button lights into the accent lozenge when active.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-omnibox-container {
+    --tss-omnibox-radius: 14px;
+    border: 1px solid var(--tss-gl-edge-strong);
+    background: var(--tss-gl-well);
+    box-shadow: var(--tss-gl-field-shade);
+}
+
+body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-omnibox-container:hover {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.45);
+}
+
+body.tss-theme-glas .tss-omnibox-container:focus-within {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-omnibox-container.tss-commandpalette-search,
+body.tss-theme-glas .tss-omnibox-container.tss-commandpalette-search:focus-within {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    background: transparent;
+}
+
+body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left-color: var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+    background-color: rgba(var(--tss-gl-accent-rgb), 0.1);
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-omnibox-search-token-word {
+    background: rgba(var(--tss-gl-accent-rgb), 0.14);
+}
+
+body.tss-theme-glas .tss-omnibox-inline-chips {
+    background: transparent;
+}
+
+body.tss-theme-glas .tss-omnibox-inline-chip {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-omnibox-inline-chip {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled),
+body.tss-theme-glas .tss-btn.tss-omnibox-model-selector-btn {
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-omnibox-model-selector-btn {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+body.tss-theme-glas .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger),
+body.tss-theme-glas .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    box-shadow: var(--tss-gl-lozenge-rim), 0 4px 12px -5px rgba(var(--tss-gl-accent-rgb), 0.7);
+}
+
+body.tss-theme-glas .tss-omnibox-model-selector-divider {
+    background: var(--tss-gl-edge);
+}

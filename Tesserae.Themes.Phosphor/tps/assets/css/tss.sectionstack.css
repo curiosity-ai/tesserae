@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Phosphor theme - SectionStack
+   --------------------------------------------------------------------------
+   A section card is a single-line box on the surface; sections arrive in a
+   short stepped fade rather than a glide.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-sectionstack-card {
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sectionstack-secondary {
+    background: transparent;
+}

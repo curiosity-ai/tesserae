@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Phosphor theme - CommandBar
+   --------------------------------------------------------------------------
+   A command bar is the menu bar along the top of a text-mode program: a
+   strip boxed in a single line, items that invert under the pointer, a
+   primary item already inverted.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-commandbar {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-commandbar-item {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-commandbar-item:hover:not(:disabled) {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-commandbar-item:hover:not(:disabled) * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandbar-item-primary {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-commandbar-item-primary * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandbar-item-primary:hover:not(:disabled) {
+    background: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-phosphor .tss-commandbar-item:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 1px;
+}

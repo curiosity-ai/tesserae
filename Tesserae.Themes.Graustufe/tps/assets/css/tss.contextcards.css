@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Graustufe theme - ContextCards
+   --------------------------------------------------------------------------
+   The strip of attached context: square ruled chips, the counter an ink
+   stamp, the overflow chip dashed.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-contextcards [class*="tss-contextcards-"] {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-contextcards [class*="tss-contextcards-"]:focus-visible {
+    outline: var(--tss-gs-focus);
+}

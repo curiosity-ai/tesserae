@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Phosphor theme - CommandPalette
+   --------------------------------------------------------------------------
+   The command palette is a pop-up window over a dimmed screen: double-line
+   frame, a prompt line at the top, results as rows with the active one the
+   cursor block. Icons sit in framed cells.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-commandpalette-overlay {
+    background: var(--tss-overlay-dark);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-animator {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-search-container {
+    border-bottom: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-close,
+body.tss-theme-phosphor .tss-commandpalette-item,
+body.tss-theme-phosphor .tss-commandpalette-result,
+body.tss-theme-phosphor .tss-commandpalette-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-commandpalette-close:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-section {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-item:hover,
+body.tss-theme-phosphor .tss-commandpalette-result:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-item.tss-active,
+body.tss-theme-phosphor .tss-commandpalette-result.tss-active {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-commandpalette-item.tss-active *,
+body.tss-theme-phosphor .tss-commandpalette-result.tss-active * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-icon {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}

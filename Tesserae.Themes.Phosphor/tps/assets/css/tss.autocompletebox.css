@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Phosphor theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The suggestion list is a window (double-line frame); the highlighted
+   suggestion is the cursor block; the matched part of each suggestion is
+   lit in the second phosphor.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-autocompletebox-list {
+    border: var(--tss-ph-double);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-item.tss-autocompletebox-item-highlight * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-match {
+    color: var(--tss-ph-amber);
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-item-highlight .tss-autocompletebox-match {
+    color: var(--tss-ph-on-cursor);
+    text-decoration: underline;
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-status-warning {
+    color: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-status-invalid {
+    color: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+}

@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Zeitung theme - TextArea
+   --------------------------------------------------------------------------
+   A text area is a coupon field with more lines (tss.textbox.css draws it,
+   the area shares the .tss-textbox class). Its copy is set at the reading
+   leading, so a paragraph typed into it looks like one.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-textarea {
+    line-height: var(--tss-zt-leading);
+    padding-top: 6px;
+    padding-bottom: 6px;
+}

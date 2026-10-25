@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Zeitung theme - Context Menu
+   --------------------------------------------------------------------------
+   The popup is a slip of newsprint laid over the page: square, framed in an
+   ink hairline (tss-zt-float), rows in the serif. The row under the pointer
+   takes a wash of ink; the highlighted row (keyboard, or the one whose
+   submenu is open) is reversed out, paper type on ink, like selected text.
+   Headers are kickers; dividers hairlines. The trigger is a coupon field.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-contextmenu {
+    border: 1px solid var(--tss-zt-rule);
+    border-bottom-color: var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-surface);
+}
+
+body.tss-theme-zeitung .tss-contextmenu.tss-disabled {
+    border-style: dotted;
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: inset 0 -1px 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-zeitung .tss-contextmenu-popup {
+    background: var(--tss-zt-paper);
+    color: var(--tss-zt-ink);
+    border-radius: 0;
+    box-shadow: var(--tss-zt-float);
+    padding: 4px 0;
+}
+
+body.tss-theme-zeitung .tss-contextmenu-item {
+    background: transparent;
+    border-radius: 0;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-item i {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover {
+    background: var(--tss-zt-tint-strong);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-item.tss-selected:not(.tss-disabled),
+body.tss-theme-zeitung .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):focus,
+body.tss-theme-zeitung .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):active {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-item.tss-selected:not(.tss-disabled) i,
+body.tss-theme-zeitung .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):focus i,
+body.tss-theme-zeitung .tss-contextmenu-item.tss-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-zeitung .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):focus .tss-fontcolor-default {
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(.tss-selected):not(:hover):focus {
+    background: transparent;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(.tss-selected):not(:hover):focus i,
+body.tss-theme-zeitung .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(.tss-selected):not(:hover):focus .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-zeitung .tss-contextmenu-item:focus-visible,
+body.tss-theme-zeitung .tss-contextmenu-header:focus-visible,
+body.tss-theme-zeitung .tss-contextmenu-divider:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: -2px;
+}
+
+body.tss-theme-zeitung .tss-contextmenu-item > .tss-btn {
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-zeitung .tss-contextmenu-header {
+    background: transparent;
+    font-family: var(--tss-zt-head);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-divider {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-contextmenu-divider::before,
+body.tss-theme-zeitung .tss-contextmenu-item.tss-contextmenu-item-separator {
+    border-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-left: 1px solid var(--tss-zt-ink);
+    background: var(--tss-zt-surface);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-contextmenu-popup {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

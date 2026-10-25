@@ -1,2 +1,977 @@
-/* Graustufe theme - tokens (scaffold; to be written) */
-body.tss-theme-graustufe { }
+/* ==========================================================================
+   Graustufe theme - tokens
+   --------------------------------------------------------------------------
+   An e-paper reader display. Sixteen levels of grey and nothing else, on a
+   slightly warm paper; crisp 1px black rules; square corners; shadows drawn
+   as 1-bit dithered edges, the way a panel that can only show black or
+   white fakes a grey; selection inverted, solid black with paper type; focus
+   a thick black frame. Text is set like a book (Literata), chrome in a sans
+   built for legibility (Atkinson Hyperlegible Next), code in its mono.
+   Dark mode is the reader's night mode: the same ramp turned over, light
+   grey type on near-black.
+
+   And nothing moves. An e-ink panel redraws, it does not animate: every
+   transition and animation is off under this theme, and the things that
+   only exist as motion (spinners, shimmers, indeterminate bars) have a
+   still replacement.
+
+   Everything is scoped under body.tss-theme-graustufe, the class
+   GraustufeTheme adds to the body while it is active. A derived variable
+   (--tss-x-color: rgb(var(--tss-x-color-root))) is resolved where it is
+   declared, so both are restated; they are declared once for both modes,
+   on the body, over a ramp that the night mode turns over.
+
+   The tokens a component file can use:
+
+   The ramp (follows the mode: 0 is always the ink, 15 always the paper)
+     --tss-gs-0 ... --tss-gs-15          colours
+     --tss-gs-0-root ... -15-root        the same as "r, g, b", for rgba()
+     --tss-gs-abs-0-root ... -15-root    the light ramp, fixed in both modes
+     --tss-gs-ink / --tss-gs-paper       gs-0 and gs-15
+     --tss-gs-muted                      secondary type (gs-6)
+     --tss-gs-faint                      a quiet rule or an empty track (gs-11)
+     --tss-gs-wash                       the tint of a hovered or alternate row (gs-13)
+
+   Rules and shape
+     --tss-gs-rule                       the 1px ink rule (a border shorthand)
+     --tss-gs-rule-faint                 the 1px quiet rule, between rows
+     --tss-gs-rule-heavy                 2px ink, for the selected tab, the current item
+     --tss-gs-radius                     2px: barely rounded, only fields and keys
+     --tss-gs-focus                      the focus frame: 3px solid ink
+     --tss-gs-focus-offset               2px
+
+   1-bit textures (background shorthands, all crisp at 1 CSS px)
+     --tss-gs-dither                     50% checkerboard of ink
+     --tss-gs-bayer-12/-25/-50/-75       4x4 ordered dither at that coverage
+     --tss-gs-hatch / --tss-gs-hatch-mid a 45-degree hatch in ink / mid grey
+
+   Dithered edges (border-image values: the ink frame plus a drop edge,
+   right and bottom, that takes no layout)
+     --tss-gs-edge-sm                    2px edge: a key, a chip, a tooltip
+     --tss-gs-edge                       3px edge: a card, a menu, a popover
+     --tss-gs-edge-lg                    5px edge: a modal, a dialog, a toast
+
+   Faces
+     --tss-gs-text                       Literata, the reading face (also --tss-sansserif-font-family)
+     --tss-gs-ui                         Atkinson Hyperlegible Next, for chrome
+     --tss-gs-mono                       Atkinson Hyperlegible Mono (also --tss-monospace-font-family)
+   ========================================================================== */
+
+body.tss-theme-graustufe,
+body.tss-theme-graustufe.tss-dark-mode {
+    /* The ramp. */
+    --tss-gs-abs-0-root: 22, 21, 19;
+    --tss-gs-abs-1-root: 33, 32, 30;
+    --tss-gs-abs-2-root: 45, 44, 41;
+    --tss-gs-abs-3-root: 57, 56, 53;
+    --tss-gs-abs-4-root: 70, 69, 65;
+    --tss-gs-abs-5-root: 83, 82, 78;
+    --tss-gs-abs-6-root: 97, 95, 91;
+    --tss-gs-abs-7-root: 110, 109, 104;
+    --tss-gs-abs-8-root: 125, 123, 118;
+    --tss-gs-abs-9-root: 139, 137, 131;
+    --tss-gs-abs-10-root: 154, 151, 146;
+    --tss-gs-abs-11-root: 169, 166, 160;
+    --tss-gs-abs-12-root: 184, 181, 175;
+    --tss-gs-abs-13-root: 199, 197, 190;
+    --tss-gs-abs-14-root: 215, 212, 205;
+    --tss-gs-abs-15-root: 231, 228, 220;
+    --tss-gs-0: rgb(var(--tss-gs-0-root));
+    --tss-gs-1: rgb(var(--tss-gs-1-root));
+    --tss-gs-2: rgb(var(--tss-gs-2-root));
+    --tss-gs-3: rgb(var(--tss-gs-3-root));
+    --tss-gs-4: rgb(var(--tss-gs-4-root));
+    --tss-gs-5: rgb(var(--tss-gs-5-root));
+    --tss-gs-6: rgb(var(--tss-gs-6-root));
+    --tss-gs-7: rgb(var(--tss-gs-7-root));
+    --tss-gs-8: rgb(var(--tss-gs-8-root));
+    --tss-gs-9: rgb(var(--tss-gs-9-root));
+    --tss-gs-10: rgb(var(--tss-gs-10-root));
+    --tss-gs-11: rgb(var(--tss-gs-11-root));
+    --tss-gs-12: rgb(var(--tss-gs-12-root));
+    --tss-gs-13: rgb(var(--tss-gs-13-root));
+    --tss-gs-14: rgb(var(--tss-gs-14-root));
+    --tss-gs-15: rgb(var(--tss-gs-15-root));
+
+    --tss-gs-ink: var(--tss-gs-0);
+    --tss-gs-paper: var(--tss-gs-15);
+    --tss-gs-muted: var(--tss-gs-6);
+    --tss-gs-faint: var(--tss-gs-11);
+    --tss-gs-wash: var(--tss-gs-13);
+    --tss-gs-rule: 1px solid var(--tss-gs-0);
+    --tss-gs-rule-faint: 1px solid var(--tss-gs-11);
+    --tss-gs-rule-heavy: 2px solid var(--tss-gs-0);
+    --tss-gs-radius: 2px;
+    --tss-gs-focus: 3px solid var(--tss-gs-0);
+    --tss-gs-focus-offset: 2px;
+    /* What the panel does to anything in colour: grey of the same lightness, toned back to the paper's
+       warmth (sepia 0.12, then a touch darker), so a greyed picture or swatch lands on the ramp's own hue. */
+    --tss-gs-panel: grayscale(1) sepia(0.12) brightness(0.975);
+    --tss-gs-dither: repeating-conic-gradient(var(--tss-gs-0) 0 25%, transparent 0 50%) 0 0 / 2px 2px;
+
+    --tss-gs-text: "Literata", "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
+    --tss-gs-ui: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", system-ui, ui-sans-serif, sans-serif;
+    --tss-gs-mono: "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-sansserif-font-family: var(--tss-gs-text);
+    --tss-monospace-font-family: var(--tss-gs-mono);
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 600;
+    --tss-font-weight-bold: 700;
+
+    /* Square, or as near as a field needs. */
+    --tss-border-radius-sm: 0px;
+    --tss-border-radius-md: 2px;
+    --tss-border-radius-lg: 2px;
+    --tss-border-radius-xl: 2px;
+    --tss-border-radius-full: 9999px;
+
+    /* No shadow survives on e-paper. A component that drew its edge with a shadow token keeps an ink ring;
+       the dithered drop edges are in the component files (border-image: var(--tss-gs-edge)). */
+    --tss-primary-shadow: none;
+    --tss-shadow-color-from: transparent;
+    --tss-shadow-color-to: transparent;
+    --tss-shadow-sm: 0 0 0 1px var(--tss-gs-0);
+    --tss-shadow-sm-hover: 0 0 0 1px var(--tss-gs-0);
+    --tss-shadow: 0 0 0 1px var(--tss-gs-0);
+    --tss-shadow-hover: 0 0 0 1px var(--tss-gs-0), 2px 2px 0 0 var(--tss-gs-8);
+    --tss-shadow-md: 0 0 0 1px var(--tss-gs-0), 2px 2px 0 0 var(--tss-gs-8);
+    --tss-shadow-md-hover: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-shadow-lg: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-shadow-lg-hover: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-shadow-xl: 0 0 0 1px var(--tss-gs-0), 4px 4px 0 0 var(--tss-gs-8);
+    --tss-shadow-xl-hover: 0 0 0 1px var(--tss-gs-0), 4px 4px 0 0 var(--tss-gs-8);
+    --tss-box-shadow: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-box-shadow-darker: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-card-shadow: 0 0 0 1px var(--tss-gs-0);
+    --tss-toast-shadow: 0 0 0 1px var(--tss-gs-0), 4px 4px 0 0 var(--tss-gs-8);
+
+    --tss-ring-offset-width: 2px;
+    --tss-ring-offset-color: var(--tss-gs-15);
+    --tss-ring-opacity: 1;
+    --tss-ring-color: var(--tss-gs-0);
+
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: var(--tss-gs-8);
+    --tss-scrollbar-thumb-hidden-color: var(--tss-gs-12);
+    --tss-simplebar-thumb-color: var(--tss-gs-8);
+    --tss-overlay-light: rgba(var(--tss-gs-15-root), 0.72);
+    --tss-overlay-dark: rgba(var(--tss-gs-0-root), 0.4);
+
+    /* Tesserae's colours, every one a level of the ramp. */
+    --tss-default-background-color-root: var(--tss-gs-15-root);
+    --tss-default-foreground-color-root: var(--tss-gs-0-root);
+    --tss-secondary-background-color-root: var(--tss-gs-15-root);
+    --tss-secondary-foreground-color-root: var(--tss-gs-6-root);
+    --tss-sidebar-background-color-root: var(--tss-gs-14-root);
+    --tss-disabled-background-color-root: var(--tss-gs-14-root);
+    --tss-disabled-foreground-color-root: var(--tss-gs-9-root);
+    --tss-default-border-color-root: var(--tss-gs-0-root);
+    --tss-dark-border-color-root: var(--tss-gs-0-root);
+    --tss-default-separator-color-root: var(--tss-gs-11-root);
+    --tss-invalid-border-color-root: var(--tss-gs-0-root);
+    --tss-default-background-hover-color-root: var(--tss-gs-13-root);
+    --tss-default-foreground-hover-color-root: var(--tss-gs-0-root);
+    --tss-default-background-active-color-root: var(--tss-gs-12-root);
+    --tss-default-foreground-active-color-root: var(--tss-gs-0-root);
+    --tss-progress-background-color-root: var(--tss-gs-13-root);
+    --tss-link-color-root: var(--tss-gs-0-root);
+    --tss-highlight-color-root: var(--tss-gs-0-root);
+    --tss-tooltip-background-color-root: var(--tss-gs-0-root);
+    --tss-tooltip-foreground-color-root: var(--tss-gs-15-root);
+    --tss-primary-background-color-root: var(--tss-gs-0-root);
+    --tss-primary-foreground-color-root: var(--tss-gs-15-root);
+    --tss-primary-border-color-root: var(--tss-gs-0-root);
+    --tss-primary-background-hover-color-root: var(--tss-gs-3-root);
+    --tss-primary-foreground-hover-color-root: var(--tss-gs-15-root);
+    --tss-primary-background-active-color-root: var(--tss-gs-1-root);
+    --tss-primary-foreground-active-color-root: var(--tss-gs-15-root);
+    --tss-warning-background-color-root: var(--tss-gs-12-root);
+    --tss-warning-foreground-color-root: var(--tss-gs-0-root);
+    --tss-warning-border-color-root: var(--tss-gs-0-root);
+    --tss-warning-background-hover-color-root: var(--tss-gs-11-root);
+    --tss-warning-foreground-hover-color-root: var(--tss-gs-0-root);
+    --tss-warning-background-active-color-root: var(--tss-gs-10-root);
+    --tss-warning-foreground-active-color-root: var(--tss-gs-0-root);
+    --tss-danger-background-color-root: var(--tss-gs-2-root);
+    --tss-danger-foreground-color-root: var(--tss-gs-15-root);
+    --tss-danger-border-color-root: var(--tss-gs-0-root);
+    --tss-danger-background-hover-color-root: var(--tss-gs-4-root);
+    --tss-danger-foreground-hover-color-root: var(--tss-gs-15-root);
+    --tss-danger-background-active-color-root: var(--tss-gs-1-root);
+    --tss-danger-foreground-active-color-root: var(--tss-gs-15-root);
+    --tss-success-background-color-root: var(--tss-gs-6-root);
+    --tss-success-foreground-color-root: var(--tss-gs-15-root);
+    --tss-success-border-color-root: var(--tss-gs-0-root);
+    --tss-success-background-hover-color-root: var(--tss-gs-7-root);
+    --tss-success-foreground-hover-color-root: var(--tss-gs-15-root);
+    --tss-success-background-active-color-root: var(--tss-gs-5-root);
+    --tss-success-foreground-active-color-root: var(--tss-gs-15-root);
+    --tss-slider-color-root: var(--tss-gs-10-root);
+    --tss-slider-active-color-root: var(--tss-gs-0-root);
+    --tss-slider-disabled-color-root: var(--tss-gs-12-root);
+    --tss-primary-shadow-color-root: var(--tss-gs-0-root);
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.16);
+
+    /* Charts: eight series told apart by level (ink, then alternately darker and lighter greys a few steps
+       apart) and, in tss.charts.css, by dash. */
+    --tss-chart-series-1: var(--tss-gs-0);
+    --tss-chart-series-2: var(--tss-gs-8);
+    --tss-chart-series-3: var(--tss-gs-4);
+    --tss-chart-series-4: var(--tss-gs-11);
+    --tss-chart-series-5: var(--tss-gs-2);
+    --tss-chart-series-6: var(--tss-gs-6);
+    --tss-chart-series-7: var(--tss-gs-10);
+    --tss-chart-series-8: var(--tss-gs-13);
+
+    /* The palette (badges, tags, chips, diagram nodes...): each swatch becomes the level of the ramp with
+       the same lightness, fixed, so a component that picks a dark swatch for the night mode still gets a dark grey. */
+    --tss-colors-lime-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-lime-100: rgb(var(--tss-colors-lime-100-root));
+    --tss-colors-lime-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-lime-200: rgb(var(--tss-colors-lime-200-root));
+    --tss-colors-lime-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-lime-250: rgb(var(--tss-colors-lime-250-root));
+    --tss-colors-lime-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-lime-300: rgb(var(--tss-colors-lime-300-root));
+    --tss-colors-lime-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-lime-400: rgb(var(--tss-colors-lime-400-root));
+    --tss-colors-lime-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-lime-500: rgb(var(--tss-colors-lime-500-root));
+    --tss-colors-lime-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-lime-600: rgb(var(--tss-colors-lime-600-root));
+    --tss-colors-lime-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-lime-700: rgb(var(--tss-colors-lime-700-root));
+    --tss-colors-lime-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-lime-800: rgb(var(--tss-colors-lime-800-root));
+    --tss-colors-lime-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-lime-850: rgb(var(--tss-colors-lime-850-root));
+    --tss-colors-lime-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-lime-900: rgb(var(--tss-colors-lime-900-root));
+    --tss-colors-lime-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-lime-1000: rgb(var(--tss-colors-lime-1000-root));
+    --tss-colors-red-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-red-100: rgb(var(--tss-colors-red-100-root));
+    --tss-colors-red-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-red-200: rgb(var(--tss-colors-red-200-root));
+    --tss-colors-red-250-root: var(--tss-gs-abs-13-root);
+    --tss-colors-red-250: rgb(var(--tss-colors-red-250-root));
+    --tss-colors-red-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-red-300: rgb(var(--tss-colors-red-300-root));
+    --tss-colors-red-400-root: var(--tss-gs-abs-11-root);
+    --tss-colors-red-400: rgb(var(--tss-colors-red-400-root));
+    --tss-colors-red-500-root: var(--tss-gs-abs-10-root);
+    --tss-colors-red-500: rgb(var(--tss-colors-red-500-root));
+    --tss-colors-red-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-red-600: rgb(var(--tss-colors-red-600-root));
+    --tss-colors-red-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-red-700: rgb(var(--tss-colors-red-700-root));
+    --tss-colors-red-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-red-800: rgb(var(--tss-colors-red-800-root));
+    --tss-colors-red-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-red-850: rgb(var(--tss-colors-red-850-root));
+    --tss-colors-red-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-red-900: rgb(var(--tss-colors-red-900-root));
+    --tss-colors-red-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-red-1000: rgb(var(--tss-colors-red-1000-root));
+    --tss-colors-orange-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-orange-100: rgb(var(--tss-colors-orange-100-root));
+    --tss-colors-orange-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-orange-200: rgb(var(--tss-colors-orange-200-root));
+    --tss-colors-orange-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-orange-250: rgb(var(--tss-colors-orange-250-root));
+    --tss-colors-orange-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-orange-300: rgb(var(--tss-colors-orange-300-root));
+    --tss-colors-orange-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-orange-400: rgb(var(--tss-colors-orange-400-root));
+    --tss-colors-orange-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-orange-500: rgb(var(--tss-colors-orange-500-root));
+    --tss-colors-orange-600-root: var(--tss-gs-abs-10-root);
+    --tss-colors-orange-600: rgb(var(--tss-colors-orange-600-root));
+    --tss-colors-orange-700-root: var(--tss-gs-abs-8-root);
+    --tss-colors-orange-700: rgb(var(--tss-colors-orange-700-root));
+    --tss-colors-orange-800-root: var(--tss-gs-abs-7-root);
+    --tss-colors-orange-800: rgb(var(--tss-colors-orange-800-root));
+    --tss-colors-orange-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-orange-850: rgb(var(--tss-colors-orange-850-root));
+    --tss-colors-orange-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-orange-900: rgb(var(--tss-colors-orange-900-root));
+    --tss-colors-orange-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-orange-1000: rgb(var(--tss-colors-orange-1000-root));
+    --tss-colors-yellow-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-yellow-100: rgb(var(--tss-colors-yellow-100-root));
+    --tss-colors-yellow-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-yellow-200: rgb(var(--tss-colors-yellow-200-root));
+    --tss-colors-yellow-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-yellow-250: rgb(var(--tss-colors-yellow-250-root));
+    --tss-colors-yellow-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-yellow-300: rgb(var(--tss-colors-yellow-300-root));
+    --tss-colors-yellow-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-yellow-400: rgb(var(--tss-colors-yellow-400-root));
+    --tss-colors-yellow-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-yellow-500: rgb(var(--tss-colors-yellow-500-root));
+    --tss-colors-yellow-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-yellow-600: rgb(var(--tss-colors-yellow-600-root));
+    --tss-colors-yellow-700-root: var(--tss-gs-abs-8-root);
+    --tss-colors-yellow-700: rgb(var(--tss-colors-yellow-700-root));
+    --tss-colors-yellow-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-yellow-800: rgb(var(--tss-colors-yellow-800-root));
+    --tss-colors-yellow-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-yellow-850: rgb(var(--tss-colors-yellow-850-root));
+    --tss-colors-yellow-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-yellow-900: rgb(var(--tss-colors-yellow-900-root));
+    --tss-colors-yellow-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-yellow-1000: rgb(var(--tss-colors-yellow-1000-root));
+    --tss-colors-green-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-green-100: rgb(var(--tss-colors-green-100-root));
+    --tss-colors-green-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-green-200: rgb(var(--tss-colors-green-200-root));
+    --tss-colors-green-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-green-250: rgb(var(--tss-colors-green-250-root));
+    --tss-colors-green-300-root: var(--tss-gs-abs-13-root);
+    --tss-colors-green-300: rgb(var(--tss-colors-green-300-root));
+    --tss-colors-green-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-green-400: rgb(var(--tss-colors-green-400-root));
+    --tss-colors-green-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-green-500: rgb(var(--tss-colors-green-500-root));
+    --tss-colors-green-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-green-600: rgb(var(--tss-colors-green-600-root));
+    --tss-colors-green-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-green-700: rgb(var(--tss-colors-green-700-root));
+    --tss-colors-green-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-green-800: rgb(var(--tss-colors-green-800-root));
+    --tss-colors-green-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-green-850: rgb(var(--tss-colors-green-850-root));
+    --tss-colors-green-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-green-900: rgb(var(--tss-colors-green-900-root));
+    --tss-colors-green-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-green-1000: rgb(var(--tss-colors-green-1000-root));
+    --tss-colors-teal-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-teal-100: rgb(var(--tss-colors-teal-100-root));
+    --tss-colors-teal-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-teal-200: rgb(var(--tss-colors-teal-200-root));
+    --tss-colors-teal-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-teal-250: rgb(var(--tss-colors-teal-250-root));
+    --tss-colors-teal-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-teal-300: rgb(var(--tss-colors-teal-300-root));
+    --tss-colors-teal-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-teal-400: rgb(var(--tss-colors-teal-400-root));
+    --tss-colors-teal-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-teal-500: rgb(var(--tss-colors-teal-500-root));
+    --tss-colors-teal-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-teal-600: rgb(var(--tss-colors-teal-600-root));
+    --tss-colors-teal-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-teal-700: rgb(var(--tss-colors-teal-700-root));
+    --tss-colors-teal-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-teal-800: rgb(var(--tss-colors-teal-800-root));
+    --tss-colors-teal-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-teal-850: rgb(var(--tss-colors-teal-850-root));
+    --tss-colors-teal-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-teal-900: rgb(var(--tss-colors-teal-900-root));
+    --tss-colors-teal-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-teal-1000: rgb(var(--tss-colors-teal-1000-root));
+    --tss-colors-blue-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-blue-100: rgb(var(--tss-colors-blue-100-root));
+    --tss-colors-blue-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-blue-200: rgb(var(--tss-colors-blue-200-root));
+    --tss-colors-blue-250-root: var(--tss-gs-abs-13-root);
+    --tss-colors-blue-250: rgb(var(--tss-colors-blue-250-root));
+    --tss-colors-blue-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-blue-300: rgb(var(--tss-colors-blue-300-root));
+    --tss-colors-blue-400-root: var(--tss-gs-abs-10-root);
+    --tss-colors-blue-400: rgb(var(--tss-colors-blue-400-root));
+    --tss-colors-blue-500-root: var(--tss-gs-abs-9-root);
+    --tss-colors-blue-500: rgb(var(--tss-colors-blue-500-root));
+    --tss-colors-blue-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-blue-600: rgb(var(--tss-colors-blue-600-root));
+    --tss-colors-blue-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-blue-700: rgb(var(--tss-colors-blue-700-root));
+    --tss-colors-blue-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-blue-800: rgb(var(--tss-colors-blue-800-root));
+    --tss-colors-blue-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-blue-850: rgb(var(--tss-colors-blue-850-root));
+    --tss-colors-blue-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-blue-900: rgb(var(--tss-colors-blue-900-root));
+    --tss-colors-blue-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-blue-1000: rgb(var(--tss-colors-blue-1000-root));
+    --tss-colors-purple-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-purple-100: rgb(var(--tss-colors-purple-100-root));
+    --tss-colors-purple-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-purple-200: rgb(var(--tss-colors-purple-200-root));
+    --tss-colors-purple-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-purple-250: rgb(var(--tss-colors-purple-250-root));
+    --tss-colors-purple-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-purple-300: rgb(var(--tss-colors-purple-300-root));
+    --tss-colors-purple-400-root: var(--tss-gs-abs-11-root);
+    --tss-colors-purple-400: rgb(var(--tss-colors-purple-400-root));
+    --tss-colors-purple-500-root: var(--tss-gs-abs-10-root);
+    --tss-colors-purple-500: rgb(var(--tss-colors-purple-500-root));
+    --tss-colors-purple-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-purple-600: rgb(var(--tss-colors-purple-600-root));
+    --tss-colors-purple-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-purple-700: rgb(var(--tss-colors-purple-700-root));
+    --tss-colors-purple-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-purple-800: rgb(var(--tss-colors-purple-800-root));
+    --tss-colors-purple-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-purple-850: rgb(var(--tss-colors-purple-850-root));
+    --tss-colors-purple-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-purple-900: rgb(var(--tss-colors-purple-900-root));
+    --tss-colors-purple-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-purple-1000: rgb(var(--tss-colors-purple-1000-root));
+    --tss-colors-magenta-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-magenta-100: rgb(var(--tss-colors-magenta-100-root));
+    --tss-colors-magenta-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-magenta-200: rgb(var(--tss-colors-magenta-200-root));
+    --tss-colors-magenta-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-magenta-250: rgb(var(--tss-colors-magenta-250-root));
+    --tss-colors-magenta-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-magenta-300: rgb(var(--tss-colors-magenta-300-root));
+    --tss-colors-magenta-400-root: var(--tss-gs-abs-11-root);
+    --tss-colors-magenta-400: rgb(var(--tss-colors-magenta-400-root));
+    --tss-colors-magenta-500-root: var(--tss-gs-abs-10-root);
+    --tss-colors-magenta-500: rgb(var(--tss-colors-magenta-500-root));
+    --tss-colors-magenta-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-magenta-600: rgb(var(--tss-colors-magenta-600-root));
+    --tss-colors-magenta-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-magenta-700: rgb(var(--tss-colors-magenta-700-root));
+    --tss-colors-magenta-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-magenta-800: rgb(var(--tss-colors-magenta-800-root));
+    --tss-colors-magenta-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-magenta-850: rgb(var(--tss-colors-magenta-850-root));
+    --tss-colors-magenta-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-magenta-900: rgb(var(--tss-colors-magenta-900-root));
+    --tss-colors-magenta-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-magenta-1000: rgb(var(--tss-colors-magenta-1000-root));
+    --tss-colors-neutral-0-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: var(--tss-gs-abs-9-root);
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: var(--tss-gs-abs-5-root);
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+    --tss-colors-neutral-100-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-100-alpha: rgb(var(--tss-colors-neutral-100-alpha-root));
+    --tss-colors-neutral-200-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-200-alpha: rgb(var(--tss-colors-neutral-200-alpha-root));
+    --tss-colors-neutral-300-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-300-alpha: rgb(var(--tss-colors-neutral-300-alpha-root));
+    --tss-colors-neutral-400-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-400-alpha: rgb(var(--tss-colors-neutral-400-alpha-root));
+    --tss-colors-neutral-500-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-500-alpha: rgb(var(--tss-colors-neutral-500-alpha-root));
+    --tss-colors-dark-neutral-0-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-0: rgb(var(--tss-colors-dark-neutral-0-root));
+    --tss-colors-dark-neutral-100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-dark-neutral-100: rgb(var(--tss-colors-dark-neutral-100-root));
+    --tss-colors-dark-neutral-200-root: var(--tss-gs-abs-1-root);
+    --tss-colors-dark-neutral-200: rgb(var(--tss-colors-dark-neutral-200-root));
+    --tss-colors-dark-neutral-300-root: var(--tss-gs-abs-2-root);
+    --tss-colors-dark-neutral-300: rgb(var(--tss-colors-dark-neutral-300-root));
+    --tss-colors-dark-neutral-400-root: var(--tss-gs-abs-5-root);
+    --tss-colors-dark-neutral-400: rgb(var(--tss-colors-dark-neutral-400-root));
+    --tss-colors-dark-neutral-500-root: var(--tss-gs-abs-6-root);
+    --tss-colors-dark-neutral-500: rgb(var(--tss-colors-dark-neutral-500-root));
+    --tss-colors-dark-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-dark-neutral-600: rgb(var(--tss-colors-dark-neutral-600-root));
+    --tss-colors-dark-neutral-700-root: var(--tss-gs-abs-10-root);
+    --tss-colors-dark-neutral-700: rgb(var(--tss-colors-dark-neutral-700-root));
+    --tss-colors-dark-neutral-800-root: var(--tss-gs-abs-11-root);
+    --tss-colors-dark-neutral-800: rgb(var(--tss-colors-dark-neutral-800-root));
+    --tss-colors-dark-neutral-900-root: var(--tss-gs-abs-13-root);
+    --tss-colors-dark-neutral-900: rgb(var(--tss-colors-dark-neutral-900-root));
+    --tss-colors-dark-neutral-1000-root: var(--tss-gs-abs-14-root);
+    --tss-colors-dark-neutral-1000: rgb(var(--tss-colors-dark-neutral-1000-root));
+    --tss-colors-dark-neutral-1100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-1100: rgb(var(--tss-colors-dark-neutral-1100-root));
+    --tss-colors-dark-neutral-100-alpha-root: var(--tss-gs-abs-12-root);
+    --tss-colors-dark-neutral-100-alpha: rgb(var(--tss-colors-dark-neutral-100-alpha-root));
+    --tss-colors-dark-neutral-200-alpha-root: var(--tss-gs-abs-14-root);
+    --tss-colors-dark-neutral-200-alpha: rgb(var(--tss-colors-dark-neutral-200-alpha-root));
+    --tss-colors-dark-neutral-300-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-300-alpha: rgb(var(--tss-colors-dark-neutral-300-alpha-root));
+    --tss-colors-dark-neutral-400-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-400-alpha: rgb(var(--tss-colors-dark-neutral-400-alpha-root));
+    --tss-colors-dark-neutral-500-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-500-alpha: rgb(var(--tss-colors-dark-neutral-500-alpha-root));
+
+    /* Named gradients: two levels of the fixed ramp, so each family still has its own lightness. */
+    --tss-gradient-lime: linear-gradient(135deg, var(--tss-colors-lime-300), var(--tss-colors-lime-600));
+    --tss-gradient-red: linear-gradient(135deg, var(--tss-colors-red-300), var(--tss-colors-red-600));
+    --tss-gradient-orange: linear-gradient(135deg, var(--tss-colors-orange-300), var(--tss-colors-orange-600));
+    --tss-gradient-yellow: linear-gradient(135deg, var(--tss-colors-yellow-300), var(--tss-colors-yellow-600));
+    --tss-gradient-green: linear-gradient(135deg, var(--tss-colors-green-300), var(--tss-colors-green-600));
+    --tss-gradient-teal: linear-gradient(135deg, var(--tss-colors-teal-300), var(--tss-colors-teal-600));
+    --tss-gradient-blue: linear-gradient(135deg, var(--tss-colors-blue-300), var(--tss-colors-blue-600));
+    --tss-gradient-purple: linear-gradient(135deg, var(--tss-colors-purple-300), var(--tss-colors-purple-600));
+    --tss-gradient-magenta: linear-gradient(135deg, var(--tss-colors-magenta-300), var(--tss-colors-magenta-600));
+    --tss-gradient-ai: var(--tss-gs-bayer-25-img), linear-gradient(var(--tss-gs-13), var(--tss-gs-13));
+
+    /* The AI tone. Tesserae marks generated content with a purple-to-blue gradient; a grey panel marks it
+       with a texture instead: fills are solid ink, surfaces carry a sparse ordered dither, text is ink. The
+       sparkles glyph does the rest. */
+    --tss-ai-from: var(--tss-gs-0);
+    --tss-ai-to: var(--tss-gs-0);
+    --tss-ai-accent: var(--tss-gs-0);
+    --tss-ai-gradient: linear-gradient(var(--tss-gs-0), var(--tss-gs-0));
+    --tss-ai-gradient-hover: linear-gradient(var(--tss-gs-3), var(--tss-gs-3));
+    --tss-ai-gradient-text: linear-gradient(var(--tss-gs-0), var(--tss-gs-0));
+    --tss-ai-surface: var(--tss-gs-bayer-12-img);
+    --tss-ai-surface-strong: var(--tss-gs-bayer-25-img);
+    --tss-ai-border-color: var(--tss-gs-0);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+    --tss-ai-arc: repeating-conic-gradient(var(--tss-gs-0) 0 12deg, transparent 12deg 30deg);
+    --tss-ai-on-fill: var(--tss-gs-15);
+
+    color: var(--tss-gs-0);
+}
+
+/* Paper: the ramp from ink to paper. */
+body.tss-theme-graustufe {
+    --tss-gs-0-root: 22, 21, 19;
+    --tss-gs-1-root: 33, 32, 30;
+    --tss-gs-2-root: 45, 44, 41;
+    --tss-gs-3-root: 57, 56, 53;
+    --tss-gs-4-root: 70, 69, 65;
+    --tss-gs-5-root: 83, 82, 78;
+    --tss-gs-6-root: 97, 95, 91;
+    --tss-gs-7-root: 110, 109, 104;
+    --tss-gs-8-root: 125, 123, 118;
+    --tss-gs-9-root: 139, 137, 131;
+    --tss-gs-10-root: 154, 151, 146;
+    --tss-gs-11-root: 169, 166, 160;
+    --tss-gs-12-root: 184, 181, 175;
+    --tss-gs-13-root: 199, 197, 190;
+    --tss-gs-14-root: 215, 212, 205;
+    --tss-gs-15-root: 231, 228, 220;
+    --tss-gs-edge-sm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM0 2h1v1h-1zM6 2h1v1h-1zM0 3h1v1h-1zM6 3h1v1h-1zM0 4h1v1h-1zM6 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1z'/%3E%3Cpath fill='%23161513' d='M8 2h1v1h-1zM7 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM8 6h1v1h-1zM3 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1zM2 8h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM8 8h1v1h-1z'/%3E%3C/svg%3E") 3 / 3px / 0 2px 2px 0 repeat;
+    --tss-gs-edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM0 1h1v1h-1zM8 1h1v1h-1zM0 2h1v1h-1zM8 2h1v1h-1zM0 3h1v1h-1zM8 3h1v1h-1zM0 4h1v1h-1zM8 4h1v1h-1zM0 5h1v1h-1zM8 5h1v1h-1zM0 6h1v1h-1zM8 6h1v1h-1zM0 7h1v1h-1zM8 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1z'/%3E%3Cpath fill='%23161513' d='M9 3h1v1h-1zM10 4h1v1h-1zM9 5h1v1h-1zM10 6h1v1h-1zM9 7h1v1h-1zM10 8h1v1h-1zM3 9h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM10 10h1v1h-1z'/%3E%3C/svg%3E") 4 / 4px / 0 3px 3px 0 repeat;
+    --tss-gs-edge-lg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM12 0h1v1h-1zM0 1h1v1h-1zM12 1h1v1h-1zM0 2h1v1h-1zM12 2h1v1h-1zM0 3h1v1h-1zM12 3h1v1h-1zM0 4h1v1h-1zM12 4h1v1h-1zM0 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM12 6h1v1h-1zM0 7h1v1h-1zM12 7h1v1h-1zM0 8h1v1h-1zM12 8h1v1h-1zM0 9h1v1h-1zM12 9h1v1h-1zM0 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM12 11h1v1h-1zM0 12h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1z'/%3E%3Cpath fill='%23161513' d='M13 5h1v1h-1zM15 5h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM13 11h1v1h-1zM15 11h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM5 13h1v1h-1zM7 13h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM13 13h1v1h-1zM15 13h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM13 15h1v1h-1zM15 15h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1z'/%3E%3C/svg%3E") 6 / 6px / 0 5px 5px 0 repeat;
+    --tss-gs-hatch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-mid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%237d7b76' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-12: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-25: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-50: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-75: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-12-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-25-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+}
+
+/* The palette in the night mode: Tesserae swaps its neutral scales there, so the swatches are re-mapped from
+   its dark block, by the same rule. */
+body.tss-theme-graustufe.tss-dark-mode {
+    --tss-colors-dark-neutral-0-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-0: rgb(var(--tss-colors-dark-neutral-0-root));
+    --tss-colors-dark-neutral-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-100: rgb(var(--tss-colors-dark-neutral-100-root));
+    --tss-colors-dark-neutral-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-200: rgb(var(--tss-colors-dark-neutral-200-root));
+    --tss-colors-dark-neutral-300-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-300: rgb(var(--tss-colors-dark-neutral-300-root));
+    --tss-colors-dark-neutral-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-dark-neutral-400: rgb(var(--tss-colors-dark-neutral-400-root));
+    --tss-colors-dark-neutral-500-root: var(--tss-gs-abs-9-root);
+    --tss-colors-dark-neutral-500: rgb(var(--tss-colors-dark-neutral-500-root));
+    --tss-colors-dark-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-dark-neutral-600: rgb(var(--tss-colors-dark-neutral-600-root));
+    --tss-colors-dark-neutral-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-dark-neutral-700: rgb(var(--tss-colors-dark-neutral-700-root));
+    --tss-colors-dark-neutral-800-root: var(--tss-gs-abs-5-root);
+    --tss-colors-dark-neutral-800: rgb(var(--tss-colors-dark-neutral-800-root));
+    --tss-colors-dark-neutral-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-dark-neutral-900: rgb(var(--tss-colors-dark-neutral-900-root));
+    --tss-colors-dark-neutral-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-dark-neutral-1000: rgb(var(--tss-colors-dark-neutral-1000-root));
+    --tss-colors-dark-neutral-1100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-dark-neutral-1100: rgb(var(--tss-colors-dark-neutral-1100-root));
+    --tss-colors-dark-neutral-100-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-100-alpha: rgb(var(--tss-colors-dark-neutral-100-alpha-root));
+    --tss-colors-dark-neutral-200-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-200-alpha: rgb(var(--tss-colors-dark-neutral-200-alpha-root));
+    --tss-colors-dark-neutral-300-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-300-alpha: rgb(var(--tss-colors-dark-neutral-300-alpha-root));
+    --tss-colors-dark-neutral-400-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-400-alpha: rgb(var(--tss-colors-dark-neutral-400-alpha-root));
+    --tss-colors-dark-neutral-500-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-500-alpha: rgb(var(--tss-colors-dark-neutral-500-alpha-root));
+    --tss-colors-neutral-0-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: var(--tss-gs-abs-1-root);
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: var(--tss-gs-abs-2-root);
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: var(--tss-gs-abs-5-root);
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: var(--tss-gs-abs-6-root);
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: var(--tss-gs-abs-10-root);
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: var(--tss-gs-abs-11-root);
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: var(--tss-gs-abs-13-root);
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: var(--tss-gs-abs-14-root);
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+    --tss-colors-neutral-100-alpha-root: var(--tss-gs-abs-12-root);
+    --tss-colors-neutral-100-alpha: rgb(var(--tss-colors-neutral-100-alpha-root));
+    --tss-colors-neutral-200-alpha-root: var(--tss-gs-abs-14-root);
+    --tss-colors-neutral-200-alpha: rgb(var(--tss-colors-neutral-200-alpha-root));
+    --tss-colors-neutral-300-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-300-alpha: rgb(var(--tss-colors-neutral-300-alpha-root));
+    --tss-colors-neutral-400-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-400-alpha: rgb(var(--tss-colors-neutral-400-alpha-root));
+    --tss-colors-neutral-500-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-500-alpha: rgb(var(--tss-colors-neutral-500-alpha-root));
+}
+
+/* Night mode: the same ramp, turned over. */
+body.tss-theme-graustufe.tss-dark-mode {
+    --tss-gs-0-root: 231, 228, 220;
+    --tss-gs-1-root: 215, 212, 205;
+    --tss-gs-2-root: 199, 197, 190;
+    --tss-gs-3-root: 184, 181, 175;
+    --tss-gs-4-root: 169, 166, 160;
+    --tss-gs-5-root: 154, 151, 146;
+    --tss-gs-6-root: 139, 137, 131;
+    --tss-gs-7-root: 125, 123, 118;
+    --tss-gs-8-root: 110, 109, 104;
+    --tss-gs-9-root: 97, 95, 91;
+    --tss-gs-10-root: 83, 82, 78;
+    --tss-gs-11-root: 70, 69, 65;
+    --tss-gs-12-root: 57, 56, 53;
+    --tss-gs-13-root: 45, 44, 41;
+    --tss-gs-14-root: 33, 32, 30;
+    --tss-gs-15-root: 22, 21, 19;
+    --tss-gs-edge-sm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' shape-rendering='crispEdges'%3E%3Cpath fill='%23d7d4cd' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM0 2h1v1h-1zM6 2h1v1h-1zM0 3h1v1h-1zM6 3h1v1h-1zM0 4h1v1h-1zM6 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1z'/%3E%3Cpath fill='%238b8983' d='M8 2h1v1h-1zM7 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM8 6h1v1h-1zM3 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1zM2 8h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM8 8h1v1h-1z'/%3E%3C/svg%3E") 3 / 3px / 0 2px 2px 0 repeat;
+    --tss-gs-edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath fill='%23d7d4cd' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM0 1h1v1h-1zM8 1h1v1h-1zM0 2h1v1h-1zM8 2h1v1h-1zM0 3h1v1h-1zM8 3h1v1h-1zM0 4h1v1h-1zM8 4h1v1h-1zM0 5h1v1h-1zM8 5h1v1h-1zM0 6h1v1h-1zM8 6h1v1h-1zM0 7h1v1h-1zM8 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1z'/%3E%3Cpath fill='%238b8983' d='M9 3h1v1h-1zM10 4h1v1h-1zM9 5h1v1h-1zM10 6h1v1h-1zM9 7h1v1h-1zM10 8h1v1h-1zM3 9h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM10 10h1v1h-1z'/%3E%3C/svg%3E") 4 / 4px / 0 3px 3px 0 repeat;
+    --tss-gs-edge-lg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' shape-rendering='crispEdges'%3E%3Cpath fill='%23d7d4cd' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM12 0h1v1h-1zM0 1h1v1h-1zM12 1h1v1h-1zM0 2h1v1h-1zM12 2h1v1h-1zM0 3h1v1h-1zM12 3h1v1h-1zM0 4h1v1h-1zM12 4h1v1h-1zM0 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM12 6h1v1h-1zM0 7h1v1h-1zM12 7h1v1h-1zM0 8h1v1h-1zM12 8h1v1h-1zM0 9h1v1h-1zM12 9h1v1h-1zM0 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM12 11h1v1h-1zM0 12h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1z'/%3E%3Cpath fill='%238b8983' d='M13 5h1v1h-1zM15 5h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM13 11h1v1h-1zM15 11h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM5 13h1v1h-1zM7 13h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM13 13h1v1h-1zM15 13h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM13 15h1v1h-1zM15 15h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1z'/%3E%3C/svg%3E") 6 / 6px / 0 5px 5px 0 repeat;
+    --tss-gs-hatch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-mid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%236e6d68' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-12: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-25: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-50: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-75: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-12-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-25-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   No motion
+   --------------------------------------------------------------------------
+   An e-ink panel redraws; it does not animate. Every transition and every
+   animation is off, on every element and pseudo-element, layers included
+   (they mount on the body). What exists only as motion gets a still
+   replacement in its own file: the spinner is a dotted ring, the
+   indeterminate bar a hatched bar, the skeleton a dithered block.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe,
+body.tss-theme-graustufe *,
+body.tss-theme-graustufe *::before,
+body.tss-theme-graustufe *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+}
+
+/* No glass either: a panel that can only show grey does not blur what is behind it. */
+body.tss-theme-graustufe * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Base: type, selection, focus, links
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe {
+    font-family: var(--tss-gs-text);
+    font-optical-sizing: auto;
+    font-variant-numeric: lining-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Chrome speaks in the legible sans. */
+body.tss-theme-graustufe button,
+body.tss-theme-graustufe input,
+body.tss-theme-graustufe select,
+body.tss-theme-graustufe textarea {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe code,
+body.tss-theme-graustufe pre,
+body.tss-theme-graustufe kbd,
+body.tss-theme-graustufe samp {
+    font-family: var(--tss-gs-mono);
+}
+
+/* Selection is inverted, the way a reader marks a passage: solid ink, paper type. */
+body.tss-theme-graustufe ::selection {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+/* Focus is a thick ink frame, set off the part by a sliver of paper. */
+body.tss-theme-graustufe :focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+/* A text field draws its focus on its own frame (tss.textbox.css): no second outline on the inner input. */
+body.tss-theme-graustufe input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-graustufe textarea:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-graustufe a {
+    color: var(--tss-gs-0);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe a:hover {
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-graustufe hr {
+    border: 0;
+    border-top: var(--tss-gs-rule);
+}
+
+/* Pictures are shown the way the panel can show them: in grey. */
+body.tss-theme-graustufe img,
+body.tss-theme-graustufe video,
+body.tss-theme-graustufe canvas,
+body.tss-theme-graustufe picture,
+body.tss-theme-graustufe iframe {
+    filter: var(--tss-gs-panel);
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbars: a hairline rail and a square thumb
+   --------------------------------------------------------------------------
+   A 9px bar: a 1px rule down the middle of the track while the pointer is
+   over the scroller, and a square thumb that is a dithered ghost at rest,
+   solid mid grey near the pointer, solid ink under it and while dragged.
+   CSS only, on purpose (see the repository's "Scrollbars are CSS only"): no
+   script watches scrolling or draws a bar.
+
+   Chrome, Edge and Safari draw ::-webkit-scrollbar; Firefox has only
+   scrollbar-color and scrollbar-width, and so do Chromium 121+, where setting
+   either one stops the ::-webkit-scrollbar styles. The standard properties
+   therefore sit under @supports not selector(::-webkit-scrollbar), which is
+   Firefox alone. Chromium draws the page scrollbar from body, not html, so
+   body is in every selector list, and html:has() reaches Firefox's.
+   -------------------------------------------------------------------------- */
+
+html:has(> body.tss-theme-graustufe) {
+    --tss-gs-sb-rest: rgb(199, 197, 190);
+    --tss-gs-sb-near: rgb(125, 123, 118);
+    --tss-gs-sb-hot: rgb(22, 21, 19);
+}
+
+html:has(> body.tss-theme-graustufe.tss-dark-mode) {
+    --tss-gs-sb-rest: rgb(57, 56, 53);
+    --tss-gs-sb-near: rgb(125, 123, 118);
+    --tss-gs-sb-hot: rgb(231, 228, 220);
+}
+
+body.tss-theme-graustufe {
+    --tss-gs-sb-rest: var(--tss-gs-12);
+    --tss-gs-sb-near: var(--tss-gs-8);
+    --tss-gs-sb-hot: var(--tss-gs-0);
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar,
+    body.tss-theme-graustufe::-webkit-scrollbar,
+    body.tss-theme-graustufe ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-corner,
+    body.tss-theme-graustufe::-webkit-scrollbar-corner,
+    body.tss-theme-graustufe ::-webkit-scrollbar-corner,
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-track,
+    body.tss-theme-graustufe::-webkit-scrollbar-track,
+    body.tss-theme-graustufe ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    /* The rail: a 1px rule down the middle, only while the pointer is over the scroller. */
+    html:has(> body.tss-theme-graustufe):hover::-webkit-scrollbar-track:vertical,
+    body.tss-theme-graustufe:hover::-webkit-scrollbar-track:vertical,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-track:vertical {
+        background: linear-gradient(90deg, transparent 4px, var(--tss-gs-sb-near) 4px 5px, transparent 5px);
+    }
+
+    html:has(> body.tss-theme-graustufe):hover::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-graustufe:hover::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-track:horizontal {
+        background: linear-gradient(180deg, transparent 4px, var(--tss-gs-sb-near) 4px 5px, transparent 5px);
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe ::-webkit-scrollbar-thumb {
+        background-color: var(--tss-gs-sb-rest);
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        border-radius: 0;
+        min-height: 32px;
+        min-width: 32px;
+    }
+
+    html:has(> body.tss-theme-graustufe):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-thumb {
+        background-color: var(--tss-gs-sb-near);
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-graustufe::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-graustufe ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-thumb:hover,
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-graustufe::-webkit-scrollbar-thumb:active,
+    body.tss-theme-graustufe ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-thumb:active {
+        background-color: var(--tss-gs-sb-hot);
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-button,
+    body.tss-theme-graustufe::-webkit-scrollbar-button,
+    body.tss-theme-graustufe ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+/* Firefox: no thumb part to hover, so it stops at mid grey on the scroller. */
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-graustufe),
+    body.tss-theme-graustufe,
+    body.tss-theme-graustufe * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-gs-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-graustufe):hover,
+    body.tss-theme-graustufe *:hover {
+        scrollbar-color: var(--tss-gs-sb-near) transparent;
+    }
+}
+
+/* The one exception: Tippy (tooltips, popovers, teaching bubbles, sidebar flyouts) unmounts a hidden
+   popup on the box's transitionend, and with no transition that event never comes, so every popup ever
+   shown would stay in the document, hidden, and its onHidden callback would never run. A 1ms transition
+   on visibility (which changes on every hide) is not motion anyone can see, and lets the event fire. */
+body.tss-theme-graustufe .tippy-box {
+    transition-property: visibility !important;
+    transition-duration: 1ms !important;
+    transition-timing-function: linear !important;
+    transition-delay: 0s !important;
+}
+
+/* --------------------------------------------------------------------------
+   Colour that arrives from outside the stylesheet
+   --------------------------------------------------------------------------
+   The panel shows greys and nothing else, so colour a component or an app
+   sets inline (an icon tinted green, a swatch, a chip filled from data) is
+   shown the way the panel would: as the grey of the same lightness, toned
+   to the paper (--tss-gs-panel). Only inline styles that carry a literal
+   colour are matched (a browser writes any colour set from script as
+   rgb()), not the ones that name a theme variable. SVG
+   drawings (charts, sparklines, icons) are greyed the same way; the theme's
+   own chart series are greys already.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe [style*="rgb("]:not(body),
+body.tss-theme-graustufe [style*="hsl("]:not(body),
+body.tss-theme-graustufe [style*="gradient("]:not(body),
+body.tss-theme-graustufe [style*="#"]:not(body),
+body.tss-theme-graustufe [style*="--tss-token-tint"],
+body.tss-theme-graustufe svg {
+    filter: var(--tss-gs-panel);
+}

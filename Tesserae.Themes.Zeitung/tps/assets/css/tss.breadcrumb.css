@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Zeitung theme - Breadcrumb
+   --------------------------------------------------------------------------
+   A breadcrumb is the folio line at the top of an inside page: the trail in
+   the serif's small caps, divided by thin chevrons, each step underlined in
+   ink under the pointer. The last step, the page you are on, is set bold
+   and does not underline.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-breadcrumb .tss-btn {
+    background: transparent;
+    box-shadow: none !important;
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-breadcrumb .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-zeitung .tss-breadcrumb .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-nohover):hover,
+body.tss-theme-zeitung .tss-breadcrumb .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background: transparent;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-breadcrumb .tss-btn:not(.tss-disabled):hover > span {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-zeitung .tss-breadcrumb > .tss-btn:last-child,
+body.tss-theme-zeitung .tss-breadcrumb .tss-btn.tss-disabled,
+body.tss-theme-zeitung .tss-breadcrumb .tss-btn.tss-disabled .tss-fontcolor-default {
+    color: var(--tss-zt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-breadcrumb-chevron {
+    color: var(--tss-zt-muted);
+}

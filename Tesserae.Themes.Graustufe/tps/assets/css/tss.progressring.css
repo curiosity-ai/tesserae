@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Graustufe theme - ProgressRing
+   --------------------------------------------------------------------------
+   A grey track and an ink arc with square ends. Indeterminate, it does not
+   spin: the ring is drawn as a still circle of ink dots.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-progressring-track {
+    stroke: var(--tss-gs-12);
+}
+
+body.tss-theme-graustufe .tss-progressring-fill {
+    stroke: var(--tss-gs-0);
+    stroke-linecap: butt;
+}
+
+body.tss-theme-graustufe .tss-progressring-label {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-progressring-indeterminate .tss-progressring-fill {
+    stroke-linecap: round;
+    stroke-dasharray: 0.01 calc(var(--tss-ring-circ, 150) / 16);
+}

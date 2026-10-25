@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Graustufe theme - Carousel
+   --------------------------------------------------------------------------
+   A page turner: the viewport is a ruled leaf, the next slide replaces the
+   last at once (a page turn on e-paper is a redraw, not a slide). The
+   arrows are square ruled keys that invert when pressed; the indicators
+   are small squares, the current one solid ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-carousel-viewport {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-carousel-nav {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-carousel-nav:hover {
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-carousel-nav:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-carousel-indicator {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-carousel-indicator.tss-active {
+    background: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}

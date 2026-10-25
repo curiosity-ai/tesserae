@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Glas theme - SplitView
+   --------------------------------------------------------------------------
+   The splitter is a hairline of light with a small capsule grip that glows
+   with the accent under the pointer. A panel-styled side is a pane of glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-splitview > .tss-splitter:before {
+    background: var(--tss-gl-edge-strong);
+}
+
+body.tss-theme-glas .tss-splitview > .tss-splitter:after {
+    background: rgba(var(--tss-default-foreground-color-root), 0.28);
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-splitview > .tss-splitter:hover:before {
+    background: rgb(var(--tss-gl-accent-rgb)) !important;
+    box-shadow: 0 0 8px rgba(var(--tss-gl-accent-rgb), 0.6);
+}
+
+body.tss-theme-glas .tss-splitview-panel-style.tss-split-left > *:first-child,
+body.tss-theme-glas .tss-splitview-panel-style.tss-split-right > *:last-child {
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+}

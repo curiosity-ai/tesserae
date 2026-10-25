@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Phosphor theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a message window flashed in a corner: a double-line frame on
+   the surface, square, blooming on the screen. A full-width toast is a
+   status line ruled off from the page.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-toast-container {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    transition: opacity 120ms steps(3);
+}
+
+body.tss-theme-phosphor .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border: 0;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: 0;
+    border-top: var(--tss-ph-double);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-toast-container {
+        transition: none;
+    }
+}

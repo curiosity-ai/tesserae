@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Kontrast theme - Panel
+   --------------------------------------------------------------------------
+   A side panel is a board slid against the edge: a 3px ink rule on its
+   open side, no soft shadow, the strong scrim behind. Its title bar is ruled
+   off with 2px, the close button a 44px ghost that takes an edge.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-panel-container {
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-kontrast .tss-panel-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-kontrast .tss-panel {
+    background: var(--tss-kt-paper);
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast .tss-panelSide-far .tss-panel,
+body.tss-theme-kontrast .tss-panel.tss-panelSide-far {
+    border-left: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-panelSide-near .tss-panel,
+body.tss-theme-kontrast .tss-panel.tss-panelSide-near {
+    border-right: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-panel-near-animate,
+body.tss-theme-kontrast .tss-panel-far-animate {
+    animation: none;
+}
+
+body.tss-theme-kontrast .tss-panel-command {
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
+    height: 52px;
+}
+
+body.tss-theme-kontrast .tss-panel-title {
+    font-weight: 750;
+    font-size: var(--tss-font-size-medium);
+}
+
+body.tss-theme-kontrast .tss-panel-command-button {
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-panel-command-button:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-panel-command-button:active {
+    background: var(--tss-kt-pressed);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-panel-footer {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-line);
+}

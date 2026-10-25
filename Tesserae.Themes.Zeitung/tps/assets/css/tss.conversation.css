@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Zeitung theme - conversation
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-conversation-comment,
+body.tss-theme-zeitung .tss-conversation-comment-header,
+body.tss-theme-zeitung .tss-conversation-comment-attachment,
+body.tss-theme-zeitung .tss-conversation-reaction,
+body.tss-theme-zeitung .tss-conversation-reaction-picker,
+body.tss-theme-zeitung .tss-conversation-composer-box,
+body.tss-theme-zeitung .tss-conversation-composer-tabs,
+body.tss-theme-zeitung .tss-conversation-composer-tab {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

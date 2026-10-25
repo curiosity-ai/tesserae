@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Kristall theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers are small borderless buttons with tabular figures that get
+   a quiet fill under the pointer; the current page is a filled accent
+   circle-ended capsule. The chevrons are glyphs in secondary grey.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-pagination-button {
+    border: 0;
+    border-radius: var(--tss-kr-r-pill);
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-kristall .tss-pagination-button:hover:not(:disabled) {
+    background: var(--tss-kr-fill-3);
+}
+
+body.tss-theme-kristall .tss-pagination-button.tss-active,
+body.tss-theme-kristall .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background: var(--tss-kr-accent-face);
+    color: var(--tss-kr-on-accent);
+    font-weight: 600;
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.3), 0 0 0 0.5px rgba(0, 0, 0, 0.12), 0 0.5px 2px rgba(0, 0, 0, 0.14);
+}
+
+body.tss-theme-kristall .tss-pagination-nav {
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-pagination-button:focus-visible {
+    outline: 3px solid var(--tss-kr-focus-ring);
+    outline-offset: 0;
+}

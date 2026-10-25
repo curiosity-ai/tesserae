@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Zeitung theme - Timeline
+   --------------------------------------------------------------------------
+   A timeline is a chronology column: a single ink rule down the middle,
+   each event a square marker on it (filled with the caller's colour, framed
+   in ink) and a boxed brief beside it, ruled with the thin double rule at
+   its head. Dates and figures are lining.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-zt-ink), var(--tss-zt-ink)) no-repeat center/1px 100%;
+}
+
+body.tss-theme-zeitung .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-zt-ink), var(--tss-zt-ink)) no-repeat 20px 0px/1px 100%;
+}
+
+body.tss-theme-zeitung .tss-timeline-container::after {
+    border-radius: 0;
+    background-color: var(--tss-zt-paper);
+    border: 2px solid var(--tss-timeline-circle-color, var(--tss-zt-ink));
+}
+
+body.tss-theme-zeitung .tss-timeline-container .tss-timeline-content {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid var(--tss-zt-ink);
+    background: var(--tss-zt-band-thin) top / 100% 4px no-repeat, var(--tss-zt-paper);
+    font-variant-numeric: lining-nums;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-timeline-container .tss-timeline-content {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

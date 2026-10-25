@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Zeitung theme - Diagram
+   --------------------------------------------------------------------------
+   A diagram is an explanatory graphic: the canvas the paper with a faint
+   dot screen, framed in a hairline; nodes are square boxes ruled in ink
+   with their label in the serif; lines drawn in ink. A toned node keeps
+   its tone as a fill.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-diagram {
+    --tss-diagram-dot-color: rgba(var(--tss-default-foreground-color-root), 0.18);
+    --tss-diagram-line-color: var(--tss-zt-ink);
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+    background-color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-diagram-node {
+    border-radius: 0;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+body.tss-theme-zeitung .tss-diagram-node:hover,
+body.tss-theme-zeitung .tss-diagram-node.tss-diagram-node-dragging {
+    box-shadow: 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-diagram-node.tss-diagram-node-icon-only {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-diagram-node-default {
+    background-color: var(--tss-zt-paper);
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-diagram-node-secondary {
+    background-color: var(--tss-zt-tint-strong);
+    border-color: var(--tss-zt-rule);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-diagram-node {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

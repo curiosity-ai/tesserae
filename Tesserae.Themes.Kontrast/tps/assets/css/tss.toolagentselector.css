@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Kontrast theme - ToolAgentSelector
+   --------------------------------------------------------------------------
+   The trigger is a field-like key; active, it is bold with an ink edge.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-kt-ink);
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-toolagent-trigger {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolagent-popup {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}

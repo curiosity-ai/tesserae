@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Graustufe theme - InlinePagination
+   --------------------------------------------------------------------------
+   "3 of 12" between two arrows, in a square ruled strip.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-inlinepagination {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-inlinepagination-button {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-inlinepagination-button:hover:not(:disabled) {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-inlinepagination-button:focus-visible {
+    outline: 2px solid var(--tss-gs-0);
+}

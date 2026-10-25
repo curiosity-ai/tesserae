@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Phosphor theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is the modal's window (tss.modal.css), square. Its header row
+   keeps the modal's geometry so the title still lies on the frame's top
+   line; its buttons are the bracketed "[ OK ]" fields of tss.button.css.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-dialog {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-dialog .tss-modal-header {
+    padding: 0 14px;
+}
+
+body.tss-theme-phosphor .tss-dialog .tss-modal-content {
+    padding: 6px 14px 0;
+}
+
+body.tss-theme-phosphor .tss-dialog .tss-modal-footer {
+    padding: 0 14px 8px;
+}

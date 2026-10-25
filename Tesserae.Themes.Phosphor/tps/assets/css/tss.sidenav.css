@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Phosphor theme - Sidenav
+   --------------------------------------------------------------------------
+   The compact rail: square cells, a double rule along its edge, the
+   selected cell the cursor block.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-sidenav {
+    border-right: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-ph-tint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover * {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-phosphor .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidenav-footer {
+    border-top: var(--tss-ph-single);
+}

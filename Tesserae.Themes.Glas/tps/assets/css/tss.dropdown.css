@@ -1,0 +1,203 @@
+/* ==========================================================================
+   Glas theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed dropdown is a field: the well of tss.textbox.css, its chevron
+   muted. The popup is a floating lens of thick glass (like the menus), its
+   rows inset pills that condense into accent-tinted glass under the pointer
+   or the keyboard; a multi-select's boxes are small glass squares that
+   fill with the accent lozenge when checked.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-dropdown-container {
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge-strong);
+    border-radius: var(--tss-gl-radius-ctrl);
+    box-shadow: var(--tss-gl-field-shade);
+    transition: border-color 140ms linear, box-shadow 180ms ease;
+}
+
+body.tss-theme-glas .tss-dropdown {
+    padding-left: 9px;
+}
+
+body.tss-theme-glas .tss-dropdown-container:hover {
+    background: var(--tss-gl-well);
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.45);
+    box-shadow: var(--tss-gl-field-shade-hover);
+}
+
+body.tss-theme-glas .tss-dropdown-container:has(> .tss-dropdown:focus-visible),
+body.tss-theme-glas .tss-dropdown-container:focus-within {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-glas .tss-dropdown-container.tss-noborder {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-dropdown-container.tss-noborder {
+    border-color: transparent;
+}
+
+body.tss-theme-glas .tss-dropdown-container.tss-disabled {
+    background: var(--tss-disabled-background-color);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-dropdown-container > .tss-dropdown-icon {
+    right: 12px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-dropdown-container.tss-invalid {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-glas .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border-color: transparent;
+}
+
+body.tss-theme-glas .tss-dropdown-error {
+    color: rgb(var(--tss-invalid-border-color-root));
+    font-weight: 600;
+}
+
+/* Chips of the selected values on the box. */
+body.tss-theme-glas .tss-dropdown-item-on-box .tss-btn {
+    border-radius: 999px;
+}
+
+/* --------------------------------------------------------------------------
+   The popup
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-dropdown-popup {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-dropdown-item,
+body.tss-theme-glas .tss-dropdown-header {
+    background: transparent;
+}
+
+body.tss-theme-glas .tss-dropdown-popup .tss-dropdown-item {
+    margin: 0 6px;
+    width: calc(100% - 12px);
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-dropdown-item:hover {
+    background-color: rgba(var(--tss-gl-accent-rgb), 0.1);
+}
+
+body.tss-theme-glas .tss-dropdown-item:focus,
+body.tss-theme-glas .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.55);
+    background-color: rgba(var(--tss-gl-accent-rgb), 0.12);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-dropdown-item:hover {
+    background-color: rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-dropdown-item:focus,
+body.tss-theme-glas.tss-dark-mode .tss-dropdown-item.tss-dropdown-item-focus {
+    background-color: rgba(var(--tss-gl-accent-rgb), 0.24);
+}
+
+body.tss-theme-glas .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus,
+body.tss-theme-glas .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+}
+
+/* The chosen row of a single select: a lozenge of tinted glass, its label in accent ink. */
+body.tss-theme-glas .tss-dropdown-popup:not(.tss-dropdown-multi) .tss-dropdown-item.tss-selected {
+    color: var(--tss-gl-accent-ink);
+    font-weight: 600;
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0.18) 0%, rgba(var(--tss-gl-accent-rgb), 0.11) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-dropdown-popup:not(.tss-dropdown-multi) .tss-dropdown-item.tss-selected {
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0.32) 0%, rgba(var(--tss-gl-accent-rgb), 0.2) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.35);
+}
+
+body.tss-theme-glas .tss-dropdown-item.tss-disabled:hover {
+    background-color: transparent;
+}
+
+body.tss-theme-glas .tss-dropdown-header {
+    color: var(--tss-gl-accent-ink);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 34px;
+    padding: 0 14px;
+}
+
+body.tss-theme-glas .tss-dropdown-divider {
+    background-color: var(--tss-gl-edge);
+    margin: 4px 12px;
+    width: auto;
+}
+
+/* Multi-select: small glass squares, filled with the accent lozenge when checked. */
+body.tss-theme-glas .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: 6px;
+    width: 18px;
+    height: 18px;
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge-strong);
+    box-shadow: var(--tss-gl-field-shade);
+}
+
+body.tss-theme-glas .tss-dropdown-multi > .tss-dropdown-item:after {
+    left: 15px;
+    width: 5px;
+    height: 10px;
+    border-width: 0 2px 2px 0;
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.5);
+}
+
+body.tss-theme-glas .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-glas .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    border-color: transparent;
+    box-shadow: var(--tss-gl-lozenge-rim), 0 2px 6px -2px rgba(var(--tss-gl-accent-rgb), 0.7);
+}
+
+body.tss-theme-glas .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: rgb(255, 255, 255);
+}
+
+/* The popup's search is a pill well. */
+body.tss-theme-glas .tss-dropdown-popup .tss-dropdown-searchbox {
+    margin: 2px 8px 0;
+    width: calc(100% - 16px);
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge);
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+}
+
+@supports (backdrop-filter: url("#a")) and (not (-moz-appearance: none)) and (not (font: -apple-system-body)) {
+    body.tss-theme-glas .tss-dropdown-popup {
+        backdrop-filter: var(--tss-gl-refract);
+    }
+}

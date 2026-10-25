@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Graustufe theme - MetadataPanel
+   --------------------------------------------------------------------------
+   The margin notes of a record: sections parted by hairlines, their titles
+   small italic captions in the book face.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-metadata-section {
+    border-bottom: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-metadata-section-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-metadata-section-title-editable:hover {
+    color: var(--tss-gs-0);
+    text-decoration: underline;
+}
+
+body.tss-theme-graustufe .tss-metadata-person-name,
+body.tss-theme-graustufe .tss-metadata-item-title {
+    font-family: var(--tss-gs-ui);
+}

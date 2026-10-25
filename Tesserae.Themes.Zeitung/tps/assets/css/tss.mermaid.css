@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Zeitung theme - Mermaid (diagrams drawn by Pele)
+   --------------------------------------------------------------------------
+   Pele colours a diagram from --pele-* variables, so the graphic follows
+   the paper: ink lines and frames, square boxes, labels in the serif,
+   headings in the condensed gothic weight, the spot red as the accent and
+   the chart inks for series. The frame matches a code block's: a hairline
+   box with a 3px ink rule down its leading edge.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-mermaid {
+    --pele-bg: var(--tss-zt-paper);
+    --pele-fg: var(--tss-zt-ink);
+    --pele-muted: var(--tss-zt-muted);
+    --pele-line: var(--tss-zt-ink);
+    --pele-surface: var(--tss-zt-paper);
+    --pele-surface-alt: var(--tss-zt-tint-strong);
+    --pele-border: var(--tss-zt-ink);
+    --pele-accent: var(--tss-zt-red);
+    --pele-font: var(--tss-zt-serif);
+    --pele-font-mono: var(--tss-zt-mono);
+    --pele-title-weight: 700;
+    --pele-heading-weight: 700;
+    --pele-radius: 0px;
+    border-radius: 0;
+    border-color: var(--tss-zt-rule);
+    background: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-markdown pre.tss-mermaid-source {
+    border-left-color: var(--tss-zt-red);
+}

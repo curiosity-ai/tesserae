@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Blaupause theme - Rating
+   --------------------------------------------------------------------------
+   Stars are outlines until chosen; focus is the red pencil.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-rating-star:focus-visible {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-rating-star {
+    color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-rating-star:focus-visible {
+    outline-color: var(--tss-bp-red);
+    border-radius: 0;
+}

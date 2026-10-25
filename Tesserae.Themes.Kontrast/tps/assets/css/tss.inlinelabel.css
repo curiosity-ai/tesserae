@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Kontrast theme - InlineLabel
+   --------------------------------------------------------------------------
+   One small fact on a 28px plate with a 2px edge. A label that links
+   somewhere is underlined at rest (a link is always underlined), one that
+   runs a handler is a button: it takes an ink edge and a fill under the
+   pointer. Focus is the theme's ring.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-inlinelabel {
+    height: 28px;
+    border: var(--tss-kt-border) solid var(--tss-kt-line);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-surface);
+    color: var(--tss-kt-ink);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: 600;
+}
+
+body.tss-theme-kontrast .tss-inlinelabel-interactive:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-inlinelabel-interactive:active {
+    background: var(--tss-kt-pressed);
+}
+
+body.tss-theme-kontrast .tss-inlinelabel[href] .tss-inlinelabel-text,
+body.tss-theme-kontrast .tss-inlinelabel[href] .tss-inlinelabel-text-head,
+body.tss-theme-kontrast .tss-inlinelabel[href] .tss-inlinelabel-text-tail {
+    color: var(--tss-kt-link);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-kontrast .tss-inlinelabel-text-separator {
+    opacity: 1;
+}
+
+body.tss-theme-kontrast .tss-inlinelabel-mark-color {
+    box-shadow: 0 0 0 1px var(--tss-kt-ink);
+}

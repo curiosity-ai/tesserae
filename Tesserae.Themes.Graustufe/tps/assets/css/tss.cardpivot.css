@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Graustufe theme - CardPivot
+   --------------------------------------------------------------------------
+   Index cards in a row: a ruled strip, square, 1px ink rules between the
+   cards, the chosen card marked by a 3px ink bar along its foot and bold.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-cardpivot-titlebar {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab {
+    border-right: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab:last-child {
+    border-right: none;
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: 3px solid var(--tss-gs-0);
+    font-weight: 700;
+}

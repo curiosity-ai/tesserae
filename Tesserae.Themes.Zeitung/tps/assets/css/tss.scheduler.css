@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Zeitung theme - Scheduler
+   --------------------------------------------------------------------------
+   A scheduler is the paper's diary page: the grid ruled in hairlines with
+   the minor lines dotted, day heads in the serif's small caps with lining
+   figures, today marked in the spot red, events square blocks of their
+   colour with a rule down the leading edge.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-scheduler {
+    --tss-scheduler-radius: 0px;
+    --tss-scheduler-line-color: var(--tss-zt-hair);
+    --tss-scheduler-today-color: var(--tss-zt-red);
+    --tss-scheduler-selection-color: var(--tss-zt-ink);
+    font-variant-numeric: lining-nums tabular-nums;
+}

@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Graustufe theme - Tooltip
+   --------------------------------------------------------------------------
+   A tooltip is a small inverted slip: ink with paper type in the sans,
+   square, with a 2px dithered edge. Every animation Tippy offers lands at
+   once (the theme turns them off); the box keeps a 1ms visibility
+   transition so Tippy still hears the transitionend it unmounts on (see
+   tss.common.css).
+   ========================================================================== */
+
+body.tss-theme-graustufe .tippy-box {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-gs-ui);
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tippy-box > .tippy-content > div {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tippy-arrow {
+    color: var(--tss-gs-0);
+}
+
+/* A component tooltip that draws its own paper (a card, a menu) keeps it. */
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-popover'],
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-image: none;
+}

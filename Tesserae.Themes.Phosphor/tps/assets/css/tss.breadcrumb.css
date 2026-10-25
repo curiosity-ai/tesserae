@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Phosphor theme - Breadcrumb
+   --------------------------------------------------------------------------
+   A breadcrumb is a path at a prompt, "home / docs / page": crumbs are plain
+   words that invert under the pointer; the current one is lit.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-breadcrumb .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-breadcrumb .tss-btn:not(.tss-disabled):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-breadcrumb-chevron {
+    color: var(--tss-ph-dim);
+}

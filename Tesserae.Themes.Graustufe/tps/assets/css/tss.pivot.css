@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Graustufe theme - Pivot
+   --------------------------------------------------------------------------
+   Tabs are running heads in the sans, in ink. The current tab is marked by
+   a 3px ink bar under it (square, it jumps rather than slides), and its
+   label is bold. A tab with unsaved work keeps its dot, in ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    border-bottom: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-pivot-titlebar {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-pivot-titlebar > .tss-pivot-selected-title {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-pivot-line {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    height: 3px;
+}
+
+body.tss-theme-graustufe .tss-pivot-tab-close:hover {
+    color: var(--tss-gs-15);
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pivot-tab-close:focus-visible {
+    outline: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-graustufe .tss-pivot-tab-needs-saving::after,
+body.tss-theme-graustufe .tss-pivot-tab-mark {
+    background: var(--tss-gs-0);
+}

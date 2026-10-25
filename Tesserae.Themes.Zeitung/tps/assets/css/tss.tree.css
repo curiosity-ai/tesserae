@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Zeitung theme - Tree
+   --------------------------------------------------------------------------
+   A tree is an outline in the margin: entries in the serif hanging from a
+   hairline rule of ink, a wash of ink under the pointer, the selected entry
+   set bold with the spot-red rule at its leading edge.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-tree-item-content {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-tree-item-content:hover {
+    background-color: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-tree-item-content.tss-selected {
+    background-color: var(--tss-zt-tint-strong);
+    box-shadow: inset 3px 0 0 var(--tss-zt-red);
+    color: var(--tss-zt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: -2px;
+}
+
+body.tss-theme-zeitung .tss-tree-chevron:hover,
+body.tss-theme-zeitung .tss-tree-checkbox:hover {
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+body.tss-theme-zeitung .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox,
+body.tss-theme-zeitung .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected {
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-tree-children {
+    border-left-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-tree-commands > .tss-tree-command {
+    border-radius: 0;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-tree-item-content,
+body.tss-theme-zeitung .tss-tree-compact .tss-tree-item-content,
+body.tss-theme-zeitung .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

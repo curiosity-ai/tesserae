@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Graustufe theme - Avatar
+   --------------------------------------------------------------------------
+   A portrait stays round, drawn in grey. A generated avatar is the
+   initials on a disc of grey (the hue it would have had becomes a lightness
+   through grayscale, so two people still differ). Presence is a shape on
+   the corner: online a solid ink dot, away a half-filled dot, busy an ink
+   ring with a bar, offline an empty ring.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-avatar {
+    background: var(--tss-gs-13);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-avatar.tss-avatar-generated {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-avatar-presence {
+    border: 2px solid var(--tss-gs-15);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-presence-online {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-presence-away {
+    background: linear-gradient(90deg, var(--tss-gs-0) 50%, var(--tss-gs-15) 50%);
+}
+
+body.tss-theme-graustufe .tss-presence-busy {
+    background: linear-gradient(var(--tss-gs-15), var(--tss-gs-15)) center / 60% 2px no-repeat, var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-presence-offline {
+    background: var(--tss-gs-15);
+}

@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Blaupause theme - EditableLabel
+   --------------------------------------------------------------------------
+   At rest, lettering; under the pointer, a dashed box drawn round it (a
+   field not yet drawn in); editing, the ruled field of tss.textbox.css.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-editablelabel-displaybox:hover {
+    background-color: transparent;
+    outline: 1px dashed var(--tss-bp-line);
+    outline-offset: -1px;
+}
+
+body.tss-theme-blaupause .tss-editablelabel-textbox {
+    border: var(--tss-bp-rule-strong);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-editablelabel-cancel-icon {
+    color: var(--tss-bp-red);
+}
