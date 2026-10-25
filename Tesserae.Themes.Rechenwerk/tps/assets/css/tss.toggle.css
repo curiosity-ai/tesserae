@@ -108,6 +108,13 @@ body.tss-theme-rechenwerk .tss-toggle-container.tss-disabled input:checked ~ .ts
     background-color: rgb(var(--tss-disabled-foreground-color-root));
 }
 
+/* .Rounded() asks for a radius; a switch on a panel is cut square, so the request is declined. */
+body.tss-theme-rechenwerk .tss-rounded-sm > .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-rounded-md > .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-rounded-full > .tss-toggle-mark {
+    border-radius: 0 !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
     body.tss-theme-rechenwerk .tss-toggle-container .tss-toggle-mark,
     body.tss-theme-rechenwerk .tss-toggle-container .tss-toggle-mark:after,

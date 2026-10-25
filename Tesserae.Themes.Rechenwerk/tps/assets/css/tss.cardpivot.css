@@ -56,7 +56,8 @@ body.tss-theme-rechenwerk .tss-cardpivot-tab.tss-cardpivot-selected:hover {
     color: rgb(10, 10, 10);
 }
 
-body.tss-theme-rechenwerk .tss-cardpivot-tab.tss-cardpivot-selected *:not(.tss-token):not(.tss-token *) {
+/* A Metric's value sits in its own black display (tss.metric.css) and keeps its lit digits. */
+body.tss-theme-rechenwerk .tss-cardpivot-tab.tss-cardpivot-selected *:not(.tss-token):not(.tss-token *):not(.tss-metric-value):not(.tss-metric-value *) {
     color: rgb(10, 10, 10) !important;
 }
 

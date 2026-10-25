@@ -26,12 +26,14 @@ body.tss-theme-rechenwerk .tss-checkbox-container .tss-checkbox-text {
     margin-left: 8px;
 }
 
-/* The tick: an L of two 3px bars, turned. */
-body.tss-theme-rechenwerk .tss-checkbox-container .tss-checkbox-mark:after {
-    left: 5px;
-    top: 1px;
-    width: 6px;
-    height: 11px;
+/* The tick: an L of two 3px bars, turned. Placed in fractions of the box so it sits right at every
+   text size (Tesserae's own per-size offsets were measured for a 1px stroke). */
+body.tss-theme-rechenwerk .tss-checkbox-container .tss-checkbox-mark:after,
+body.tss-theme-rechenwerk .tss-checkbox-container[class*="tss-fontsize-"] .tss-checkbox-mark:after {
+    left: 32%;
+    top: 4%;
+    width: 36%;
+    height: 66%;
     border: solid var(--tss-rw-on-signal);
     border-width: 0 3px 3px 0;
 }
@@ -96,16 +98,22 @@ body.tss-theme-rechenwerk .tss-checkbox-container.tss-disabled input:checked ~ .
     border-color: rgb(var(--tss-disabled-foreground-color-root));
 }
 
-/* Larger text: the tick keeps Tesserae's geometry, the strokes stay 3px. */
-body.tss-theme-rechenwerk .tss-checkbox-container[class*="tss-fontsize-"] .tss-checkbox-mark:after {
-    border-width: 0 3px 3px 0;
+/* Larger text, heavier strokes. */
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-fontsize-large .tss-checkbox-mark:after,
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-fontsize-xlarge .tss-checkbox-mark:after {
+    border-width: 0 4px 4px 0;
 }
 
-body.tss-theme-rechenwerk .tss-checkbox-container.tss-fontsize-small .tss-checkbox-mark:after {
-    left: 5px;
-    top: 1px;
-    width: 6px;
-    height: 11px;
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-fontsize-xxlarge .tss-checkbox-mark:after,
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-fontsize-mega .tss-checkbox-mark:after {
+    border-width: 0 5px 5px 0;
+}
+
+/* .Rounded() asks for a radius; the theme's boxes are machine-cut, so the request is declined. */
+body.tss-theme-rechenwerk .tss-rounded-sm > .tss-checkbox-mark,
+body.tss-theme-rechenwerk .tss-rounded-md > .tss-checkbox-mark,
+body.tss-theme-rechenwerk .tss-rounded-full > .tss-checkbox-mark {
+    border-radius: 0 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

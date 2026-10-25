@@ -54,7 +54,7 @@ body.tss-theme-rechenwerk .tss-cron-desc .tss-btn:hover {
     background-color: rgb(var(--tss-default-background-hover-color-root));
 }
 
-body.tss-theme-rechenwerk .tss-cron-desc .tss-btn-only-icon {
+body.tss-theme-rechenwerk .tss-cron-desc .tss-btn.tss-btn-only-icon:not(.tss-disabled) {
     border-right: 2px solid rgb(var(--tss-default-border-color-root));
 }
 
@@ -125,12 +125,21 @@ body.tss-theme-rechenwerk .tss-cron-inline-dropdown .tss-dropdown-icon {
 }
 
 body.tss-theme-rechenwerk .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-rechenwerk .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-btn,
 body.tss-theme-rechenwerk .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default {
     font-family: var(--tss-monospace-font-family);
     font-size: 12.5px;
     font-weight: 700;
     letter-spacing: 0;
     text-transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-rechenwerk .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-btn:hover {
+    margin: 0;
+    border-color: transparent;
+    background-color: transparent;
+    color: inherit;
 }
 
 body.tss-theme-rechenwerk .tss-cron-days {
