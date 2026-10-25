@@ -173,6 +173,26 @@
     --tss-ring-opacity: 0.5;
 }
 
+/* Focus ring. Text boxes, search boxes, the omnibox, the annotated text editor and buttons draw focus as
+   `box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow)`, and nothing defined these two, so
+   that declaration was invalid and dropped: none of them showed a ring. They are composed here from the
+   ring tokens above - a gap in the page colour, then the ring.
+   Declared on body rather than :root, with --tss-ring-color and --tss-ring-offset-color: a variable
+   built from another is resolved where it is declared, and dark mode, a custom theme and SetPrimary all
+   change the primary and background roots below :root, which would leave a :root ring in the light
+   theme's default blue on any of them. A theme that wants its own ring sets these two under its root class. */
+body {
+    --tss-ring-color: rgba(var(--tss-primary-background-color-root), 0.5);
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-ring-offset-shadow: 0 0 0 var(--tss-ring-offset-width) var(--tss-ring-offset-color);
+    --tss-ring-shadow: 0 0 0 calc(2px + var(--tss-ring-offset-width)) var(--tss-ring-color);
+    /* A quiet neutral surface: an empty rating star or calendar day, an offline presence dot, a drawer
+       handle, the hover under a small icon button. These used to be painted with the border colour,
+       which is a line colour - a theme that draws strong edges turned every one of them solid. It is
+       the progress track's colour unless a theme says otherwise (on body, for the reason above). */
+    --tss-subtle-fill-color: var(--tss-progress-background-color);
+}
+
 .tss-dark-mode {
     /* Colors */
     /* Near-black rather than grey, and cooled slightly towards blue: a flat mid-grey reads as an unlit

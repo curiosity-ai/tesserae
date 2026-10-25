@@ -9,7 +9,7 @@
 .tss-rating-star {
     font-size: 24px;
     cursor: pointer;
-    color: var(--tss-default-border-color);
+    color: var(--tss-subtle-fill-color);
     transition: color 0.15s ease, transform 0.1s ease;
     user-select: none;
     line-height: 1;

@@ -128,6 +128,6 @@
 
 .tss-menu-divider {
     height: 1px;
-    background-color: var(--tss-default-border-color);
+    background-color: var(--tss-default-separator-color);
     margin: 4px 0;
 }

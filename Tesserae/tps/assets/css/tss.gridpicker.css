@@ -1,5 +1,5 @@
 ﻿.tss-gridpicker-button {
-    background-color: var(--tss-default-border-color);
+    background-color: var(--tss-subtle-fill-color);
     cursor: crosshair;
     padding: 0px !important;
     min-height: unset;

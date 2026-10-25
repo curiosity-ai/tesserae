@@ -91,6 +91,8 @@
             border-color: var(--tss-primary-border-color);
             border-width: 0px 0px 2px;
             padding-bottom: 0px;
+            /* Its focus is the thicker rule: the focus ring below would draw a box round a field that has none. */
+            box-shadow: none;
         }
 
     .tss-searchbox-container:hover {
