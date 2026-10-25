@@ -15,7 +15,7 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of the <see cref="LineChart"/> class.
         /// </summary>
-        public LineChart() : base() { }
+        public LineChart() : base() { _container.classList.add("tss-linechart"); }
 
         /// <summary>Shows or hides the per-point markers.</summary>
         public LineChart Points(bool show = true) { _showPoints = show; QueueRender(); return this; }

@@ -56,6 +56,7 @@ namespace Tesserae
         public ToggleButton(Button button)
         {
             _button = button;
+            ((IComponent)_button).Render().classList.add("tss-toggle-btn");
 
             _button.OnClick(() =>
             {

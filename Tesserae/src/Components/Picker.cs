@@ -47,7 +47,7 @@ namespace Tesserae
                 _selectionsElement.classList.add("tss-picker-selections-inline");
             }
 
-            _container        = DIV();
+            _container        = Div(Att("tss-picker"));
             _textBox          = TextBox();
             _suggestionsLayer = new SuggestionsLayer(new Suggestions(suggestionsTitleText));
 

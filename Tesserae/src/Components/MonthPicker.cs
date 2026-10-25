@@ -15,6 +15,7 @@ namespace Tesserae
         public MonthPicker((int year, int month)? monthAndYear)
             : base("month", monthAndYear.HasValue ? FormatMonth(monthAndYear.Value) : string.Empty)
         {
+            Render().classList.add("tss-monthpicker");
         }
 
         /// <summary>

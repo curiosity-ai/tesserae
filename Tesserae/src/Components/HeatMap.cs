@@ -104,6 +104,8 @@ namespace Tesserae
         /// </summary>
         public HeatMap() : base(minWidth: 160, minHeight: 100)
         {
+            _container.classList.add("tss-heatmap");
+
             // A heat map's legend is the colour scale, and it reads better as a bar beside the matrix.
             _legendPosition = ChartLegendPosition.Right;
         }

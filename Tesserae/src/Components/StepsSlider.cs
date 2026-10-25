@@ -25,6 +25,7 @@ namespace Tesserae
         {
             _steps            = steps;
             _slider           = Slider(0, 0, _steps.Length - 1, 1);
+            _slider.Render().classList.add("tss-stepsslider");
             _equalityComparer = EqualityComparer<T>.Default;
             _observable       = new SettableObservable<T>(steps.Length > 0 ? steps[0] : default);
 

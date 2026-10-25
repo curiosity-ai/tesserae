@@ -24,6 +24,11 @@ Each setter takes a `string` (wrapped in a styled `TextBlock`) or an `IComponent
 - `.SetFooterCommands(params IComponent[])` — right-aligned footer actions (e.g. buttons).
 - `.BackgroundColor(string)` / `.Border(color, size = null)` — card chrome.
 
+CSS hooks for a theme: `tss-resourcecard` on the root (the card container, around `.tss-card`), and
+`tss-resourcecard-content`, `-header`, `-title-row`, `-icon`, `-title`, `-subtitle-row`, `-subtitle`,
+`-tags`, `-body`, `-description`, `-date`, `-footer` (it draws the 1px top rule inline),
+`-footer-content` and `-footer-commands` on its parts.
+
 ## Example
 
 ```csharp

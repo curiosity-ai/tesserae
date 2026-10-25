@@ -18,7 +18,7 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of the <see cref="BarChart"/> class.
         /// </summary>
-        public BarChart() : base() { }
+        public BarChart() : base() { _container.classList.add("tss-barchart"); }
 
         /// <summary>Sets the corner radius of the bars.</summary>
         public BarChart Rounded(double radius = 2) { _cornerRadius = radius; QueueRender(); return this; }

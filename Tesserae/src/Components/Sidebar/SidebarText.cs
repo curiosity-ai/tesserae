@@ -30,8 +30,8 @@ namespace Tesserae
         public SidebarText(string identifier, string text, string closedText = null, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular)
         {
             Identifier = identifier;
-            _closed    = TextBlock(closedText ?? "", textSize: textSize, textWeight: textWeight).Id(identifier);
-            _open      = TextBlock(text,             textSize: textSize, textWeight: textWeight).Id(identifier);
+            _closed    = TextBlock(closedText ?? "", textSize: textSize, textWeight: textWeight).Id(identifier).Class("tss-sidebar-text");
+            _open      = TextBlock(text,             textSize: textSize, textWeight: textWeight).Id(identifier).Class("tss-sidebar-text");
         }
 
         /// <summary>Shows the text component.</summary>

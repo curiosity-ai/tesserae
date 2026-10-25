@@ -29,45 +29,46 @@ namespace Tesserae
         /// </summary>
         public ResourceCard()
         {
-            _iconContainer = Div(Att("tss-default-component-no-margin"));
-            _titleContainer = Div(Att("tss-default-component-no-margin"));
-            var titleRow = HStack().AlignItems(ItemAlign.Center).NoWrap().Children(
+            _iconContainer = Div(Att("tss-default-component-no-margin tss-resourcecard-icon"));
+            _titleContainer = Div(Att("tss-default-component-no-margin tss-resourcecard-title"));
+            var titleRow = HStack().Class("tss-resourcecard-title-row").AlignItems(ItemAlign.Center).NoWrap().Children(
                 Raw(_iconContainer),
                 Raw(_titleContainer).WS().PL(8)
             );
 
-            _subtitleContainer = Div(Att("tss-default-component-no-margin"));
-            _tagsContainer = Div(Att("tss-default-component-no-margin"));
+            _subtitleContainer = Div(Att("tss-default-component-no-margin tss-resourcecard-subtitle"));
+            _tagsContainer = Div(Att("tss-default-component-no-margin tss-resourcecard-tags"));
 
-            var subtitleRow = HStack().AlignItems(ItemAlign.Center).NoWrap().PT(8).W(10).Grow().Children(
+            var subtitleRow = HStack().Class("tss-resourcecard-subtitle-row").AlignItems(ItemAlign.Center).NoWrap().PT(8).W(10).Grow().Children(
                 Raw(_subtitleContainer),
                 Raw(_tagsContainer).WS().PL(8)
             );
 
-            var headerContainer = VStack().WS().Children(titleRow, subtitleRow);
+            var headerContainer = VStack().Class("tss-resourcecard-header").WS().Children(titleRow, subtitleRow);
 
-            _descriptionContainer = Div(Att("tss-default-component-no-margin"));
-            _dateContainer = Div(Att("tss-default-component-no-margin"));
+            _descriptionContainer = Div(Att("tss-default-component-no-margin tss-resourcecard-description"));
+            _dateContainer = Div(Att("tss-default-component-no-margin tss-resourcecard-date"));
 
-            var bodyContainer = VStack().PT(16).PB(16).WS().Children(
+            var bodyContainer = VStack().Class("tss-resourcecard-body").PT(16).PB(16).WS().Children(
                 Raw(_descriptionContainer),
                 Raw(_dateContainer).WS().PT(16)
             );
 
-            _footerLeft = Div(Att("tss-default-component-no-margin"));
-            _footerRight = Div(Att("tss-default-component-no-margin"));
+            _footerLeft = Div(Att("tss-default-component-no-margin tss-resourcecard-footer-content"));
+            _footerRight = Div(Att("tss-default-component-no-margin tss-resourcecard-footer-commands"));
 
-            _footerContainer = HStack().WS().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Between)
+            _footerContainer = HStack().Class("tss-resourcecard-footer").WS().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Between)
                 .PT(12)
                 .Children(Raw(_footerLeft), Raw(_footerRight));
 
             _footerContainer.Render().style.borderTop = "1px solid var(--tss-default-border-color, var(--tss-card-border-color, #e1dfdd))";
 
-            var mainStack = VStack().S().P(16).Children(headerContainer, bodyContainer, _footerContainer);
+            var mainStack = VStack().Class("tss-resourcecard-content").S().P(16).Children(headerContainer, bodyContainer, _footerContainer);
 
             _card = Card(mainStack).NoPadding();
 
             InnerElement = _card.Render();
+            InnerElement.classList.add("tss-resourcecard");
 
             // Hide empty containers by default
             _iconContainer.style.display = "none";

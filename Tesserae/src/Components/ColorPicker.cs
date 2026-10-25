@@ -11,6 +11,7 @@
         /// </summary>
         public ColorPicker(Color color) : base("color", color?.ToHex() ?? "#000000")
         {
+            Render().classList.add("tss-colorpicker");
         }
 
         /// <summary>

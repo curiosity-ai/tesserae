@@ -16,6 +16,7 @@ namespace Tesserae
         public TimePicker(DateTimeOffset? time = null)
             : base("time", time.HasValue ? FormatDateTime(time.Value) : string.Empty)
         {
+            Render().classList.add("tss-timepicker");
         }
 
         /// <summary>

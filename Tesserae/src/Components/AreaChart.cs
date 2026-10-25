@@ -16,7 +16,7 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of the <see cref="AreaChart"/> class.
         /// </summary>
-        public AreaChart() : base() { }
+        public AreaChart() : base() { _container.classList.add("tss-areachart"); }
 
         /// <summary>Shows or hides the per-point markers.</summary>
         public AreaChart Points(bool show = true) { _showPoints = show; QueueRender(); return this; }

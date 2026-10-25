@@ -204,6 +204,7 @@ namespace Tesserae
             bool interactive = true;
 
             var renderedTooltip = UI.DIV(tooltip.Render());
+            renderedTooltip.classList.add("tss-teaching-tooltip");
             renderedTooltip.style.display      = "block";
             renderedTooltip.style.overflow     = "hidden";
             renderedTooltip.style.textOverflow = "ellipsis";

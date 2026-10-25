@@ -206,10 +206,10 @@ namespace Tesserae
         public TaskBoardColumn(string title, string sortableGroup = "taskboard")
         {
             _groupName = sortableGroup;
-            _titleText = TextBlock(title).SemiBold();
+            _titleText = TextBlock(title).SemiBold().Class("tss-taskboard-column-title");
 
-            _headerStack = Stack().Horizontal().AlignItemsCenter().JustifyContent(ItemJustify.Between).Padding("8px");
-            _headerCommands = Stack().Horizontal().AlignItemsCenter().Gap(4.px());
+            _headerStack = Stack().Horizontal().Class("tss-taskboard-column-header").AlignItemsCenter().JustifyContent(ItemJustify.Between).Padding("8px");
+            _headerCommands = Stack().Horizontal().Class("tss-taskboard-column-commands").AlignItemsCenter().Gap(4.px());
             _headerStack.Add(_titleText);
             _headerStack.Add(_headerCommands);
 
@@ -416,7 +416,7 @@ namespace Tesserae
         /// </summary>
         public TaskBoardCard(IComponent content)
         {
-            _layout = Stack().Vertical().Gap(8.px());
+            _layout = Stack().Vertical().Class("tss-taskboard-card-content").Gap(8.px());
             _layout.Add(content);
 
             _container = Div(Att("tss-taskboard-card", styles: s =>

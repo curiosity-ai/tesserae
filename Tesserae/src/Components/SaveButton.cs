@@ -52,6 +52,7 @@ namespace Tesserae
         {
             _button = Button().MinWidth(100.px());
             var element = _button.Render();
+            element.classList.add("tss-savebtn");
             var sizer   = Span(Att("tss-savebtn-face tss-savebtn-sizer"), Tesserae.Button.CreateSpinRing("tss-btn-spin-ring-live"), _sizerLabel);
             sizer.setAttribute("aria-hidden", "true");
             element.appendChild(Span(Att("tss-savebtn-faces"), sizer, Span(Att("tss-savebtn-face"), _icon, _spinnerBox, _label)));
