@@ -1,1 +1,23 @@
-/* Rechenwerk theme - listitemtext */
+/* ==========================================================================
+   Rechenwerk theme - ListItemText
+   --------------------------------------------------------------------------
+   A title over a quieter second line, as a track listing prints a title over
+   its credit: the title in ink at weight 600, the subtitle in the muted
+   warm grey. The icon is a square tile in a 2px ink rule, like a key on the
+   machine's panel; a colour the host gave it is kept as the key's fill.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-listitemtext-title {
+    font-weight: 600;
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-listitemtext-subtitle {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-listitemtext-icon {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+}

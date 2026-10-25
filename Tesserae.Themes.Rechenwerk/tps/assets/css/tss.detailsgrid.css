@@ -1,1 +1,56 @@
-/* Rechenwerk theme - detailsgrid */
+/* ==========================================================================
+   Rechenwerk theme - DetailsGrid
+   --------------------------------------------------------------------------
+   The data sheet printed on the back of a sleeve: a 2px ink frame round
+   label / value rows, the rows divided by 1px separator lines. Labels are
+   chrome, so they speak in small tracked capitals in the muted grey; values
+   are content and stay in sentence case, in ink. Stacked mode drops the
+   frame and sets the capital label over its value, the value a step heavier.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-detailsgrid {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-rechenwerk .tss-detailsgrid-row {
+    align-items: center;
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-detailsgrid-row:last-child {
+    border-bottom: none;
+}
+
+body.tss-theme-rechenwerk .tss-detailsgrid-label,
+body.tss-theme-rechenwerk .tss-detailsgrid-stacked .tss-detailsgrid-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-detailsgrid-borderless,
+body.tss-theme-rechenwerk .tss-detailsgrid-stacked,
+body.tss-theme-rechenwerk .tss-detailsgrid-stacked.tss-detailsgrid-multicolumn {
+    border: none;
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-detailsgrid-borderless .tss-detailsgrid-row,
+body.tss-theme-rechenwerk .tss-detailsgrid-multicolumn .tss-detailsgrid-row,
+body.tss-theme-rechenwerk .tss-detailsgrid-stacked .tss-detailsgrid-row {
+    border-bottom: none;
+}
+
+body.tss-theme-rechenwerk .tss-detailsgrid-stacked .tss-detailsgrid-row {
+    align-items: stretch;
+}
+
+body.tss-theme-rechenwerk .tss-detailsgrid-stacked .tss-detailsgrid-value {
+    font-weight: 500;
+}

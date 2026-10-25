@@ -1,1 +1,119 @@
-/* Rechenwerk theme - checkbox */
+/* ==========================================================================
+   Rechenwerk theme - CheckBox
+   --------------------------------------------------------------------------
+   A square in a 2px ink rule, the same box every field is drawn in. Checked,
+   it fills with the signal colour (the poster's red on paper, the terminal's
+   yellow on the screen) and carries a square-cut tick in the type colour of
+   that signal: thick strokes with butt ends, punched rather than written.
+   Under the pointer the box throws a small hard shadow, focused from the
+   keyboard the 4px signal shadow of a field. Disabled is the dashed rule.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-checkbox-container {
+    align-items: center;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container .tss-checkbox-mark {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    transition: box-shadow 80ms steps(2), background-color 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 8px;
+}
+
+/* The tick: an L of two 3px bars, turned. */
+body.tss-theme-rechenwerk .tss-checkbox-container .tss-checkbox-mark:after {
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 11px;
+    border: solid var(--tss-rw-on-signal);
+    border-width: 0 3px 3px 0;
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container:hover input ~ .tss-checkbox-mark:after {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container:not(.tss-disabled):hover .tss-checkbox-mark {
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-rechenwerk .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-rw-signal);
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after,
+body.tss-theme-rechenwerk .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark:after {
+    display: block;
+    border-color: var(--tss-rw-on-signal);
+}
+
+/* On the terminal the box is drawn in the yellow too, so the tick reads as a key lit from inside. */
+body.tss-theme-rechenwerk.tss-dark-mode .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    border-color: var(--tss-rw-signal);
+}
+
+/* Pressed: the box sinks, the shadow goes. */
+body.tss-theme-rechenwerk .tss-checkbox-container:not(.tss-disabled):active .tss-checkbox-mark {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    cursor: default;
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: rgb(var(--tss-disabled-background-color-root));
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark:after {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* Larger text: the tick keeps Tesserae's geometry, the strokes stay 3px. */
+body.tss-theme-rechenwerk .tss-checkbox-container[class*="tss-fontsize-"] .tss-checkbox-mark:after {
+    border-width: 0 3px 3px 0;
+}
+
+body.tss-theme-rechenwerk .tss-checkbox-container.tss-fontsize-small .tss-checkbox-mark:after {
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 11px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-checkbox-container .tss-checkbox-mark {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-checkbox-container:not(.tss-disabled):active .tss-checkbox-mark {
+        transform: none;
+    }
+}

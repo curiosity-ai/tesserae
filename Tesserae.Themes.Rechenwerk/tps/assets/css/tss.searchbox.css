@@ -58,6 +58,12 @@ body.tss-theme-rechenwerk .tss-searchbox:focus::placeholder {
     transition: none;
 }
 
+/* The box shows the focus; the input inside does not draw the page's ring as well. */
+body.tss-theme-rechenwerk .tss-searchbox-container .tss-searchbox:focus,
+body.tss-theme-rechenwerk .tss-searchbox-container .tss-searchbox:focus-visible {
+    outline: none;
+}
+
 /* The magnifier in its plate: ink at rest, the signal colour while typing. */
 body.tss-theme-rechenwerk .tss-searchbox-container > .tss-searchbox-icon,
 body.tss-theme-rechenwerk .tss-searchbox-container:focus-within > .tss-searchbox-icon {
@@ -100,14 +106,19 @@ body.tss-theme-rechenwerk .tss-searchbox-container.tss-disabled .tss-searchbox {
 }
 
 /* Underlined: a 2px rule and a plain magnifier, for command bars and quiet surfaces. */
-body.tss-theme-rechenwerk .tss-searchbox-container.tss-underlined,
-body.tss-theme-rechenwerk .tss-searchbox-container.tss-underlined:hover,
-body.tss-theme-rechenwerk .tss-searchbox-container.tss-underlined:focus-within {
+body.tss-theme-rechenwerk .tss-searchbox-container.tss-underlined {
     padding: 0 4px 0 0;
     border-style: solid;
     border-width: 0 0 2px;
     border-color: rgb(var(--tss-default-border-color-root));
     background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-searchbox-container.tss-underlined:hover,
+body.tss-theme-rechenwerk .tss-searchbox-container.tss-underlined:focus-within {
+    border-width: 0 0 2px;
+    padding-bottom: 0;
     box-shadow: none;
 }
 

@@ -1,1 +1,86 @@
-/* Rechenwerk theme - detailslist */
+/* ==========================================================================
+   Rechenwerk theme - DetailsList
+   --------------------------------------------------------------------------
+   A list reads like a printout from the Rechenwerk: framed in the 2px rule
+   and standing on a hard shadow, like the tables of the TextBlock. The
+   column headers are a band across the top (black with cream capitals on
+   paper, terminal yellow with black capitals on the screen), the sort arrow
+   a small square key in the signal colour. Rows are separated by 1px
+   separator lines; the row under the pointer takes the quiet tint and a
+   signal-coloured cursor bar at its left edge.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-detailslist {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    font-variant-numeric: tabular-nums;
+}
+
+/* The band runs the full width of the frame, not only as far as the columns reach. */
+body.tss-theme-rechenwerk .tss-detailslist-header,
+body.tss-theme-rechenwerk .tss-detailslist-list-items-container {
+    min-width: 100%;
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-header {
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-column-header {
+    align-items: center;
+    transition: box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-column-header,
+body.tss-theme-rechenwerk .tss-detailslist-column-header > .tss-textblock,
+body.tss-theme-rechenwerk .tss-detailslist-column-header > i {
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-column-header > .tss-textblock {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* A sortable header under the pointer: the bar's marker colour underlines it. */
+body.tss-theme-rechenwerk .tss-detailslist-column-header.tss-cursor-pointer:hover {
+    box-shadow: inset 0 -4px 0 0 var(--tss-rw-bar-marker);
+}
+
+/* The sort arrow is a square key. */
+body.tss-theme-rechenwerk .tss-detailslist-header .tss-detailslist-column-header-sorting-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    padding: 0;
+    background: var(--tss-rw-bar-marker);
+    color: var(--tss-rw-bar-background);
+    font-size: 10px;
+    line-height: 1;
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-list-item-container {
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-list-items-container > .tss-detailslist-list-item-container:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-list-item-container:last-of-type {
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-detailslist-list-item-container:hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    box-shadow: inset 4px 0 0 0 var(--tss-rw-signal);
+}

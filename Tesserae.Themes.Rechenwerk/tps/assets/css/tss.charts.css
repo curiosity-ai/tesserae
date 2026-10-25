@@ -1,1 +1,132 @@
-/* Rechenwerk theme - charts */
+/* ==========================================================================
+   Rechenwerk theme - Charts
+   --------------------------------------------------------------------------
+   Charts read in the sleeve colours: red, ink, yellow, the Autobahn blue,
+   then warm grey, orange, teal and violet. On the terminal the ink series
+   turns to cream phosphor and the blue lifts so it still reads on black.
+   Tesserae's charts have no stylesheet of their own: a series without an
+   explicit colour reads --tss-chart-series-N, set here, and the SVG they
+   draw is restyled through its attributes.
+
+   The plot is a printed graph: gridlines are hairlines in the separator,
+   the axes a 2px ink rule, tick labels and the legend Space Mono capitals.
+   Bars and slices are solid blocks cut out by an ink edge, corners square.
+   Lines bend at hard mitres and end square. The fade under an area is a
+   flat screen tint (no soft gradient), and the hover box is a square ink
+   frame. A heat map runs from paper to the signal colour.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk {
+    --tss-chart-series-1: rgb(215, 38, 30);
+    --tss-chart-series-2: rgb(17, 17, 17);
+    --tss-chart-series-3: rgb(244, 194, 13);
+    --tss-chart-series-4: rgb(27, 76, 156);
+    --tss-chart-series-5: rgb(140, 133, 119);
+    --tss-chart-series-6: rgb(226, 113, 29);
+    --tss-chart-series-7: rgb(42, 140, 130);
+    --tss-chart-series-8: rgb(122, 46, 142);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode {
+    --tss-chart-series-2: rgb(240, 234, 218);
+    --tss-chart-series-4: rgb(74, 128, 224);
+}
+
+body.tss-theme-rechenwerk .tss-chart {
+    font-family: var(--tss-monospace-font-family);
+}
+
+/* Square corners on every bar, swatch, heat-map cell and the hover box. */
+body.tss-theme-rechenwerk .tss-chart rect {
+    rx: 0;
+    ry: 0;
+}
+
+/* Gridlines: hairlines in the separator. */
+body.tss-theme-rechenwerk .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgb(var(--tss-default-separator-color-root));
+}
+
+/* The axes (and the crosshair): an ink rule. */
+body.tss-theme-rechenwerk .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-width: 2;
+}
+
+/* Tick labels and the legend in Space Mono capitals. The legend lays itself out at 6.5px a character, so
+   its type stays at 10px and untracked to keep inside that. */
+body.tss-theme-rechenwerk .tss-chart text {
+    font-family: var(--tss-monospace-font-family);
+    text-transform: uppercase;
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-chart text[font-size="11"] {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* Bars, slices and legend swatches: solid blocks with an ink edge. */
+body.tss-theme-rechenwerk .tss-chart rect[fill^="var(--tss-chart-series"],
+body.tss-theme-rechenwerk .tss-chart path[fill^="var(--tss-chart-series"] {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-width: 1.5;
+    stroke-linejoin: miter;
+}
+
+/* On the terminal the ink edge is black, so a cream bar still has an outline against the black screen. */
+body.tss-theme-rechenwerk.tss-dark-mode .tss-chart rect[fill^="var(--tss-chart-series"],
+body.tss-theme-rechenwerk.tss-dark-mode .tss-chart path[fill^="var(--tss-chart-series"] {
+    stroke: rgb(var(--tss-default-background-color-root));
+}
+
+/* Lines: hard mitres, square ends, a touch heavier. */
+body.tss-theme-rechenwerk .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+}
+
+body.tss-theme-rechenwerk .tss-chart path[stroke^="var(--tss-chart-series"][stroke-width="2"] {
+    stroke-width: 2.5;
+}
+
+/* Point markers: ringed in the page colour so they sit on top of the line. */
+body.tss-theme-rechenwerk .tss-chart circle[fill^="var(--tss-chart-series"] {
+    stroke: rgb(var(--tss-default-background-color-root));
+    stroke-width: 1.5;
+}
+
+/* The fade under an area is a flat screen tint: no soft gradient. */
+body.tss-theme-rechenwerk .tss-chart linearGradient stop {
+    stop-opacity: 0.2;
+}
+
+/* The heat map's cells run from paper to the signal colour; the figure on a strong cell is the type drawn
+   on the signal. */
+body.tss-theme-rechenwerk .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-chart text[fill="#ffffff"] {
+    fill: var(--tss-rw-on-signal);
+}
+
+/* The hover box drawn into the SVG: a square ink frame. */
+body.tss-theme-rechenwerk .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: rgb(var(--tss-secondary-background-color-root));
+    stroke: rgb(var(--tss-default-border-color-root));
+    stroke-width: 2;
+}
+
+/* "Hold Ctrl and scroll to zoom": a square label in tracked capitals. */
+body.tss-theme-rechenwerk .tss-chart-zoom-hint {
+    border-radius: 0 !important;
+    border: 2px solid rgb(var(--tss-default-border-color-root)) !important;
+    background: rgb(var(--tss-secondary-background-color-root)) !important;
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    font-size: 11px !important;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    transition: opacity 120ms steps(2) !important;
+}

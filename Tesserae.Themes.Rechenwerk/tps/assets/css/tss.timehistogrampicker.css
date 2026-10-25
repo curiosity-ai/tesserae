@@ -1,1 +1,144 @@
-/* Rechenwerk theme - timehistogrampicker */
+/* ==========================================================================
+   Rechenwerk theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   A bar chart over a range rail, read like the level meters on a mixing
+   desk. Bars outside the chosen window are hatched outlines, the bars inside
+   are solid ink, square-topped, on a 2px ink baseline. The rail is a 2px
+   ink line; the chosen window on it is a signal-coloured bar in an ink
+   frame, and the two handles are small calculator keys (square, framed, a
+   hard shadow) that press in while dragged. The axis is printed in Space
+   Mono, like the readout under a meter.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-bars {
+    gap: 2px;
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-bar {
+    box-sizing: border-box;
+    border: 1px solid rgb(var(--tss-default-border-color-root));
+    border-bottom: none;
+    border-radius: 0;
+    background: repeating-linear-gradient(-45deg, rgba(var(--tss-default-foreground-color-root), 0.35) 0 1px, transparent 1px 4px);
+    opacity: 1;
+    transition: background-color 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-bar.tss-selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-bar.tss-selected:hover,
+body.tss-theme-rechenwerk .tss-time-histogram-picker-bar:hover {
+    background: var(--tss-rw-signal);
+}
+
+/* The rail, and the window chosen on it. */
+body.tss-theme-rechenwerk .tss-time-histogram-picker-track::before {
+    top: 13px;
+    height: 2px;
+    border-radius: 0;
+    background: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-selection {
+    box-sizing: border-box;
+    top: 8px;
+    height: 12px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-thumb {
+    top: 3px;
+    width: 14px;
+    height: 22px;
+    margin-left: -7px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root)) linear-gradient(rgb(var(--tss-default-foreground-color-root)), rgb(var(--tss-default-foreground-color-root))) no-repeat 50% 50% / 2px 10px;
+    box-shadow: var(--tss-rw-shadow-sm);
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-thumb:hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-thumb:active {
+    background-color: rgb(244, 194, 13);
+    background-image: linear-gradient(rgb(10, 10, 10), rgb(10, 10, 10));
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-thumb:focus {
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-axis {
+    padding-top: 4px;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-tooltip-range,
+body.tss-theme-rechenwerk .tss-time-histogram-picker-tooltip-count {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-tooltip-count {
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-empty {
+    border: 2px dashed rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    color: var(--tss-rw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* Disabled: no veil, the grey and a dashed frame. */
+body.tss-theme-rechenwerk .tss-time-histogram-picker.tss-disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-axis {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-bar {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-bar.tss-selected,
+body.tss-theme-rechenwerk .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-selection {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-thumb {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background-image: none;
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-time-histogram-picker-bar,
+    body.tss-theme-rechenwerk .tss-time-histogram-picker-thumb {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-time-histogram-picker-thumb:active {
+        transform: none;
+    }
+}

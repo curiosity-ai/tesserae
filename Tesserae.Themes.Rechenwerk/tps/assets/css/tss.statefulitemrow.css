@@ -1,1 +1,65 @@
-/* Rechenwerk theme - statefulitemrow */
+/* ==========================================================================
+   Rechenwerk theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A row in a list, ruled off from the next by a hairline. A tone is a block
+   of sleeve colour down the leading edge (6px, square) over a faint wash of
+   the same colour, so a list of changes reads like the coloured bars of a
+   constructivist poster: green added, Autobahn blue changed, yellow warned,
+   red on its way out. Primary is the blue here rather than the theme's
+   primary, which is red on paper (it would read as "removing") and yellow on
+   the terminal (it would read as "warning"). The words on the row still say
+   which it is. A muted row is the disabled grey, not a fade. An interactive
+   row takes the hover tint.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-statefulitemrow {
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-primary { --tss-statefulitemrow-accent: var(--tss-rw-blue); }
+body.tss-theme-rechenwerk .tss-statefulitemrow-success { --tss-statefulitemrow-accent: var(--tss-rw-green); }
+body.tss-theme-rechenwerk .tss-statefulitemrow-warning { --tss-statefulitemrow-accent: var(--tss-rw-yellow); }
+body.tss-theme-rechenwerk .tss-statefulitemrow-danger  { --tss-statefulitemrow-accent: var(--tss-rw-red); }
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-primary,
+body.tss-theme-rechenwerk .tss-statefulitemrow-success,
+body.tss-theme-rechenwerk .tss-statefulitemrow-warning,
+body.tss-theme-rechenwerk .tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: color-mix(in srgb, var(--tss-statefulitemrow-accent) 12%, rgb(var(--tss-default-background-color-root)));
+    box-shadow: inset 6px 0 0 0 var(--tss-statefulitemrow-accent);
+}
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-title {
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-subtitle {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-struck .tss-statefulitemrow-title {
+    color: var(--tss-rw-muted);
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--tss-rw-red);
+}
+
+/* Muted: the disabled grey, not a fade (a faded avatar or badge turns muddy on cream). */
+body.tss-theme-rechenwerk .tss-statefulitemrow-muted {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-muted .tss-statefulitemrow-title,
+body.tss-theme-rechenwerk .tss-statefulitemrow-muted .tss-statefulitemrow-subtitle {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-muted .tss-statefulitemrow-leading {
+    filter: grayscale(1);
+    opacity: 0.6;
+}
+
+body.tss-theme-rechenwerk .tss-statefulitemrow-interactive:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}

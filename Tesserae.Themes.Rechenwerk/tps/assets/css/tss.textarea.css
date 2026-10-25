@@ -1,1 +1,21 @@
-/* Rechenwerk theme - textarea */
+/* ==========================================================================
+   Rechenwerk theme - TextArea
+   --------------------------------------------------------------------------
+   A text area is a TextBox with more lines (it carries .tss-textbox, so the
+   2px ink box, the signal-coloured focus shadow, the red invalid rule and the
+   dashed disabled rule all come from tss.textbox.css). What changes here is
+   what a page of writing needs: the padding of a typed sheet, an open line
+   height, and no rounded drag grip in the corner - a sheet of a fixed size,
+   like the paper in a teleprinter.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-textbox.tss-textarea {
+    height: 100%;
+    padding: 8px 12px;
+    line-height: 1.5;
+    resize: none;
+}
+
+body.tss-theme-rechenwerk .tss-textarea-container > .tss-textbox.tss-textarea.tss-textarea-autoresize {
+    height: auto;
+}

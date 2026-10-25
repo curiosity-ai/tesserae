@@ -1,1 +1,106 @@
-/* Rechenwerk theme - choice */
+/* ==========================================================================
+   Rechenwerk theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   A radio button is a pilot lamp on a control panel: a round socket in a
+   2px ink rule, and when its option is the one chosen, a round lamp in the
+   signal colour lights inside it (red on the poster, yellow on the screen),
+   ringed by a gap of the surface so it reads as a light, not a filled hole.
+   The socket stays round so it can never be mistaken for a check box; the
+   dot is one of the few round things the theme allows. Hover throws a small
+   hard shadow, keyboard focus the signal shadow of a field; disabled is the
+   dashed rule.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-option-container {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-option-container .tss-option-mark {
+    box-sizing: border-box;
+    height: 20px;
+    width: 20px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 50%;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    transition: box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-option-container .tss-option-text {
+    margin-left: 8px;
+}
+
+/* The lamp: centred, half the socket, at every text size. */
+body.tss-theme-rechenwerk .tss-option-container .tss-option-mark:after {
+    left: 50%;
+    top: 50%;
+    width: 50%;
+    height: 50%;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--tss-rw-signal);
+    transform: translate(-50%, -50%);
+}
+
+body.tss-theme-rechenwerk .tss-option-container:hover input ~ .tss-option-mark:after {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-option-container:not(.tss-disabled):hover .tss-option-mark {
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-option-container input:focus-visible ~ .tss-option-mark {
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-rechenwerk .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-rechenwerk .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    display: block;
+    border: 0;
+    background-color: var(--tss-rw-signal);
+}
+
+/* Pressed: the socket sinks, the shadow goes. */
+body.tss-theme-rechenwerk .tss-option-container:not(.tss-disabled):active .tss-option-mark {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+}
+
+body.tss-theme-rechenwerk .tss-option-container.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    cursor: default;
+}
+
+body.tss-theme-rechenwerk .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-rechenwerk .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* Larger text, larger socket: Tesserae's per-size sizes for the socket stay, the lamp follows them. */
+body.tss-theme-rechenwerk .tss-option-container.tss-fontsize-small .tss-option-mark {
+    height: 20px;
+    width: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-option-container .tss-option-mark {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-option-container:not(.tss-disabled):active .tss-option-mark {
+        transform: none;
+    }
+}

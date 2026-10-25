@@ -1,1 +1,53 @@
-/* Rechenwerk theme - datatable */
+/* ==========================================================================
+   Rechenwerk theme - DataTable
+   --------------------------------------------------------------------------
+   The same printout as the DetailsList: a 2px ink frame on a hard shadow, a
+   header band of tracked capitals (black and cream on paper, yellow and
+   black on the terminal), rows split by 1px separator lines and tinted under
+   the pointer. A row's state accent is a solid 6px gutter in its colour,
+   wide enough to read as a block of the sleeve rather than a hairline.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-datatable {
+    width: calc(100% - 4px);
+    margin: 0 4px 4px 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-default-border-color-root));
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-rechenwerk .tss-datatable-header {
+    background: var(--tss-rw-bar-background);
+}
+
+body.tss-theme-rechenwerk .tss-datatable-heading,
+body.tss-theme-rechenwerk .tss-datatable-header .tss-textblock {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-rechenwerk .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-datatable-row {
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-datatable-row:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-datatable-accented::before {
+    width: 6px;
+}
