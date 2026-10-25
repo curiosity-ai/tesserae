@@ -65,19 +65,15 @@ body.tss-theme-weniger .tss-btn:focus-visible {
    -------------------------------------------------------------------------- */
 
 body.tss-theme-weniger {
-    /* Kept for a socketed part; the IconToggle reads --tss-wg-key-plastic for its keys. */
-    --tss-wg-socket: rgb(22, 21, 20);
+    /* The plastic of a plain key; the IconToggle's keys are made of it too. */
     --tss-wg-key-plastic: rgb(214, 210, 205);
-    --tss-wg-key-lift: 2px 3px 3px rgba(30, 24, 18, 0.3), 5px 9px 12px -2px rgba(30, 24, 18, 0.34), 10px 18px 24px -6px rgba(30, 24, 18, 0.3);
 
     --tss-wg-slab-wall: 4px;
     --tss-wg-slab-cast: 30, 24, 18;
 }
 
 body.tss-theme-weniger.tss-dark-mode {
-    --tss-wg-socket: rgb(10, 10, 10);
     --tss-wg-key-plastic: rgb(78, 77, 75);
-    --tss-wg-key-lift: 2px 3px 3px rgba(0, 0, 0, 0.5), 5px 9px 12px -2px rgba(0, 0, 0, 0.6), 10px 18px 24px -6px rgba(0, 0, 0, 0.55);
     --tss-wg-slab-cast: 0, 0, 0;
 }
 
