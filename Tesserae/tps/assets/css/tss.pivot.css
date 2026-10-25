@@ -82,6 +82,17 @@
     align-self: stretch;
 }
 
+/* NoMinSize and NoPadding leave an icon button as wide as its glyph - 10px for the chevrons - which is no
+   target for a pointer; a textless Button also writes an inline min-width: unset, so the width is set
+   rather than its minimum. The height is the titlebar's, by the stretch above: a Button is otherwise
+   height: fit-content, which left these as short as their icon. */
+.tss-pivot-titlebar-wrapper > .tss-btn.tss-pivot-titlebar-more,
+.tss-pivot-titlebar-wrapper > .tss-btn.tss-pivot-titlebar-scroll-left,
+.tss-pivot-titlebar-wrapper > .tss-btn.tss-pivot-titlebar-scroll-right {
+    width: 28px;
+    height: auto;
+}
+
 .tss-pivot-titlebar-scroll-left i,
 .tss-pivot-titlebar-scroll-right i {
     font-size: 10px;
