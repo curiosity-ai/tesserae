@@ -129,3 +129,8 @@ body.tss-theme-stratus .tss-textbox.tss-ai:focus-visible {
 body.tss-theme-stratus .tss-textbox-spinner {
     height: 40px;
 }
+
+/* The dictation button sits centred in the 40px field. */
+body.tss-theme-stratus .tss-textbox-dictate-btn.tss-btn {
+    top: 6px;
+}

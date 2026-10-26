@@ -35,7 +35,7 @@ namespace Tesserae
             _maxLength = maxLength;
             _own       = own;
 
-            _button = Button().SetIcon(UIcons.Microphone).Class("tss-textbox-dictate-btn").AriaLabel("Dictate".t()).Tooltip("Dictate".t());
+            _button = Button().SetIcon(UIcons.Microphone).NoBorder().NoBackground().Class("tss-textbox-dictate-btn").AriaLabel("Dictate".t()).Tooltip("Dictate".t());
             _button.Render().setAttribute("aria-pressed", "false");
             _button.OnClick((_, e) =>
             {
