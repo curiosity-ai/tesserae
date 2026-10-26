@@ -149,6 +149,8 @@ Dictation.Provider = session =>
 `session.StartText` is what was in the box. `SetTranscript` replaces the previous segment; `isFinal: true`
 keeps it and the next call starts a new one after it. After the stop action ran (the user pressed the button again) the session still takes `SetTranscript` for a few seconds, until you call `End()` - so a service that answers a moment after it was told to stop can deliver the last words. Sending the message ends it for good.
 
+An `OmniBox` with `Config.DictationButton` is also an `IDictationTarget`, so an application's own push-to-talk can find it with `DictationTargets.Current()` and start it with `BeginDictation()`: see `dictation-targets.md`.
+
 ## On a phone
 
 While `Theme.IsMobileMode` is on, a `Chat` or `SearchAndChat` box is a single row:

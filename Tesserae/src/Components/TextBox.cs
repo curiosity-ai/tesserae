@@ -10,7 +10,7 @@ namespace Tesserae
     /// A single-line text input component.
     /// </summary>
     [Transpose.Name("tss.TextBox")]
-    public class TextBox : Input<TextBox>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IRoundedStyle
+    public class TextBox : Input<TextBox>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IRoundedStyle, IDictationTarget
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextBox"/> class.
@@ -20,6 +20,8 @@ namespace Tesserae
         {
             InnerElement.classList.add("tss-fontsize-small");
             InnerElement.classList.add("tss-fontweight-regular");
+
+            DictationTargets.Register(Render(), this);
         }
 
         /// <summary>Gets or sets the placeholder text.</summary>
@@ -220,7 +222,8 @@ namespace Tesserae
         /// <summary>Whether <see cref="AI"/> is on.</summary>
         public bool IsAI => InnerElement.classList.contains("tss-ai");
 
-        private DictationButton _dictation;
+        private DictationController _dictation;
+        private DictationProvider _dictationProvider;
 
         /// <summary>
         /// Adds a microphone button at the end of the field, as an <see cref="OmniBox"/> has with
@@ -231,17 +234,29 @@ namespace Tesserae
         /// <param name="provider">The source of this field's dictation, instead of the application-wide one.</param>
         public TextBox WithDictation(DictationProvider provider = null)
         {
-            if (_dictation is null) _dictation = new DictationButton(Render(), InnerElement, () => Text, text => Text = text, () => MaxLength, provider);
+            if (provider is object) _dictationProvider = provider;
+
+            GetDictation().AddButton();
+            return this;
+        }
+
+        /// <summary>
+        /// Sets where this field's dictation gets its words from, instead of <see cref="Tesserae.Dictation.Provider"/>, without adding the
+        /// microphone button: for a field that is dictated into from elsewhere (see <see cref="DictationTargets"/>).
+        /// </summary>
+        public TextBox DictationSource(DictationProvider provider)
+        {
+            _dictationProvider = provider;
             return this;
         }
 
         /// <summary>True while the microphone button is listening.</summary>
         public bool IsDictating => _dictation?.IsDictating ?? false;
 
-        /// <summary>Starts dictating, as pressing the microphone button does. Does nothing without <see cref="WithDictation"/>, when already dictating, or when nothing can supply words.</summary>
+        /// <summary>Starts dictating, as pressing the microphone button does. Does nothing when already dictating or when nothing can supply words, and works whether or not <see cref="WithDictation"/> was called.</summary>
         public TextBox StartDictation()
         {
-            _dictation?.Start();
+            GetDictation().Start();
             return this;
         }
 
@@ -251,6 +266,25 @@ namespace Tesserae
             _dictation?.Stop();
             return this;
         }
+
+        /// <summary>The dictation of this field, made on first use so a field that never dictates carries none.</summary>
+        private DictationController GetDictation()
+        {
+            if (_dictation is null) _dictation = new DictationController(Render(), InnerElement, () => Text, text => Text = text, () => MaxLength, _dictationProvider);
+
+            _dictation.Provider = _dictationProvider;
+            return _dictation;
+        }
+
+        /// <inheritdoc />
+        public bool IsEditable => IsEnabled && !IsReadOnly;
+
+        /// <inheritdoc />
+        public bool CanDictate => Dictation.Resolve(_dictationProvider) is object;
+
+        void IDictationTarget.BeginDictation() => StartDictation();
+
+        void IDictationTarget.EndDictation() => StopDictation();
 
         private int         _spinning;
         private HTMLElement _spinnerHost;
