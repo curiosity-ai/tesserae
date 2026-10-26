@@ -12,7 +12,9 @@ namespace Tesserae
     /// <see cref="OmniBox"/> (see <see cref="OmniBox.Config.DictationButton"/>).
     /// </summary>
     /// <returns>Stops listening. Called when the user presses the button again, sends the message, or the box leaves the page.
-    /// May be null when there is nothing to stop. It is not called after the provider ended the session itself.</returns>
+    /// May be null when there is nothing to stop. It is not called after the provider ended the session itself. After it, the session
+    /// still takes <see cref="DictationSession.SetTranscript"/> for a few seconds (until <see cref="DictationSession.End"/>), so a
+    /// provider that transcribes what it was sent can still deliver the last words.</returns>
     public delegate Action DictationProvider(DictationSession session);
 
     /// <summary>

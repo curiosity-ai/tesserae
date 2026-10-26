@@ -625,6 +625,8 @@ namespace Tesserae
         private DictationProvider         _dictationProvider;
         private DictationSession          _dictation;
         private Action                    _stopDictation;
+        private DictationSession          _lingering;
+        private double                    _lingerTimer;
         private string                    _dictationCommitted;
         private Mode                      _dictationMode;
         private readonly TextBlock        _chatCounter;
@@ -1353,10 +1355,18 @@ namespace Tesserae
                     if (Dictation.Resolve(_dictationProvider) is null) _dictateBtn.Collapse();
                     else _dictateBtn.Show();
 
-                    DomObserver.WhenRemoved(_container, () => StopDictation());
+                    DomObserver.WhenRemoved(_container, () =>
+                    {
+                        StopDictation();
+                        DropLingering();
+                    });
                 });
 
-                _activeMode.ObserveFutureChanges(_ => StopDictation());
+                _activeMode.ObserveFutureChanges(_ =>
+                {
+                    StopDictation();
+                    DropLingering();
+                });
             }
 
             _container.addEventListener("click", (_) =>
@@ -2026,6 +2036,7 @@ namespace Tesserae
         private void TriggerSearch()
         {
             StopDictation();
+            DropLingering();
 
             var query = BuildSearchQuery();
             RememberSearch(query.RawQuery);
@@ -3070,10 +3081,25 @@ namespace Tesserae
             var stop = _stopDictation;
             _dictation     = null;
             _stopDictation = null;
-            session.Stop();
             SetDictatingState(false);
+
+            // A source that transcribes what it was sent (a speech-to-text service) answers a moment after being told to stop, with the last
+            // words. The session keeps taking them until the provider ends it - or for a few seconds, or until the message is sent.
+            DropLingering();
+            _lingering   = session;
+            _lingerTimer = window.setTimeout(_ => DropLingering(), 5000);
+
             stop?.Invoke();
             return this;
+        }
+
+        private void DropLingering()
+        {
+            if (_lingering is null) return;
+
+            window.clearTimeout(_lingerTimer);
+            _lingering.Stop();
+            _lingering = null;
         }
 
         private void ToggleDictation()
@@ -3084,7 +3110,7 @@ namespace Tesserae
 
         private void OnDictationTranscript(DictationSession session, string text, bool isFinal)
         {
-            if (session != _dictation) return;
+            if (session != _dictation && session != _lingering) return;
 
             var composed = JoinDictation(_dictationCommitted, text);
 
@@ -3103,6 +3129,15 @@ namespace Tesserae
 
         private void OnDictationEnded(DictationSession session, string error)
         {
+            if (session == _lingering)
+            {
+                window.clearTimeout(_lingerTimer);
+                _lingering = null;
+
+                if (error is object) Toast().Error(error);
+                return;
+            }
+
             if (session != _dictation) return;
 
             _dictation     = null;
@@ -3134,6 +3169,7 @@ namespace Tesserae
         private void TriggerChat()
         {
             StopDictation();
+            DropLingering();
 
             if (_isGenerating && !CanSendWhileGenerating)
             {
