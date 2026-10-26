@@ -23,6 +23,7 @@ A single-line text input with placeholder, read-only, password, and validation s
 - `MaxLength` — property capping the character count.
 - `.AI(bool value = true, bool strongEffect = false)` / `.IsAI` — mark the field as holding what a model wrote (a generated title, a suggested value): AI tint and accent edge. Turn it off (`AI(false)`) once the user types over the value. See `ai-variants.md`.
 - `await tb.SpinWhileAsync(async () => …)` / `SpinWhileAsync<T>(…)` — a spinner inside the field, at its end, while the call runs; gone when it finishes or throws (the exception propagates). The text box's version of `Button.OnClickSpinWhile`. Overlapping calls share one spinner; the field stays editable; the spinner takes the AI arc while the field is `AI()`. `.IsSpinning` reads it.
+- `.WithDictation(DictationProvider provider = null)` — adds a microphone button at the end of the field, the same as the OmniBox's (`Config.DictationButton`): press to dictate after the text already in the field, press again to stop, the words stay. Words come from `provider`, else `Dictation.Provider`, else the browser's speech recognition; the button is hidden when none exists. Stops when the field leaves the page. `.StartDictation()` / `.StopDictation()` / `.IsDictating` drive it from code. See `omni-box.md` ("Dictation") for writing a provider.
 
 Validation / errors (inherited from `Input`):
 

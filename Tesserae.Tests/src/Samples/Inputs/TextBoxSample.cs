@@ -68,6 +68,10 @@ namespace Tesserae.Tests.Samples
                         TextBox().SetPlaceholder("Medium").Rounded(BorderRadius.Medium),
                         TextBox().SetPlaceholder("Full").Rounded(BorderRadius.Full)
                     ),
+                    SampleSubTitle("Dictation"),
+                    VStack().Children(
+                        Label("With a microphone button").SetContent(TextBox().SetPlaceholder("Press the microphone and speak...").WithDictation())
+                    ),
                     SampleSubTitle("AI and Loading"),
                     VStack().Children(
                         Label("Generated").SetContent(TextBox("Quarterly revenue summary for the EMEA region").AI()),

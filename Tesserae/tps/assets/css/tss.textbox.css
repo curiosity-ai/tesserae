@@ -173,3 +173,72 @@
   background-color: var(--tss-default-background-hover-color);
   color: var(--tss-default-foreground-hover-color);
 }
+
+/* Dictation (WithDictation): a microphone button inside the field, at its end, like the OmniBox's. It sits over the
+   input's own box (the container also holds the message line below), takes the input's height in a text box and the
+   top corner in a text area, and the field makes room for it so text never runs under it. Idle it is quiet; while
+   listening it gets a danger-coloured outline and a recording dot, drawn as an outline and a dot rather than a
+   recolour because a theme restyles the button's own colours. */
+.tss-textbox-dictate-btn.tss-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 28px;
+    height: 28px;
+    min-width: 0;
+    padding: 0;
+    z-index: 1;
+}
+
+.tss-textbox-dictate-btn.tss-btn:not(.tss-disabled) {
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    border-color: transparent;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+}
+
+.tss-textbox-dictate-btn.tss-btn:not(.tss-disabled):hover {
+    background: var(--tss-subtle-fill-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-textbox-container.tss-textbox-has-dictation > .tss-textbox {
+    padding-right: 40px;
+}
+
+.tss-textbox-container.tss-textbox-has-dictation > .tss-textbox-spinner {
+    right: 40px;
+}
+
+.tss-textbox-container.tss-textbox-has-dictation.tss-textbox-spinning > .tss-textbox {
+    padding-right: 64px;
+}
+
+.tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn {
+    outline: 2px solid var(--tss-danger-background-color);
+    outline-offset: -2px;
+}
+
+.tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--tss-danger-background-color);
+    box-shadow: 0 0 0 1.5px var(--tss-default-background-color);
+    animation: tss-textbox-dictating-pulse 1.2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes tss-textbox-dictating-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-textbox-dictate-btn.tss-btn { transition: none; }
+    .tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn::after { animation: none; }
+}
