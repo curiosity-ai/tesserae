@@ -192,8 +192,11 @@
     width: 28px;
     height: 28px;
     min-width: 0;
+    min-height: 0;
     padding: 0;
 }
+
+/* A 28px button is centred in the 36px single-line field by the 4px offset; a theme with a taller field moves it. */
 
 .tss-textbox-dictate-btn.tss-btn:not(.tss-disabled) {
     background: transparent;
@@ -227,13 +230,13 @@
 .tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn::after {
     content: "";
     position: absolute;
-    top: 3px;
-    right: 3px;
-    width: 8px;
-    height: 8px;
+    top: 2px;
+    right: 2px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--tss-danger-background-color);
-    box-shadow: 0 0 0 1.5px var(--tss-default-background-color);
+    box-shadow: 0 0 0 1px var(--tss-default-background-color);
     animation: tss-textbox-dictating-pulse 1.2s ease-in-out infinite;
     pointer-events: none;
 }

@@ -136,3 +136,8 @@ body.tss-theme-kontrast .tss-textblock table tbody tr:hover {
         border-width: 4px;
     }
 }
+
+/* The dictation button is centred in the taller field. */
+body.tss-theme-kontrast .tss-textbox-container:not(.tss-textarea-container) > .tss-textbox-dictate-btn.tss-btn {
+    top: calc((var(--tss-kt-field-height) - 28px) / 2);
+}

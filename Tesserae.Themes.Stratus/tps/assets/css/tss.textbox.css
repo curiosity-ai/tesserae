@@ -130,7 +130,7 @@ body.tss-theme-stratus .tss-textbox-spinner {
     height: 40px;
 }
 
-/* The dictation button sits centred in the 40px field. */
-body.tss-theme-stratus .tss-textbox-dictate-btn.tss-btn {
+/* The dictation button is centred in the 40px field. */
+body.tss-theme-stratus .tss-textbox-container:not(.tss-textarea-container) > .tss-textbox-dictate-btn.tss-btn {
     top: 6px;
 }
