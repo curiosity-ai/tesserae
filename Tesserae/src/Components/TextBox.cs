@@ -220,6 +220,38 @@ namespace Tesserae
         /// <summary>Whether <see cref="AI"/> is on.</summary>
         public bool IsAI => InnerElement.classList.contains("tss-ai");
 
+        private DictationButton _dictation;
+
+        /// <summary>
+        /// Adds a microphone button at the end of the field, as an <see cref="OmniBox"/> has with
+        /// <see cref="OmniBox.Config.DictationButton"/>: pressing it dictates after the text already in the field, pressing it
+        /// again stops, and what was heard stays. The words come from <paramref name="provider"/>, else
+        /// <see cref="Tesserae.Dictation.Provider"/>, else the browser's speech recognition; the button is not shown when none is available.
+        /// </summary>
+        /// <param name="provider">The source of this field's dictation, instead of the application-wide one.</param>
+        public TextBox WithDictation(DictationProvider provider = null)
+        {
+            if (_dictation is null) _dictation = new DictationButton(Render(), InnerElement, () => Text, text => Text = text, () => MaxLength, provider);
+            return this;
+        }
+
+        /// <summary>True while the microphone button is listening.</summary>
+        public bool IsDictating => _dictation?.IsDictating ?? false;
+
+        /// <summary>Starts dictating, as pressing the microphone button does. Does nothing without <see cref="WithDictation"/>, when already dictating, or when nothing can supply words.</summary>
+        public TextBox StartDictation()
+        {
+            _dictation?.Start();
+            return this;
+        }
+
+        /// <summary>Stops dictating; what was heard stays in the field.</summary>
+        public TextBox StopDictation()
+        {
+            _dictation?.Stop();
+            return this;
+        }
+
         private int         _spinning;
         private HTMLElement _spinnerHost;
 

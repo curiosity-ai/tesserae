@@ -307,3 +307,20 @@ body.tss-theme-retroos .tss-omnibox-suggested-text {
     opacity: 1;
     font-style: italic;
 }
+
+/* This theme has no red: a dictating microphone gets a solid dot in the corner of its button, and no pulse (no motion here). */
+body.tss-theme-retroos .tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-default-foreground-color);
+    pointer-events: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn > i {
+    animation: none;
+}

@@ -709,11 +709,9 @@
     }
 }
 
-/* Microphone (dictate) button: quiet like the send button while idle. While listening it gets a danger-coloured
-   outline and a recording dot in its corner. The state is drawn with an outline and a dot rather than by recolouring
-   the button, because a theme restyles the button's own background and text colours and a colour pair set here can
-   end up unreadable in it (white on transparent); an outline and a dot read in every one of them. The dot pulses; under
-   reduced motion it just stays on. */
+/* Microphone (dictate) button: quiet like the send button while idle. While listening its icon turns solid danger red
+   and pulses; under reduced motion it just stays red. A theme with no red (RetroOS, Graustufe) adds a dot in its own
+   stylesheet. */
 .tss-btn.tss-omnibox-dictate-btn {
     position: relative;
 }
@@ -730,33 +728,24 @@
     color: var(--tss-default-foreground-color);
 }
 
-.tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn {
-    outline: 2px solid var(--tss-danger-background-color);
-    outline-offset: -2px;
+.tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn,
+.tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn:hover,
+.tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn > i {
+    color: var(--tss-danger-background-color);
 }
 
-.tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn::after {
-    content: "";
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--tss-danger-background-color);
-    box-shadow: 0 0 0 1.5px var(--tss-default-background-color);
+.tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn > i {
     animation: tss-omnibox-dictating-pulse 1.2s ease-in-out infinite;
-    pointer-events: none;
 }
 
 @keyframes tss-omnibox-dictating-pulse {
     0%, 100% { opacity: 1; }
-    50%      { opacity: 0.35; }
+    50%      { opacity: 0.45; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .tss-btn.tss-omnibox-dictate-btn { transition: none; }
-    .tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn::after { animation: none; }
+    .tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn > i { animation: none; }
 }
 
 /* "Ask AI" button (WithAskAI): a primary action at the end of the search input that follows the box's

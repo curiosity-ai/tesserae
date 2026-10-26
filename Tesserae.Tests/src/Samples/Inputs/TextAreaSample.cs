@@ -29,6 +29,10 @@ namespace Tesserae.Tests.Samples
                         Label("Disabled").Disabled().SetContent(TextArea("Disabled content").Disabled()),
                         Label("Read-only").SetContent(TextArea("Read-only content").ReadOnly())
                     ),
+                    SampleSubTitle("Dictation"),
+                    VStack().Children(
+                        Label("With a microphone button").SetContent(TextArea().SetPlaceholder("Press the microphone and speak...").WithDictation())
+                    ),
                     SampleSubTitle("Auto Resize"),
                     VStack().Children(
                         Label("AutoResize (allowShrink = true)").SetContent(TextArea("Type multiple lines here...").AutoResize(allowShrink: true)),

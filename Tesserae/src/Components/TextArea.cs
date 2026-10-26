@@ -234,6 +234,38 @@ namespace Tesserae
             return this;
         }
 
+        private DictationButton _dictation;
+
+        /// <summary>
+        /// Adds a microphone button in the corner of the text area, as an <see cref="OmniBox"/> has with
+        /// <see cref="OmniBox.Config.DictationButton"/>: pressing it dictates after the text already in the field, pressing it
+        /// again stops, and what was heard stays. The words come from <paramref name="provider"/>, else
+        /// <see cref="Tesserae.Dictation.Provider"/>, else the browser's speech recognition; the button is not shown when none is available.
+        /// </summary>
+        /// <param name="provider">The source of this field's dictation, instead of the application-wide one.</param>
+        public TextArea WithDictation(DictationProvider provider = null)
+        {
+            if (_dictation is null) _dictation = new DictationButton(_container, InnerElement, () => Text, text => Text = text, () => MaxLength, provider);
+            return this;
+        }
+
+        /// <summary>True while the microphone button is listening.</summary>
+        public bool IsDictating => _dictation?.IsDictating ?? false;
+
+        /// <summary>Starts dictating, as pressing the microphone button does. Does nothing without <see cref="WithDictation"/>, when already dictating, or when nothing can supply words.</summary>
+        public TextArea StartDictation()
+        {
+            _dictation?.Start();
+            return this;
+        }
+
+        /// <summary>Stops dictating; what was heard stays in the text area.</summary>
+        public TextArea StopDictation()
+        {
+            _dictation?.Stop();
+            return this;
+        }
+
         /// <summary>Sets focus to the text area.</summary>
         public TextArea Focus()
         {
