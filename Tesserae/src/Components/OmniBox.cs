@@ -493,6 +493,19 @@ namespace Tesserae
             public int MaxCharacters { get; set; }
 
             /// <summary>
+            /// Gets or sets whether the box has a microphone button that dictates into the active input. Off by default.
+            /// The words come from <see cref="DictationProvider"/>, else <see cref="Tesserae.Dictation.Provider"/>, else
+            /// the browser's speech recognition; when there is none of those the button is not shown.
+            /// </summary>
+            public bool DictationButton { get; set; }
+
+            /// <summary>
+            /// Gets or sets the source of this box's dictation, instead of the application-wide
+            /// <see cref="Tesserae.Dictation.Provider"/>. Only used when <see cref="DictationButton"/> is on.
+            /// </summary>
+            public DictationProvider DictationProvider { get; set; }
+
+            /// <summary>
             /// Gets or sets the chat footer.
             /// </summary>
             public FooterItems ChatFooter { get; set; }
@@ -608,6 +621,12 @@ namespace Tesserae
         private readonly HTMLDivElement   _contextContainer;
         private readonly List<ContextCard> _contextCards = new List<ContextCard>();
         private readonly Button           _chatTriggerBtn;
+        private readonly Button           _dictateBtn;
+        private DictationProvider         _dictationProvider;
+        private DictationSession          _dictation;
+        private Action                    _stopDictation;
+        private string                    _dictationCommitted;
+        private Mode                      _dictationMode;
         private readonly TextBlock        _chatCounter;
         private int                       _maxChatCharacters;
         private Button                    _modelSelectorBtn;
@@ -741,6 +760,19 @@ namespace Tesserae
 
             var footerEnd = new List<IComponent>();
 
+            if (config.DictationButton)
+            {
+                _dictationProvider = config.DictationProvider;
+                _dictateBtn = Button().SetIcon(UIcons.Microphone).Class("tss-omnibox-dictate-btn").Class(MOBILE_KEEP_CLASS).AriaLabel("Dictate".t()).Tooltip("Dictate".t());
+                _dictateBtn.Render().setAttribute("aria-pressed", "false");
+                _dictateBtn.OnClick((_, e) =>
+                {
+                    //The box focuses its input on any click inside it, which on a phone opens the keyboard over the listening state
+                    e.stopPropagation();
+                    ToggleDictation();
+                });
+            }
+
             if (_mode == Mode.SearchAndChat)
             {
                 _modeToggle = IconToggle(
@@ -790,7 +822,7 @@ namespace Tesserae
 
                 if (_mode == Mode.Search)
                 {
-                    _searchContainer = Div(Att("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchHelpBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
+                    _searchContainer = Div(Att("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchHelpBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _dictateBtn?.Render(), _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
                 else
                 {
@@ -1277,6 +1309,11 @@ namespace Tesserae
                 }
             }
 
+            if (_dictateBtn is object && _mode != Mode.Search)
+            {
+                footerEnd.Insert(0, _dictateBtn);
+            }
+
             foreach (var i in footerEnd)
             {
                 _footer.appendChild(i.Render());
@@ -1304,6 +1341,22 @@ namespace Tesserae
                     _container = Div(Att("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatHeader, _chatContainer, _contextContainer, _footer);
                     break;
                 }
+            }
+
+            if (_dictateBtn is object)
+            {
+                // The button is shown only when something can supply words; an application may install its provider after
+                // the box was built, so it is checked when the box reaches the page. Leaving the page ends the dictation
+                // (the microphone must not stay open behind a box nobody can see).
+                DomObserver.WhenMounted(_container, () =>
+                {
+                    if (Dictation.Resolve(_dictationProvider) is null) _dictateBtn.Collapse();
+                    else _dictateBtn.Show();
+
+                    DomObserver.WhenRemoved(_container, () => StopDictation());
+                });
+
+                _activeMode.ObserveFutureChanges(_ => StopDictation());
             }
 
             _container.addEventListener("click", (_) =>
@@ -1972,6 +2025,8 @@ namespace Tesserae
 
         private void TriggerSearch()
         {
+            StopDictation();
+
             var query = BuildSearchQuery();
             RememberSearch(query.RawQuery);
             Searched?.Invoke(this, query);
@@ -2966,8 +3021,120 @@ namespace Tesserae
             _searchInput.focus();
         }
 
+        /// <summary>True while the microphone button is listening.</summary>
+        public bool IsDictating => _dictation is object;
+
+        /// <summary>
+        /// Starts dictating into the active input, as pressing the microphone button does (the text already in the
+        /// box stays, the transcript is added after it). Does nothing without <see cref="Config.DictationButton"/>, when
+        /// already dictating, or when nothing can supply words.
+        /// </summary>
+        public OmniBox StartDictation()
+        {
+            if (_dictateBtn is null || _dictation is object) return this;
+
+            var provider = Dictation.Resolve(_dictationProvider);
+            if (provider is null) return this;
+
+            _dictationMode      = _mode == Mode.SearchAndChat ? _activeMode.Value : _mode;
+            _dictationCommitted = (_dictationMode == Mode.Chat ? ChatText : SearchText) ?? string.Empty;
+
+            DictationSession session = null;
+            session = new DictationSession(_dictationCommitted, (text, final) => OnDictationTranscript(session, text, final), error => OnDictationEnded(session, error));
+            _dictation = session;
+            SetDictatingState(true);
+
+            Action stop;
+            try
+            {
+                stop = provider(session);
+            }
+            catch
+            {
+                OnDictationEnded(session, null);
+                throw;
+            }
+
+            // A provider that ended the session while starting (no microphone) has nothing left to stop.
+            if (_dictation == session) _stopDictation = stop;
+
+            return this;
+        }
+
+        /// <summary>Stops dictating; what was heard stays in the box.</summary>
+        public OmniBox StopDictation()
+        {
+            var session = _dictation;
+            if (session is null) return this;
+
+            var stop = _stopDictation;
+            _dictation     = null;
+            _stopDictation = null;
+            session.Stop();
+            SetDictatingState(false);
+            stop?.Invoke();
+            return this;
+        }
+
+        private void ToggleDictation()
+        {
+            if (_dictation is object) StopDictation();
+            else StartDictation();
+        }
+
+        private void OnDictationTranscript(DictationSession session, string text, bool isFinal)
+        {
+            if (session != _dictation) return;
+
+            var composed = JoinDictation(_dictationCommitted, text);
+
+            if (_dictationMode == Mode.Chat)
+            {
+                if (_maxChatCharacters > 0 && composed.Length > _maxChatCharacters) composed = composed.Substring(0, _maxChatCharacters);
+                ChatText = composed;
+            }
+            else
+            {
+                SearchText = composed;
+            }
+
+            if (isFinal) _dictationCommitted = composed;
+        }
+
+        private void OnDictationEnded(DictationSession session, string error)
+        {
+            if (session != _dictation) return;
+
+            _dictation     = null;
+            _stopDictation = null;
+            SetDictatingState(false);
+
+            if (error is object) Toast().Error(error);
+        }
+
+        private static string JoinDictation(string before, string heard)
+        {
+            if (string.IsNullOrEmpty(before)) return heard;
+            if (string.IsNullOrEmpty(heard)) return before;
+
+            var glued = char.IsWhiteSpace(before[before.Length - 1]) || char.IsWhiteSpace(heard[0]);
+            return glued ? before + heard : before + " " + heard;
+        }
+
+        private void SetDictatingState(bool on)
+        {
+            _container.classList.toggle("tss-omnibox-dictating", on);
+
+            var el = _dictateBtn.Render();
+            el.classList.toggle("tss-omnibox-dictating-btn", on);
+            el.setAttribute("aria-pressed", on ? "true" : "false");
+            _dictateBtn.Tooltip(on ? "Stop dictation".t() : "Dictate".t());
+        }
+
         private void TriggerChat()
         {
+            StopDictation();
+
             if (_isGenerating && !CanSendWhileGenerating)
             {
                 // A stop already asked for is not asked for again: the trigger is spinning until the host says it is over.
