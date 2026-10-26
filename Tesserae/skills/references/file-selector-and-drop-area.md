@@ -25,7 +25,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 - `.Multiple()` — accept multiple files.
 - `.SetAccepts(accepts)` — accepted types.
-- `.OnFilesDropped((sender, File[] files) => …)` — handler.
+- `.OnFilesDropped((sender, File[] files) => …)` — handler. It is called **once per drop** (or once per file-dialog selection) with every file in it, in drop order, so a handler that opens a dialog or starts a batch runs once. Dropped folders are read completely, subfolders included. Without `.Multiple()` the handler gets only the first file.
 - `.SetContent(IComponent)` / `.OpenFileSelection()` / `.Reset()`.
 
 Both overloads open the file dialog on click. With `FileDropArea(component)`, a click that lands on an interactive element of your own content (`a`, `button`, `input`, `select`, `textarea`, `label`, `[role=button]`, `[role=link]`, `[contenteditable=true]`) runs that element's handler instead, so wrapped content can keep its own buttons.

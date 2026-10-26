@@ -9,6 +9,7 @@ namespace Tesserae.Tests.Samples
     public class FileSelectorAndDropAreaSample : IComponent, ISample
     {
         private readonly IComponent _content;
+        private          int        dropReports;
         public FileSelectorAndDropAreaSample()
         {
             _content = SectionStack().Secondary()
@@ -28,8 +29,13 @@ namespace Tesserae.Tests.Samples
                     FileSelector().SetPlaceholder("Please select any image").SetAccepts("image/*").OnFileSelected((fs,            e) => size.Text = fs.SelectedFile.size.ToString() + " bytes"),
                     SampleSubTitle("File Drop Area"),
                     Label("Dropped Files: ").SetContent(Stack().Var(out var droppedFiles)),
+                    Label("Drops reported: ").Inline().SetContent(TextBlock("0").Id("file-drop-area-reports").Var(out var reports)),
                     FileDropArea().OnFilesDropped((s, e) =>
                     {
+                        //One call for the whole drop, whatever it held: a drop of three files is one report of three, not three of one.
+                        dropReports++;
+                        reports.Text = dropReports + " (" + e.Length + " files in the last)";
+
                         foreach (var file in e)
                         {
                             droppedFiles.Add(TextBlock(file.name).Small());
@@ -43,6 +49,9 @@ namespace Tesserae.Tests.Samples
                         Button("I have my own click").PT(12).OnClick(() => droppedFiles.Add(TextBlock("button clicked").Small()))
                     )).OnFilesDropped((s, e) =>
                     {
+                        dropReports++;
+                        reports.Text = dropReports + " (" + e.Length + " files in the last)";
+
                         foreach (var file in e)
                         {
                             droppedFiles.Add(TextBlock(file.name).Small());

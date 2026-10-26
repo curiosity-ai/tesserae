@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Transpose;
 using static Transpose.Core.dom;
@@ -139,12 +140,7 @@ namespace Tesserae
                 dragCounter = 0;
                 wrapper.classList.remove("tss-dropping");
 
-                foreach (var item in e.dataTransfer.items)
-                {
-                    if (item.kind != "file") continue;
-                    OnReadEntry(item.webkitGetAsEntry());
-                    if (!IsMultiple) break;
-                }
+                OnDropped(e);
             };
 
             return wrapper;
@@ -188,44 +184,117 @@ namespace Tesserae
                 StopEvent(e);
                 dropArea.classList.remove("tss-dropping");
 
-                foreach (var item in e.dataTransfer.items)
-                {
-                    if (item.kind != "file") continue;
-                    OnReadEntry(item.webkitGetAsEntry());
-                    if (!IsMultiple) break;
-                }
+                OnDropped(e);
             };
 
             return dropArea;
         }
 
-        private void ReadDirectory(object dir)
+        // What a drop reports is every file in it, in one call - the same shape as picking them in the file dialog.
+        // The entries have to be taken while the drop event is being handled (the browser empties the list afterwards), but
+        // reading them is asynchronous, and a folder holds more files that are only found by reading it. So the entries
+        // are walked until nothing is left to read, and only then is the handler told, once.
+        private void OnDropped(DragEvent e)
         {
-            var              dirReader = Script.Write<object>("{0}.createReader()", dir);
-            Action<object[]> readEnt   = OnReadEntries;
-            Script.Write(@"{0}.readEntries({1});", dirReader, readEnt);
-        }
+            var entries = new List<object>();
 
-        private void OnReadEntries(object[] entries)
-        {
-            for (var i = 0; i < entries.Length; i++)
+            foreach (var item in e.dataTransfer.items)
             {
-                var entry = entries[i];
-                OnReadEntry(entry);
+                if (item.kind != "file") continue;
+
+                var entry = item.webkitGetAsEntry();
+
+                if (entry is object) entries.Add(entry);
+
                 if (!IsMultiple) break;
             }
+
+            if (entries.Count == 0) return;
+
+            var found   = new List<DroppedFile>();
+            var pending = 0;
+            var order   = 0;
+
+            // Every entry visited counts as pending until it was read; a folder's children are counted before the folder
+            // is, so the count only reaches zero when the last file of the last folder has arrived.
+            Action finished = () =>
+            {
+                pending--;
+
+                if (pending > 0) return;
+
+                //The files arrive in whatever order the browser reads them: hand them over in the order they were dropped.
+                var files = found.OrderBy(f => f.Order).Select(f => f.File).ToArray();
+
+                if (files.Length == 0) return;
+
+                FilesDropped?.Invoke(this, IsMultiple ? files : new[] { files[0] });
+            };
+
+            Action<object> visit = null;
+
+            visit = (entry) =>
+            {
+                pending++;
+
+                var position = order++;
+
+                if (Script.Write<bool>("{0}.isDirectory", entry) == true)
+                {
+                    ReadAllEntries(Script.Write<object>("{0}.createReader()", entry), new List<object>(), children =>
+                    {
+                        foreach (var child in children) visit(child);
+
+                        finished();
+                    });
+                }
+                else if (Script.Write<bool>("{0}.isFile", entry) == true)
+                {
+                    Action<File> read  = (f) => { found.Add(new DroppedFile(position, f)); finished(); };
+                    Action<object> failed = (_) => finished();
+
+                    Script.Write("{0}.file({1}, {2})", entry, read, failed);
+                }
+                else
+                {
+                    finished();
+                }
+            };
+
+            foreach (var entry in entries) visit(entry);
         }
 
-        private void OnReadEntry(object entry)
+        // A directory reader hands over its entries in batches (Chromium: 100 at a time) and says it is done with an empty
+        // one, so a folder with more files than a batch is only read completely by asking again until nothing comes back.
+        private static void ReadAllEntries(object reader, List<object> read, Action<List<object>> done)
         {
-            if (Script.Write<bool>("{0}.isDirectory", entry) == true)
+            Action<object[]> onBatch = null;
+
+            onBatch = (batch) =>
             {
-                ReadDirectory(entry);
-            }
-            else if (Script.Write<bool>("{0}.isFile", entry) == true)
+                if (batch.Length == 0)
+                {
+                    done(read);
+                    return;
+                }
+
+                for (var i = 0; i < batch.Length; i++) read.Add(batch[i]);
+
+                Script.Write("{0}.readEntries({1}, {2})", reader, onBatch, new Action<object>(_ => done(read)));
+            };
+
+            Script.Write("{0}.readEntries({1}, {2})", reader, onBatch, new Action<object>(_ => done(read)));
+        }
+
+        private sealed class DroppedFile
+        {
+            public int  Order { get; }
+            public File File  { get; }
+
+            public DroppedFile(int order, File file)
             {
-                Action<File> upload = (f) => { FilesDropped?.Invoke(this, new[] { f }); };
-                Script.Write("{0}.file({1})", entry, upload);
+                Order = order;
+                File  = file;
             }
         }
 
