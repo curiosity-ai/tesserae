@@ -25,7 +25,7 @@ returns a `TextArea`. Bring factories into scope with `using static Tesserae.UI;
 - `.MaxLength` — character cap.
 - `.NoSpellCheck()` — disable browser spellcheck.
 - `.AutoResize(bool allowShrink = true, int? minHeight = null, int? maxHeight = null)`
-- `.WithDictation(DictationProvider provider = null)` — adds a microphone button in the corner, the same as the OmniBox's (`Config.DictationButton`): press to dictate after the text already in the field, press again to stop, the words stay. Words come from `provider`, else `Dictation.Provider`, else the browser's speech recognition; hidden when none exists. `.StartDictation()` / `.StopDictation()` / `.IsDictating` drive it from code. See `omni-box.md` ("Dictation").
+- `.WithDictation(DictationProvider provider = null)` — adds a microphone button in the corner, the same as the OmniBox's (`Config.DictationButton`): press to dictate after the text already in the field, press again to stop, the words stay. Words come from `provider`, else `Dictation.Provider`, else the browser's speech recognition; hidden when none exists. `.StartDictation()` / `.StopDictation()` / `.IsDictating` drive it from code. See `omni-box.md` ("Dictation"). Every TextArea is also an `IDictationTarget`, found by `DictationTargets` and dictated into with `BeginDictation()` with or without the button (`.DictationSource(provider)` sets its source without adding one): see `dictation-targets.md`.
   — grow with content; clamp with min/max pixel heights.
 - `.Focus()` — scroll into view and focus.
 

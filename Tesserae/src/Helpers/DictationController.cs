@@ -6,18 +6,20 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
-    /// The microphone button of a <see cref="TextBox"/> or <see cref="TextArea"/>, behaving as the one of an <see cref="OmniBox"/>
-    /// does: it dictates after the text already in the field, shows a recording state while listening, is shown only when
-    /// something can supply words (<see cref="Dictation.Resolve"/>), and stops when pressed again or when the field leaves the page.
+    /// Dictation into a <see cref="TextBox"/> or <see cref="TextArea"/>, behaving as an <see cref="OmniBox"/>'s does: it dictates after
+    /// the text already in the field, and stops when told to or when the field leaves the page. A field that asked for the
+    /// microphone button (<see cref="AddButton"/>) also gets it: shown only when something can supply words
+    /// (<see cref="Dictation.Resolve"/>), with a recording state while listening. Without the button the controller still serves
+    /// <see cref="IDictationTarget"/>, so an application can start dictation into a field that shows none.
     /// </summary>
-    internal sealed class DictationButton
+    internal sealed class DictationController
     {
-        private readonly Button               _button;
+        private Button                        _button;
         private readonly HTMLElement          _host;
         private readonly Func<string>         _getText;
         private readonly Action<string>       _setText;
         private readonly Func<int>            _maxLength;
-        private readonly DictationProvider    _own;
+        private DictationProvider            _own;
 
         private DictationSession _dictation;
         private Action           _stop;
@@ -27,13 +29,40 @@ namespace Tesserae
 
         /// <param name="host">The field's root element; the button is added to it and it carries the dictating class.</param>
         /// <param name="mountedOn">The element whose presence on the page is watched.</param>
-        public DictationButton(HTMLElement host, HTMLElement mountedOn, Func<string> getText, Action<string> setText, Func<int> maxLength, DictationProvider own)
+        public DictationController(HTMLElement host, HTMLElement mountedOn, Func<string> getText, Action<string> setText, Func<int> maxLength, DictationProvider own)
         {
             _host      = host;
             _getText   = getText;
             _setText   = setText;
             _maxLength = maxLength;
             _own       = own;
+
+            // Leaving the page ends the dictation (the microphone must not stay open behind a field nobody can see).
+            DomObserver.WhenMounted(mountedOn, () =>
+            {
+                ShowButtonIfAvailable();
+
+                DomObserver.WhenRemoved(mountedOn, () =>
+                {
+                    Stop();
+                    DropLingering();
+                });
+            });
+        }
+
+        /// <summary>This field's own source of words, instead of the application-wide one.</summary>
+        public DictationProvider Provider
+        {
+            set => _own = value;
+        }
+
+        /// <summary>Whether something can supply words for this field.</summary>
+        public bool CanDictate => Dictation.Resolve(_own) is object;
+
+        /// <summary>Adds the microphone button at the end of the field. Does nothing when it is already there.</summary>
+        public void AddButton()
+        {
+            if (_button is object) return;
 
             _button = Button().SetIcon(UIcons.Microphone).NoBorder().NoBackground().Class("tss-textbox-dictate-btn").AriaLabel("Dictate".t()).Tooltip("Dictate".t());
             _button.Render().setAttribute("aria-pressed", "false");
@@ -44,30 +73,28 @@ namespace Tesserae
                 Toggle();
             });
 
-            host.classList.add("tss-textbox-has-dictation");
-            host.appendChild(_button.Render());
+            _host.classList.add("tss-textbox-has-dictation");
+            _host.appendChild(_button.Render());
 
-            // Shown only when something can supply words; an application may install its provider after the field was built, so it is
-            // checked when the field reaches the page. Leaving the page ends the dictation (the microphone must not stay open behind a field nobody can see).
-            DomObserver.WhenMounted(mountedOn, () =>
+            if (_host.isConnected) ShowButtonIfAvailable();
+            if (_dictation is object) SetState(true);
+        }
+
+        /// <summary>The button is shown only when something can supply words; an application may install its provider after the field was built, so it is checked when the field reaches the page.</summary>
+        private void ShowButtonIfAvailable()
+        {
+            if (_button is null) return;
+
+            if (CanDictate)
             {
-                if (Dictation.Resolve(_own) is null)
-                {
-                    _button.Collapse();
-                    host.classList.remove("tss-textbox-has-dictation");
-                }
-                else
-                {
-                    _button.Show();
-                    host.classList.add("tss-textbox-has-dictation");
-                }
-
-                DomObserver.WhenRemoved(mountedOn, () =>
-                {
-                    Stop();
-                    DropLingering();
-                });
-            });
+                _button.Show();
+                _host.classList.add("tss-textbox-has-dictation");
+            }
+            else
+            {
+                _button.Collapse();
+                _host.classList.remove("tss-textbox-has-dictation");
+            }
         }
 
         public bool IsDictating => _dictation is object;
@@ -181,6 +208,8 @@ namespace Tesserae
         private void SetState(bool on)
         {
             _host.classList.toggle("tss-textbox-dictating", on);
+
+            if (_button is null) return;
 
             var el = _button.Render();
             el.classList.toggle("tss-textbox-dictating-btn", on);

@@ -1,6 +1,10 @@
 ﻿/* TextArea */
 .tss-textarea {
     resize: none;
+    /* A text input centres its text; a text area starts it at the top, so at the default one-line height the text sat against
+       the top edge. The padding puts the first line where an input would have it, and is what a taller text area wants anyway. */
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 /* The container is a full-height flex column so that whenever it is given a height -

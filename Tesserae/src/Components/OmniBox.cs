@@ -14,7 +14,7 @@ namespace Tesserae
     /// (search/chat) and async value providers.
     /// </summary>
     [Transpose.Name("tss.OmniBox")]
-    public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex
+    public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex, IDictationTarget
     {
 
         public class InlineFilterChip
@@ -1368,6 +1368,8 @@ namespace Tesserae
                     DropLingering();
                 });
             }
+
+            DictationTargets.Register(_container, this);
 
             _container.addEventListener("click", (_) =>
             {
@@ -3034,6 +3036,26 @@ namespace Tesserae
 
         /// <summary>True while the microphone button is listening.</summary>
         public bool IsDictating => _dictation is object;
+
+        /// <summary>The text of the input that is showing, the one dictation goes into: the chat input in <see cref="Mode.Chat"/>, the search input otherwise.</summary>
+        string IDictationTarget.Text
+        {
+            get => (_mode == Mode.SearchAndChat ? _activeMode.Value : _mode) == Mode.Chat ? ChatText : SearchText;
+            set
+            {
+                if ((_mode == Mode.SearchAndChat ? _activeMode.Value : _mode) == Mode.Chat) ChatText = value;
+                else SearchText = value;
+            }
+        }
+
+        bool IDictationTarget.IsEditable => IsEnabled;
+
+        /// <summary>True when the box has a microphone button (<see cref="Config.DictationButton"/>) and something can supply words for it.</summary>
+        bool IDictationTarget.CanDictate => _dictateBtn is object && Dictation.Resolve(_dictationProvider) is object;
+
+        void IDictationTarget.BeginDictation() => StartDictation();
+
+        void IDictationTarget.EndDictation() => StopDictation();
 
         /// <summary>
         /// Starts dictating into the active input, as pressing the microphone button does (the text already in the
