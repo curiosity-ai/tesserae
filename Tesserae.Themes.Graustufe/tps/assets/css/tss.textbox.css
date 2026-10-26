@@ -91,3 +91,21 @@ body.tss-theme-graustufe .tss-textblock table td {
 body.tss-theme-graustufe .tss-textblock table tbody tr:hover {
     background: var(--tss-gs-13);
 }
+
+/* This theme has no red: the danger colour is not distinct from the ink, so a dictating microphone gets a solid dot in the
+   corner of its button as well, and keeps the pulse out of it (no motion here). */
+body.tss-theme-graustufe .tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-default-foreground-color);
+    pointer-events: none;
+}
+
+body.tss-theme-graustufe .tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn > i {
+    animation: none;
+}
