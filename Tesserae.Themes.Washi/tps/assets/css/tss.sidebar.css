@@ -280,7 +280,8 @@ body.tss-theme-washi .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-sepa
     border-bottom-color: var(--tss-wa-line);
 }
 
-body.tss-theme-washi .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+body.tss-theme-washi .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated,
+body.tss-theme-washi .tss-sidebar .tss-sidebar-divider {
     border-top-color: var(--tss-wa-line);
 }
 

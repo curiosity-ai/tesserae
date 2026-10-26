@@ -262,7 +262,8 @@ body.tss-theme-blaupause .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-
     border-bottom-color: var(--tss-bp-line);
 }
 
-body.tss-theme-blaupause .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated,
+body.tss-theme-blaupause .tss-sidebar .tss-sidebar-divider {
     border-top-color: var(--tss-bp-line);
 }
 

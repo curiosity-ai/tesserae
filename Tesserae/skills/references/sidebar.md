@@ -490,6 +490,7 @@ var app = HStack().WS().Children(sidebar.HS(), VStack().Grow().HS());
 ## Related
 
 - SidebarBrand — `sidebar-brand.md`
+- SidebarDivider (a line between any two items) — `sidebar-divider.md`
 - SidebarProfile — `sidebar-profile.md`
 - SidebarSectionHeader (names the section, not clickable) — `sidebar-section-header.md`
 - SidebarSeparator — `sidebar-separator.md`

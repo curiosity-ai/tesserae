@@ -389,7 +389,8 @@ body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-header .t
    Brand, profile, section header, status card
    -------------------------------------------------------------------------- */
 
-body.tss-theme-rechenwerk .tss-sidebar-identity-separated {
+body.tss-theme-rechenwerk .tss-sidebar-identity-separated,
+body.tss-theme-rechenwerk .tss-sidebar-divider {
     border-color: rgb(56, 54, 49);
 }
 

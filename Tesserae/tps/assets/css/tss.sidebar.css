@@ -894,6 +894,27 @@
     display: none;
 }
 
+/* SidebarDivider: a rule across the rail, run out past the sidebar's padding to its own edges like the divider
+   .Separated() draws on an identity row - the negative margins are that padding, which differs between the two
+   states. Zero height, so the line is the border and nothing else. */
+.tss-sidebar-divider {
+    height: 0;
+    flex: 0 0 auto;
+    border-top: 1px solid var(--tss-default-border-color);
+    margin: 8px -12px;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-divider {
+    margin-left: -4px;
+    margin-right: -4px;
+}
+
+/* The middle is a scroller that already reaches past the rail's left padding but stops short of its right edge, so
+   a line overhanging it on the right would give it a horizontal scrollbar: there it stops at the scroller's edge. */
+.tss-sidebar .tss-sidebar-middle .tss-sidebar-divider {
+    margin-right: 0;
+}
+
 /* Navbar Mode Extensions */
 .tss-navbar {
     width: 100% !important;

@@ -301,7 +301,8 @@ body.tss-theme-kontrast .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-s
     border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
 }
 
-body.tss-theme-kontrast .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-divider {
     border-top: var(--tss-kt-border) solid var(--tss-kt-ink);
 }
 
