@@ -183,11 +183,16 @@
     position: absolute;
     top: 4px;
     right: 4px;
+    z-index: 1;
+}
+
+/* The three-class form beats the button's own default margin and size, which would otherwise push it off the field's edge. */
+.tss-textbox-dictate-btn.tss-btn.tss-default-component-margin {
+    margin: 0;
     width: 28px;
     height: 28px;
     min-width: 0;
     padding: 0;
-    z-index: 1;
 }
 
 .tss-textbox-dictate-btn.tss-btn:not(.tss-disabled) {
