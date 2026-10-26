@@ -125,7 +125,7 @@ OmniBox:
 
 `Config.DictationButton = true` puts a microphone button in the footer (in the input row of a `Search`-only
 box). Pressed, it listens and shows the words in the active input after whatever was typed: interim results
-as they come, final ones kept. While it listens the button gets a red outline and a recording dot (`aria-pressed`
+as they come, final ones kept. While it listens the microphone icon turns solid red and pulses (RetroOS and Graustufe, which have no red, add a corner dot) (`aria-pressed`
 is true), in every theme. Sending, switching mode, pressing it again or removing the box from the page stops
 it. On a phone the button stays in the row.
 
