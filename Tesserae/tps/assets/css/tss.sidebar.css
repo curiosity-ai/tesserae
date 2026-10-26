@@ -909,6 +909,12 @@
     margin-right: -4px;
 }
 
+/* A sidebar row leaves 2px under itself for the next row; above a divider that 2px would add to the divider's own
+   8px and sit the group off centre between two lines, so the divider owns the spacing on both of its sides. */
+.tss-sidebar :has(+ .tss-sidebar-divider) {
+    margin-bottom: 0;
+}
+
 /* The middle is a scroller that already reaches past the rail's left padding but stops short of its right edge, so
    a line overhanging it on the right would give it a horizontal scrollbar: there it stops at the scroller's edge. */
 .tss-sidebar .tss-sidebar-middle .tss-sidebar-divider {
