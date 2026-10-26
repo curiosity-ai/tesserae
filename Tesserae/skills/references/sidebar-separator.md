@@ -5,8 +5,9 @@ description: A visual separator for grouping items inside a Sidebar, optionally 
 
 # SidebarSeparator
 
-A thin divider added between `Sidebar` items to visually group them. Pass a
-text to render a labelled group header instead of a plain line.
+A gap added between `Sidebar` items to visually group them. Pass a text to
+render a labelled group header instead. It draws no line; for a rule across the
+rail use `SidebarDivider` (`sidebar-divider.md`).
 
 ## Create
 
@@ -20,7 +21,7 @@ It is added to a sidebar via `sidebar.AddContent(...)` (or `AddHeader` /
 ## Key configuration
 
 - `identifier` (ctor) — unique key for ordering/sorting.
-- `text` (ctor) — optional caption; omit for a plain line.
+- `text` (ctor) — optional caption; omit for a plain gap.
 - `.Collapse()` / `.Show()` — hide or reveal the separator.
 - `.IsSelected` — selection state (inherited from `ISidebarItem`; rarely used).
 
@@ -31,7 +32,7 @@ using static Tesserae.UI;
 
 var sidebar = Sidebar();
 sidebar.AddContent(new SidebarButton("home", UIcons.Home, "Home"));
-sidebar.AddContent(new SidebarSeparator("sep1"));                 // plain line
+sidebar.AddContent(new SidebarSeparator("sep1"));                 // plain gap
 sidebar.AddContent(new SidebarButton("profile", UIcons.User, "Profile"));
 sidebar.AddContent(new SidebarSeparator("sep2", "More Options")); // labelled
 sidebar.AddContent(new SidebarButton("settings", UIcons.Settings, "Settings"));
@@ -40,4 +41,5 @@ sidebar.AddContent(new SidebarButton("settings", UIcons.Settings, "Settings"));
 ## Related
 
 - Sidebar — `sidebar.md`
+- SidebarDivider (a drawn line) — `sidebar-divider.md`
 - Full docs & API: `/tesserae/navigation/sidebar-separator`

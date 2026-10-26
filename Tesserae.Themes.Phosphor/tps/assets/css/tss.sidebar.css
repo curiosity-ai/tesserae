@@ -320,7 +320,8 @@ body.tss-theme-phosphor .tss-sidebar-section-header-closed > .tss-sidebar-brand-
     color: var(--tss-ph-on-cursor);
 }
 
-body.tss-theme-phosphor .tss-sidebar-identity-separated {
+body.tss-theme-phosphor .tss-sidebar-identity-separated,
+body.tss-theme-phosphor .tss-sidebar-divider {
     border-color: var(--tss-ph-faint);
 }
 
