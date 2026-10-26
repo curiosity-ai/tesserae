@@ -29,6 +29,7 @@ Config (set via object initializer):
 - `ChatHeader` (`IComponent`) — rendered inside the box above the chat input: what the message is being written against, e.g. a compact `ContextCards` group of the attached documents. Swap it later with `.SetChatHeader(component)`, or pass `null` to empty the slot — it takes up no space while empty. For individual cards *below* the input, use `.WithContextToAdd(...)`.
 - `GeneratingText` — label shown in the footer while generating (default `"Generating"`); the live elapsed time is appended, e.g. `"Generating, 1m 25s"`.
 - `MaxCharacters` (default `0`, no limit) — how long a chat message may be. The input stops taking text at the limit and a `"used / max"` counter appears in the footer next to the send button, in the secondary foreground colour. It only shows past half the budget; below that it is collapsed, so an ordinary message carries no number.
+- `DictationButton` (default `false`) — adds a microphone button that dictates into the active input; see "Dictation" below. `DictationProvider` replaces the words' source for this box.
 - `AllowSendWhileGenerating` (default `false`) — when set, typing a message while `IsGenerating` is true sends it (`OnChat` fires) instead of the trigger stopping the reply, so the host can queue it for the turn in flight. The trigger still shows the stop icon while the input is empty and turns back into the send icon as soon as there is text.
 
 OmniBox:
@@ -39,6 +40,7 @@ OmniBox:
 - `.IsGenerating` (bool) — toggles the footer spinner + elapsed-time indicator and swaps the send button for a stop button. The send button is quiet while the input is empty and takes the primary colour once there is text; both changes, and the send/stop swap, animate briefly (off under `prefers-reduced-motion`). `.GeneratingText` (string) — read/write the indicator label; setting it updates the footer live. `.GeneratingStartedAt` (`DateTimeOffset`) — what the elapsed time counts from; setting `IsGenerating` starts it at now, so set it afterwards to backdate a generation already in progress (a reply that was running when the chat was opened). `.AllowSendWhileGenerating` (bool) — read/write the config flag above.
 - `.IsStopping` (bool) — the host asked for the stop and is waiting for the reply to actually end: the stop button becomes the button's own spinner (see `button.md`) and `OnStop` does not fire again, while a message typed meanwhile is still sent when `AllowSendWhileGenerating` is on. Cleared whenever `IsGenerating` changes. Set `GeneratingText` (e.g. `"Stopping"`) with it so the footer says so too.
 - `.SearchText` / `.ChatText` / `.SetSearchText(string)` — read/write input text.
+- `.StartDictation()` / `.StopDictation()` / `.IsDictating` — the microphone button's behaviour in code (see "Dictation").
 - `.MaxChatCharacters` (int) — read/write `Config.MaxCharacters` after construction; `0` lifts the limit.
 - `.ActiveMode` (`Mode`) — which half of a `SearchAndChat` box is showing. Setting it switches the box
   and moves the box's own toggle with it. `.ActiveModeObservable` follows it, and `.NoModeToggle()`
@@ -118,6 +120,34 @@ OmniBox:
 - `.CurrentSearchQuery` — what the box says right now, parsed: the same `SearchQuery` pressing Enter would
   raise, chips included. For a host that answers as the query is typed rather than on Enter (a
   `CommandPalette`, a search-as-you-type page).
+
+## Dictation
+
+`Config.DictationButton = true` puts a microphone button in the footer (in the input row of a `Search`-only
+box). Pressed, it listens and shows the words in the active input after whatever was typed: interim results
+as they come, final ones kept. While it listens the button gets a red outline and a recording dot (`aria-pressed`
+is true), in every theme. Sending, switching mode, pressing it again or removing the box from the page stops
+it. On a phone the button stays in the row.
+
+The words come from, in order: `Config.DictationProvider` (this box), `Dictation.Provider` (every box),
+the browser's speech recognition (`Dictation.IsBrowserSupported`). With none of them the button is not shown.
+
+To use another source (a speech-to-text service, an on-device model) set a `DictationProvider` - a delegate that
+receives a `DictationSession` and returns the action that stops listening:
+
+```csharp
+Dictation.Provider = session =>
+{
+    var stream = MySpeechService.Start(
+        onWords: (text, isFinal) => session.SetTranscript(text, isFinal),   // the whole segment so far, not the delta
+        onEnded: () => session.End(),
+        onError: message => session.Fail(message));                          // shows a toast and stops
+    return () => stream.Stop();                                              // not called after End/Fail
+};
+```
+
+`session.StartText` is what was in the box. `SetTranscript` replaces the previous segment; `isFinal: true`
+keeps it and the next call starts a new one after it. After the stop action ran (the user pressed the button again) the session still takes `SetTranscript` for a few seconds, until you call `End()` - so a service that answers a moment after it was told to stop can deliver the last words. Sending the message ends it for good.
 
 ## On a phone
 

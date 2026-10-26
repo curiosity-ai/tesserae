@@ -31,6 +31,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(InlineChips()))
                .FlatSection(VStack().WS().Children(FooterItems()))
                .FlatSection(VStack().WS().Children(CharacterLimit()))
+               .FlatSection(VStack().WS().Children(Dictation()))
                .FlatSection(VStack().WS().Children(KeyboardShortcut()))
                .FlatSection(VStack().WS().Children(SuggestedText()))
                .FlatSection(VStack().WS().Children(RoundedAndAskAI()))
@@ -379,14 +380,14 @@ namespace Tesserae.Tests.Samples
                             DropdownItem("Find a flight", icon: UIcons.AirplaneJourney),
                             DropdownItem("Book a hotel", icon: UIcons.Hotel))
                     },
-                    RightSide = new IComponent[] { Button(UIcons.Microphone).Tooltip("Dictate").OnClick(() => Toast().Information("🎤")) }
+                    RightSide = new IComponent[] { Button(UIcons.Clip).Tooltip("Attach").OnClick(() => Toast().Information("📎")) }
                 }
             })
             .WS()
             .OnChat((s, q) => Toast().Information(q.Text)));
 
             return FeatureCard("Footer items", "Your own actions around the input",
-                "Config.SearchFooter and Config.ChatFooter each take LeftSide / RightSide arrays of components, placed beside the built-in buttons of that mode — an attachment button, a mode dropdown, a dictate button. In SearchAndChat mode the items of the side that isn't active are hidden along with the rest of that mode's chrome.",
+                "Config.SearchFooter and Config.ChatFooter each take LeftSide / RightSide arrays of components, placed beside the built-in buttons of that mode — an attachment button, a mode dropdown. (A microphone button needs no footer item: see Dictation.) In SearchAndChat mode the items of the side that isn't active are hidden along with the rest of that mode's chrome.",
                 Label("Search footer").SetContent(searchBox),
                 Label("Chat footer").SetContent(chatBox).MT(6));
         }
@@ -410,6 +411,64 @@ namespace Tesserae.Tests.Samples
                 "Config.MaxCharacters caps how long a chat message can be: the input stops taking text at the limit, and a \"used / max\" counter sits next to the send button. It only shows past half the budget — below that it is collapsed, so a short message never has a number hanging off it. OmniBox.MaxChatCharacters changes the cap later, and zero lifts it.",
                 box,
                 HStack().MT(8).Children(raise, lift.ML(8)));
+        }
+
+        // ---------- Dictation ----------
+
+        // A stand-in for a speech source, so the page behaves the same on every run (and in a browser with no speech
+        // recognition): "hears" a phrase word by word, as interim results, and finishes it.
+        private static Action ScriptedSpeech(DictationSession session)
+        {
+            var words   = new[] { "show", "me", "last", "quarter's", "invoices", "from", "Berlin" };
+            var heard   = 0;
+            var handle  = 0.0;
+
+            Action step = null;
+            step = () =>
+            {
+                heard++;
+                var text = string.Join(" ", words.Take(heard));
+                session.SetTranscript(text, heard == words.Length);
+                if (heard == words.Length) session.End();
+                else handle = window.setTimeout(_ => step(), 250);
+            };
+
+            handle = window.setTimeout(_ => step(), 250);
+            return () => window.clearTimeout(handle);
+        }
+
+        private IComponent Dictation()
+        {
+            var scripted = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat   = "Press the microphone",
+                DictationButton   = true,
+                DictationProvider = ScriptedSpeech
+            })
+            .WS()
+            .Id("dictation-scripted")
+            .OnChat((s, q) => Toast().Information(q.Text)));
+
+            var browser = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.SearchAndChat, OmniBox.Mode.Chat)
+            {
+                PlaceholderChat   = "Dictate with the browser's speech recognition",
+                PlaceholderSearch = "Dictate a search",
+                DictationButton   = true
+            })
+            .WS()
+            .Id("dictation-browser")
+            .OnChat((s, q) => Toast().Information(q.Text))
+            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
+
+            var note = Tesserae.Dictation.IsBrowserSupported
+                ? "This browser has speech recognition, so the second box dictates with it."
+                : "This browser has no speech recognition, so the second box has no microphone button.";
+
+            return FeatureCard("Dictation", "A microphone button that types what the user says",
+                "Config.DictationButton adds a microphone button to the footer (to the input, in a search-only box). Pressed, it listens and shows the words in the active input after whatever was typed - interim results as they come, final ones kept - and the button turns red and pulses while it listens. Out of the box the words come from the browser's speech recognition, and the button is hidden where there is none. To use another source - a speech-to-text service, an on-device model - set Dictation.Provider once for every box, or Config.DictationProvider for one: a DictationProvider receives a DictationSession, calls SetTranscript as words arrive, End or Fail when done, and returns the action that stops listening. The first box uses a scripted provider; sending the message, switching mode or leaving the page stops the dictation.",
+                Label("Custom provider (scripted)").SetContent(scripted),
+                Label("Browser speech recognition").SetContent(browser).MT(6),
+                TextBlock(note).Small().MT(6));
         }
 
         // ---------- Keyboard shortcut ----------
