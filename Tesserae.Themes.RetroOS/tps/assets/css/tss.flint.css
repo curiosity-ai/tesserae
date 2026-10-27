@@ -1,0 +1,13 @@
+/* ==========================================================================
+   RetroOS theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-flint-chart {
+    border-color: var(--tss-retro-ink);
+    box-shadow: var(--tss-retro-shadow-sm);
+}

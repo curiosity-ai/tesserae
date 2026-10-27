@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Memphis theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-flint-chart {
+    margin: 16px var(--tss-mp-off-sm) 20px 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-grid);
+    background-size: 24px 24px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-markdown pre.tss-flint-source {
+    border-left: 8px solid rgb(var(--tss-mp-yellow-root));
+}

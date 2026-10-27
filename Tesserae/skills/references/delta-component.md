@@ -117,7 +117,18 @@ delta.ReplaceContent(TextBlock("Starting... done"));
 var ui = VStack().WS().Children(delta);
 ```
 
+## Keyed elements
+
+An element carrying `DeltaComponent.KeyAttribute` (`data-tss-delta-key`) is one unit the
+reconciler does not look inside: the element on screen and the incoming one with the
+same value are the same thing, and the one on screen is kept exactly as it is; a
+different value (or only one side carrying it) swaps the element. It is for content that
+finishes drawing itself after it reaches the page, which a patch from content that never
+reached the page would otherwise undo. Markdown's Flint charts use it, which is what
+keeps a chart drawn once in a streamed reply (`flint-charts.md`).
+
 ## Related
 
 - TextBlock — `text-block.md`
+- Flint charts — `flint-charts.md`
 - Full docs & API: `/tesserae/behaviors/delta-component`

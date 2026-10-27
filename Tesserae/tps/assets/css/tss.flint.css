@@ -1,0 +1,75 @@
+/* Flint charts in Markdown (https://github.com/microsoft/flint-chart), drawn by Vega-Lite.
+   A fence is one .tss-flint: its code block, shown until the chart is drawn, and the chart's frame. The chart's
+   own colours and type come from FlintThemes (the Tesserae theme reads the tokens around the frame), so this file
+   only draws the frame, the same plate a Mermaid diagram sits on. */
+
+.tss-flint {
+    position: relative;
+    display: block;
+    white-space: normal;
+}
+
+.tss-flint.tss-flint-drawn > pre {
+    display: none;
+}
+
+.tss-flint-chart {
+    display: block;
+    box-sizing: border-box;
+    margin: 16px 0;
+    padding: 16px;
+    overflow: hidden;
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+}
+
+/* Drawn out of sight at the width it will have, until it replaces the code block or the chart before it. */
+.tss-flint-chart.tss-flint-pending {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.tss-flint-plot {
+    display: flex;
+    justify-content: center;
+}
+
+/* The chart is laid out for the frame's width; a narrower frame between two relayouts scales it down. */
+.tss-flint-plot svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* A theme whose surface is the host's (ink.surface.source "host", as FlintThemes.Tesserae says) is drawn on the frame:
+   Vega paints the surface colour as the SVG's background, and the frame's own background (a pattern, a frosted pane)
+   is the surface here. */
+.tss-flint-host-surface .tss-flint-plot svg {
+    background-color: transparent !important;
+}
+
+/* A fence that could not be drawn (a half-streamed block, a field that is not in the data) stays as the source it was. */
+.tss-markdown pre.tss-flint-source {
+    border-left: 3px solid var(--tss-warning-background-color);
+}
+
+/* The tooltip vega-tooltip puts on the page, in the page's colours rather than its own light theme. */
+body #vg-tooltip-element {
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    box-shadow: var(--tss-shadow-md, 0 2px 8px rgba(0, 0, 0, 0.15));
+    font-family: var(--tss-sansserif-font-family);
+    font-size: var(--tss-font-size-small);
+}
+
+body #vg-tooltip-element td.key {
+    color: var(--tss-secondary-foreground-color);
+}

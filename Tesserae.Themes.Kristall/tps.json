@@ -62,6 +62,7 @@
                 "tps/assets/css/tss.kbd.css",
                 "tps/assets/css/tss.markdown.css",
                 "tps/assets/css/tss.mermaid.css",
+                "tps/assets/css/tss.flint.css",
                 "tps/assets/css/tss.toast.css",
                 "tps/assets/css/tss.body.css"
             ],

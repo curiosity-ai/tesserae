@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Zeitung theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-flint-chart {
+    border-radius: 0;
+    border-color: var(--tss-zt-rule);
+    background: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-markdown pre.tss-flint-source {
+    border-left-color: var(--tss-zt-red);
+}

@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Graustufe theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-flint-chart,
+body.tss-theme-graustufe .tss-markdown .tss-flint-chart {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge-sm);
+}

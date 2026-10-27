@@ -41,6 +41,15 @@ namespace Tesserae
         private const int TEXT_NODE = 3;
 
         /// <summary>
+        /// Marks an element as one unit the reconciler does not look inside. An element on screen and the incoming
+        /// one that carry the same value are the same thing, and the one on screen is kept exactly as it is; a
+        /// different value (or only one side carrying it) swaps the element. For content that finishes drawing
+        /// itself after it is on the page - the charts of a <see cref="MarkdownBlock"/> - which a patch from content
+        /// that never reached the page would otherwise undo.
+        /// </summary>
+        public const string KeyAttribute = "data-tss-delta-key";
+
+        /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
         public DeltaComponent(IComponent initial, bool useShadowDom = false)
@@ -231,6 +240,9 @@ namespace Tesserae
 
             if (current is HTMLElement currentElement && next is HTMLElement nextElement)
             {
+                //CanReconcile only lets a keyed element through with the same key: it is the same unit.
+                if (currentElement.hasAttribute(KeyAttribute)) return current;
+
                 SyncAttributes(currentElement, nextElement);
 
                 //A text area's children are its default value, not content to stream into: the span
@@ -265,6 +277,11 @@ namespace Tesserae
             //Nodes that are not elements carry no listeners of their own, so the text-append path that
             //makes streaming look like typing is never interrupted by this.
             if (!(current is HTMLElement currentElement) || !(next is HTMLElement nextElement)) return true;
+
+            if (currentElement.hasAttribute(KeyAttribute) || nextElement.hasAttribute(KeyAttribute))
+            {
+                return currentElement.getAttribute(KeyAttribute) == nextElement.getAttribute(KeyAttribute);
+            }
 
             //The component that rendered the element, recorded by the container that took it in. This
             //is the signal that works for a component Tesserae cannot see the source of, and the only

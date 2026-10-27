@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Phosphor theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-flint-chart {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-markdown pre.tss-flint-source {
+    border-left: 4px double var(--tss-ph-amber);
+}

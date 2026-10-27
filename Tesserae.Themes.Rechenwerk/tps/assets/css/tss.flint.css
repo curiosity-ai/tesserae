@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Rechenwerk theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-flint-chart {
+    margin-right: 4px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-markdown pre.tss-flint-source {
+    border-left: 6px solid var(--tss-rw-yellow);
+}

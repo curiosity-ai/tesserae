@@ -55,7 +55,8 @@ var reply = MarkdownBlock(assistantText, MarkdownSanitization.NoLinksOrEmbeddedC
 The same option exists on the static helpers behind the component:
 `Markdown.ConvertMarkdownSanitized(text, sanitization)` returns the sanitized HTML
 string and `Markdown.RenderMarkdownSanitized(text, sanitization)` returns a rendered
-element.
+element (`Markdown.RenderMarkdownSanitized(text, sanitization, flintTheme)` also draws
+Flint charts).
 
 ## Mermaid diagrams
 
@@ -85,6 +86,21 @@ flowchart LR
 - `Markdown.ConvertMarkdownSanitized` returns a string, so it leaves the fence as a
   `language-mermaid` code block.
 
+## Flint charts
+
+Off by default. `.Flint()` draws a `flint` fence as a chart with Microsoft's
+[Flint](https://github.com/microsoft/flint-chart) (rendered by Vega-Lite, loaded on
+demand), in `FlintThemes.Tesserae`; `.Flint(IFlintTheme theme, bool overrideFenceTheme = false)`
+picks the theme. The fence body is a Flint chart spec in JSON. See `flint-charts.md`.
+
+````csharp
+MarkdownBlock(@"```flint
+{ ""data"": { ""values"": [ { ""K"": ""a"", ""V"": 3 }, { ""K"": ""b"", ""V"": 5 } ] },
+  ""semantic_types"": { ""K"": ""Category"", ""V"": ""Count"" },
+  ""chart_spec"": { ""chartType"": ""Bar Chart"", ""encodings"": { ""x"": { ""field"": ""K"" }, ""y"": { ""field"": ""V"" } } } }
+```").Flint();
+````
+
 ## Example
 
 ```csharp
@@ -107,6 +123,7 @@ md.Text = "Updated **content**.";
 
 - CodeDiff — a unified diff rather than prose — `code-diff.md`
 - Mermaid — the same diagram renderer as a standalone component — `mermaid.md`
+- Flint charts — `flint` fences, `IFlintTheme` and `FlintThemes` — `flint-charts.md`
 - TextBlock — `/tesserae/text/text-block`
 - AnnotatedTextEditor — `/tesserae/inputs/annotated-text-editor`
 - Full docs & API: `/tesserae/text/markdown-block`

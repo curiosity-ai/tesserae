@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Kristall theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-flint-chart {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: var(--tss-kr-fill-4);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-separator);
+}

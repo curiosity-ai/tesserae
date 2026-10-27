@@ -1,0 +1,7 @@
+/* ==========================================================================
+   Curiosity theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, and Tesserae's tss.flint.css frames it like a Mermaid diagram, which
+   is all this theme asks of a diagram too. Nothing to restate.
+   ========================================================================== */

@@ -153,6 +153,12 @@ namespace Tesserae.Tests.Samples
                                      "- a list item with `code`\n" +
                                      "- another with **bold** text\n\n" +
                                      "```\nvar x = 1;\n```\n\n" +
+                                     "A chart arrives as a fence and is drawn once it is complete; later chunks leave it alone:\n\n" +
+                                     "```flint\n" +
+                                     "{ \"data\": { \"values\": [ { \"Kind\": \"layout\", \"Count\": 2 }, { \"Kind\": \"utility\", \"Count\": 1 } ] },\n" +
+                                     "  \"semantic_types\": { \"Kind\": \"Category\", \"Count\": \"Count\" },\n" +
+                                     "  \"chart_spec\": { \"chartType\": \"Bar Chart\", \"title\": \"Components by kind\", \"encodings\": { \"x\": { \"field\": \"Kind\" }, \"y\": { \"field\": \"Count\" } } } }\n" +
+                                     "```\n\n" +
                                      "Done.";
 
                 int index = 0;
@@ -160,7 +166,7 @@ namespace Tesserae.Tests.Samples
                 void NextChunk()
                 {
                     index = Math.Min(reply.Length, index + 3);
-                    markdownDelta.ReplaceContent(MarkdownBlock(reply.Substring(0, index)));
+                    markdownDelta.ReplaceContent(MarkdownBlock(reply.Substring(0, index)).Flint());
 
                     if (index < reply.Length) window.setTimeout(_ => NextChunk(), 25);
                 }
