@@ -9,7 +9,8 @@ description: Draws flint code fences in Markdown as charts with Microsoft's Flin
 the data means (a semantic type per field) and which chart to draw, and Flint works out
 the scales, axes, labels, layout and colours. Tesserae draws a `flint` fence (or
 `flint-chart`, the name Flint's own documentation uses) as a chart once it is asked to.
-There is no chart component: it is part of Markdown rendering.
+The same spec draws as a component with `UI.FlintChart(json)`, which also reports clicks
+(`flint-chart.md`).
 
 ## Enable
 
@@ -120,6 +121,7 @@ rules; to colour a chart differently inside its frame, restate tokens on the fra
 
 ## Related
 
+- FlintChart — the same specs as a component, with clicks — `flint-chart.md`
 - MarkdownBlock — `markdown-block.md`
 - DeltaComponent — `delta-component.md` (the keyed elements streaming relies on)
 - Mermaid — diagrams in the same Markdown — `mermaid.md`

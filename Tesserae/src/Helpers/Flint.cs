@@ -7,7 +7,8 @@ namespace Tesserae
 {
     /// <summary>
     /// The one place that knows how <see href="https://github.com/microsoft/flint-chart">Flint</see> is loaded and
-    /// called, for the charts <see cref="Markdown"/> draws. Flint is not part of the bundle the page starts with: it
+    /// called, for the <see cref="FlintChart"/> component and the charts <see cref="Markdown"/> draws (both through
+    /// <see cref="FlintChartDrawing"/>). Flint is not part of the bundle the page starts with: it
     /// ships as its own file, with the Vega-Lite renderer it draws through (Vega, Vega-Lite and vega-tooltip), and is
     /// fetched the first time a chart appears.
     /// </summary>
@@ -20,6 +21,9 @@ namespace Tesserae
     {
         /// <summary>Where the compiler puts the unlinked <c>tss-flint.min.js</c> resource of <c>tps.json</c>.</summary>
         internal const string ScriptUrl = "assets/js/tss-flint.min.js";
+
+        /// <summary>The id the bundle's <c>clickReport</c> interaction is mounted under, which tells its events from those of the spec's own interactions.</summary>
+        internal const string ClickReportId = "tss-click";
 
         private static Task _loading;
 
@@ -58,8 +62,18 @@ namespace Tesserae
         /// laid out for <paramref name="width"/> pixels. Throws when the spec cannot be compiled; the returned surface's
         /// <c>ready</c> promise rejects when it compiles but cannot be drawn.
         /// </summary>
-        internal static object Mount(HTMLElement host, object input, double width)
-            => Script.Write<object>("globalThis.flint.mountChart({0}, {1}, { backend: 'vegalite', renderer: 'svg', availableSize: { width: {2} } })", host, input, width);
+        /// <param name="reportClicks">
+        /// Mounts the bundle's <c>clickReport</c> interaction beside the spec's own: a click on a mark, a key entry or a
+        /// category's axis label is reported through <see cref="OnInteraction"/> and changes nothing on the chart. A key
+        /// entry or axis label one of the spec's interactions clicks is left to it, and reported by its events.
+        /// </param>
+        /// <param name="height">The height to lay the chart out for, or 0 to let the chart decide it.</param>
+        internal static object Mount(HTMLElement host, object input, double width, double height = 0, bool reportClicks = false)
+            => Script.Write<object>("globalThis.flint.mountChart({0}, {1}, { backend: 'vegalite', renderer: 'svg', availableSize: {3} > 0 ? { width: {2}, height: {3} } : { width: {2} }, interactions: {4} ? [globalThis.flint.clickReport({5}, {1})] : [] })", host, input, width, height, reportClicks, ClickReportId);
+
+        /// <summary>Calls <paramref name="listener"/> with each gesture event the surface reports, for as long as it lives.</summary>
+        internal static void OnInteraction(object surface, Action<object> listener)
+            => Script.Write("{0}.onInteraction({1});", surface, listener);
 
         /// <summary>Completes once the chart is drawn, or throws with Flint's reason when it cannot be.</summary>
         internal static Task WhenReady(object surface)
@@ -75,12 +89,12 @@ namespace Tesserae
         /// Lays a drawn chart out again for a new width, keeping what the reader did to it. Completes with
         /// <c>false</c> when the chart is built differently at that width, and has to be mounted again.
         /// </summary>
-        internal static Task<bool> Relayout(object surface, double width)
+        internal static Task<bool> Relayout(object surface, double width, double height = 0)
         {
             var tcs = new TaskCompletionSource<bool>();
             Action<bool>   resolve = inPlace => tcs.TrySetResult(inPlace);
             Action<object> reject  = error => tcs.TrySetResult(false);
-            Script.Write("{0}.relayout({ width: {1} }).then({2}, {3});", surface, width, resolve, reject);
+            Script.Write("{0}.relayout({2} > 0 ? { width: {1}, height: {2} } : { width: {1} }).then({3}, {4});", surface, width, height, resolve, reject);
             return tcs.Task;
         }
 

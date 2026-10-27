@@ -1,7 +1,42 @@
-/* Flint charts in Markdown (https://github.com/microsoft/flint-chart), drawn by Vega-Lite.
-   A fence is one .tss-flint: its code block, shown until the chart is drawn, and the chart's frame. The chart's
-   own colours and type come from FlintThemes (the Tesserae theme reads the tokens around the frame), so this file
-   only draws the frame, the same plate a Mermaid diagram sits on. */
+/* Flint charts (https://github.com/microsoft/flint-chart), drawn by Vega-Lite: the FlintChart component (.tss-flintchart)
+   and the charts of Markdown (.tss-flint). Each draws into a .tss-flint-frame; a fence is one .tss-flint holding its code
+   block, shown until the chart is drawn, and a frame that is also .tss-flint-chart, the same plate a Mermaid diagram sits
+   on. The chart's own colours and type come from FlintThemes (the Tesserae theme reads the tokens around the frame), so
+   this file only draws the frames. */
+
+.tss-flintchart {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* Room for the chart while it is drawn out of sight, so its arrival does not push the page down from nothing. */
+.tss-flintchart.tss-flintchart-empty:not(.tss-flintchart-fill) {
+    min-height: 240px;
+}
+
+.tss-flintchart.tss-flintchart-fill > .tss-flint-frame {
+    height: 100%;
+}
+
+.tss-flintchart-message {
+    box-sizing: border-box;
+    padding: 12px 16px;
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-left: 3px solid var(--tss-warning-background-color);
+    border-radius: var(--tss-border-radius-md);
+    font-size: var(--tss-font-size-small);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.tss-flint-frame {
+    display: block;
+    box-sizing: border-box;
+}
 
 .tss-flint {
     position: relative;
@@ -26,7 +61,7 @@
 }
 
 /* Drawn out of sight at the width it will have, until it replaces the code block or the chart before it. */
-.tss-flint-chart.tss-flint-pending {
+.tss-flint-frame.tss-flint-pending {
     position: absolute;
     top: 0;
     left: 0;
@@ -34,6 +69,11 @@
     margin: 0;
     visibility: hidden;
     pointer-events: none;
+}
+
+/* A chart that fills its host's height is measured over all of it. */
+.tss-flint-frame.tss-flint-pending.tss-flint-fill {
+    bottom: 0;
 }
 
 .tss-flint-plot {

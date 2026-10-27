@@ -18,8 +18,10 @@ What goes in, pinned in `package.json`:
   lets `build.mjs` leave the other backends out.
 - `vega`, `vega-lite` and `vega-tooltip`, the Vega-Lite renderer Flint draws with.
 
-`entry.js` is the whole of `window.flint`: `mountChart`, `validateChartInput`, and the
-theme presets. `build.mjs` replaces the ECharts, Chart.js and Plotly modules
+`entry.js` is the whole of `window.flint`: `mountChart`, `validateChartInput`, the
+theme presets, and `clickReport`, the interaction `FlintChart.OnElementClick` mounts so the
+surface reports clicks (it changes nothing on the chart, and leaves the key entries and axis
+labels a spec's own interaction clicks to that interaction). `build.mjs` replaces the ECharts, Chart.js and Plotly modules
 `mountChart` and `validateChartInput` reach for with stubs that throw, which keeps those
 backends (and their compilers) out of the bundle. Vega-Lite is the only backend Flint's
 themes and interactions apply to.
