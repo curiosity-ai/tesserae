@@ -42,6 +42,9 @@ PixelGlyph.FromAnimation("k.../..../..../.... kk../..../..../....:400")
 
 new DashMosaic(DashMosaicScheme.DarkBlue);               // the animated dash tiles: LightBlue, Dark, DarkBlue, Light
 new DashMosaic(DashMosaicScheme.Light, DashMosaicPattern.Band).NoAnimation();
+
+new GeneratingImage(3, 2).Progress(89);                  // the placeholder for an image being made, half the parent's width
+new GeneratingImage(16.0 / 9).OnPaper().WidthFraction(0.75);
 ```
 
 - **`PixelIntro`**: `PlayOnce(style)` plays in the first load of a tab (a reload replays it, as on the
@@ -58,3 +61,9 @@ new DashMosaic(DashMosaicScheme.Light, DashMosaicPattern.Band).NoAnimation();
 - **`DashMosaic`**: the dash tiles, in four `DashMosaicScheme`s and seven `DashMosaicPattern`s (Wave,
   Rows, Chart, ChartGrid, Mountain, Band, Dither), with the website's bar spacing and 6px edge padding
   by default. `Animated`/`NoAnimation`, `Seed`, `EdgePadding`, `FramesPerSecond`.
+- **`GeneratingImage`**: the "image is being made" placeholder, a field of square Signal pixels that swell and
+  fade in rolling waves from the middle. Takes an aspect ratio (`new GeneratingImage(3, 2)`) and is half as wide
+  as its parent by default (in a `FullWidth()` chat message, half the chat area), the height following so nothing
+  moves when the image arrives. `Progress(percent)` shows a badge in the bottom right corner and fills the field
+  as it nears 100, `Label` replaces the number, `NoProgress`. `WidthFraction`, `AspectRatio`, `OnInk`/`OnPaper`,
+  `Pitch`, `Animated`/`NoAnimation`, `FramesPerSecond`.

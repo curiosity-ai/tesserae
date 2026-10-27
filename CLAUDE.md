@@ -223,7 +223,7 @@ What makes it work, and what to keep when touching it:
     consumer (`tippy.unmount.js`, a default Tippy plugin that unmounts a popup still mounted after its hide
     duration); the theme also keeps a 1ms `visibility` transition on `.tippy-box` so cleanup is immediate.
 - **The package also carries components**: the website's signature elements rebuilt in C#
-  (`Tesserae.Themes.Curiosity/src/Components/`): `PixelIntro`, `FlowField`, `PixelGlyph`, `DashMosaic`. They
+  (`Tesserae.Themes.Curiosity/src/Components/`): `PixelIntro`, `FlowField`, `PixelGlyph`, `DashMosaic`, `GeneratingImage` (the "image is being made" placeholder: an aspect ratio, half the parent's width, an optional progress badge). They
   draw with `BrandColors` directly so they work without the theme active, run their animation loops only while
   on screen, and stand still under reduced motion. The gallery lists them in a "Curiosity Components" nav that
   only shows while the Curiosity theme is active (`SampleGroup.Curiosity`, kept out of `InDisplayOrder` and the

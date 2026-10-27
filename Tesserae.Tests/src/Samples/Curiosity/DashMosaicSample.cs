@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
                         Tile(new DashMosaic(DashMosaicScheme.LightBlue, DashMosaicPattern.Dither).EdgePadding(24), ".EdgePadding(24)", 140),
                         Tile(new DashMosaic(DashMosaicScheme.DarkBlue, DashMosaicPattern.Wave).FramesPerSecond(60), ".FramesPerSecond(60)", 140)
                     )).SetTitle("Options")))
-               .SeeAlso(typeof(FlowFieldSample), typeof(PixelGlyphSample), typeof(PixelIntroSample));
+               .SeeAlso(typeof(FlowFieldSample), typeof(PixelGlyphSample), typeof(GeneratingImageSample));
         }
 
         public HTMLElement Render() => _content.Render();
