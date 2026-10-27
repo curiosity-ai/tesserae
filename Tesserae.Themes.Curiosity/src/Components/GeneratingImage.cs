@@ -4,18 +4,9 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Themes.Curiosity
 {
-    /// <summary>The ground a <see cref="GeneratingImage"/> is drawn on.</summary>
-    public enum GeneratingImageSurface
-    {
-        /// <summary>Ink, with Signal pixels: the brand's dark canvas.</summary>
-        Ink,
-        /// <summary>Paper, with Signal pixels: the brand's light canvas.</summary>
-        Paper
-    }
-
     /// <summary>
     /// The placeholder for an image that is still being made, as a chat shows it: a field of square pixels in the
-    /// Signal that swell and fade in rolling waves from the middle of the frame, with the pixels near the edges
+    /// theme's primary colour, on its own surface colour, that swell and fade in rolling waves from the middle of the frame, with the pixels near the edges
     /// small and quiet. An optional badge in the bottom right corner reports progress.
     /// <para>
     /// It takes its shape from an aspect ratio (<c>new GeneratingImage(16, 9)</c>, or a single ratio) and, by default,
@@ -23,6 +14,11 @@ namespace Tesserae.Themes.Curiosity
     /// it leaves room beside it, as a picture in a conversation does. <see cref="WidthFraction"/> changes the share,
     /// and an explicit <c>.W(...)</c> replaces it. The height follows from the width and the ratio, so the frame is
     /// the same shape the finished image will be and nothing moves when it arrives.
+    /// </para>
+    /// <para>
+    /// It follows the theme: the ground, the hairline and the badge come from the theme's surface and border tokens
+    /// (a light page gets a light frame, dark mode a dark one) and the pixels are its primary colour, read again
+    /// when the theme or its mode changes.
     /// </para>
     /// <para>
     /// Drawn on a canvas at the size it is shown, redrawn when that size changes, and animated only while on screen.
@@ -36,7 +32,6 @@ namespace Tesserae.Themes.Curiosity
         private readonly HTMLCanvasElement _canvas;
         private readonly HTMLElement       _badge;
 
-        private GeneratingImageSurface _surface  = GeneratingImageSurface.Ink;
         private double                 _ratio    = 1;
         private double                 _fraction = 0.5;
         private double                 _pitch    = 16;
@@ -92,7 +87,7 @@ namespace Tesserae.Themes.Curiosity
 
             AspectRatio(aspectRatio);
             WidthFraction(_fraction);
-            ApplySurface();
+            ApplyColors();
 
             DomObserver.WhenMounted(_container, OnMounted);
         }
@@ -158,21 +153,6 @@ namespace Tesserae.Themes.Curiosity
             return this;
         }
 
-        /// <summary>Sets the ground: ink or paper.</summary>
-        public GeneratingImage Surface(GeneratingImageSurface surface)
-        {
-            _surface = surface;
-            ApplySurface();
-            Draw();
-            return this;
-        }
-
-        /// <summary>Draws on ink. This is how it starts.</summary>
-        public GeneratingImage OnInk() => Surface(GeneratingImageSurface.Ink);
-
-        /// <summary>Draws on paper.</summary>
-        public GeneratingImage OnPaper() => Surface(GeneratingImageSurface.Paper);
-
         /// <summary>The distance between the centres of neighbouring pixels, in pixels at full size: 16 by default, 10 to 40.</summary>
         public GeneratingImage Pitch(double pitch)
         {
@@ -205,14 +185,21 @@ namespace Tesserae.Themes.Curiosity
 
         private bool IsAnimated => _animated && !BrandMotion.PrefersReducedMotion;
 
-        private void ApplySurface()
+        // Everything but the pixels is plain CSS on the theme's own variables, so it follows a theme or mode change by itself.
+        private void ApplyColors()
         {
-            var ink = _surface == GeneratingImageSurface.Ink;
-            _container.style.background = ink ? BrandColors.Ink : BrandColors.Paper;
-            _container.style.border     = "1px solid " + (ink ? BrandColors.Slate : BrandColors.Line);
-            _badge.style.background     = ink ? "rgba(17, 20, 24, 0.82)" : "rgba(244, 244, 242, 0.88)";
-            _badge.style.color          = ink ? BrandColors.Ink2 : BrandColors.Ink;
-            _badge.style.border         = "1px solid " + (ink ? BrandColors.Slate : BrandColors.Line);
+            _container.style.background = "var(--tss-secondary-background-color, " + BrandColors.Stone + ")";
+            _container.style.border     = "1px solid var(--tss-default-border-color, " + BrandColors.Line + ")";
+            _badge.style.background     = "var(--tss-default-background-color, " + BrandColors.Paper + ")";
+            _badge.style.color          = "var(--tss-default-foreground-color, " + BrandColors.Ink + ")";
+            _badge.style.border         = "1px solid var(--tss-default-border-color, " + BrandColors.Line + ")";
+        }
+
+        // The pixel colour: a canvas cannot read a variable, so ask the element what the theme's primary resolves to.
+        private string PixelColor()
+        {
+            var c = window.getComputedStyle(_container).getPropertyValue("--tss-primary-background-color");
+            return string.IsNullOrWhiteSpace(c) ? BrandColors.Signal : c.Trim();
         }
 
         private void UpdateBadge()
@@ -242,18 +229,29 @@ namespace Tesserae.Themes.Curiosity
             });
             _visibility.observe(_container);
 
+            // A theme or mode switch changes the colours but not the size; a still frame has to be drawn again by hand.
+            // The stylesheet may land a moment after the event, so look again once it has.
+            Theme.OnThemeChanged += OnThemeChanged;
+
             Draw();
             EnsureLoop();
 
             DomObserver.WhenRemoved(_container, () =>
             {
                 _mounted = false;
+                Theme.OnThemeChanged -= OnThemeChanged;
                 _resize?.disconnect();
                 _visibility?.disconnect();
                 _resize     = null;
                 _visibility = null;
                 DomObserver.WhenMounted(_container, OnMounted);
             });
+        }
+
+        private void OnThemeChanged()
+        {
+            Draw();
+            window.setTimeout(_ => Draw(), 120);
         }
 
         private void EnsureLoop()
@@ -296,9 +294,8 @@ namespace Tesserae.Themes.Curiosity
             var dy    = H / rows;
             var cell  = Math.Min(dx, dy);
 
-            var ink = _surface == GeneratingImageSurface.Ink;
             ctx.clearRect(0, 0, W, H);
-            ctx.fillStyle = BrandColors.Signal;
+            ctx.fillStyle = PixelColor();
 
             for (int j = 0; j < rows; j++)
             {
@@ -312,7 +309,7 @@ namespace Tesserae.Themes.Curiosity
                     var d = Math.Sqrt(u * u + v * v) * 2;
 
                     // The swell: full in the middle, falling off toward the edges, reaching further as the fill grows.
-                    var reach    = 0.45 + 0.75 * _shown;
+                    var reach    = 0.5 + 1.2 * _shown;
                     var envelope = BrandMotion.Ease(1 - Math.Min(1, d / reach));
 
                     // Two waves rolling out from slightly different centres, so the field breathes rather than pulses.
@@ -320,11 +317,11 @@ namespace Tesserae.Themes.Curiosity
                     var w2 = Math.Sin((u * 5 + v * 4) * 2 + t * 1.3);
                     var wave = 0.5 + 0.5 * (0.65 * w1 + 0.35 * w2);
 
-                    var size = cell * (0.1 + 0.62 * envelope * (0.35 + 0.65 * wave));
+                    var size = cell * (0.1 + 0.78 * envelope * (0.45 + 0.55 * wave));
                     if (size < 0.9) continue;
 
                     var alpha = Math.Min(1, 0.12 + 0.88 * envelope * (0.4 + 0.6 * wave));
-                    ctx.globalAlpha = ink ? alpha : Math.Min(1, alpha * 1.05);
+                    ctx.globalAlpha = alpha;
 
                     var cx = (i + 0.5) * dx;
                     var cy = (j + 0.5) * dy;

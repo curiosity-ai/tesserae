@@ -54,7 +54,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(GeneratingImageSample), UIcons.Picture, "A frame for the image that is not there yet")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("GeneratingImage stands in for a picture a model is still making. It is a field of square pixels in the Signal that swell and fade in rolling waves from the middle of the frame, small and quiet toward the edges, so the frame looks busy and a little different every moment without ever showing a false picture."),
+                        TextBlock("GeneratingImage stands in for a picture a model is still making. It is a field of square pixels in the theme's primary colour that swell and fade in rolling waves from the middle of the frame, small and quiet toward the edges, so the frame looks busy and a little different every moment without ever showing a false picture."),
                         TextBlock("It takes the shape of the finished image from an aspect ratio and, by default, is half as wide as the element it sits in: put it in a chat message that has the full width of the chat area and it takes half of that, whatever the width of the window. The height follows, so nothing moves when the image arrives. An optional badge in the bottom right corner reports progress, and the pixels swell toward the full size as it nears 100."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Gap(12.px()).Children(
@@ -80,7 +80,6 @@ namespace Tesserae.Tests.Samples
                     )).SetTitle("Progress badge")))
                .FlatSection(Stack().Children(
                     Card(Grid(new UnitSize("repeat(auto-fill, minmax(260px, 1fr))")).WS().Gap(16.px()).Children(
-                        Cell("On paper", ".OnPaper() - the light canvas.", new GeneratingImage(4, 3).OnPaper().Progress(64)),
                         Cell("Coarser", ".Pitch(28) - a larger grid.", new GeneratingImage(4, 3).Pitch(28).Progress(64)),
                         Cell("Finer", ".Pitch(10) - a denser grid.", new GeneratingImage(4, 3).Pitch(10).Progress(64)),
                         Cell("Still", ".NoAnimation() - drawn once; reduced motion does the same.", new GeneratingImage(4, 3).NoAnimation().Progress(64))
