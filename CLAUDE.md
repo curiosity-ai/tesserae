@@ -248,6 +248,42 @@ already follow; each theme package also has a small `tss.mermaid.css` that match
 and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
 ink lines and the Signal accent, Rechenwerk: the code-block frame with its hard signal-colour shadow).
 
+## Flint charts in Markdown
+
+A `flint` (or `flint-chart`) fence in `MarkdownBlock` is drawn as a chart by Microsoft's
+[Flint](https://github.com/microsoft/flint-chart) once `.Flint()` is called on it (off by default;
+`Markdown.RenderMarkdownSanitized(text, sanitization, IFlintTheme)` for the static helper). There is
+no chart component: it is part of Markdown rendering. The pieces:
+
+- **[Flint.cs](Tesserae/src/Helpers/Flint.cs)** loads `tss-flint.min.js` (unlinked, `"load": false`, like
+  Pele) the first time a chart appears and wraps the calls. The file is **built**, not downloaded:
+  [`Build.Flint/`](Build.Flint/README.md) bundles flint-chart from its TypeScript sources with Vega,
+  Vega-Lite and vega-tooltip into one IIFE, and stubs the ECharts / Chart.js / Plotly backends out.
+  **Vega-Lite is the only backend**, because it is the one Flint's themes and interactions apply to.
+- **[MarkdownCharts.cs](Tesserae/src/Helpers/MarkdownCharts.cs)** turns each fence into one
+  `div.tss-flint` holding the code block and, once drawn, the chart's frame (`.tss-flint-chart`). It
+  parses, applies the theme, runs Flint's `validateChartInput` (a missing field otherwise draws an
+  `undefined` axis), and mounts out of sight, swapping in only when drawn, so a redraw never flashes.
+  A fence that cannot be drawn stays a code block with the reason as its tooltip.
+- **Streaming relies on two things.** The host carries `DeltaComponent.KeyAttribute`, a key made from
+  the (trimmed) spec, theme instance and options, so `DeltaComponent` keeps the drawn chart rather than
+  patching it back into a code block from Markdown that never reached the page. And a chart whose host
+  leaves the page (a `Text` re-render, a swap while the closing ``` arrives a backtick at a time) is
+  **parked** for ten seconds and **adopted** by the next host of the same key, even mid-draw; one nobody
+  adopts is destroyed. Keep both if you touch it: without them a streamed chart is drawn on every chunk.
+- **[FlintThemes.cs](Tesserae/src/Helpers/FlintThemes.cs)** / **[IFlintTheme](Tesserae/src/Interfaces/IFlintTheme.cs)**:
+  an `IFlintTheme` returns Flint's `theme_spec` as JSON for the element the chart is drawn in.
+  `FlintThemes.Tesserae` (the default) reads the tokens there and resolves them to hex through a 1px
+  canvas (Flint parses hex only; tokens can be `oklch()`, `color-mix()`, translucent), on the surface
+  the chart really sits on (backgrounds composited outwards; a transitioning one read at its end
+  value). It says `"source": "host"`, which makes Markdown leave the SVG unpainted so the frame shows
+  through. Presets come from Flint; one instance per id, since the key tells themes apart by instance.
+  Charts redraw on `Theme.OnThemeChanged` only when the theme JSON changed.
+- **Themes**: `tss.flint.css` frames the chart like a Mermaid diagram, and every theme package has a
+  `tss.flint.css` that frames it like its own `tss.mermaid.css` does. A plate that is not the page's
+  surface restates the tokens on `.tss-flint-chart` (Weniger's terminal glass) and gives a gradient
+  plate a `background-color` too, since a gradient has no colour to read contrast against.
+
 ## Installing Transpose
 
 Install or update the Transpose compiler and the dotnet serve tool globally before getting started:

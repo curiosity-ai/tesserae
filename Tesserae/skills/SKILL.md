@@ -173,6 +173,8 @@ references. Open the reference for whatever you are working with. The full set:
   the one element in place; `DeferSync(obs, v => TextBlock(...))` rebuilds it and
   flickers (`references/text-block.md`).
 - `references/creating-a-component.md` — build your own `IComponent`.
+- `references/flint-charts.md` — `flint` fences in Markdown drawn as charts
+  (`MarkdownBlock.Flint()`), themed through `IFlintTheme` / `FlintThemes`.
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 

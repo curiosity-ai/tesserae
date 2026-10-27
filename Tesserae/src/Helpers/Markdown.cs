@@ -16,6 +16,11 @@ namespace Tesserae
     /// <see cref="ConvertMarkdownSanitized"/> only returns HTML, so its fence is left as the code block marked
     /// <c>language-mermaid</c>.
     /// </para>
+    /// <para>
+    /// A <c>```flint</c> fence is drawn as a chart by <see href="https://github.com/microsoft/flint-chart">Flint</see>
+    /// when it is asked for: <see cref="MarkdownBlock.Flint(bool)"/>, or the overload of
+    /// <see cref="RenderMarkdownSanitized(string, MarkdownSanitization, IFlintTheme, bool)"/> that takes a theme.
+    /// </para>
     /// </summary>
     [Transpose.Name("tss.Markdown")]
     public static class Markdown
@@ -81,12 +86,28 @@ namespace Tesserae
         /// <c>tss-markdown</c> class so it picks up the default Tesserae markdown styling.
         /// </summary>
         public static HTMLElement RenderMarkdownSanitized(string text, MarkdownSanitization sanitization = MarkdownSanitization.Default)
+            => Render(text, sanitization, charts: null);
+
+        /// <summary>
+        /// Parses and sanitizes the markdown like <see cref="RenderMarkdownSanitized(string, MarkdownSanitization)"/>, and
+        /// also draws every <c>```flint</c> fence as a chart, in <paramref name="flintTheme"/> (see
+        /// <see cref="MarkdownBlock.Flint(IFlintTheme, bool)"/>).
+        /// </summary>
+        /// <param name="text">The Markdown source.</param>
+        /// <param name="sanitization">How strictly to sanitize the parsed HTML.</param>
+        /// <param name="flintTheme">The theme for a chart whose fence names none. <c>null</c> is <see cref="FlintThemes.Tesserae"/>.</param>
+        /// <param name="overrideFenceTheme">Whether <paramref name="flintTheme"/> also replaces a <c>theme_spec</c> the fence states.</param>
+        public static HTMLElement RenderMarkdownSanitized(string text, MarkdownSanitization sanitization, IFlintTheme flintTheme, bool overrideFenceTheme = false)
+            => Render(text, sanitization, new MarkdownChartOptions(flintTheme, overrideFenceTheme));
+
+        private static HTMLElement Render(string text, MarkdownSanitization sanitization, MarkdownChartOptions charts)
         {
             var convertedText = ConvertMarkdownSanitized(text, sanitization);
             var el            = Raw(convertedText, forceParseAsHTML: true);
             el.classList.add("tss-markdown");
             el.style.whiteSpace = "break-spaces";
             MarkdownDiagrams.Render(el, sanitization);
+            MarkdownCharts.Render(el, sanitization, charts);
             return el;
         }
     }

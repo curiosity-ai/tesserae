@@ -61,6 +61,7 @@ var untrusted = Mermaid(userSource).Links(false).Images(false);
 
 ## Related
 
+- Flint charts — charts in the same Markdown — `flint-charts.md`
 - MarkdownBlock — renders `mermaid` fences with the same renderer — `markdown-block.md`
 - Diagram — draggable nodes you arrange yourself — `diagram.md`
 - GanttChart — a timeline built from rows and bars — `gantt-chart.md`

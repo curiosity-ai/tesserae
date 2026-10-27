@@ -9,7 +9,8 @@ namespace Tesserae
     /// <summary>
     /// A component that renders Markdown text as sanitized HTML.
     /// Uses the bundled <c>marked</c> and <c>DOMPurify</c> libraries via <see cref="Markdown"/>.
-    /// A <c>```mermaid</c> fence is drawn as a diagram (see <see cref="Markdown"/>).
+    /// A <c>```mermaid</c> fence is drawn as a diagram (see <see cref="Markdown"/>), and once <see cref="Flint(bool)"/>
+    /// is on, a <c>```flint</c> fence is drawn as a chart.
     /// </summary>
     [Transpose.Name("tss.mdb")]
     public class MarkdownBlock : ComponentBase<MarkdownBlock, HTMLElement>, ICanWrap
@@ -18,6 +19,7 @@ namespace Tesserae
         private Action<HTMLElement>   _onAfterRender;
         private MarkdownSanitization  _sanitization;
         private bool                  _tableCopyButtons = true;
+        private MarkdownChartOptions  _charts;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownBlock"/> class.
@@ -45,9 +47,11 @@ namespace Tesserae
                 _text = value ?? string.Empty;
                 DestroyTableActionTooltips();
                 MarkdownDiagrams.Dispose(InnerElement);
+                MarkdownCharts.Dispose(InnerElement);
                 InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text, _sanitization);
                 if (_tableCopyButtons) AddTableCopyButtons(InnerElement);
                 MarkdownDiagrams.Render(InnerElement, _sanitization);
+                MarkdownCharts.Render(InnerElement, _sanitization, _charts);
                 _onAfterRender?.Invoke(InnerElement);
             }
         }
@@ -71,6 +75,38 @@ namespace Tesserae
         {
             _tableCopyButtons = show;
             Text              = _text;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets whether a <c>```flint</c> fence (or <c>```flint-chart</c>) is drawn as a chart, with
+        /// <see href="https://github.com/microsoft/flint-chart">Flint</see>, in <see cref="FlintThemes.Tesserae"/>. Off by
+        /// default; re-renders the current source. The fence body is a Flint chart spec in JSON (<c>data</c>,
+        /// <c>semantic_types</c>, <c>chart_spec</c>, optionally <c>theme_spec</c> and <c>interaction_spec</c>).
+        /// </summary>
+        /// <remarks>
+        /// Flint and the Vega-Lite renderer it draws with are fetched the first time a chart appears; until then, and
+        /// for good when a chart cannot be drawn, the fence is shown as its code block.
+        /// </remarks>
+        public MarkdownBlock Flint(bool enabled = true)
+            => SetCharts(enabled ? new MarkdownChartOptions(null, overrideFenceTheme: false) : null);
+
+        /// <summary>
+        /// Draws <c>```flint</c> fences as charts (see <see cref="Flint(bool)"/>) in <paramref name="theme"/> - one of
+        /// <see cref="FlintThemes"/>, or your own <see cref="IFlintTheme"/>. Re-renders the current source.
+        /// </summary>
+        /// <param name="theme">The theme for a chart whose fence names none. <c>null</c> is <see cref="FlintThemes.Tesserae"/>.</param>
+        /// <param name="overrideFenceTheme">
+        /// Whether <paramref name="theme"/> also replaces a <c>theme_spec</c> the fence states, so every chart in the
+        /// Markdown looks alike whatever its author (or a model) asked for.
+        /// </param>
+        public MarkdownBlock Flint(IFlintTheme theme, bool overrideFenceTheme = false)
+            => SetCharts(new MarkdownChartOptions(theme, overrideFenceTheme));
+
+        private MarkdownBlock SetCharts(MarkdownChartOptions charts)
+        {
+            _charts = charts;
+            Text    = _text;
             return this;
         }
 

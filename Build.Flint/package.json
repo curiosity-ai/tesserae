@@ -1,0 +1,17 @@
+{
+  "name": "tesserae-flint-bundle",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Bundles Flint (flint-chart) with its Vega-Lite renderer into Tesserae/tps/assets/js/flint.min.js, the script Markdown loads for a flint fence.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "flint-chart": "1.0.1",
+    "vega": "6.4.0",
+    "vega-lite": "6.5.0",
+    "vega-tooltip": "1.1.0"
+  }
+}

@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Weniger theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   A chart is drawn on the terminal screen a code block and a Mermaid diagram are: black glass in the
+   plastic bezel, on both editions. The chart takes its colours from the tokens around it, so they are
+   restated on the screen: type in the green phosphor, rules a dim phosphor, the series the colours that
+   read on black glass (the same ones tss.mermaid.css gives Pele).
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-flint-chart {
+    --tss-default-foreground-color: rgb(206, 236, 200);
+    --tss-secondary-foreground-color: rgba(170, 222, 168, 0.72);
+    --tss-default-border-color: rgba(110, 236, 120, 0.28);
+    --tss-dark-border-color: rgba(110, 236, 120, 0.7);
+    --tss-secondary-background-color: rgb(26, 32, 26);
+    --tss-primary-background-color: var(--tss-wg-orange);
+    --tss-success-background-color: rgb(110, 236, 120);
+    --tss-danger-background-color: rgb(232, 70, 58);
+    --tss-chart-series-1: rgb(236, 88, 26);
+    --tss-chart-series-2: rgb(110, 236, 120);
+    --tss-chart-series-3: rgb(240, 172, 36);
+    --tss-chart-series-4: rgb(176, 190, 160);
+    --tss-chart-series-5: rgb(220, 60, 50);
+    --tss-chart-series-6: rgb(120, 168, 196);
+    --tss-chart-series-7: rgb(214, 196, 150);
+    --tss-chart-series-8: rgb(150, 150, 146);
+
+    margin: 22px 6px;
+    padding: 18px;
+    color: rgb(206, 236, 200);
+    background: var(--tss-wg-crt-bg);
+    /* Under the gradient, for the chart: a gradient has no colour to read contrast against. */
+    background-color: rgb(16, 19, 16);
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.7),
+        inset 0 3px 8px rgba(0, 0, 0, 0.65),
+        0 0 0 5px rgb(var(--tss-secondary-background-color-root)),
+        0 0 0 6px var(--tss-wg-key-edge),
+        0 2px 4px 6px rgba(60, 54, 46, 0.12);
+    scrollbar-color: rgba(110, 236, 120, 0.35) transparent;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-flint-chart {
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.8),
+        inset 0 3px 8px rgba(0, 0, 0, 0.7),
+        0 0 0 5px rgb(var(--tss-secondary-background-color-root)),
+        0 0 0 6px var(--tss-wg-key-edge),
+        0 2px 5px 6px rgba(0, 0, 0, 0.35);
+}

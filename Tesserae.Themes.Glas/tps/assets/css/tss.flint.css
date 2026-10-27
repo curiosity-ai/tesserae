@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Glas theme - Flint charts in Markdown
+   --------------------------------------------------------------------------
+   The chart takes its colours, fonts and series (--tss-chart-series-N) from the tokens around it
+   through FlintThemes.Tesserae, so what is left is its plate: framed the way this theme frames a
+   Mermaid diagram and a code block (tss.mermaid.css beside this file), and a fence that could not
+   be drawn marked the way a diagram that could not be is.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-flint-chart {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-flint-chart {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-glas .tss-markdown pre.tss-flint-source {
+    border-left: 3px solid rgba(var(--tss-warning-background-color-root), 0.8);
+}
