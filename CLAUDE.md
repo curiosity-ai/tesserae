@@ -248,18 +248,34 @@ already follow; each theme package also has a small `tss.mermaid.css` that match
 and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
 ink lines and the Signal accent, Rechenwerk: the code-block frame with its hard signal-colour shadow).
 
-## Flint charts in Markdown
+## Flint charts (Markdown and FlintChart)
 
 A `flint` (or `flint-chart`) fence in `MarkdownBlock` is drawn as a chart by Microsoft's
 [Flint](https://github.com/microsoft/flint-chart) once `.Flint()` is called on it (off by default;
-`Markdown.RenderMarkdownSanitized(text, sanitization, IFlintTheme)` for the static helper). There is
-no chart component: it is part of Markdown rendering. The pieces:
+`Markdown.RenderMarkdownSanitized(text, sanitization, IFlintTheme)` for the static helper). The same
+spec draws as a component, `UI.FlintChart(json)` / `UI.FlintChart(FlintChartType)`
+([FlintChart/](Tesserae/src/Components/FlintChart/)), which can also report clicks. The pieces:
 
 - **[Flint.cs](Tesserae/src/Helpers/Flint.cs)** loads `tss-flint.min.js` (unlinked, `"load": false`, like
   Pele) the first time a chart appears and wraps the calls. The file is **built**, not downloaded:
   [`Build.Flint/`](Build.Flint/README.md) bundles flint-chart from its TypeScript sources with Vega,
   Vega-Lite and vega-tooltip into one IIFE, and stubs the ECharts / Chart.js / Plotly backends out.
   **Vega-Lite is the only backend**, because it is the one Flint's themes and interactions apply to.
+- **[FlintChartDrawing.cs](Tesserae/src/Helpers/FlintChartDrawing.cs)** is the drawing both share: it
+  applies the theme where the chart will sit, validates, mounts out of sight and swaps in once drawn,
+  relays out on resize, redraws on a theme change (found off the DOM through `data-tss-flint`, no
+  registry), and can move to another host drawn or mid-draw (`Rehost`, which is what Markdown's
+  adoption is). A component chart has no plate (`.tss-flint-frame` only); Markdown's frame is also
+  `.tss-flint-chart`. With `FillHeight` it sets Flint's target height and measures what Flint draws
+  around its canvas (titles, a key), laying out again until it fits: Flint treats the height as a
+  ceiling, never a target.
+- **Clicks** come from `clickReport`, an interaction defined in `Build.Flint/entry.js` that changes
+  nothing and only makes the surface emit `click-element` / `click-legend` / `click-axis` events
+  (Flint reports no clicks unless an interaction listens). Flint gives a key-entry or axis-label
+  click to one interaction only, and a code definition beats a spec's, so `clickReport` leaves those
+  to the spec's interactions that click them (`ClickHighlight`, `LegendToggle`) and
+  `FlintChartClick.From` reads them from their events; mark clicks are shared and read from
+  `clickReport`'s own (`Flint.ClickReportId`) so they are not reported twice. Keep both halves.
 - **[MarkdownCharts.cs](Tesserae/src/Helpers/MarkdownCharts.cs)** turns each fence into one
   `div.tss-flint` holding the code block and, once drawn, the chart's frame (`.tss-flint-chart`). It
   parses, applies the theme, runs Flint's `validateChartInput` (a missing field otherwise draws an

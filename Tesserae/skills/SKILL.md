@@ -175,6 +175,8 @@ references. Open the reference for whatever you are working with. The full set:
 - `references/creating-a-component.md` — build your own `IComponent`.
 - `references/flint-charts.md` — `flint` fences in Markdown drawn as charts
   (`MarkdownBlock.Flint()`), themed through `IFlintTheme` / `FlintThemes`.
+  The same specs as a component, with click events: `references/flint-chart.md`
+  (`UI.FlintChart(...)`).
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 
@@ -220,7 +222,7 @@ mark-highlighter · omni-box · omni-result · search-box ·
 searchable-grouped-list · searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
-activity-calendar · charts · contribution-bar · data-table · diagram · gantt-chart · mermaid · metric ·
+activity-calendar · charts · contribution-bar · data-table · diagram · flint-chart · gantt-chart · mermaid · metric ·
 node-view · sparkline · target-bar · trend-badge · uptime
 
 **Feedback & Status** — progress, notifications and empty states

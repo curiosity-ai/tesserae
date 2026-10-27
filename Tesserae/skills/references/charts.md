@@ -228,4 +228,5 @@ var live = AreaChart()
 
 - Sparkline — `/tesserae/charts/sparkline`
 - Diagram — relationships rather than numbers — `diagram.md`
+- FlintChart — 39 declarative chart types from a Flint spec, with clicks — `flint-chart.md`
 - Full docs & API: `/tesserae/charts/charts`

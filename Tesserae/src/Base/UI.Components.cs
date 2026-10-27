@@ -857,6 +857,19 @@ namespace Tesserae
         public static Mermaid Mermaid(string source = "", bool sanitize = true) => new Mermaid(source, sanitize);
 
         /// <summary>
+        /// Creates a chart drawn by Microsoft's Flint, of <paramref name="type"/>, to be given its data and encodings
+        /// with the fluent methods (<c>.Columns(...)</c>, <c>.AddRow(...)</c>, <c>.X(...)</c>, <c>.Y(...)</c>, ...).
+        /// </summary>
+        public static FlintChart FlintChart(FlintChartType type) => new FlintChart(type);
+
+        /// <summary>
+        /// Creates a chart drawn by Microsoft's Flint from a Flint chart spec as JSON (<c>data</c>, <c>semantic_types</c>,
+        /// <c>chart_spec</c>, and optionally <c>theme_spec</c>, <c>interaction_spec</c>, <c>options</c>), the same JSON a
+        /// <c>```flint</c> fence in Markdown holds.
+        /// </summary>
+        public static FlintChart FlintChart(string specJson) => new FlintChart(specJson);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.CodeDiff"/> component that renders a unified diff using diff2html.
         /// </summary>
         public static CodeDiff CodeDiff(string diff = "", Tesserae.CodeDiff.Format format = Tesserae.CodeDiff.Format.LineByLine) => new CodeDiff(diff, format);
