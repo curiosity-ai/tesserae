@@ -141,8 +141,9 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   `Tesserae.Themes.Curiosity`, usable with or without the theme active): `PixelIntro`
   (the first-load animation, `PlayOnce()`), `FlowField` (the hero's dash field, its pixel
   following the pointer), `PixelGlyph` (the animated 4 by 4 glyphs, `PixelGlyphKind` plus
-  custom cells, palettes and a compact frame notation) and `DashMosaic` (the animated dash
-  tiles, four schemes). The package README has the API.
+  custom cells, palettes and a compact frame notation) `DashMosaic` (the animated dash
+  tiles, four schemes) and `GeneratingImage` (the pixel placeholder for an image being made: an aspect
+  ratio, half the parent's width, an optional `Progress(percent)` badge). The package README has the API.
 - **Tesserae.Themes.Stratus** — `StratusTheme.Instance`, root class `tss-theme-stratus`. An
   aerospace design language: deep navy accent, cool greys, filled inputs with a bottom rule,
   3px/6px/8px radii, a tiered elevation scale, Inter and Roboto Mono, a 2px blue focus ring.

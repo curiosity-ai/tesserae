@@ -44,7 +44,7 @@ namespace Tesserae.Tests.Samples
                         Cell("Denser", ".Pitch(20).Fade(FlowFieldFade.Down) - a smaller cell pitch, fading toward the bottom.",
                             new FlowField().Pitch(20).Fade(FlowFieldFade.Down))
                     )).SetTitle("Options")))
-               .SeeAlso(typeof(DashMosaicSample), typeof(PixelGlyphSample), typeof(PixelIntroSample));
+               .SeeAlso(typeof(DashMosaicSample), typeof(PixelGlyphSample), typeof(GeneratingImageSample));
         }
 
         public HTMLElement Render() => _content.Render();
