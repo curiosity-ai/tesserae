@@ -29,3 +29,15 @@ body.tss-theme-kontrast .tss-time-histogram-picker-empty {
     border-width: var(--tss-kt-border);
     border-color: var(--tss-kt-line);
 }
+
+/* The range being dragged: a framed label, the band edged in ink rather than tinted. */
+body.tss-theme-kontrast .tss-time-histogram-picker-drag-label {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-time-histogram-picker-drag-band {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-top: none;
+    border-bottom: none;
+    background: transparent;
+}

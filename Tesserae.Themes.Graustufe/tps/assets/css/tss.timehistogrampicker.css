@@ -23,3 +23,14 @@ body.tss-theme-graustufe .tss-time-histogram-picker-empty {
     border-radius: 0;
 }
 
+
+/* The range being dragged: square and flat, like every other surface here. */
+body.tss-theme-graustufe .tss-time-histogram-picker-drag-label {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-time-histogram-picker-drag-band {
+    border-color: var(--tss-gs-0);
+}

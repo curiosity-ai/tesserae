@@ -53,3 +53,14 @@ body.tss-theme-zeitung .tss-time-histogram-picker-empty {
 }
 
 /* --- end of square corners --- */
+
+/* The range being dragged: square, ink edges, lining figures. */
+body.tss-theme-zeitung .tss-time-histogram-picker-drag-label {
+    border-radius: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-drag-band {
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+}

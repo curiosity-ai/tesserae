@@ -53,3 +53,13 @@ body.tss-theme-washi .tss-time-histogram-picker-empty {
     border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
     border-radius: var(--tss-wa-radius);
 }
+
+/* The range being dragged. */
+body.tss-theme-washi .tss-time-histogram-picker-drag-label {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-drag-band {
+    border-color: var(--tss-wa-shu);
+    background: transparent;
+}

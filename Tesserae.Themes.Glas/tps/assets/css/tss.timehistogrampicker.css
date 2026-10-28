@@ -42,3 +42,17 @@ body.tss-theme-glas .tss-time-histogram-picker-empty {
     border-color: var(--tss-gl-edge-strong);
     border-radius: var(--tss-gl-radius-ctrl);
 }
+
+/* The range being dragged: a glass chip over the bars, like the tooltip. */
+body.tss-theme-glas .tss-time-histogram-picker-drag-label {
+    border-radius: 10px;
+    box-shadow: var(--tss-gl-rim), 0 10px 26px -10px rgba(50, 48, 120, 0.45);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-time-histogram-picker-drag-band {
+    border-style: solid;
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.6);
+    background: rgba(var(--tss-gl-accent-rgb), 0.08);
+}
