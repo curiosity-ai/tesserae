@@ -142,3 +142,26 @@ body.tss-theme-rechenwerk .tss-time-histogram-picker.tss-disabled .tss-time-hist
         transform: none;
     }
 }
+
+/* The range being dragged: a printed readout with the hard signal shadow the tooltip carries. */
+body.tss-theme-rechenwerk .tss-time-histogram-picker-drag-label {
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-time-histogram-picker-drag-label {
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-drag-label-count {
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-time-histogram-picker-drag-band {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-top: none;
+    border-bottom: none;
+    background: transparent;
+}

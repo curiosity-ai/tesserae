@@ -131,3 +131,15 @@ body.tss-theme-weniger .tss-time-histogram-picker.tss-disabled .tss-time-histogr
         transition: none;
     }
 }
+
+/* The range being dragged: the tooltip key over the LCD window, the window marked in orange. */
+body.tss-theme-weniger .tss-time-histogram-picker-drag-label {
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.3), 0 14px 30px -12px rgba(0, 0, 0, 0.45);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-drag-band {
+    border-color: var(--tss-wg-orange);
+    background: rgba(236, 88, 26, 0.08);
+}

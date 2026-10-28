@@ -90,3 +90,23 @@ body.tss-theme-retroos .tss-time-histogram-picker.tss-disabled .tss-time-histogr
     border-color: var(--tss-retro-gray);
     background: rgb(var(--tss-default-background-color-root));
 }
+
+/* The range being dragged: a framed window on paper, like the tooltip. */
+body.tss-theme-retroos .tss-time-histogram-picker-drag-label {
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-drag-label-count {
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-drag-band {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    background: transparent;
+}

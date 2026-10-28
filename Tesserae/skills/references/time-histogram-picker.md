@@ -25,6 +25,11 @@ Turns a `DateTime[]` (or pre-aggregated buckets) into adaptive histogram bars an
 
 Read the selection via `SelectedFrom`, `SelectedTo`, `SelectedCount`.
 
+While a thumb is being dragged, the range being picked is drawn over the bars: a band between the
+two thumbs and a label with the range (through `WithCustomTimeRender`'s formatter) and its count.
+It needs no configuration and disappears when the thumb is released. Themes style it through
+`.tss-time-histogram-picker-drag-band` / `.tss-time-histogram-picker-drag-label`.
+
 ## Example
 
 ```csharp

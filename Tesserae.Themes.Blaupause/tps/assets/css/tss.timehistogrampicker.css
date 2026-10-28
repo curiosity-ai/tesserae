@@ -50,3 +50,14 @@ body.tss-theme-blaupause .tss-time-histogram-picker-thumb {
 body.tss-theme-blaupause .tss-time-histogram-picker-empty {
     border-color: var(--tss-bp-line);
 }
+
+/* The range being dragged: the label is the tooltip, square and in the mono hand. */
+body.tss-theme-blaupause .tss-time-histogram-picker-drag-label {
+    border-radius: 0;
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-time-histogram-picker-drag-band {
+    border-color: var(--tss-bp-ink);
+    background: var(--tss-bp-wash);
+}

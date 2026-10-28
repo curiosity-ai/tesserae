@@ -86,3 +86,12 @@ body.tss-theme-curiosity.tss-dark-mode .tss-time-histogram-picker-selection {
 body.tss-theme-curiosity.tss-dark-mode .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-selection {
     background: var(--tss-disabled-foreground-color);
 }
+
+/* The range being dragged: the tooltip ink plate, square and flat, in the mono label voice. */
+body.tss-theme-curiosity .tss-time-histogram-picker-drag-label {
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .04em;
+}

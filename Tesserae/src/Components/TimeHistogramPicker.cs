@@ -71,6 +71,10 @@ namespace Tesserae
         private readonly HTMLDivElement            _axis;
         private readonly HTMLSpanElement           _axisStart;
         private readonly HTMLSpanElement           _axisEnd;
+        private readonly HTMLDivElement            _dragBand;
+        private readonly HTMLDivElement            _dragLabel;
+        private readonly HTMLSpanElement           _dragLabelRange;
+        private readonly HTMLSpanElement           _dragLabelCount;
         private readonly List<TimeHistogramBucket> _sourceBuckets = new List<TimeHistogramBucket>();
         private readonly List<TimeHistogramBucket> _buckets       = new List<TimeHistogramBucket>();
         private readonly List<HTMLDivElement>      _bars          = new List<HTMLDivElement>();
@@ -88,6 +92,7 @@ namespace Tesserae
         private bool                            _usesCustomTimeRender;
         private Action<DateTime, DateTime, int> _rangeChanged;
         private Action                          _hideBarTooltip;
+        private bool                            _isDragging;
 
         private readonly SettableObservable<(DateTime from, DateTime to)> _observable
             = new SettableObservable<(DateTime from, DateTime to)>((default(DateTime), default(DateTime)));
@@ -111,7 +116,15 @@ namespace Tesserae
             _axisEnd   = Span(Att("tss-time-histogram-picker-axis-label"));
             _axis      = Div(Att("tss-time-histogram-picker-axis"), _axisStart, _axisEnd);
 
-            _container = Div(Att("tss-time-histogram-picker"), _histogram, _emptyMessage, _track, _axis);
+            // Shown over the bars only while a thumb is dragged, so the range being picked can be read
+            // without looking down at the axis.
+            _dragBand       = Div(Att("tss-time-histogram-picker-drag-band"));
+            _dragLabelRange = Span(Att("tss-time-histogram-picker-drag-label-range"));
+            _dragLabelCount = Span(Att("tss-time-histogram-picker-drag-label-count"));
+            _dragLabel      = Div(Att("tss-time-histogram-picker-drag-label"), _dragLabelRange, _dragLabelCount);
+            _dragLabel.setAttribute("aria-hidden", "true");
+
+            _container = Div(Att("tss-time-histogram-picker"), _histogram, _emptyMessage, _track, _axis, _dragBand, _dragLabel);
             HookDragEvents(_leftThumb,  true);
             HookDragEvents(_rightThumb, false);
             HookKeyboardEvents(_leftThumb,  true);
@@ -562,6 +575,11 @@ namespace Tesserae
                 _bars[i].UpdateClassIf(i >= _selectedStartIndex && i <= _selectedEndIndex, "tss-selected");
             }
 
+            if (_isDragging)
+            {
+                UpdateDragOverlay(leftPercent, rightPercent);
+            }
+
             if (raiseChanged)
             {
                 _observable.Value = (SelectedFrom, SelectedTo);
@@ -613,6 +631,7 @@ namespace Tesserae
                 rect               =  _track.getBoundingClientRect().As<DOMRect>();
                 window.onmousemove += Move;
                 window.onmouseup   += Stop;
+                BeginDragOverlay();
                 StopEvent(me);
             };
 
@@ -632,8 +651,51 @@ namespace Tesserae
                 window.onmousemove -= Move;
                 window.onmouseup   -= Stop;
                 rect               =  null;
+                EndDragOverlay();
                 StopEvent(me);
             }
+        }
+
+        private void BeginDragOverlay()
+        {
+            HideBarTooltip();
+            _isDragging = true;
+            _container.classList.add("tss-time-histogram-picker-dragging");
+            UpdateDragOverlay(StartIndexToPercent(_selectedStartIndex), EndIndexToPercent(_selectedEndIndex));
+        }
+
+        private void EndDragOverlay()
+        {
+            _isDragging = false;
+            _container.classList.remove("tss-time-histogram-picker-dragging");
+        }
+
+        // Lays the band over the bars between the two thumbs and centres the label above it, kept
+        // inside the chart so a range at either end is not cut off.
+        private void UpdateDragOverlay(double leftPercent, double rightPercent)
+        {
+            if (!HasSelection)
+            {
+                return;
+            }
+
+            _dragLabelRange.textContent = RenderRange(SelectedFrom, SelectedTo);
+            _dragLabelCount.textContent = SelectedCount.ToString("n0");
+
+            var trackLeft  = _track.offsetLeft;
+            var trackWidth = _track.offsetWidth;
+            var bandLeft   = trackLeft + (leftPercent  / 100) * trackWidth;
+            var bandRight  = trackLeft + (rightPercent / 100) * trackWidth;
+
+            _dragBand.style.top    = $"{_histogram.offsetTop}px";
+            _dragBand.style.height = $"{_histogram.offsetHeight}px";
+            _dragBand.style.left   = $"{bandLeft:0.##}px";
+            _dragBand.style.width  = $"{Math.Max(0, bandRight - bandLeft):0.##}px";
+
+            var labelWidth = _dragLabel.offsetWidth;
+            var labelLeft  = Math.Max(0, Math.Min(_container.clientWidth - labelWidth, (bandLeft + bandRight - labelWidth) / 2));
+            _dragLabel.style.top  = $"{_histogram.offsetTop}px";
+            _dragLabel.style.left = $"{labelLeft:0.##}px";
         }
 
         private void HookKeyboardEvents(HTMLDivElement thumb, bool isLeft)

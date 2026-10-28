@@ -4,6 +4,7 @@
     flex-direction: column;
     width: 100%;
     min-width: 220px;
+    position: relative;
     padding: 8px 0;
     box-sizing: border-box;
     -webkit-user-select: none;
@@ -96,6 +97,48 @@
 .tss-time-histogram-picker-thumb:focus {
     outline: 2px solid var(--tss-ring-color);
     outline-offset: 2px;
+}
+
+/* The range being dragged, drawn over the bars: a band between the two thumbs and a label above it.
+   Hidden unless a thumb is held; the component positions both in px. */
+.tss-time-histogram-picker-drag-band,
+.tss-time-histogram-picker-drag-label {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+}
+
+.tss-time-histogram-picker-dragging .tss-time-histogram-picker-drag-band,
+.tss-time-histogram-picker-dragging .tss-time-histogram-picker-drag-label {
+    display: block;
+}
+
+.tss-time-histogram-picker-drag-band {
+    box-sizing: border-box;
+    border-left: 1px dashed var(--tss-primary-background-color);
+    border-right: 1px dashed var(--tss-primary-background-color);
+    background: color-mix(in srgb, var(--tss-primary-background-color) 8%, transparent);
+}
+
+.tss-time-histogram-picker-dragging .tss-time-histogram-picker-drag-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    z-index: 2;
+    padding: 4px 10px;
+    background-color: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    font-size: var(--tss-font-size-small);
+    line-height: 16px;
+    border-radius: var(--tss-border-radius-md, 4px);
+    box-shadow: var(--tss-box-shadow);
+    white-space: nowrap;
+}
+
+.tss-time-histogram-picker-drag-label-count {
+    font-weight: var(--tss-font-weight-semibold, 600);
+    font-variant-numeric: tabular-nums;
 }
 
 .tss-time-histogram-picker-axis {
