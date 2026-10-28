@@ -272,6 +272,47 @@ body.tss-mobile ::-webkit-scrollbar-thumb {
     padding: 8px 8px 8px 16px;
 }
 
+/* ─── Tree — rows are list rows ──────────────────────────────────────────── */
+/* 44px whatever the density: Compact matches a code editor's file explorer, which is a pointer's
+   density. The vertical padding is trimmed to 2px so a row showing its commands (a 40px button each)
+   is the same 44px as one that is not, and selecting a row never moves the rows below it. */
+body.tss-mobile .tss-tree-item-content {
+    min-height: 44px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+}
+
+body.tss-mobile .tss-tree-commands > .tss-tree-command,
+body.tss-mobile .tss-tree-commands > a > .tss-tree-command {
+    height: 40px;
+    min-width: 40px;
+}
+
+/* ─── Pivot — tabs and their close button ────────────────────────────────── */
+/* !important because a tab is often a Button, and the 40px button floor above is !important too. */
+body.tss-mobile .tss-pivot-titlebar > .tss-pivot-tab {
+    min-height: 44px !important;
+}
+
+/* The glyph stays where it was and the same size; the 32px box around it is what a finger has to hit,
+   and the negative margins hand back the width the box adds. The cross is 10px wide in a tab whose title
+   is a component (an HStack); the unsaved marker is centred on the box, so it stays over the glyph. */
+body.tss-mobile .tss-pivot-titlebar .tss-pivot-tab-close {
+    min-width: 32px;
+    min-height: 32px;
+    justify-content: center;
+    margin-left: -11px;
+    margin-right: -11px;
+}
+
+/* In a tab that is a Button the cross is an icon after the label, which tss.button.css gives a 16px
+   minimum and 10px margins on each side: 10 - (32 - 16) / 2 = 2. */
+body.tss-mobile .tss-pivot-titlebar > .tss-btn > span:not(:empty) + .tss-pivot-tab-close {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
 /* ─── Section Title — wrap trailing commands onto their own line ──────────── */
 /* The title row is a single no-wrap flex row: icon + title + grow-spacer +
    commands (e.g. a page's "Documentation" / "View Code" actions). On a narrow
