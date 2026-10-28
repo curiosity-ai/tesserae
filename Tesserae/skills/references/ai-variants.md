@@ -26,7 +26,7 @@ states, same size. Dropping one into a laid-out page moves nothing.
 | `InlineLabel` | `.AI()` | Tinted pill in the accent colour, Sparkles as its mark unless it already has one. |
 | `Skeleton` | `.AI()` | Tinted placeholder with a purple shimmer — generating, rather than fetching. |
 | `Badge` / `Tag` / `Chip` | `.AI()` (`BadgeTone.AI`) | Filled gradient; `.Outline()` gives tint plus accent instead. `UI.AIBadge()` is a Sparkles-led gradient pill. |
-| `Spinner` | `.AI()` | The gradient on the ring (a masked conic gradient rather than a border), and on its label. The determinate form runs it across the filled sweep. |
+| `Spinner` | `.AI()` | The gradient on the ring (a masked conic gradient rather than the svg stroke), and on its label. The determinate form runs it across the filled sweep. |
 | `ProgressIndicator` | `.AI()` | Bar painted with the gradient, determinate or indeterminate. |
 | `TextBox` | `.AI()` | Tint over the field and an accent edge in every state - a value a model wrote. `SpinWhileAsync` shows a spinner inside it, in the AI arc while the field is AI. |
 | `IconToggle<T>` | `.AI()` | Tinted track, accent-coloured items, the selected pill filled with the gradient. |
