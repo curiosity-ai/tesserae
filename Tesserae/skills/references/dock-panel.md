@@ -76,7 +76,28 @@ Give the panel a height: it fills the box it is given.
   sizes clamped).
 - `.OnLayoutChanged(Action<string>)` (after every change, with the JSON), `.OnCloseRequested(Func<DockPane, bool>)`
   (return false to keep it open), `.OnFlyoutOpened(Action<DockPane>)`.
-- `.CollapseBelow(px)` (0 = off), `IsNarrow`, `.RestoreMenu(false)`, `.Labels(new DockPanelLabels { … })`.
+- `.CollapseBelow(px)` (0 = off), `IsNarrow`, `.RestoreMenu(false)`, `.Labels(new DockPanelLabels { … })`
+  (it also holds the keyboard texts: `Resize`, `And`, `MovePane`, `MoveLeft/Right/Top/Bottom`, `TabWith`).
+- `.KeyboardResize(bool = true)` and `.KeyboardMove(bool = true)` — the keyboard support below is on by default; pass
+  `false` to leave splitters (or moving panes) to the pointer. Hosts that used to make splitters focusable themselves
+  (a MutationObserver adding `tabindex`) should drop that code.
+
+## Keyboard
+
+- **Splitters** (between regions, between stacked panes, and a slid-out flyout's) are tab stops with
+  `role="separator"`, `aria-orientation`, `aria-valuenow/min/max` (+ `aria-valuetext`) and a name ("Resize Explorer",
+  "Resize Explorer and Outline"). Arrow keys along the splitter's axis resize by 16 px (Shift: 64 px), Home / End go to the
+  smallest / largest, Escape moves the focus into the document. A region's values are pixels; the split between two
+  stacked panes is a percentage (the first pane's share). The size is applied in place (nothing is rebuilt), so the focus
+  stays and a held key keeps resizing; `GetLayout()` is current at once, and `OnLayoutChanged` fires once the keys rest
+  (300 ms), on key up or when the focus leaves. A rebuild (a move, a tab switch) puts the focus back on the same splitter.
+  There is no collapse of a region, so Enter / Space do nothing.
+- **Tabs** are `role="tab"` in a `tablist` with a roving tabindex; Left / Right switch (wrapping), Home / End go to the
+  first / last, and the selected tab has `aria-controls` the `tabpanel` (which is `aria-labelledby` the tab).
+- **Moving a pane** (unless `NotMovable()`): a single pane's header, and any tab, take the focus. Alt+Shift+Arrow docks the
+  pane to the edge in that direction (out of its tab group if it is on that edge already, honouring `AllowEdges`);
+  Enter / Space on a header, the context-menu key or Shift+F10 on a header or tab opens a menu: Move to left / right / top /
+  bottom, and "Tab with <pane>" for every other slot. The focus follows the pane. Pointer and touch behaviour is unchanged.
 
 The layout is rebuilt on every change by moving each pane's content element (not recreating it), so
 content keeps its state; each pane body's scroll position is carried across.

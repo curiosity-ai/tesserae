@@ -135,6 +135,20 @@
         background: var(--tss-primary-background-color-transparent);
     }
 
+/* Keyboard focus: the splitter is a tab stop, and shows its bar in the accent (with a ring) on :focus-visible only, so a click leaves nothing behind. */
+.tss-dockpanel-splitter:focus {
+    outline: none;
+}
+
+    .tss-dockpanel-splitter:focus-visible::after {
+        background: var(--tss-dockpanel-accent);
+        box-shadow: 0 0 0 1px var(--tss-dockpanel-accent);
+    }
+
+.tss-dockpanel-document-body:focus {
+    outline: none;
+}
+
 .tss-dockpanel-resizing,
 .tss-dockpanel-resizing * {
     user-select: none !important;
@@ -259,6 +273,7 @@
             color: var(--tss-dockpanel-accent);
         }
 
+    .tss-dockpanel-caption:focus-visible,
     .tss-dockpanel-tab:focus-visible,
     .tss-dockpanel-button:focus-visible,
     .tss-dockpanel-rail-tab:focus-visible,

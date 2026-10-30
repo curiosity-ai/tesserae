@@ -68,6 +68,14 @@ namespace Tesserae
         private DockEdge[]      _edgePriority  = { DockEdge.Top, DockEdge.Bottom, DockEdge.Left, DockEdge.Right };
         private DockPanelLabels _labels        = new DockPanelLabels();
         private bool            _restoreMenu   = true;
+        private bool            _keyboardResize = true;
+        private bool            _keyboardMove   = true;
+        private static int      _instances;
+        private readonly string _uid = "tss-dock" + (++_instances);
+        private bool            _commitPending;
+        private int             _commitTimer;
+        private bool            _ariaQueued;
+        private readonly List<Action> _ariaRefreshers = new List<Action>();
         private readonly List<(string Id, Button Button)> _toggles = new List<(string, Button)>();
         private readonly List<Button>   _barToggleButtons = new List<Button>();
         private bool                    _paneToggles;
@@ -225,6 +233,30 @@ namespace Tesserae
         public DockPanel RestoreMenu(bool show = true)
         {
             _restoreMenu = show;
+            return Invalidate();
+        }
+
+        /// <summary>
+        /// Makes every splitter reachable from the keyboard. On by default. A splitter is a tab stop with
+        /// <c>role="separator"</c>, <c>aria-valuenow</c>/<c>aria-valuemin</c>/<c>aria-valuemax</c> and a name; the arrow keys along its axis
+        /// resize by 16 px (64 px with Shift), Home and End go to the smallest and largest size, and Escape returns the focus to the
+        /// document. The size is applied in place, so the focus stays and a held key keeps resizing; <see cref="OnLayoutChanged"/> is
+        /// raised once the keys rest. Pass false to leave splitters to the pointer.
+        /// </summary>
+        public DockPanel KeyboardResize(bool enabled = true)
+        {
+            _keyboardResize = enabled;
+            return Invalidate();
+        }
+
+        /// <summary>
+        /// Lets a pane be moved from the keyboard. On by default. A pane's header (or its tab) is focusable; Alt+Shift+Arrow docks the
+        /// pane to the edge in that direction, and Enter or Space on a header, the context menu key or Shift+F10 on a header or tab opens a
+        /// menu with the same moves plus "Tab with" each other pane. Pass false to leave moving to the pointer.
+        /// </summary>
+        public DockPanel KeyboardMove(bool enabled = true)
+        {
+            _keyboardMove = enabled;
             return Invalidate();
         }
 
@@ -554,7 +586,11 @@ namespace Tesserae
             {
                 _rendered = true;
 
-                _resizeObserver = new ResizeObserver((entries, _) => UpdateNarrow(InnerElement.getBoundingClientRect().As<DOMRect>().width));
+                _resizeObserver = new ResizeObserver((entries, _) =>
+                {
+                    UpdateNarrow(InnerElement.getBoundingClientRect().As<DOMRect>().width);
+                    QueueAria();
+                });
                 DomObserver.WhenMounted(InnerElement, () =>
                 {
                     _resizeObserver.observe(InnerElement);
@@ -565,6 +601,7 @@ namespace Tesserae
                     _resizeObserver.disconnect();
                     CloseFlyout();
                     EndDrag();
+                    FlushCommit();
                 });
             }
 
@@ -606,6 +643,7 @@ namespace Tesserae
         // A change the user made, or asked for through a command: rebuilt now, so the next gesture sees it, and reported.
         private DockPanel Changed()
         {
+            CancelCommit();
             _dirty = true;
             if (_rendered) Flush();
             _onLayoutChanged?.Invoke(GetLayout());
@@ -643,8 +681,13 @@ namespace Tesserae
             // Pane bodies are moved, not rebuilt; a detached element forgets its scroll position, so carry it over.
             var scrolls = _panes.Where(p => p.Body.isConnected).Select(p => (p, p.Body.scrollTop, p.Body.scrollLeft)).ToList();
 
+            // A rebuild moves the keyboard focus out of the DOM it replaces; the element that had it is found again by its key.
+            var focused  = document.activeElement.As<HTMLElement>();
+            var focusKey = focused is object && _main.contains(focused) ? focused.getAttribute("data-dock-focus") : null;
+
             ClearChildren(_main);
             _slots.Clear();
+            _ariaRefreshers.Clear();
 
             _main.appendChild(BuildLevel(0));
 
@@ -675,6 +718,20 @@ namespace Tesserae
             }
 
             RefreshToggles();
+            if (focusKey is object) FocusKey(focusKey);
+            QueueAria();
+        }
+
+        private void FocusKey(string key)
+        {
+            var found = _main.querySelectorAll("[data-dock-focus]");
+            for (var i = 0; i < found.length; i++)
+            {
+                var el = found[i].As<HTMLElement>();
+                if (el.getAttribute("data-dock-focus") != key) continue;
+                el.focus();
+                return;
+            }
         }
 
         private bool IsShownInPlace(DockPane pane)
@@ -797,7 +854,13 @@ namespace Tesserae
                     tab.appendChild(Span(Att("tss-dockpanel-title", text: p.Title)));
                     tab.setAttribute("aria-selected", p == active ? "true" : "false");
                     tab.tabIndex = p == active ? 0 : -1;
-                    if (p == active) tab.classList.add("tss-dockpanel-tab-active");
+                    tab.id = TabId(p);
+                    if (p == active)
+                    {
+                        tab.classList.add("tss-dockpanel-tab-active");
+                        tab.setAttribute("aria-controls", PanelId(slot));
+                    }
+                    if (_keyboardMove && p.CanMove) tab.setAttribute("data-dock-focus", "pane:" + p.Id);
 
                     tab.addEventListener("click", _ =>
                     {
@@ -805,7 +868,7 @@ namespace Tesserae
                         _activeTab[GroupKey(p)] = p.Id;
                         Changed();
                     });
-                    tab.addEventListener("keydown", e => OnTabKey(e.As<KeyboardEvent>(), slot, p));
+                    tab.addEventListener("keydown", e => OnTabKey(e.As<KeyboardEvent>(), slot, p, tab));
                     HookHeaderDrag(tab, p);
                     tabs.appendChild(tab);
                 }
@@ -820,6 +883,7 @@ namespace Tesserae
                 title.appendChild(Span(Att("tss-dockpanel-title", text: active.Title)));
                 header.appendChild(title);
                 HookHeaderDrag(header, active);
+                HookCaptionKeys(title, slot, active);
             }
 
             header.appendChild(Div(Att("tss-dockpanel-header-spacer")));
@@ -829,6 +893,11 @@ namespace Tesserae
 
             var body = Div(Att("tss-dockpanel-slot-body", role: slot.Panes.Count > 1 ? "tabpanel" : "region"));
             body.setAttribute("aria-label", active.Title);
+            if (slot.Panes.Count > 1)
+            {
+                body.id = PanelId(slot);
+                body.setAttribute("aria-labelledby", TabId(active));
+            }
             body.appendChild(active.Body);
 
             el.appendChild(header);
@@ -836,13 +905,29 @@ namespace Tesserae
             return el;
         }
 
-        private void OnTabKey(KeyboardEvent e, Slot slot, DockPane pane)
+        private string TabId(DockPane pane) => _uid + "-tab-" + SafeId(pane.Id);
+
+        private string PanelId(Slot slot) => _uid + "-panel-" + SafeId(slot.Edge + "-" + slot.Group);
+
+        private static string SafeId(string text)
         {
+            var result = "";
+            foreach (var c in text) result += char.IsLetterOrDigit(c) || c == '-' || c == '_' ? c.ToString() : "_";
+            return result;
+        }
+
+        private void OnTabKey(KeyboardEvent e, Slot slot, DockPane pane, HTMLElement tab)
+        {
+            if (OnMoveKey(e, slot, pane, tab)) return;
+            if (e.altKey || e.ctrlKey || e.metaKey) return;
+
             var index = slot.Panes.IndexOf(pane);
             var next  = -1;
 
             if (e.key == "ArrowRight") next = (index + 1) % slot.Panes.Count;
             if (e.key == "ArrowLeft")  next = (index - 1 + slot.Panes.Count) % slot.Panes.Count;
+            if (e.key == "Home")       next = 0;
+            if (e.key == "End")        next = slot.Panes.Count - 1;
             if (next < 0) return;
 
             e.preventDefault();
@@ -1072,6 +1157,8 @@ namespace Tesserae
                 foreach (var p in panes) p.Size = size;
                 _onLayoutChanged?.Invoke(GetLayout());
             });
+
+            HookRegionKeys(splitter, split, region, edge, panes);
         }
 
         private void HookSlotSplitter(HTMLElement splitter, Slot before, Slot after, bool vertical)
@@ -1104,6 +1191,8 @@ namespace Tesserae
                 ratio = -1;
                 _onLayoutChanged?.Invoke(GetLayout());
             });
+
+            HookSlotKeys(splitter, before, after, vertical);
         }
 
         private void HookFlyoutSplitter(HTMLElement splitter, HTMLElement flyout, DockPane pane)
@@ -1128,6 +1217,8 @@ namespace Tesserae
                 pane.Size = size;
                 _onLayoutChanged?.Invoke(GetLayout());
             });
+
+            HookFlyoutKeys(splitter, flyout, pane);
         }
 
         // A pointer drag on a splitter: the move callback gets client coordinates, the end callback runs on release.
@@ -1166,6 +1257,333 @@ namespace Tesserae
                 window.addEventListener("pointerup",     up);
                 window.addEventListener("pointercancel", up);
             });
+        }
+
+        // ------------------------------------------------------------ keyboard
+
+        // Wires the keyboard onto one splitter: a tab stop with a name, the values ARIA asks of a separator (refreshed after
+        // layout and after every key) and a key handler. onKey applies the size in place and says whether it handled the key;
+        // the layout notification follows once the keys rest.
+        private void SetupSplitterKeys(HTMLElement splitter, string name, string focusKey, Func<KeyboardEvent, bool> onKey, Action refresh, bool track = true)
+        {
+            splitter.setAttribute("aria-label", name);
+            if (!_keyboardResize) return;
+
+            splitter.tabIndex = 0;
+            if (focusKey is object) splitter.setAttribute("data-dock-focus", focusKey);
+            if (track) _ariaRefreshers.Add(refresh);
+            refresh();
+
+            splitter.addEventListener("keydown", ev =>
+            {
+                var e = ev.As<KeyboardEvent>();
+                if (e.altKey || e.ctrlKey || e.metaKey) return;
+
+                if (e.key == "Escape")
+                {
+                    ev.preventDefault();
+                    FocusDocument();
+                    return;
+                }
+
+                if (!onKey(e)) return;
+
+                ev.preventDefault();
+                ev.stopPropagation();
+                refresh();
+                QueueCommit();
+            });
+
+            splitter.addEventListener("keyup", _ => FlushCommit());
+            splitter.addEventListener("blur",  _ => FlushCommit());
+        }
+
+        private string SlotTitle(DockPane pane) => (pane.TabGroup is object ? ActiveIn(pane.Edge, pane.TabGroup) ?? pane : pane).Title;
+
+        private void HookRegionKeys(HTMLElement splitter, HTMLElement split, HTMLElement region, DockEdge edge, List<DockPane> panes)
+        {
+            var horizontal = edge == DockEdge.Left || edge == DockEdge.Right;
+            var titles     = new List<string>();
+            foreach (var pane in panes) if (!titles.Contains(SlotTitle(pane))) titles.Add(SlotTitle(pane));
+
+            double Min() => panes.Max(p => p.MinSize);
+
+            double Max()
+            {
+                var rect   = split.getBoundingClientRect().As<DOMRect>();
+                var extent = horizontal ? rect.width : rect.height;
+                var most   = panes.Min(p => p.MaxSize);
+                return Math.Max(Min(), extent > 0 ? Math.Min(most, extent - 80) : most);
+            }
+
+            void Refresh()
+            {
+                var now = Math.Round(panes[0].Size);
+                splitter.setAttribute("aria-valuemin", Math.Round(Min()).ToString());
+                splitter.setAttribute("aria-valuemax", Math.Round(Max()).ToString());
+                splitter.setAttribute("aria-valuenow", now.ToString());
+                splitter.setAttribute("aria-valuetext", now + " px");
+            }
+
+            bool OnKey(KeyboardEvent e)
+            {
+                var key    = e.key;
+                var step   = e.shiftKey ? 64 : 16;
+                var grow   = edge == DockEdge.Left ? key == "ArrowRight" : edge == DockEdge.Right ? key == "ArrowLeft" : edge == DockEdge.Top ? key == "ArrowDown" : key == "ArrowUp";
+                var shrink = edge == DockEdge.Left ? key == "ArrowLeft" : edge == DockEdge.Right ? key == "ArrowRight" : edge == DockEdge.Top ? key == "ArrowUp" : key == "ArrowDown";
+                var size   = panes[0].Size;
+
+                if (key == "Home") size = Min();
+                else if (key == "End") size = Max();
+                else if (grow) size += step;
+                else if (shrink) size -= step;
+                else return false;
+
+                size = Math.Max(Min(), Math.Min(Max(), size));
+                foreach (var p in panes) p.Size = size;
+                region.style.flexBasis = size + "px";
+                return true;
+            }
+
+            SetupSplitterKeys(splitter, _labels.Resize + " " + string.Join(", ", titles), "region:" + edge, OnKey, Refresh);
+        }
+
+        private void HookSlotKeys(HTMLElement splitter, Slot before, Slot after, bool vertical)
+        {
+            double Total()
+            {
+                var a = before.Element.getBoundingClientRect().As<DOMRect>();
+                var b = after.Element.getBoundingClientRect().As<DOMRect>();
+                return vertical ? a.height + b.height : a.width + b.width;
+            }
+
+            double MinShare()
+            {
+                var total = Total();
+                return total > 96 ? 48 / total : 0.1;
+            }
+
+            double Share() => before.Panes[0].Weight / (before.Panes[0].Weight + after.Panes[0].Weight);
+
+            void Refresh()
+            {
+                var low  = Math.Ceiling(MinShare() * 100);
+                var high = Math.Floor((1 - MinShare()) * 100);
+                var now  = Math.Max(low, Math.Min(high, Math.Round(Share() * 100)));
+                splitter.setAttribute("aria-valuemin", low.ToString());
+                splitter.setAttribute("aria-valuemax", high.ToString());
+                splitter.setAttribute("aria-valuenow", now.ToString());
+                splitter.setAttribute("aria-valuetext", now + "%");
+            }
+
+            bool OnKey(KeyboardEvent e)
+            {
+                var key = e.key;
+                var more = key == (vertical ? "ArrowDown" : "ArrowRight");
+                var less = key == (vertical ? "ArrowUp" : "ArrowLeft");
+                var total = Total();
+                var min   = MinShare();
+                var share = Share();
+
+                if (key == "Home") share = min;
+                else if (key == "End") share = 1 - min;
+                else if (total > 0 && (more || less)) share += (more ? 1 : -1) * (e.shiftKey ? 64 : 16) / total;
+                else return false;
+
+                share = Math.Max(min, Math.Min(1 - min, share));
+
+                var weights = before.Panes[0].Weight + after.Panes[0].Weight;
+                foreach (var p in before.Panes) p.Weight = weights * share;
+                foreach (var p in after.Panes)  p.Weight = weights * (1 - share);
+                before.Element.style.flexGrow = (weights * share).ToString();
+                after.Element.style.flexGrow  = (weights * (1 - share)).ToString();
+                return true;
+            }
+
+            SetupSplitterKeys(splitter, _labels.Resize + " " + SlotTitle(before.Panes[0]) + " " + _labels.And + " " + SlotTitle(after.Panes[0]), "slot:" + before.Panes[0].Id, OnKey, Refresh);
+        }
+
+        private void HookFlyoutKeys(HTMLElement splitter, HTMLElement flyout, DockPane pane)
+        {
+            double Max()
+            {
+                var rect = _main.getBoundingClientRect().As<DOMRect>();
+                var extent = pane.IsHorizontal ? rect.width : rect.height;
+                return Math.Max(pane.MinSize, Math.Min(pane.MaxSize, extent * 0.9));
+            }
+
+            void Refresh()
+            {
+                var now = Math.Round(pane.Size);
+                splitter.setAttribute("aria-valuemin", Math.Round(pane.MinSize).ToString());
+                splitter.setAttribute("aria-valuemax", Math.Round(Max()).ToString());
+                splitter.setAttribute("aria-valuenow", now.ToString());
+                splitter.setAttribute("aria-valuetext", now + " px");
+            }
+
+            bool OnKey(KeyboardEvent e)
+            {
+                var key    = e.key;
+                var step   = e.shiftKey ? 64 : 16;
+                var grow   = pane.Edge == DockEdge.Left ? key == "ArrowRight" : pane.Edge == DockEdge.Right ? key == "ArrowLeft" : pane.Edge == DockEdge.Top ? key == "ArrowDown" : key == "ArrowUp";
+                var shrink = pane.Edge == DockEdge.Left ? key == "ArrowLeft" : pane.Edge == DockEdge.Right ? key == "ArrowRight" : pane.Edge == DockEdge.Top ? key == "ArrowUp" : key == "ArrowDown";
+                var size   = pane.Size;
+
+                if (key == "Home") size = pane.MinSize;
+                else if (key == "End") size = Max();
+                else if (grow) size += step;
+                else if (shrink) size -= step;
+                else return false;
+
+                size      = Math.Max(pane.MinSize, Math.Min(Max(), size));
+                pane.Size = size;
+                if (pane.IsHorizontal) flyout.style.width = size + "px";
+                else flyout.style.height = size + "px";
+                return true;
+            }
+
+            SetupSplitterKeys(splitter, _labels.Resize + " " + pane.Title, null, OnKey, Refresh, track: false);
+            window.requestAnimationFrame(_ => Refresh());
+        }
+
+        private void QueueAria()
+        {
+            if (_ariaQueued) return;
+            _ariaQueued = true;
+
+            window.requestAnimationFrame(_ =>
+            {
+                _ariaQueued = false;
+                foreach (var refresh in _ariaRefreshers.ToList()) refresh();
+            });
+        }
+
+        // The layout is reported once the keys rest (or the key is released, or the focus leaves), not once per repeat.
+        private void QueueCommit()
+        {
+            if (_commitPending) window.clearTimeout(_commitTimer);
+            _commitPending = true;
+            _commitTimer   = (int)window.setTimeout(_ => FlushCommit(), 300);
+        }
+
+        private void FlushCommit()
+        {
+            if (!_commitPending) return;
+            CancelCommit();
+            _onLayoutChanged?.Invoke(GetLayout());
+        }
+
+        private void CancelCommit()
+        {
+            if (!_commitPending) return;
+            window.clearTimeout(_commitTimer);
+            _commitPending = false;
+        }
+
+        // Escape on a splitter: the focus goes to the document, the first thing in it that can take it.
+        private void FocusDocument()
+        {
+            var target = _documentBody.querySelector("[tabindex]:not([tabindex='-1']), button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled])").As<HTMLElement>();
+
+            if (target is null)
+            {
+                _documentBody.tabIndex = -1;
+                target = _documentBody;
+            }
+
+            target.focus();
+        }
+
+        private void HookCaptionKeys(HTMLElement caption, Slot slot, DockPane pane)
+        {
+            if (!_keyboardMove || !pane.CanMove) return;
+
+            caption.tabIndex = 0;
+            caption.setAttribute("role", "button");
+            caption.setAttribute("aria-haspopup", "menu");
+            caption.setAttribute("aria-label", pane.Title);
+            caption.setAttribute("aria-keyshortcuts", "Alt+Shift+ArrowLeft Alt+Shift+ArrowRight Alt+Shift+ArrowUp Alt+Shift+ArrowDown Shift+F10");
+            caption.setAttribute("data-dock-focus", "pane:" + pane.Id);
+
+            caption.addEventListener("keydown", ev =>
+            {
+                var e = ev.As<KeyboardEvent>();
+                if (OnMoveKey(e, slot, pane, caption)) return;
+
+                if ((e.key == "Enter" || e.key == " ") && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey)
+                {
+                    ev.preventDefault();
+                    ShowMoveMenu(pane, caption);
+                }
+            });
+        }
+
+        // Alt+Shift+Arrow docks the pane to that edge; the context menu key or Shift+F10 opens the move menu.
+        private bool OnMoveKey(KeyboardEvent e, Slot slot, DockPane pane, HTMLElement anchor)
+        {
+            if (!_keyboardMove || !pane.CanMove) return false;
+
+            var key = e.key;
+
+            if (key == "ContextMenu" || (key == "F10" && e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey))
+            {
+                e.preventDefault();
+                ShowMoveMenu(pane, anchor);
+                return true;
+            }
+
+            if (!e.altKey || !e.shiftKey || e.ctrlKey || e.metaKey) return false;
+
+            DockEdge edge;
+            if (key == "ArrowLeft")       edge = DockEdge.Left;
+            else if (key == "ArrowRight") edge = DockEdge.Right;
+            else if (key == "ArrowUp")    edge = DockEdge.Top;
+            else if (key == "ArrowDown")  edge = DockEdge.Bottom;
+            else return false;
+
+            e.preventDefault();
+            e.stopPropagation();
+            MoveTo(pane, edge);
+            return true;
+        }
+
+        private void MoveTo(DockPane pane, DockEdge edge)
+        {
+            if (!pane.CanMove || !pane.AllowedEdges.Contains(edge)) return;
+            if (pane.Edge == edge && pane.TabGroup is null) return;
+
+            Drop(pane, new Guide { Kind = DropKind.Edge, Edge = edge });
+            FocusKey("pane:" + pane.Id);
+        }
+
+        private string EdgeLabel(DockEdge edge) => edge == DockEdge.Left ? _labels.MoveLeft : edge == DockEdge.Right ? _labels.MoveRight : edge == DockEdge.Top ? _labels.MoveTop : _labels.MoveBottom;
+
+        private void ShowMoveMenu(DockPane pane, HTMLElement anchor)
+        {
+            var items = new List<ContextMenu.Item> { ContextMenuItem(_labels.MovePane + ": " + pane.Title).Header() };
+
+            foreach (var edge in new[] { DockEdge.Left, DockEdge.Right, DockEdge.Top, DockEdge.Bottom })
+            {
+                if (!pane.AllowedEdges.Contains(edge) || (pane.Edge == edge && pane.TabGroup is null)) continue;
+
+                var target = edge;
+                items.Add(ContextMenuItem(EdgeLabel(edge)).OnClick(() => MoveTo(pane, target)));
+            }
+
+            foreach (var slot in _slots.ToList())
+            {
+                if (slot.Panes.Contains(pane) || !pane.AllowedEdges.Contains(slot.Edge)) continue;
+
+                var target = slot;
+                items.Add(ContextMenuItem(_labels.TabWith + " " + slot.Active.Title).OnClick(() =>
+                {
+                    Drop(pane, new Guide { Kind = DropKind.Tab, Edge = target.Edge, Target = target });
+                    FocusKey("pane:" + pane.Id);
+                }));
+            }
+
+            var rect = anchor.getBoundingClientRect().As<DOMRect>();
+            ContextMenu().Items(items.ToArray()).ShowAt((int)rect.left, (int)rect.bottom + 2, 200);
         }
 
         // -------------------------------------------------------- drag to re-dock
