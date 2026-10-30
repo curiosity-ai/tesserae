@@ -238,6 +238,30 @@ namespace Tesserae
 
         /// <summary>The header of the restore menu.</summary>
         public string Reopen      { get; set; } = "Reopen";
+
+        /// <summary>The start of a splitter's accessible name: "Resize Explorer".</summary>
+        public string Resize      { get; set; } = "Resize";
+
+        /// <summary>Joins the two panes a splitter between stacked panes resizes: "Resize Explorer and Outline".</summary>
+        public string And         { get; set; } = "and";
+
+        /// <summary>The header of the menu that moves a pane from the keyboard.</summary>
+        public string MovePane    { get; set; } = "Move pane";
+
+        /// <summary>The menu item that docks the pane to the left edge.</summary>
+        public string MoveLeft    { get; set; } = "Move to left";
+
+        /// <summary>The menu item that docks the pane to the right edge.</summary>
+        public string MoveRight   { get; set; } = "Move to right";
+
+        /// <summary>The menu item that docks the pane to the top edge.</summary>
+        public string MoveTop     { get; set; } = "Move to top";
+
+        /// <summary>The menu item that docks the pane to the bottom edge.</summary>
+        public string MoveBottom  { get; set; } = "Move to bottom";
+
+        /// <summary>The start of the menu item that makes the pane a tab beside another: "Tab with Output".</summary>
+        public string TabWith     { get; set; } = "Tab with";
     }
 
     /// <summary>The layout of one pane, as <see cref="DockPanel.GetLayout"/> writes it.</summary>
