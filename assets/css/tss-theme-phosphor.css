@@ -1,0 +1,4344 @@
+
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/phosphor/ibm-plex-mono-latin-ext-400-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/phosphor/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/phosphor/ibm-plex-mono-latin-ext-500-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/phosphor/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 600 900; font-display: swap; src: url("../fonts/phosphor/ibm-plex-mono-latin-ext-600-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 600 900; font-display: swap; src: url("../fonts/phosphor/ibm-plex-mono-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Mono"; font-style: italic; font-weight: 400 900; font-display: swap; src: url("../fonts/phosphor/ibm-plex-mono-latin-400-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "VT323"; font-style: normal; font-weight: 400 900; font-display: swap; src: url("../fonts/phosphor/vt323-latin-ext-400-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "VT323"; font-style: normal; font-weight: 400 900; font-display: swap; src: url("../fonts/phosphor/vt323-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+
+body.tss-theme-phosphor {
+    --tss-ph-ink-root: 28, 33, 38;
+    --tss-ph-hot-root: 8, 12, 14;
+    --tss-ph-amber-root: 160, 88, 0;
+    --tss-ph-red-root: 178, 28, 36;
+    --tss-ph-cursor-root: 28, 33, 38;
+    --tss-ph-ink: rgb(var(--tss-ph-ink-root));
+    --tss-ph-dim: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-ph-hot: rgb(var(--tss-ph-hot-root));
+    --tss-ph-amber: rgb(var(--tss-ph-amber-root));
+    --tss-ph-red: rgb(var(--tss-ph-red-root));
+    --tss-ph-paper: rgb(var(--tss-default-background-color-root));
+    --tss-ph-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-ph-rule: rgb(var(--tss-default-border-color-root));
+    --tss-ph-rule-hi: rgb(var(--tss-dark-border-color-root));
+    --tss-ph-faint: rgb(var(--tss-default-separator-color-root));
+    --tss-ph-tint: rgb(var(--tss-default-background-hover-color-root));
+    --tss-ph-cursor: rgb(var(--tss-ph-cursor-root));
+    --tss-ph-on-cursor: rgb(252, 252, 245);
+    --tss-ph-bar: rgba(166, 214, 172, 0.34);
+    --tss-ph-field: rgba(28, 33, 38, 0.025);
+    --tss-ph-field-focus: rgba(166, 214, 172, 0.22);
+    --tss-ph-prompt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' viewBox='0 0 8 12'%3E%3Cpath d='M1.2 1.2 6 6l-4.8 4.8' fill='none' stroke='%23525a60' stroke-width='1.6'/%3E%3C/svg%3E");
+    --tss-ph-prompt-hot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' viewBox='0 0 8 12'%3E%3Cpath d='M1.2 1.2 6 6l-4.8 4.8' fill='none' stroke='%23080c0e' stroke-width='2'/%3E%3C/svg%3E");
+
+    --tss-ph-glow: none;
+    --tss-ph-glow-hot: none;
+    --tss-ph-box-glow: 0 0 0 0 transparent;
+    --tss-ph-window-shadow: 4px 4px 0 0 rgba(28, 33, 38, 0.16);
+    --tss-ph-scanlines: none;
+    --tss-ph-vignette: none;
+    --tss-ph-greenbar: repeating-linear-gradient(180deg, var(--tss-ph-bar) 0 54px, transparent 54px 108px);
+    --tss-ph-holes: radial-gradient(circle at 50% 50%, rgb(214, 216, 208) 0 4.5px, rgba(150, 156, 148, 0.7) 4.5px 5.4px, transparent 5.6px) 50% 6px / 100% 24px repeat-y;
+    --tss-ph-perforation: repeating-linear-gradient(180deg, rgba(28, 33, 38, 0.28) 0 3px, transparent 3px 6px);
+
+    --tss-ph-single: 1px solid var(--tss-ph-rule);
+    --tss-ph-double: 3px double var(--tss-ph-rule-hi);
+    --tss-ph-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-ph-display: "VT323", "IBM Plex Mono", ui-monospace, monospace;
+    --tss-ph-tracking: 0.08em;
+    --tss-ph-blink: 1.06s;
+    --tss-ph-step: 90ms;
+
+    --tss-sansserif-font-family: var(--tss-ph-mono);
+    --tss-monospace-font-family: var(--tss-ph-mono);
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 600;
+    --tss-font-weight-bold: 600;
+
+    --tss-border-radius-sm: 0;
+    --tss-border-radius-md: 0;
+    --tss-border-radius-lg: 0;
+    --tss-border-radius-xl: 0;
+    --tss-border-radius-full: 9999px;
+
+    --tss-primary-shadow: none;
+    --tss-shadow-sm: none;
+    --tss-shadow-sm-hover: none;
+    --tss-shadow: none;
+    --tss-shadow-hover: var(--tss-ph-window-shadow);
+    --tss-shadow-md: none;
+    --tss-shadow-md-hover: var(--tss-ph-window-shadow);
+    --tss-shadow-lg: var(--tss-ph-window-shadow);
+    --tss-shadow-lg-hover: var(--tss-ph-window-shadow);
+    --tss-shadow-xl: var(--tss-ph-window-shadow);
+    --tss-shadow-xl-hover: var(--tss-ph-window-shadow);
+    --tss-box-shadow: var(--tss-ph-window-shadow);
+    --tss-box-shadow-darker: var(--tss-ph-window-shadow);
+    --tss-card-shadow: none;
+    --tss-toast-shadow: var(--tss-ph-window-shadow);
+
+    --tss-ring-offset-width: 2px;
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-ring-opacity: 1;
+    --tss-overlay-light: rgba(252, 252, 245, 0.72);
+    --tss-overlay-dark: rgba(28, 33, 38, 0.32);
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.16);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-landing-group-color: rgb(var(--tss-default-foreground-color-root));
+
+    --tss-default-background-color-root: 252, 252, 245;
+    --tss-default-foreground-color-root: 28, 33, 38;
+    --tss-secondary-background-color-root: 252, 252, 245;
+    --tss-secondary-foreground-color-root: 82, 90, 96;
+    --tss-sidebar-background-color-root: 247, 248, 239;
+    --tss-disabled-background-color-root: 238, 240, 232;
+    --tss-disabled-foreground-color-root: 150, 156, 154;
+    --tss-default-border-color-root: 120, 128, 128;
+    --tss-dark-border-color-root: 28, 33, 38;
+    --tss-default-separator-color-root: 196, 206, 196;
+    --tss-invalid-border-color-root: 178, 28, 36;
+    --tss-default-background-hover-color-root: 222, 238, 220;
+    --tss-default-foreground-hover-color-root: 8, 12, 14;
+    --tss-default-background-active-color-root: 204, 228, 204;
+    --tss-default-foreground-active-color-root: 8, 12, 14;
+    --tss-progress-background-color-root: 222, 228, 218;
+    --tss-link-color-root: 22, 104, 54;
+    --tss-highlight-color-root: 22, 104, 54;
+    --tss-tooltip-background-color-root: 28, 33, 38;
+    --tss-tooltip-foreground-color-root: 252, 252, 245;
+    --tss-primary-background-color-root: 28, 33, 38;
+    --tss-primary-foreground-color-root: 252, 252, 245;
+    --tss-primary-border-color-root: 8, 12, 14;
+    --tss-primary-background-hover-color-root: 22, 104, 54;
+    --tss-primary-foreground-hover-color-root: 252, 252, 245;
+    --tss-primary-background-active-color-root: 8, 12, 14;
+    --tss-primary-foreground-active-color-root: 252, 252, 245;
+    --tss-warning-background-color-root: 160, 88, 0;
+    --tss-warning-foreground-color-root: 252, 252, 245;
+    --tss-warning-border-color-root: 130, 70, 0;
+    --tss-warning-background-hover-color-root: 180, 102, 0;
+    --tss-warning-foreground-hover-color-root: 252, 252, 245;
+    --tss-warning-background-active-color-root: 136, 74, 0;
+    --tss-warning-foreground-active-color-root: 252, 252, 245;
+    --tss-danger-background-color-root: 178, 28, 36;
+    --tss-danger-foreground-color-root: 252, 252, 245;
+    --tss-danger-border-color-root: 140, 18, 26;
+    --tss-danger-background-hover-color-root: 196, 40, 48;
+    --tss-danger-foreground-hover-color-root: 252, 252, 245;
+    --tss-danger-background-active-color-root: 150, 20, 28;
+    --tss-danger-foreground-active-color-root: 252, 252, 245;
+    --tss-success-background-color-root: 22, 104, 54;
+    --tss-success-foreground-color-root: 252, 252, 245;
+    --tss-success-border-color-root: 14, 80, 40;
+    --tss-success-background-hover-color-root: 30, 122, 66;
+    --tss-success-foreground-hover-color-root: 252, 252, 245;
+    --tss-success-background-active-color-root: 16, 86, 44;
+    --tss-success-foreground-active-color-root: 252, 252, 245;
+    --tss-slider-color-root: 120, 128, 128;
+    --tss-slider-active-color-root: 28, 33, 38;
+    --tss-slider-disabled-color-root: 196, 206, 196;
+    --tss-primary-shadow-color-root: 28, 33, 38;
+}
+
+body.tss-theme-phosphor.tss-dark-mode {
+    --tss-ph-ink-root: 128, 242, 156;
+    --tss-ph-hot-root: 92, 255, 140;
+    --tss-ph-amber-root: 255, 182, 40;
+    --tss-ph-red-root: 255, 96, 88;
+    --tss-ph-cursor-root: 92, 255, 140;
+    --tss-ph-on-cursor: rgb(2, 10, 5);
+    --tss-ph-bar: transparent;
+    --tss-ph-field: rgba(92, 255, 140, 0.035);
+    --tss-ph-field-focus: rgba(92, 255, 140, 0.075);
+    --tss-ph-prompt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' viewBox='0 0 8 12'%3E%3Cpath d='M1.2 1.2 6 6l-4.8 4.8' fill='none' stroke='%234cac68' stroke-width='1.6'/%3E%3C/svg%3E");
+    --tss-ph-prompt-hot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' viewBox='0 0 8 12'%3E%3Cpath d='M1.2 1.2 6 6l-4.8 4.8' fill='none' stroke='%235cff8c' stroke-width='2'/%3E%3C/svg%3E");
+
+    --tss-ph-glow: 0 0 1px color-mix(in srgb, currentColor 45%, transparent), 0 0 6px color-mix(in srgb, currentColor 22%, transparent);
+    --tss-ph-glow-hot: 0 0 2px color-mix(in srgb, currentColor 60%, transparent), 0 0 10px color-mix(in srgb, currentColor 35%, transparent);
+    --tss-ph-box-glow: 0 0 6px 0 rgba(var(--tss-ph-hot-root), 0.16);
+    --tss-ph-window-shadow: 0 0 0 1px rgba(var(--tss-ph-hot-root), 0.08), 0 0 22px 0 rgba(var(--tss-ph-hot-root), 0.1), 0 14px 36px -8px rgba(0, 0, 0, 0.85);
+    --tss-ph-scanlines: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+    --tss-ph-vignette: radial-gradient(ellipse 120% 100% at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.42) 100%);
+    --tss-ph-greenbar: none;
+    --tss-ph-holes: none;
+    --tss-ph-perforation: none;
+
+    --tss-shadow-hover: var(--tss-ph-window-shadow);
+    --tss-shadow-md-hover: var(--tss-ph-window-shadow);
+    --tss-shadow-lg: var(--tss-ph-window-shadow);
+    --tss-shadow-lg-hover: var(--tss-ph-window-shadow);
+    --tss-shadow-xl: var(--tss-ph-window-shadow);
+    --tss-shadow-xl-hover: var(--tss-ph-window-shadow);
+    --tss-box-shadow: var(--tss-ph-window-shadow);
+    --tss-box-shadow-darker: var(--tss-ph-window-shadow);
+    --tss-toast-shadow: var(--tss-ph-window-shadow);
+    --tss-overlay-light: rgba(2, 8, 4, 0.72);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.66);
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.16);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+
+    --tss-default-background-color-root: 4, 10, 6;
+    --tss-default-foreground-color-root: 128, 242, 156;
+    --tss-secondary-background-color-root: 6, 15, 9;
+    --tss-secondary-foreground-color-root: 76, 172, 104;
+    --tss-sidebar-background-color-root: 3, 8, 5;
+    --tss-disabled-background-color-root: 8, 20, 12;
+    --tss-disabled-foreground-color-root: 44, 104, 62;
+    --tss-default-border-color-root: 38, 118, 64;
+    --tss-dark-border-color-root: 70, 190, 106;
+    --tss-default-separator-color-root: 20, 62, 34;
+    --tss-invalid-border-color-root: 255, 96, 88;
+    --tss-default-background-hover-color-root: 12, 40, 22;
+    --tss-default-foreground-hover-color-root: 160, 255, 182;
+    --tss-default-background-active-color-root: 18, 58, 32;
+    --tss-default-foreground-active-color-root: 160, 255, 182;
+    --tss-progress-background-color-root: 14, 40, 22;
+    --tss-link-color-root: 255, 182, 40;
+    --tss-highlight-color-root: 92, 255, 140;
+    --tss-tooltip-background-color-root: 92, 255, 140;
+    --tss-tooltip-foreground-color-root: 2, 10, 5;
+    --tss-primary-background-color-root: 92, 255, 140;
+    --tss-primary-foreground-color-root: 2, 10, 5;
+    --tss-primary-border-color-root: 92, 255, 140;
+    --tss-primary-background-hover-color-root: 168, 255, 190;
+    --tss-primary-foreground-hover-color-root: 2, 10, 5;
+    --tss-primary-background-active-color-root: 60, 214, 108;
+    --tss-primary-foreground-active-color-root: 2, 10, 5;
+    --tss-warning-background-color-root: 255, 182, 40;
+    --tss-warning-foreground-color-root: 12, 8, 0;
+    --tss-warning-border-color-root: 255, 182, 40;
+    --tss-warning-background-hover-color-root: 255, 204, 100;
+    --tss-warning-foreground-hover-color-root: 12, 8, 0;
+    --tss-warning-background-active-color-root: 220, 150, 20;
+    --tss-warning-foreground-active-color-root: 12, 8, 0;
+    --tss-danger-background-color-root: 255, 96, 88;
+    --tss-danger-foreground-color-root: 14, 2, 2;
+    --tss-danger-border-color-root: 255, 96, 88;
+    --tss-danger-background-hover-color-root: 255, 138, 128;
+    --tss-danger-foreground-hover-color-root: 14, 2, 2;
+    --tss-danger-background-active-color-root: 220, 70, 64;
+    --tss-danger-foreground-active-color-root: 14, 2, 2;
+    --tss-success-background-color-root: 92, 255, 140;
+    --tss-success-foreground-color-root: 2, 10, 5;
+    --tss-success-border-color-root: 92, 255, 140;
+    --tss-success-background-hover-color-root: 168, 255, 190;
+    --tss-success-foreground-hover-color-root: 2, 10, 5;
+    --tss-success-background-active-color-root: 60, 214, 108;
+    --tss-success-foreground-active-color-root: 2, 10, 5;
+    --tss-slider-color-root: 38, 118, 64;
+    --tss-slider-active-color-root: 92, 255, 140;
+    --tss-slider-disabled-color-root: 20, 62, 34;
+    --tss-primary-shadow-color-root: 92, 255, 140;
+
+    --tss-colors-neutral-0-root: 4, 10, 6;
+    --tss-colors-neutral-100-root: 8, 18, 11;
+    --tss-colors-neutral-200-root: 12, 28, 17;
+    --tss-colors-neutral-300-root: 20, 48, 28;
+    --tss-colors-neutral-400-root: 32, 84, 48;
+    --tss-colors-neutral-500-root: 52, 128, 74;
+    --tss-colors-neutral-600-root: 76, 172, 104;
+    --tss-colors-neutral-700-root: 96, 196, 124;
+    --tss-colors-neutral-800-root: 112, 218, 140;
+    --tss-colors-neutral-900-root: 128, 236, 154;
+    --tss-colors-neutral-1000-root: 146, 248, 170;
+    --tss-colors-neutral-1100-root: 170, 255, 192;
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+}
+
+body.tss-theme-phosphor,
+body.tss-theme-phosphor.tss-dark-mode {
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-simplebar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-ring-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: rgb(var(--tss-ph-cursor-root));
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-ph-paper: rgb(var(--tss-default-background-color-root));
+    --tss-ph-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-ph-ink: rgb(var(--tss-ph-ink-root));
+    --tss-ph-dim: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-ph-hot: rgb(var(--tss-ph-hot-root));
+    --tss-ph-amber: rgb(var(--tss-ph-amber-root));
+    --tss-ph-red: rgb(var(--tss-ph-red-root));
+    --tss-ph-rule: rgb(var(--tss-default-border-color-root));
+    --tss-ph-rule-hi: rgb(var(--tss-dark-border-color-root));
+    --tss-ph-faint: rgb(var(--tss-default-separator-color-root));
+    --tss-ph-tint: rgb(var(--tss-default-background-hover-color-root));
+    --tss-ph-cursor: rgb(var(--tss-ph-cursor-root));
+    --tss-ph-single: 1px solid var(--tss-ph-rule);
+    --tss-ph-double: 3px double var(--tss-ph-rule-hi);
+    --tss-landing-group-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+
+body.tss-theme-phosphor {
+    font-family: var(--tss-ph-mono);
+    font-variant-ligatures: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body.tss-theme-phosphor.tss-dark-mode {
+    text-shadow: var(--tss-ph-glow);
+    color-scheme: dark;
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) {
+    color-scheme: light;
+}
+
+body.tss-theme-phosphor.tss-dark-mode::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2147483600;
+    pointer-events: none;
+    background: var(--tss-ph-scanlines), var(--tss-ph-vignette);
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) {
+    background-image: var(--tss-ph-greenbar);
+    background-attachment: fixed;
+}
+
+@media print {
+    body.tss-theme-phosphor::after {
+        display: none;
+    }
+}
+
+body.tss-theme-phosphor ::selection {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor :focus-visible {
+    outline: 2px solid var(--tss-ph-cursor);
+    outline-offset: 1px;
+}
+
+body.tss-theme-phosphor input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-phosphor textarea:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-phosphor a:not(.tss-btn) {
+    color: rgb(var(--tss-link-color-root));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-phosphor .tss-btn:is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-lg, .tss-rounded-full),
+body.tss-theme-phosphor .tss-textbox:is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-lg, .tss-rounded-full),
+body.tss-theme-phosphor .tss-card:is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-lg, .tss-rounded-full),
+body.tss-theme-phosphor :is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-lg, .tss-rounded-full) > :is(.tss-textbox, .tss-searchbox, .tss-dropdown, .tss-card),
+body.tss-theme-phosphor :is(.tss-searchbox-container, .tss-dropdown-container, .tss-textbox-container, .tss-picker-container):is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-lg, .tss-rounded-full) {
+    border-radius: 0 !important;
+}
+
+body.tss-theme-phosphor [class*="tss-"]:not(.tss-option-mark) {
+    border-radius: 0 !important;
+}
+
+@keyframes tss-ph-blink {
+    0%, 49.9% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor *,
+    body.tss-theme-phosphor *::before,
+    body.tss-theme-phosphor *::after {
+        --tss-ph-blink: 0s;
+    }
+}
+
+
+html:has(> body.tss-theme-phosphor),
+body.tss-theme-phosphor {
+    --tss-ph-sb-rail: rgba(28, 33, 38, 0.14);
+    --tss-ph-sb-rest: rgba(28, 33, 38, 0.18);
+    --tss-ph-sb-near: rgba(28, 33, 38, 0.5);
+    --tss-ph-sb-hot: rgb(28, 33, 38);
+}
+
+html:has(> body.tss-theme-phosphor.tss-dark-mode),
+body.tss-theme-phosphor.tss-dark-mode {
+    --tss-ph-sb-rail: rgba(92, 255, 140, 0.12);
+    --tss-ph-sb-rest: rgba(92, 255, 140, 0.16);
+    --tss-ph-sb-near: rgba(92, 255, 140, 0.45);
+    --tss-ph-sb-hot: rgb(92, 255, 140);
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar,
+    body.tss-theme-phosphor::-webkit-scrollbar,
+    body.tss-theme-phosphor ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar-corner,
+    body.tss-theme-phosphor::-webkit-scrollbar-corner,
+    body.tss-theme-phosphor ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar-track,
+    body.tss-theme-phosphor::-webkit-scrollbar-track,
+    body.tss-theme-phosphor ::-webkit-scrollbar-track,
+    body.tss-theme-phosphor *:hover::-webkit-scrollbar-track {
+        background: linear-gradient(90deg, transparent 4.5px, var(--tss-ph-sb-rail) 4.5px 5.5px, transparent 5.5px);
+        border-radius: 0;
+    }
+
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-phosphor::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-phosphor ::-webkit-scrollbar-track:horizontal {
+        background: linear-gradient(180deg, transparent 4.5px, var(--tss-ph-sb-rail) 4.5px 5.5px, transparent 5.5px);
+    }
+
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar-thumb,
+    body.tss-theme-phosphor::-webkit-scrollbar-thumb,
+    body.tss-theme-phosphor ::-webkit-scrollbar-thumb {
+        background: var(--tss-ph-sb-rest);
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        border-radius: 0;
+        min-height: 32px;
+        min-width: 32px;
+    }
+
+    html:has(> body.tss-theme-phosphor):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-phosphor:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-phosphor *:hover::-webkit-scrollbar-thumb {
+        background: var(--tss-ph-sb-near);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-phosphor::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-phosphor ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-phosphor *:hover::-webkit-scrollbar-thumb:hover,
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-phosphor::-webkit-scrollbar-thumb:active,
+    body.tss-theme-phosphor ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-phosphor *:hover::-webkit-scrollbar-thumb:active {
+        background: var(--tss-ph-sb-hot);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-phosphor)::-webkit-scrollbar-button,
+    body.tss-theme-phosphor::-webkit-scrollbar-button,
+    body.tss-theme-phosphor ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-phosphor),
+    body.tss-theme-phosphor,
+    body.tss-theme-phosphor * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-ph-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-phosphor):hover,
+    body.tss-theme-phosphor *:hover {
+        scrollbar-color: var(--tss-ph-sb-near) transparent;
+    }
+}
+
+
+body.tss-theme-phosphor .tss-nodeview,
+body.tss-theme-phosphor.tss-dark-mode .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-ph-cursor);
+    --baklava-control-color-error: var(--tss-ph-red);
+    --baklava-control-color-background: var(--tss-ph-field);
+    --baklava-control-color-foreground: var(--tss-ph-ink);
+    --baklava-control-color-hover: var(--tss-ph-tint);
+    --baklava-control-color-active: rgb(var(--tss-default-background-active-color-root));
+    --baklava-control-color-disabled-foreground: rgb(var(--tss-disabled-foreground-color-root));
+    --baklava-control-border-radius: 0;
+    --baklava-sidebar-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-sidebar-color-foreground: var(--tss-ph-ink);
+    --baklava-node-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-color-foreground: var(--tss-ph-ink);
+    --baklava-node-color-hover: rgba(var(--tss-ph-cursor-root), 0.2);
+    --baklava-node-title-color-background: var(--tss-ph-tint);
+    --baklava-node-title-color-foreground: var(--tss-ph-hot);
+    --baklava-group-node-title-color-background: rgb(var(--tss-default-background-active-color-root));
+    --baklava-group-node-title-color-foreground: var(--tss-ph-hot);
+    --baklava-node-interface-port-color: var(--tss-ph-ink);
+    --baklava-node-border-radius: 0;
+    --baklava-color-connection-default: var(--tss-ph-rule-hi);
+    --baklava-color-connection-allowed: rgb(var(--tss-success-background-color-root));
+    --baklava-color-connection-forbidden: var(--tss-ph-red);
+    --baklava-editor-background-pattern-default: rgb(var(--tss-default-background-color-root));
+    --baklava-editor-background-pattern-line: rgba(var(--tss-ph-ink-root), 0.08);
+    --baklava-editor-background-pattern-black: rgba(var(--tss-ph-ink-root), 0.14);
+    --baklava-context-menu-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-context-menu-shadow: var(--tss-ph-window-shadow);
+    --baklava-toolbar-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-toolbar-foreground: var(--tss-ph-ink);
+    --baklava-node-palette-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-palette-foreground: var(--tss-ph-ink);
+}
+
+
+body.tss-theme-phosphor .tss-btn {
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-ph-mono);
+    font-weight: 500;
+    letter-spacing: 0;
+    transition: background-color var(--tss-ph-step) steps(1), color var(--tss-ph-step) steps(1), border-color var(--tss-ph-step) steps(1);
+}
+
+body.tss-theme-phosphor .tss-btn:hover,
+body.tss-theme-phosphor .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-btn > i + span:not(:empty) {
+    margin-left: 8px;
+}
+
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *) > span:not(:empty):not(:has(*))::before {
+    content: "[ ";
+    white-space: pre;
+    opacity: 0.6;
+}
+
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *) > span:not(:empty):not(:has(*))::after {
+    content: " ]";
+    white-space: pre;
+    opacity: 0.6;
+}
+
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *) > i:first-child + span:not(:empty):not(:has(*))::before {
+    content: none;
+}
+
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *):has(> i:first-child + span:not(:empty))::before {
+    content: "[";
+    white-space: pre;
+    margin-right: 8px;
+    opacity: 0.6;
+}
+
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visible {
+    background-color: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visible .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):hover > i,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visible > i {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: rgba(var(--tss-ph-cursor-root), 0.78);
+}
+
+
+body.tss-theme-phosphor .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    text-shadow: none;
+    border-width: 1px;
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    box-shadow: 0 0 10px -1px rgba(var(--tss-ph-hot-root), 0.35);
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    box-shadow: 0 0 10px -1px rgba(var(--tss-ph-red-root), 0.4);
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    box-shadow: 0 0 10px -1px rgba(var(--tss-ph-amber-root), 0.4);
+}
+
+body.tss-theme-phosphor .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 3px;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-phosphor .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default {
+    color: rgb(var(--tss-warning-foreground-color-root));
+}
+
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: var(--tss-ph-tint);
+    border-color: currentColor;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-ph-amber);
+}
+
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-link-color-root));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):focus-visible {
+    background: rgb(var(--tss-link-color-root));
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    text-decoration-color: transparent;
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):hover .tss-fontcolor-default {
+    background: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-btn.tss-disabled {
+    background-color: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    text-shadow: none;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link.tss-disabled,
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-disabled,
+body.tss-theme-phosphor .tss-btn.tss-btn-only-icon.tss-disabled {
+    border-color: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-btn .tss-btn-spin-ring > svg {
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-btn {
+        transition: none;
+    }
+}
+
+
+body.tss-theme-phosphor .tss-textblock:is(.tss-fontsize-large, .tss-fontsize-xlarge, .tss-fontsize-xxlarge, .tss-fontsize-mega):not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-textblock:is(.tss-fontsize-large, .tss-fontsize-xlarge, .tss-fontsize-xxlarge, .tss-fontsize-mega).tss-fontcolor-default {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-large:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-large) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-xlarge:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-xlarge) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-xxlarge:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-xxlarge) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-textblock.tss-fontsize-mega:not(:is(.tss-toggle-container, .tss-checkbox-container, .tss-option-container) *) {
+    font-size: calc(var(--tss-font-size-mega) * 1.3);
+}
+
+body.tss-theme-phosphor .tss-text-glow {
+    text-shadow: 0 0 2px var(--tss-text-glow-color, currentColor), 0 0 12px color-mix(in srgb, var(--tss-text-glow-color, currentColor) 50%, transparent);
+}
+
+
+body.tss-theme-phosphor .tss-statefulitemrow {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-statefulitemrow-warning { --tss-statefulitemrow-accent: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-statefulitemrow-danger { --tss-statefulitemrow-accent: var(--tss-ph-red); }
+
+body.tss-theme-phosphor :is(.tss-statefulitemrow-primary, .tss-statefulitemrow-success, .tss-statefulitemrow-warning, .tss-statefulitemrow-danger) {
+    --tss-statefulitemrow-surface: color-mix(in srgb, var(--tss-statefulitemrow-accent) 8%, transparent);
+    box-shadow: inset 4px 0 0 -1px var(--tss-statefulitemrow-accent);
+}
+
+body.tss-theme-phosphor .tss-statefulitemrow-interactive:hover {
+    background: var(--tss-ph-tint);
+}
+
+
+body.tss-theme-phosphor .tss-textbox {
+    padding: 0 10px 0 26px;
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-prompt) 10px 50% / 8px 12px no-repeat, var(--tss-ph-field);
+    box-shadow: none;
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-textbox::placeholder {
+    color: var(--tss-ph-dim) !important;
+    opacity: 0.8;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox:hover {
+    border-bottom-color: var(--tss-ph-rule-hi);
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox:focus {
+    border-bottom-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-prompt-hot) 10px 50% / 8px 12px no-repeat, var(--tss-ph-field-focus);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor), 0 4px 10px -8px rgba(var(--tss-ph-hot-root), 0.6);
+    outline: none;
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-textbox:focus {
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-disabled {
+    border-bottom: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: var(--tss-ph-prompt) 10px 50% / 8px 12px no-repeat, transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    text-shadow: none;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-invalid .tss-textbox {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: inset 0 -1px 0 0 rgb(var(--tss-invalid-border-color-root));
+    caret-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-textbox-error {
+    margin-top: 3px;
+    font-size: 11px;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-textbox-error:not(:empty)::before {
+    content: "! ";
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-textbox-noborder,
+body.tss-theme-phosphor .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-phosphor .tss-textbox.tss-textbox-noborder:focus {
+    border: 0;
+    padding-left: 8px;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-rounded-md .tss-textbox,
+body.tss-theme-phosphor .tss-textbox-container.tss-rounded-full .tss-textbox {
+    border-radius: 0;
+    padding-left: 26px;
+}
+
+
+body.tss-theme-phosphor .tss-textblock table {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-textblock table th {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    border-bottom: var(--tss-ph-double);
+    background: transparent;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-textblock table td {
+    border-color: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-textbox[type="color"],
+body.tss-theme-phosphor .tss-textbox[type="color"]:focus {
+    padding: 2px;
+    background: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea {
+    padding: 7px 10px 7px 26px;
+    border: var(--tss-ph-single);
+    background: var(--tss-ph-prompt) 10px 11px / 8px 12px no-repeat, var(--tss-ph-field);
+    line-height: 1.45;
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea:hover {
+    border-color: var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea:focus {
+    border-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-prompt-hot) 10px 11px / 8px 12px no-repeat, var(--tss-ph-field-focus);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea.tss-disabled {
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-invalid .tss-textbox.tss-textarea {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+
+body.tss-theme-phosphor .tss-card {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    box-shadow: none;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-card.tss-card-hover:hover {
+    border-color: var(--tss-ph-rule-hi);
+    background-color: var(--tss-ph-tint);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-content {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    padding-top: 20px;
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0 0 0 14px;
+    margin-bottom: -0.78em;
+    z-index: 3;
+    min-height: 0;
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title {
+    width: auto;
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0 6px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title > .tss-textblock {
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title::before {
+    content: "[";
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title::after {
+    content: "]";
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-footer {
+    border: var(--tss-ph-double);
+    border-top: 0;
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-card-title {
+    color: inherit;
+}
+
+
+body.tss-theme-phosphor .tss-expander {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-accordion .tss-expander + .tss-expander {
+    border-top-color: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-expander-header:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-expander-header:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: -2px;
+}
+
+body.tss-theme-phosphor .tss-expander-title::before {
+    content: "+ ";
+    white-space: pre;
+    color: var(--tss-ph-dim);
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-expander.tss-expanded .tss-expander-title::before {
+    content: "- ";
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-expander.tss-expanded .tss-expander-title {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-expander-content {
+    border-top: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-expander-icon {
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-token,
+body.tss-theme-phosphor .tss-chip,
+body.tss-theme-phosphor .tss-token-pill {
+    border-radius: 0;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-token-filled,
+body.tss-theme-phosphor .tss-token:not(.tss-token-outline):not(.tss-tag):not([class*="tss-token-"]) {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-tag {
+    background: transparent;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-token-outline {
+    background: transparent;
+    border-color: var(--tss-ph-rule);
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-token-outline {
+    text-shadow: var(--tss-ph-glow);
+}
+
+body.tss-theme-phosphor .tss-token-outline.tss-token-info {
+    color: var(--tss-ph-amber);
+    border-color: var(--tss-ph-amber);
+}
+
+
+body.tss-theme-phosphor .tss-icontile {
+    --tss-icontile-radius: 0;
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+
+body.tss-theme-phosphor .tss-avatar,
+body.tss-theme-phosphor .tss-avatar-image {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-avatar:not(.tss-avatar-generated) {
+    background: transparent;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-avatar-initials {
+    font-family: var(--tss-ph-mono);
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-avatar-presence {
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-breadcrumb .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-breadcrumb .tss-btn:not(.tss-disabled):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-breadcrumb-chevron {
+    color: var(--tss-ph-dim);
+}
+
+
+body.tss-theme-phosphor .tss-checkbox-container .tss-checkbox-mark {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container .tss-checkbox-mark:after,
+body.tss-theme-phosphor .tss-checkbox-container[class*="tss-fontsize-"] .tss-checkbox-mark:after {
+    inset: 3px;
+    left: 3px;
+    top: 3px;
+    width: auto;
+    height: auto;
+    border: 0;
+    transform: none;
+    background: rgba(var(--tss-ph-cursor-root), 0.28);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-phosphor .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background: transparent;
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    background: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container:hover .tss-checkbox-mark {
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled {
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 8px;
+}
+
+
+body.tss-theme-phosphor .tss-option-container .tss-option-mark {
+    border: 1px solid var(--tss-ph-rule-hi);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-option-container .tss-option-mark:after,
+body.tss-theme-phosphor .tss-option-container[class*="tss-fontsize-"] .tss-option-mark:after {
+    inset: 3px;
+    left: 3px;
+    top: 3px;
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(var(--tss-ph-cursor-root), 0.28);
+}
+
+body.tss-theme-phosphor .tss-option-container:hover .tss-option-mark,
+body.tss-theme-phosphor .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-phosphor .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-option-container input:checked ~ .tss-option-mark {
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-phosphor .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    background: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-phosphor .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-option-container.tss-disabled {
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor .tss-dropdown-container {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container:hover {
+    border-bottom-color: var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-dropdown-nobg {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container:has(> .tss-dropdown[aria-expanded="true"]),
+body.tss-theme-phosphor .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-bottom-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-field-focus);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container:has(> .tss-dropdown[aria-expanded="true"]) > .tss-dropdown-icon {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-noborder,
+body.tss-theme-phosphor .tss-dropdown-container.tss-noborder:hover {
+    border-bottom-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-disabled {
+    border-bottom: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-invalid,
+body.tss-theme-phosphor .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border-color: transparent;
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: 0;
+}
+
+body.tss-theme-phosphor .tss-dropdown-error:not(:empty)::before {
+    content: "! ";
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn > span:not(:empty)::before,
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn > span:not(:empty)::after,
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn::before,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-btn > span:not(:empty)::before,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-btn > span:not(:empty)::after,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-btn::before {
+    content: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn:hover,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item .tss-btn,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item .tss-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+    text-shadow: inherit;
+}
+
+
+body.tss-theme-phosphor .tss-dropdown-popup {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    padding: 3px;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item:focus,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item.tss-dropdown-item-focus:hover {
+    border: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item.tss-dropdown-item-focus *,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item:focus * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus {
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus * {
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item {
+    position: relative;
+    padding-left: 22px;
+}
+
+body.tss-theme-phosphor .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    color: var(--tss-ph-hot);
+    font-weight: 500;
+}
+
+body.tss-theme-phosphor .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected::before {
+    content: "▸";
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-52%);
+}
+
+body.tss-theme-phosphor .tss-dropdown-item.tss-disabled,
+body.tss-theme-phosphor .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-header {
+    background: transparent;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-dropdown-divider {
+    background: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item:after {
+    display: none !important;
+}
+
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before,
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item:focus.tss-selected:before,
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus > .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-selected:before {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-dropdown-item-focus:before {
+    border-color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-dropdown-item-focus.tss-selected:before {
+    background: var(--tss-ph-on-cursor);
+    box-shadow: inset 0 0 0 2px var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-searchbox {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    background: var(--tss-ph-field);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup mark {
+    background: rgba(var(--tss-ph-amber-root), 0.3);
+    color: inherit;
+}
+
+
+body.tss-theme-phosphor .tss-filedroparea,
+body.tss-theme-phosphor .tss-filedroparea-overlay {
+    border: 1px dashed var(--tss-ph-rule-hi);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-filedroparea:hover,
+body.tss-theme-phosphor .tss-filedroparea.tss-dropping {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-filedroparea-message,
+body.tss-theme-phosphor .tss-filedroparea-icon {
+    color: var(--tss-ph-dim);
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-phosphor .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-overlay {
+    background: rgba(var(--tss-default-background-color-root), 0.85);
+}
+
+
+body.tss-theme-phosphor .tss-contextmenu {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-popup {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    padding: 3px;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item {
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item:hover,
+body.tss-theme-phosphor .tss-contextmenu-item.tss-selected {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item:focus,
+body.tss-theme-phosphor .tss-contextmenu-item:focus:hover {
+    border: 0;
+    outline: none;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item:focus *,
+body.tss-theme-phosphor .tss-contextmenu-item:focus .tss-btn {
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus * {
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item.tss-contextmenu-item-separator,
+body.tss-theme-phosphor .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn,
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+    text-shadow: inherit;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn > span:not(:empty)::before,
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn > span:not(:empty)::after,
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn::before {
+    content: none;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-header {
+    background: transparent;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-divider {
+    background: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-left: var(--tss-ph-single);
+}
+
+
+body.tss-theme-phosphor .tss-horizontalseparator {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-horizontalseparator-container::before,
+body.tss-theme-phosphor .tss-horizontalseparator-container::after {
+    background: var(--tss-ph-rule);
+}
+
+
+body.tss-theme-phosphor .tss-editablelabel-displaybox {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-editablelabel-displaybox:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-editablelabel-textbox {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-cursor);
+    border-radius: 0;
+    background: var(--tss-ph-field-focus);
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+}
+
+body.tss-theme-phosphor .tss-editablelabel-cancel-icon {
+    color: var(--tss-ph-red);
+}
+
+
+body.tss-theme-phosphor .tss-layer-content:not(.tss-layer-content-transparent) {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+
+body.tss-theme-phosphor .tss-detailslist-header {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-detailslist-column-header,
+body.tss-theme-phosphor .tss-detailslist-column-header .tss-textblock,
+body.tss-theme-phosphor .tss-detailslist-column-header .tss-btn {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-detailslist-list-item-container {
+    border-top: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-detailslist-list-item-container:last-of-type {
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-detailslist-list-item-container:hover {
+    background: var(--tss-ph-tint);
+}
+
+
+body.tss-theme-phosphor .tss-layer-picker-suggestions {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-label {
+    font-size: 11px;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-suggestion.tss-selected,
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-suggestion.tss-selected * {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-picker-selection {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-picker-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-picker-remove:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-autocompletebox-list {
+    border: var(--tss-ph-double);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-item.tss-autocompletebox-item-highlight * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-match {
+    color: var(--tss-ph-amber);
+    font-weight: 600;
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-item-highlight .tss-autocompletebox-match {
+    color: var(--tss-ph-on-cursor);
+    text-decoration: underline;
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-status-warning {
+    color: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-autocompletebox-status-invalid {
+    color: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+
+body.tss-theme-phosphor .tss-panel {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-panel.tss-panelSide-far {
+    border-left: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-panel.tss-panelSide-near {
+    border-right: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-panel-command {
+    border-bottom: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-panel-title .tss-textblock {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-panel-command-button {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-panel-command-button:hover,
+body.tss-theme-phosphor .tss-panel-command-button:active {
+    background: var(--tss-ph-cursor) !important;
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-panel-footer {
+    border-top: var(--tss-ph-single);
+}
+
+
+body.tss-theme-phosphor .tss-drawer {
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-top: var(--tss-ph-double);
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-drawer-handle-bar {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, var(--tss-ph-rule) 0 4px, transparent 4px 6px);
+}
+
+body.tss-theme-phosphor .tss-drawer-title {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-drawer-close {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-drawer-close:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar {
+    color: var(--tss-ph-ink);
+    font-size: 13px;
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > * {
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > *:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-selected-title,
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-selected-title:hover {
+    background: transparent;
+    font-weight: 500;
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-selected-title * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-line,
+body.tss-theme-phosphor .tss-pivot-line {
+    position: absolute;
+    top: 0;
+    height: auto;
+    z-index: 0;
+    border-radius: 0;
+    background: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+    transition: left 160ms steps(4), width 160ms steps(4);
+}
+
+body.tss-theme-phosphor .tss-pivot-tab-close:hover {
+    color: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-phosphor .tss-pivot-tab-mark {
+    border-radius: 0;
+    background: var(--tss-ph-amber);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-pivot-line {
+        transition: none;
+    }
+}
+
+
+body.tss-theme-phosphor .tss-cardpivot-titlebar {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab {
+    background: transparent;
+    border-right: var(--tss-ph-single);
+    border-bottom: 0;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab:last-child {
+    border-right: 0;
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-cardpivot-tab.tss-cardpivot-selected,
+body.tss-theme-phosphor .tss-cardpivot-tab.tss-cardpivot-selected:hover {
+    border-bottom: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-cardpivot .tss-cardpivot-tab.tss-cardpivot-selected * {
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar,
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar-wrapper {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-phosphor .tss-segmentedpivot-titlebar:not(.tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar) {
+    border: var(--tss-ph-single);
+    padding: 2px;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab {
+    border-radius: 0;
+    font-size: 13px;
+    color: var(--tss-ph-ink);
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: none;
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor .tss-metric-value,
+body.tss-theme-phosphor .tss-metric-value .tss-textblock {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-phosphor .tss-metric-value .tss-textblock {
+    font-size: max(1em, 34px);
+    line-height: 1;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-metric-compact .tss-metric-value .tss-textblock {
+    font-size: 26px;
+}
+
+body.tss-theme-phosphor .tss-metric-title,
+body.tss-theme-phosphor .tss-metric-title .tss-textblock {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-metric-icon > .tss-icontile,
+body.tss-theme-phosphor .tss-metric-compact .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-metric-value-filled .tss-metric-value {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-metric-value-filled .tss-metric-value .tss-textblock {
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor .tss-contribution-bar {
+    border-radius: 0;
+    background: rgba(var(--tss-ph-ink-root), 0.1);
+}
+
+body.tss-theme-phosphor .tss-contribution-segment {
+    box-shadow: inset -1px 0 0 rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-contribution-legend-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-contribution-toggle {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-contribution-toggle:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-trendbadge {
+    font-family: var(--tss-ph-mono);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-trendbadge-good {
+    color: rgb(var(--tss-success-background-color-root));
+    background: rgba(var(--tss-success-background-color-root), 0.1);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-success-background-color-root), 0.5);
+}
+
+body.tss-theme-phosphor .tss-trendbadge-bad {
+    color: var(--tss-ph-red);
+    background: rgba(var(--tss-ph-red-root), 0.1);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-ph-red-root), 0.5);
+}
+
+
+body.tss-theme-phosphor .tss-targetbar {
+    --tss-targetbar-color: var(--tss-ph-cursor);
+    --tss-targetbar-thickness: 6px;
+}
+
+body.tss-theme-phosphor .tss-targetbar-track {
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.14) 0 4px, transparent 4px 6px);
+}
+
+body.tss-theme-phosphor .tss-targetbar-fill {
+    background: repeating-linear-gradient(90deg, var(--tss-targetbar-color) 0 4px, transparent 4px 6px);
+}
+
+body.tss-theme-phosphor .tss-targetbar-marker {
+    background: var(--tss-ph-hot);
+    opacity: 1;
+}
+
+body.tss-theme-phosphor .tss-targetbar-value {
+    font-family: var(--tss-ph-mono);
+    color: var(--tss-ph-hot);
+}
+
+
+body.tss-theme-phosphor .tss-datatable {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-datatable-header {
+    background: transparent;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 0;
+}
+
+body.tss-theme-phosphor .tss-datatable-row {
+    border-color: var(--tss-ph-faint);
+    border-style: dashed;
+}
+
+body.tss-theme-phosphor .tss-datatable-row:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-datatable-heading {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-datatable-cell {
+    font-variant-numeric: tabular-nums;
+}
+
+
+body.tss-theme-phosphor .tss-gantt {
+    --tss-gantt-border: 1px solid var(--tss-ph-faint);
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-gantt-header-track {
+    background: transparent;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-gantt-header-label,
+body.tss-theme-phosphor .tss-gantt-column-label {
+    font-size: 11px;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-gantt-row-label {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-gantt-line {
+    border-left: 1px dotted var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-gantt-bar {
+    border-radius: 0;
+    border-color: var(--tss-gantt-bar-color);
+    background: color-mix(in srgb, var(--tss-gantt-bar-color) 28%, transparent);
+}
+
+body.tss-theme-phosphor .tss-gantt-bar-blue    { --tss-gantt-bar-color: var(--tss-chart-series-4); }
+body.tss-theme-phosphor .tss-gantt-bar-green   { --tss-gantt-bar-color: var(--tss-chart-series-1); }
+body.tss-theme-phosphor .tss-gantt-bar-purple  { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-phosphor .tss-gantt-bar-orange  { --tss-gantt-bar-color: var(--tss-chart-series-2); }
+body.tss-theme-phosphor .tss-gantt-bar-red     { --tss-gantt-bar-color: var(--tss-ph-red); }
+body.tss-theme-phosphor .tss-gantt-bar-teal    { --tss-gantt-bar-color: var(--tss-chart-series-5); }
+body.tss-theme-phosphor .tss-gantt-bar-magenta { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-phosphor .tss-gantt-bar-yellow  { --tss-gantt-bar-color: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-gantt-bar-neutral { --tss-gantt-bar-color: var(--tss-ph-dim); }
+
+
+body.tss-theme-phosphor .tss-progressindicator {
+    height: 10px;
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.14) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-progressindicator > .tss-progressindicator-bar,
+body.tss-theme-phosphor .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, var(--tss-ph-cursor) 0 6px, transparent 6px 8px);
+    filter: drop-shadow(0 0 3px rgba(var(--tss-ph-hot-root), 0.35));
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-progressindicator > .tss-progressindicator-bar,
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    filter: none;
+}
+
+
+body.tss-theme-phosphor .tss-modal {
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    padding: 0 8px 10px;
+}
+
+body.tss-theme-phosphor .tss-modal::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: var(--tss-ph-double);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.tss-theme-phosphor .tss-modal:has(> .tss-modal-header > .tss-modal-header-content:not(:empty))::before,
+body.tss-theme-phosphor .tss-modal:has(> .tss-modal-header > .tss-modal-header-commands:not(:empty))::before {
+    top: 20px;
+}
+
+body.tss-theme-phosphor .tss-modal.tss-embedded {
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-modal-header,
+body.tss-theme-phosphor .tss-modal-footer {
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+body.tss-theme-phosphor .tss-modal-header {
+    padding-left: 14px;
+    padding-right: 14px;
+    min-height: 40px;
+    align-items: flex-start;
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty) {
+    flex-grow: 0;
+    max-width: calc(100% - 60px);
+    margin-top: 11px;
+    padding: 0 8px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    align-items: center;
+}
+
+body.tss-theme-phosphor .tss-modal-header-content > .tss-textblock {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty)::before {
+    content: "[ ";
+    white-space: pre;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty)::after {
+    content: " ]";
+    white-space: pre;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:empty {
+    flex-grow: 1;
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty) + .tss-modal-header-commands {
+    margin-left: auto;
+}
+
+body.tss-theme-phosphor .tss-modal-header-commands:not(:empty),
+body.tss-theme-phosphor .tss-modal-left-header-commands:not(:empty) {
+    margin-top: 4px;
+    padding: 0 4px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    height: 32px;
+    align-items: center;
+}
+
+body.tss-theme-phosphor .tss-modal-left-header-commands > button,
+body.tss-theme-phosphor .tss-modal-header-commands > button,
+body.tss-theme-phosphor .tss-modal-button {
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-modal-left-header-commands > button:hover,
+body.tss-theme-phosphor .tss-modal-header-commands > button:hover,
+body.tss-theme-phosphor .tss-modal-left-header-commands > button:active,
+body.tss-theme-phosphor .tss-modal-header-commands > button:active {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-modal-content {
+    position: relative;
+    z-index: 1;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+body.tss-theme-phosphor .tss-modal-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+body.tss-theme-phosphor .tss-modal-footer-content > .tss-textblock {
+    color: var(--tss-ph-dim);
+}
+
+
+body.tss-theme-phosphor .tss-dialog {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-dialog .tss-modal-header {
+    padding: 0 14px;
+}
+
+body.tss-theme-phosphor .tss-dialog .tss-modal-content {
+    padding: 6px 14px 0;
+}
+
+body.tss-theme-phosphor .tss-dialog .tss-modal-footer {
+    padding: 0 14px 8px;
+}
+
+
+body.tss-theme-phosphor .tss-pagination-footer {
+    border-top: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-pagination-button {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tss-pagination-button:hover:not(:disabled) {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-pagination-button.tss-active,
+body.tss-theme-phosphor .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-pagination-button:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-pagination-nav {
+    border-color: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-inlinelabel {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-inlinelabel-mark-color,
+body.tss-theme-phosphor .tss-inlinelabel-image {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-inlinelabel-interactive:hover,
+body.tss-theme-phosphor .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+    outline: none;
+}
+
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header.tss-selected,
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header.tss-selected:hover {
+    background: var(--tss-ph-cursor);
+    border-left-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header.tss-selected * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-searchbox-container {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-container:hover {
+    border-bottom-color: var(--tss-ph-rule-hi);
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-container:focus-within {
+    border-bottom-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-field-focus);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-noicon {
+    padding-left: 22px;
+    background: var(--tss-ph-prompt) 8px 50% / 8px 12px no-repeat, var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-noicon:focus-within {
+    background: var(--tss-ph-prompt-hot) 8px 50% / 8px 12px no-repeat, var(--tss-ph-field-focus);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-underlined {
+    border-bottom-color: var(--tss-ph-rule);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-underlined:focus-within {
+    border-bottom-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-searchbox-container.tss-disabled {
+    border-bottom: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-searchbox {
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+}
+
+body.tss-theme-phosphor .tss-searchbox::placeholder {
+    color: var(--tss-ph-dim) !important;
+    opacity: 0.8;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-container:focus-within > .tss-searchbox-icon {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-searchbox-clear,
+body.tss-theme-phosphor .tss-searchbox-cancel {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-searchbox-clear:hover,
+body.tss-theme-phosphor .tss-searchbox-cancel:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-searchbox-clear:hover i,
+body.tss-theme-phosphor .tss-searchbox-cancel:hover i {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-searchbox-progress-bar {
+    background: var(--tss-ph-cursor);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-searchbox-shortcut {
+    color: var(--tss-ph-dim);
+}
+
+
+body.tss-theme-phosphor .tss-omnibox-container {
+    --tss-omnibox-radius: 0;
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-omnibox-container:focus-within {
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-omnibox-container textarea,
+body.tss-theme-phosphor .tss-omnibox-container input {
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+}
+
+body.tss-theme-phosphor .tss-omnibox-search-trigger-btn {
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-sectiontitle-title {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    font-size: 30px;
+    letter-spacing: 0.02em;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-sectiontitle-subtitle,
+body.tss-theme-phosphor .tss-sectiontitle-subtitle .tss-textblock {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-sectiontitle-icon {
+    color: var(--tss-ph-hot);
+}
+
+
+body.tss-theme-phosphor .tss-sectionstack-card {
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sectionstack-secondary {
+    background: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-slider-fake-background {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.16) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.26) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-fake-progress {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-cursor-root), 0.75) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background: repeating-linear-gradient(90deg, var(--tss-ph-cursor) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-phosphor .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background: repeating-linear-gradient(90deg, rgb(var(--tss-disabled-foreground-color-root)) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.08) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-slider {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-slider::-webkit-slider-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: 0;
+    border: 0;
+    background: var(--tss-ph-cursor);
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-slider::-moz-range-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: 0;
+    border: 0;
+    background: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-slider.tss-disabled::-webkit-slider-thumb {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 3px;
+}
+
+body.tss-theme-phosphor .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 12px;
+}
+
+
+body.tss-theme-phosphor .tss-spinner {
+    border-radius: 0;
+    animation-timing-function: steps(8, end);
+    filter: drop-shadow(0 0 2px rgba(var(--tss-ph-hot-root), 0.4));
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-spinner {
+    filter: none;
+}
+
+body.tss-theme-phosphor .tss-spinner.tss-spinner-progress {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-spinner-label {
+    color: var(--tss-ph-hot);
+}
+
+
+body.tss-theme-phosphor .tss-commandbar {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-commandbar-item {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-commandbar-item:hover:not(:disabled) {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-commandbar-item:hover:not(:disabled) * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandbar-item-primary {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-commandbar-item-primary * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandbar-item-primary:hover:not(:disabled) {
+    background: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-phosphor .tss-commandbar-item:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 1px;
+}
+
+
+body.tss-theme-phosphor .tss-commandpalette-overlay {
+    background: var(--tss-overlay-dark);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-animator {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-search-container {
+    border-bottom: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-close,
+body.tss-theme-phosphor .tss-commandpalette-item,
+body.tss-theme-phosphor .tss-commandpalette-result,
+body.tss-theme-phosphor .tss-commandpalette-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-commandpalette-close:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-section {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-item:hover,
+body.tss-theme-phosphor .tss-commandpalette-result:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-item.tss-active,
+body.tss-theme-phosphor .tss-commandpalette-result.tss-active {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-commandpalette-item.tss-active *,
+body.tss-theme-phosphor .tss-commandpalette-result.tss-active * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-commandpalette-icon {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+
+body.tss-theme-phosphor .tss-sidebar {
+    background: rgb(var(--tss-sidebar-background-color-root));
+    border-right: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar .tss-sidebar) {
+    padding-left: 32px;
+    background:
+        var(--tss-ph-perforation) 22px 0 / 1px 100% no-repeat,
+        radial-gradient(circle at 50% 50%, rgb(var(--tss-default-background-color-root)) 0 4.4px, rgba(var(--tss-ph-ink-root), 0.34) 4.4px 5.2px, transparent 5.5px) 0 4px / 22px 24px repeat-y,
+        linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.035) 0 22px, transparent 22px),
+        rgb(var(--tss-sidebar-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar {
+    border-right: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock,
+body.tss-theme-phosphor .tss-sidebar-identity-title {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock.tss-fontsize-large,
+body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-size: 34px;
+    line-height: 1;
+}
+
+body.tss-theme-phosphor .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge::after {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.82em;
+    margin-left: 0.12em;
+    vertical-align: -0.06em;
+    background: currentColor;
+    box-shadow: var(--tss-ph-box-glow);
+    animation: tss-ph-blink var(--tss-ph-blink) step-end infinite;
+}
+
+body.tss-theme-phosphor .tss-sidebar-identity-subtitle {
+    font-size: 11px;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-sidebar-separator-with-text::before {
+    content: "──";
+    flex: 0 0 auto;
+    letter-spacing: 0;
+    opacity: 0.8;
+}
+
+body.tss-theme-phosphor .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+}
+
+body.tss-theme-phosphor .tss-sidebar-separator:not(.tss-sidebar-separator-with-text) {
+    border-bottom: 1px solid var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-sidebar-footer {
+    border-top: var(--tss-ph-single);
+    padding-top: 6px;
+}
+
+body.tss-theme-phosphor .tss-sidebar-footer:empty {
+    border-top: 0;
+    padding-top: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-nav-button.tss-btn {
+    border-radius: 0;
+    font-weight: 400;
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: var(--tss-ph-tint);
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-hover-color-root));
+    text-shadow: var(--tss-ph-glow);
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover > i,
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-background-active-color-root));
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-btn:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: -1px;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    font-weight: 500;
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) i,
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-secondary,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-secondary,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn i,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected .tss-sidebar-identity-subtitle,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn i {
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn:hover {
+    background: var(--tss-ph-on-cursor);
+    border-color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn:hover i {
+    color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    color: var(--tss-ph-hot);
+    box-shadow: inset 3px 0 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:not(.tss-disabled) {
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-phosphor .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-phosphor .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-phosphor .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-phosphor .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded,
+body.tss-theme-phosphor .tss-sidebar-btn-light {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    background: rgb(var(--tss-primary-background-color-root));
+    color: rgb(var(--tss-primary-foreground-color-root));
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn,
+body.tss-theme-phosphor .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    border-left: 1px solid var(--tss-ph-faint);
+}
+
+
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover i,
+body.tss-theme-phosphor .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover i {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-badges > .tss-btn,
+body.tss-theme-phosphor .tss-sidebar-badge {
+    border-radius: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-sidebar-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+
+body.tss-theme-phosphor .tss-sidebar .tss-searchbox-container {
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-phosphor .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-phosphor .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    border: 0;
+    border-bottom: var(--tss-ph-single);
+    border-radius: 0;
+    background: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-sidebar-status-card {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-status-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar-section-header .tss-sidebar-brand-logo,
+body.tss-theme-phosphor .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    border-radius: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-section-header .tss-sidebar-brand-logo .tss-icon,
+body.tss-theme-phosphor .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo .tss-icon {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-identity-separated,
+body.tss-theme-phosphor .tss-sidebar-divider {
+    border-color: var(--tss-ph-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock::after {
+        animation: none;
+    }
+}
+
+
+body.tss-theme-phosphor .tss-sidenav {
+    border-right: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-ph-tint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover * {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-phosphor .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidenav-footer {
+    border-top: var(--tss-ph-single);
+}
+
+
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:before,
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:after {
+    background: var(--tss-ph-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:hover:before,
+body.tss-theme-phosphor .tss-splitview > .tss-splitter:hover:after {
+    background: var(--tss-ph-cursor) !important;
+}
+
+
+body.tss-theme-phosphor .tss-toggle-container {
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-phosphor .tss-toggle-container .tss-toggle-mark,
+body.tss-theme-phosphor .tss-toggle-container[class*="tss-fontsize-"] .tss-toggle-mark {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-toggle-container .tss-toggle-mark:after,
+body.tss-theme-phosphor .tss-toggle-container[class*="tss-fontsize-"] .tss-toggle-mark:after {
+    border-radius: 0;
+    background: var(--tss-ph-dim);
+    transition: transform 120ms steps(2, jump-none);
+}
+
+body.tss-theme-phosphor .tss-toggle-container:hover .tss-toggle-mark {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-toggle-container:hover .tss-toggle-mark:after {
+    background: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-phosphor .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-phosphor .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    background: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled {
+    text-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}
+
+
+body.tss-theme-phosphor .tss-icon-toggle {
+    --tss-icon-toggle-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: var(--tss-ph-tint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-phosphor.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: -3px;
+}
+
+
+body.tss-theme-phosphor .tss-skeleton {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.12) 0 6px, rgba(var(--tss-ph-ink-root), 0.06) 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-skeleton-circle {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, rgba(var(--tss-ph-cursor-root), 0.18), transparent);
+}
+
+
+body.tss-theme-phosphor .tss-stepper-step {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-stepper-circle {
+    border-radius: 0;
+    border-width: 1px;
+    border-color: var(--tss-ph-rule);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-stepper-active .tss-stepper-label {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-stepper-complete .tss-stepper-circle {
+    border-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-stepper-content {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-stepper-nav {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+
+body.tss-theme-phosphor .tss-carousel-viewport {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-carousel-nav {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-carousel-nav:not(.tss-disabled):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-carousel-indicator {
+    border-radius: 0;
+    background: transparent;
+    border-color: var(--tss-ph-rule);
+}
+
+body.tss-theme-phosphor .tss-carousel-indicator.tss-active {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+
+body.tss-theme-phosphor .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-ph-rule), var(--tss-ph-rule)) no-repeat center/1px 100%;
+}
+
+body.tss-theme-phosphor .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-ph-rule), var(--tss-ph-rule)) no-repeat 20px 0px/1px 100%;
+}
+
+body.tss-theme-phosphor .tss-timeline-container::after {
+    border-radius: 0;
+    width: 12px;
+    height: 12px;
+    border-width: 1px;
+    background: var(--tss-timeline-circle-color, var(--tss-ph-cursor));
+    border-color: var(--tss-timeline-circle-color, var(--tss-ph-cursor));
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-timeline-container .tss-timeline-content {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    box-shadow: none;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+
+body.tss-theme-phosphor .tss-conversation-comment {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-header {
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-author {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-avatar,
+body.tss-theme-phosphor .tss-conversation-comment-attachment,
+body.tss-theme-phosphor .tss-conversation-reaction {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-highlighted {
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+
+body.tss-theme-phosphor .tss-gridpicker-button {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-gridpicker-column-title,
+body.tss-theme-phosphor .tss-gridpicker-row-title {
+    color: var(--tss-ph-dim);
+    letter-spacing: 0.04em;
+}
+
+
+body.tss-theme-phosphor .tippy-box {
+    border-radius: 0;
+    box-shadow: var(--tss-ph-box-glow);
+    font-family: var(--tss-ph-mono);
+    font-size: 12px;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tippy-box > .tippy-content > div {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tippy-content .tss-btn-default:not(.tss-disabled) {
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tippy-box[data-theme~='tss-popover'] {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-popover {
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-menu {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-menu-item {
+    border-radius: 0;
+    border: 0;
+}
+
+body.tss-theme-phosphor .tss-menu-item:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-menu-item:focus,
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-open {
+    outline: none;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-menu-item:focus *,
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-open * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) { color: var(--tss-ph-red); }
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) { color: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) { color: var(--tss-ph-hot); }
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
+    background: var(--tss-ph-red);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus {
+    background: var(--tss-ph-amber);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-menu-divider {
+    background: var(--tss-ph-faint);
+}
+
+
+body.tss-theme-phosphor .tss-tagsinput {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-tagsinput:focus-within {
+    border-bottom-color: var(--tss-ph-cursor);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+    background: var(--tss-ph-field-focus);
+}
+
+body.tss-theme-phosphor .tss-tagsinput-chip {
+    border-radius: 0;
+    background: transparent;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-tagsinput-chip-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-tagsinput-entry {
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+}
+
+
+body.tss-theme-phosphor .tss-actionbutton-container,
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-actionbtn,
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover,
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-success):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover * {
+    color: var(--tss-ph-on-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-message-icon {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-faint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-message-note {
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    border: var(--tss-ph-single);
+    color: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tss-message-info { --tss-ph-msg: var(--tss-ph-hot); }
+body.tss-theme-phosphor .tss-message-success { --tss-ph-msg: rgb(var(--tss-success-background-color-root)); }
+body.tss-theme-phosphor .tss-message-warning { --tss-ph-msg: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-message-error { --tss-ph-msg: var(--tss-ph-red); }
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--tss-ph-msg) 55%, transparent);
+    border-left: 4px double var(--tss-ph-msg);
+}
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) .tss-message-icon {
+    color: var(--tss-ph-msg);
+    background: transparent;
+    border-color: color-mix(in srgb, var(--tss-ph-msg) 55%, transparent);
+}
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) .tss-message-title {
+    color: var(--tss-ph-msg);
+}
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) .tss-message-text {
+    color: var(--tss-ph-ink);
+}
+
+
+body.tss-theme-phosphor .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 6%, transparent);
+    --tss-banner-border-color: color-mix(in srgb, var(--tss-banner-accent) 55%, transparent);
+    border-radius: 0;
+    border-left: 4px double var(--tss-banner-accent);
+}
+
+body.tss-theme-phosphor .tss-banner.tss-banner-flat {
+    border-left: 0;
+}
+
+body.tss-theme-phosphor .tss-banner-warning {
+    --tss-banner-accent: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-banner-danger {
+    --tss-banner-accent: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-banner .tss-icontile,
+body.tss-theme-phosphor .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0;
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-banner-badge-pill.tss-badge {
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-tree-item-content {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-tree-item-content:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-tree-item-content.tss-selected,
+body.tss-theme-phosphor .tss-tree-item-content.tss-selected:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-tree-item-content.tss-selected * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: -1px;
+}
+
+body.tss-theme-phosphor .tss-tree-children {
+    border-left: 1px solid var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-tree-chevron:hover,
+body.tss-theme-phosphor .tss-tree-checkbox:hover {
+    color: var(--tss-ph-hot);
+}
+
+
+body.tss-theme-phosphor .tss-diagram {
+    --tss-diagram-dot-color: rgba(var(--tss-ph-ink-root), 0.22);
+    --tss-diagram-line-color: var(--tss-ph-rule-hi);
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-diagram-node {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-diagram-node:hover {
+    box-shadow: var(--tss-ph-box-glow);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-diagram-node-default,
+body.tss-theme-phosphor .tss-diagram-node-secondary {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor :is(.tss-diagram-node-primary, .tss-diagram-node-success, .tss-diagram-node-danger, .tss-diagram-node-warning) {
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor .tss-uptime-bars span,
+body.tss-theme-phosphor .tss-uptime-bars-compact span,
+body.tss-theme-phosphor .tss-uptime-month-empty,
+body.tss-theme-phosphor .tss-uptime-month-day {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span,
+body.tss-theme-phosphor .tss-uptime-bars span.none,
+body.tss-theme-phosphor .tss-uptime-month-day {
+    background: rgba(var(--tss-ph-ink-root), 0.14);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.future,
+body.tss-theme-phosphor .tss-uptime-month-day.future {
+    background: rgba(var(--tss-ph-ink-root), 0.06);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.operational,
+body.tss-theme-phosphor .tss-uptime-month-day.operational {
+    background: var(--tss-chart-series-1);
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-uptime-bars span.operational,
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-uptime-month-day.operational {
+    background: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.minor,
+body.tss-theme-phosphor .tss-uptime-month-day.minor {
+    background: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.major,
+body.tss-theme-phosphor .tss-uptime-month-day.major {
+    background: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span.maintenance,
+body.tss-theme-phosphor .tss-uptime-month-day.maintenance {
+    background: var(--tss-chart-series-4);
+}
+
+body.tss-theme-phosphor .tss-uptime-bars span:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 1px;
+}
+
+body.tss-theme-phosphor .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-uptime-month-card {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tippy-box[data-theme~='uptime'] {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    border: 0;
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-ph-cursor);
+    --tss-activitycalendar-empty-color: rgba(var(--tss-ph-ink-root), 0.1);
+    --tss-activitycalendar-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-activitycalendar-summary-value {
+    font-family: var(--tss-ph-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-activitycalendar-summary-caption {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-phosphor .tss-activitycalendar-summary-item {
+    border-color: var(--tss-ph-faint);
+}
+
+
+body.tss-theme-phosphor .tss-dockpanel {
+    --tss-dockpanel-radius: 0;
+    --tss-dockpanel-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-dockpanel-canvas: rgb(var(--tss-default-background-color-root));
+    --tss-dockpanel-accent: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-slot,
+body.tss-theme-phosphor .tss-dockpanel-document {
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-header {
+    border-bottom: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab.tss-dockpanel-tab-active,
+body.tss-theme-phosphor .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dockpanel-splitter:hover::after,
+body.tss-theme-phosphor .tss-dockpanel-splitter-active::after {
+    background: var(--tss-ph-cursor);
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-chatarea {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-chatarea-scrollbtn,
+body.tss-theme-phosphor .tss-chatmessage-remove,
+body.tss-theme-phosphor.tss-dark-mode .tss-chatmessage-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-chatmessage-remove,
+body.tss-theme-phosphor.tss-dark-mode .tss-chatmessage-remove {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-chatmessage-remove:hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-chatmessage-remove:hover {
+    background: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-chatmessage-avatar {
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-toolcall,
+body.tss-theme-phosphor .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-phosphor .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-phosphor .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-toolcall {
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-toolcall-header:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-toolcall-icon {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-toolcall.tss-expanded > .tss-toolcall-content {
+    border-top: 1px dashed var(--tss-ph-faint);
+}
+
+
+body.tss-theme-phosphor .tss-contextcard {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover,
+body.tss-theme-phosphor .tss-contextcard-menu-open {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-contextcard-icon {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-ph-ink);
+    border: 1px solid var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-contextcard-icon.tss-contextcard-icon-nobackground,
+body.tss-theme-phosphor .tss-contextcard-icon.tss-contextcard-icon-image {
+    border-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover .tss-contextcard-icon:not(.tss-contextcard-icon-image) {
+    background: var(--tss-ph-cursor) !important;
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover .tss-contextcard-icon:not(.tss-contextcard-icon-image) i {
+    color: var(--tss-ph-on-cursor) !important;
+}
+
+body.tss-theme-phosphor .tss-contextcard-label {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-contextcard-sublabel {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-contextcard-badge {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-contextcard-chevron {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover .tss-contextcard-chevron {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-contextcard-remove,
+body.tss-theme-phosphor.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-contextcard-remove:hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-contextcard-empty {
+    border-style: dashed;
+}
+
+
+body.tss-theme-phosphor .tss-actioncard-card {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-actioncard-identity {
+    background: transparent;
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-actioncard-icon {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-ph-hot);
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-actioncard-label {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-actioncard-fact-key {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-actioncard-action {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-actioncard-action:hover {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-questionnaire-option {
+    background: transparent;
+    border: var(--tss-ph-single);
+    color: var(--tss-ph-ink);
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor .tss-rating-star {
+    color: rgba(var(--tss-ph-ink-root), 0.28);
+}
+
+body.tss-theme-phosphor .tss-rating-star:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    border-radius: 0;
+}
+
+
+body.tss-theme-phosphor .tss-progressring svg circle {
+    stroke-linecap: butt;
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-progressring svg {
+    filter: drop-shadow(0 0 2px rgba(var(--tss-ph-hot-root), 0.35));
+}
+
+
+body.tss-theme-phosphor .tss-colorpalette-swatch {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 1px var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-colorpalette-swatch.tss-selected,
+body.tss-theme-phosphor .tss-colorpalette-swatch[aria-checked="true"] {
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), 0 0 0 3px var(--tss-ph-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-kbd-key {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+    border-bottom-width: 2px;
+    color: var(--tss-ph-hot);
+    font-family: var(--tss-ph-mono);
+}
+
+body.tss-theme-phosphor .tss-kbd-separator {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-shortcut-guide-section-title {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-shortcut-guide-row {
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}
+
+
+body.tss-theme-phosphor .tss-notif-bell {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-notif-bell:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-notif-badge {
+    border-radius: 0;
+    background: var(--tss-ph-red);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-notif-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-notif-dot.tss-notif-info { background: var(--tss-ph-cursor); }
+body.tss-theme-phosphor .tss-notif-dot.tss-notif-warning { background: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-notif-dot.tss-notif-danger { background: var(--tss-ph-red); }
+
+body.tss-theme-phosphor .tss-notif-unread {
+    background: var(--tss-ph-tint) !important;
+    box-shadow: inset 3px 0 0 0 var(--tss-ph-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-markdown h1,
+body.tss-theme-phosphor .tss-markdown h2,
+body.tss-theme-phosphor .tss-markdown h3 {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-markdown h1 {
+    font-size: 2.6em;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-markdown h2 {
+    font-size: 2em;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-markdown h3 {
+    font-size: 1.55em;
+}
+
+body.tss-theme-phosphor .tss-markdown h4,
+body.tss-theme-phosphor .tss-markdown h5,
+body.tss-theme-phosphor .tss-markdown h6 {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-phosphor .tss-markdown hr {
+    height: 1px;
+    background: repeating-linear-gradient(90deg, var(--tss-ph-rule) 0 6px, transparent 6px 10px);
+}
+
+body.tss-theme-phosphor .tss-markdown blockquote {
+    border-left: var(--tss-ph-double);
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-markdown code {
+    font-weight: 500;
+    padding: 0.1em 0.35em;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-ph-tint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-markdown pre {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    font-size: 90%;
+}
+
+body.tss-theme-phosphor .tss-markdown pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-weight: 400;
+}
+
+body.tss-theme-phosphor .tss-markdown kbd {
+    border-radius: 0;
+    border-bottom-width: 2px;
+    background: transparent;
+    font-family: var(--tss-ph-mono);
+}
+
+body.tss-theme-phosphor .tss-markdown table th {
+    font-size: 11px;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+    border: var(--tss-ph-single);
+    border-bottom: var(--tss-ph-double);
+    padding: 6px 13px;
+}
+
+body.tss-theme-phosphor .tss-markdown table td {
+    border-color: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-markdown table tr {
+    background: transparent;
+    border-top-color: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-ph-bar);
+}
+
+body.tss-theme-phosphor .tss-markdown a {
+    color: rgb(var(--tss-link-color-root));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+
+body.tss-theme-phosphor .tss-mermaid {
+    --pele-radius: 0px;
+    --pele-border: var(--tss-ph-rule-hi);
+    --pele-accent: var(--tss-ph-cursor);
+    --pele-bg: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-mermaid > svg {
+    filter: drop-shadow(0 0 2px rgba(220, 255, 230, 0.18));
+}
+
+body.tss-theme-phosphor .tss-markdown pre.tss-mermaid-source {
+    border-left: 4px double var(--tss-ph-amber);
+}
+
+
+body.tss-theme-phosphor .tss-flint-chart {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-markdown pre.tss-flint-source {
+    border-left: 4px double var(--tss-ph-amber);
+}
+
+
+body.tss-theme-phosphor .tss-plan {
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: inset 0 3px 0 0 var(--plan-accent);
+    --plan-accent: var(--tss-ph-dim);
+    --plan-accent-soft: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-plan-pending   { --plan-accent: var(--tss-ph-dim); --plan-accent-soft: var(--tss-ph-tint); }
+body.tss-theme-phosphor .tss-plan-running   { --plan-accent: var(--tss-ph-cursor); --plan-accent-soft: var(--tss-ph-tint); }
+body.tss-theme-phosphor .tss-plan-completed { --plan-accent: rgb(var(--tss-success-background-color-root)); --plan-accent-soft: var(--tss-ph-tint); }
+body.tss-theme-phosphor .tss-plan-failed    { --plan-accent: var(--tss-ph-red); --plan-accent-soft: rgba(var(--tss-ph-red-root), 0.12); }
+body.tss-theme-phosphor .tss-plan-canceled  { --plan-accent: var(--tss-ph-amber); --plan-accent-soft: rgba(var(--tss-ph-amber-root), 0.12); }
+
+body.tss-theme-phosphor .tss-plan-title {
+    color: var(--tss-ph-hot);
+}
+
+
+body.tss-theme-phosphor .tss-pagesstack-page,
+body.tss-theme-phosphor.tss-dark-mode .tss-pagesstack-page {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-ph-rule);
+    box-shadow: -2px 0 0 rgba(var(--tss-ph-ink-root), 0.08);
+}
+
+body.tss-theme-phosphor .tss-pagesstack-lines,
+body.tss-theme-phosphor.tss-dark-mode .tss-pagesstack-lines {
+    background: repeating-linear-gradient(to bottom, rgba(var(--tss-ph-ink-root), 0.28) 0 2px, transparent 2px 7px);
+}
+
+
+body.tss-theme-phosphor .tss-omniresult {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-omniresult:hover,
+body.tss-theme-phosphor .tss-omniresult.tss-omniresult-menu-open {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-omniresult.tss-omniresult-selected {
+    background: var(--tss-ph-tint);
+    box-shadow: inset 3px 0 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 1px var(--tss-ph-cursor);
+}
+
+
+body.tss-theme-phosphor .tss-codediff {
+    --tss-ph-ins: rgba(var(--tss-success-background-color-root), 0.12);
+    --tss-ph-ins-hi: rgba(var(--tss-success-background-color-root), 0.32);
+    --tss-ph-del: rgba(var(--tss-ph-red-root), 0.12);
+    --tss-ph-del-hi: rgba(var(--tss-ph-red-root), 0.32);
+
+    --d2h-bg-color: rgb(var(--tss-secondary-background-color-root));
+    --d2h-border-color: var(--tss-ph-rule);
+    --d2h-dim-color: var(--tss-ph-dim);
+    --d2h-line-border-color: var(--tss-ph-faint);
+    --d2h-file-header-bg-color: var(--tss-ph-field);
+    --d2h-file-header-border-color: var(--tss-ph-rule);
+    --d2h-empty-placeholder-bg-color: var(--tss-ph-field);
+    --d2h-empty-placeholder-border-color: var(--tss-ph-faint);
+    --d2h-selected-color: var(--tss-ph-tint);
+    --d2h-ins-bg-color: var(--tss-ph-ins);
+    --d2h-ins-border-color: rgba(var(--tss-success-background-color-root), 0.4);
+    --d2h-ins-highlight-bg-color: var(--tss-ph-ins-hi);
+    --d2h-ins-label-color: rgb(var(--tss-success-background-color-root));
+    --d2h-del-bg-color: var(--tss-ph-del);
+    --d2h-del-border-color: rgba(var(--tss-ph-red-root), 0.4);
+    --d2h-del-highlight-bg-color: var(--tss-ph-del-hi);
+    --d2h-del-label-color: var(--tss-ph-red);
+    --d2h-change-del-color: var(--tss-ph-del);
+    --d2h-change-ins-color: var(--tss-ph-ins);
+    --d2h-change-label-color: var(--tss-ph-amber);
+    --d2h-info-bg-color: var(--tss-ph-tint);
+    --d2h-info-border-color: var(--tss-ph-faint);
+    --d2h-moved-label-color: var(--tss-ph-amber);
+
+    --d2h-dark-color: var(--tss-ph-ink);
+    --d2h-dark-bg-color: rgb(var(--tss-secondary-background-color-root));
+    --d2h-dark-border-color: var(--tss-ph-rule);
+    --d2h-dark-dim-color: var(--tss-ph-dim);
+    --d2h-dark-line-border-color: var(--tss-ph-faint);
+    --d2h-dark-file-header-bg-color: var(--tss-ph-field);
+    --d2h-dark-file-header-border-color: var(--tss-ph-rule);
+    --d2h-dark-empty-placeholder-bg-color: var(--tss-ph-field);
+    --d2h-dark-empty-placeholder-border-color: var(--tss-ph-faint);
+    --d2h-dark-selected-color: var(--tss-ph-tint);
+    --d2h-dark-ins-bg-color: var(--tss-ph-ins);
+    --d2h-dark-ins-border-color: rgba(var(--tss-success-background-color-root), 0.4);
+    --d2h-dark-ins-highlight-bg-color: var(--tss-ph-ins-hi);
+    --d2h-dark-ins-label-color: rgb(var(--tss-success-background-color-root));
+    --d2h-dark-del-bg-color: var(--tss-ph-del);
+    --d2h-dark-del-border-color: rgba(var(--tss-ph-red-root), 0.4);
+    --d2h-dark-del-highlight-bg-color: var(--tss-ph-del-hi);
+    --d2h-dark-del-label-color: var(--tss-ph-red);
+    --d2h-dark-change-del-color: var(--tss-ph-del);
+    --d2h-dark-change-ins-color: var(--tss-ph-ins);
+    --d2h-dark-change-label-color: var(--tss-ph-amber);
+    --d2h-dark-info-bg-color: var(--tss-ph-tint);
+    --d2h-dark-info-border-color: var(--tss-ph-faint);
+    --d2h-dark-moved-label-color: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-codediff .d2h-wrapper,
+body.tss-theme-phosphor .tss-codediff .d2h-file-wrapper,
+body.tss-theme-phosphor .tss-codediff .d2h-file-side-diff,
+body.tss-theme-phosphor .tss-codediff .d2h-file-diff,
+body.tss-theme-phosphor .tss-codediff .d2h-diff-table {
+    font-family: var(--tss-ph-mono);
+    border-radius: 0;
+    color: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tss-codediff .d2h-tag {
+    border-radius: 0;
+    background: transparent;
+}
+
+
+body.tss-theme-phosphor {
+    --tss-ai-from: rgb(112, 60, 150);
+    --tss-ai-to: rgb(40, 82, 160);
+    --tss-ai-accent: rgb(112, 60, 150);
+    --tss-ai-gradient: linear-gradient(115deg, var(--tss-ai-from), var(--tss-ai-to));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(90, 44, 126), rgb(28, 64, 134));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(98, 50, 136), rgb(32, 70, 146));
+    --tss-ai-surface: linear-gradient(135deg, rgba(112, 60, 150, 0.08), rgba(40, 82, 160, 0.06));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(112, 60, 150, 0.15), rgba(40, 82, 160, 0.11));
+    --tss-ai-border-color: rgba(112, 60, 150, 0.45);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(112, 60, 150) 0deg, rgb(40, 82, 160) 250deg, rgba(40, 82, 160, 0) 330deg, rgba(112, 60, 150, 0) 360deg);
+    --tss-ai-on-fill: rgb(252, 252, 245);
+}
+
+body.tss-theme-phosphor.tss-dark-mode {
+    --tss-ai-from: rgb(200, 140, 255);
+    --tss-ai-to: rgb(110, 210, 255);
+    --tss-ai-accent: rgb(200, 140, 255);
+    --tss-ai-gradient: linear-gradient(115deg, var(--tss-ai-from), var(--tss-ai-to));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(218, 172, 255), rgb(150, 226, 255));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(210, 160, 255), rgb(130, 220, 255));
+    --tss-ai-surface: linear-gradient(135deg, rgba(200, 140, 255, 0.1), rgba(110, 210, 255, 0.07));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(200, 140, 255, 0.18), rgba(110, 210, 255, 0.12));
+    --tss-ai-border-color: rgba(200, 140, 255, 0.5);
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(200, 140, 255) 0deg, rgb(110, 210, 255) 250deg, rgba(110, 210, 255, 0) 330deg, rgba(200, 140, 255, 0) 360deg);
+    --tss-ai-on-fill: rgb(6, 4, 14);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-ai:not(.tss-disabled):not(.tss-ai-subtle) {
+    text-shadow: none;
+}
+
+
+body.tss-theme-phosphor {
+    --tss-chart-series-1: rgb(28, 33, 38);
+    --tss-chart-series-2: rgb(22, 120, 62);
+    --tss-chart-series-3: rgb(178, 28, 36);
+    --tss-chart-series-4: rgb(176, 104, 0);
+    --tss-chart-series-5: rgb(40, 82, 160);
+    --tss-chart-series-6: rgb(122, 128, 132);
+    --tss-chart-series-7: rgb(0, 122, 128);
+    --tss-chart-series-8: rgb(112, 60, 150);
+}
+
+body.tss-theme-phosphor.tss-dark-mode {
+    --tss-chart-series-1: rgb(92, 255, 140);
+    --tss-chart-series-2: rgb(255, 182, 40);
+    --tss-chart-series-3: rgb(214, 236, 226);
+    --tss-chart-series-4: rgb(110, 210, 255);
+    --tss-chart-series-5: rgb(40, 150, 76);
+    --tss-chart-series-6: rgb(255, 128, 48);
+    --tss-chart-series-7: rgb(255, 96, 88);
+    --tss-chart-series-8: rgb(200, 140, 255);
+}
+
+body.tss-theme-phosphor .tss-chart {
+    font-family: var(--tss-ph-mono);
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-chart svg {
+    filter: drop-shadow(0 0 2px rgba(220, 255, 230, 0.22));
+}
+
+body.tss-theme-phosphor .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(var(--tss-ph-ink-root), 0.22);
+    stroke-dasharray: 1 3;
+}
+
+body.tss-theme-phosphor .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-chart text {
+    fill: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-ph-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tss-chart text[font-size="11"] {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: rgb(var(--tss-secondary-background-color-root));
+    stroke: var(--tss-ph-rule-hi);
+    rx: 0;
+}
+
+body.tss-theme-phosphor .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-chart rect[rx="2"],
+body.tss-theme-phosphor .tss-chart rect[fill-opacity] {
+    rx: 0;
+}
+
+body.tss-theme-phosphor .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+}
+
+body.tss-theme-phosphor .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-chart-series-1);
+}
+
+body.tss-theme-phosphor .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-chart-series-1);
+}
+
+
+body.tss-theme-phosphor .tss-toast-container {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    transition: opacity 120ms steps(3);
+}
+
+body.tss-theme-phosphor .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border: 0;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: 0;
+    border-top: var(--tss-ph-double);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-toast-container {
+        transition: none;
+    }
+}

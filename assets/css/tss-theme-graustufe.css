@@ -1,0 +1,4952 @@
+
+@font-face { font-family: "Literata"; font-style: normal; font-weight: 200 900; font-display: swap; src: url("../fonts/graustufe/literata-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/graustufe/literata-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Literata"; font-style: italic; font-weight: 200 900; font-display: swap; src: url("../fonts/graustufe/literata-latin-wght-italic.woff2") format("woff2-variations"), url("../fonts/graustufe/literata-latin-wght-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Atkinson Hyperlegible Next"; font-style: normal; font-weight: 200 800; font-display: swap; src: url("../fonts/graustufe/atkinson-hyperlegible-next-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/graustufe/atkinson-hyperlegible-next-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Atkinson Hyperlegible Mono"; font-style: normal; font-weight: 200 800; font-display: swap; src: url("../fonts/graustufe/atkinson-hyperlegible-mono-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/graustufe/atkinson-hyperlegible-mono-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+
+body.tss-theme-graustufe,
+body.tss-theme-graustufe.tss-dark-mode {
+    --tss-gs-abs-0-root: 22, 21, 19;
+    --tss-gs-abs-1-root: 33, 32, 30;
+    --tss-gs-abs-2-root: 45, 44, 41;
+    --tss-gs-abs-3-root: 57, 56, 53;
+    --tss-gs-abs-4-root: 70, 69, 65;
+    --tss-gs-abs-5-root: 83, 82, 78;
+    --tss-gs-abs-6-root: 97, 95, 91;
+    --tss-gs-abs-7-root: 110, 109, 104;
+    --tss-gs-abs-8-root: 125, 123, 118;
+    --tss-gs-abs-9-root: 139, 137, 131;
+    --tss-gs-abs-10-root: 154, 151, 146;
+    --tss-gs-abs-11-root: 169, 166, 160;
+    --tss-gs-abs-12-root: 184, 181, 175;
+    --tss-gs-abs-13-root: 199, 197, 190;
+    --tss-gs-abs-14-root: 215, 212, 205;
+    --tss-gs-abs-15-root: 231, 228, 220;
+    --tss-gs-0: rgb(var(--tss-gs-0-root));
+    --tss-gs-1: rgb(var(--tss-gs-1-root));
+    --tss-gs-2: rgb(var(--tss-gs-2-root));
+    --tss-gs-3: rgb(var(--tss-gs-3-root));
+    --tss-gs-4: rgb(var(--tss-gs-4-root));
+    --tss-gs-5: rgb(var(--tss-gs-5-root));
+    --tss-gs-6: rgb(var(--tss-gs-6-root));
+    --tss-gs-7: rgb(var(--tss-gs-7-root));
+    --tss-gs-8: rgb(var(--tss-gs-8-root));
+    --tss-gs-9: rgb(var(--tss-gs-9-root));
+    --tss-gs-10: rgb(var(--tss-gs-10-root));
+    --tss-gs-11: rgb(var(--tss-gs-11-root));
+    --tss-gs-12: rgb(var(--tss-gs-12-root));
+    --tss-gs-13: rgb(var(--tss-gs-13-root));
+    --tss-gs-14: rgb(var(--tss-gs-14-root));
+    --tss-gs-15: rgb(var(--tss-gs-15-root));
+
+    --tss-gs-ink: var(--tss-gs-0);
+    --tss-gs-paper: var(--tss-gs-15);
+    --tss-gs-muted: var(--tss-gs-6);
+    --tss-gs-faint: var(--tss-gs-11);
+    --tss-gs-wash: var(--tss-gs-13);
+    --tss-gs-rule: 1px solid var(--tss-gs-0);
+    --tss-gs-rule-faint: 1px solid var(--tss-gs-11);
+    --tss-gs-rule-heavy: 2px solid var(--tss-gs-0);
+    --tss-gs-radius: 2px;
+    --tss-gs-focus: 3px solid var(--tss-gs-0);
+    --tss-gs-focus-offset: 2px;
+    --tss-gs-panel: grayscale(1) sepia(0.12) brightness(0.975);
+    --tss-gs-dither: repeating-conic-gradient(var(--tss-gs-0) 0 25%, transparent 0 50%) 0 0 / 2px 2px;
+
+    --tss-gs-text: "Literata", "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
+    --tss-gs-ui: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", system-ui, ui-sans-serif, sans-serif;
+    --tss-gs-mono: "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-sansserif-font-family: var(--tss-gs-text);
+    --tss-monospace-font-family: var(--tss-gs-mono);
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 600;
+    --tss-font-weight-bold: 700;
+
+    --tss-border-radius-sm: 0px;
+    --tss-border-radius-md: 2px;
+    --tss-border-radius-lg: 2px;
+    --tss-border-radius-xl: 2px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-primary-shadow: none;
+    --tss-shadow-color-from: transparent;
+    --tss-shadow-color-to: transparent;
+    --tss-shadow-sm: 0 0 0 1px var(--tss-gs-0);
+    --tss-shadow-sm-hover: 0 0 0 1px var(--tss-gs-0);
+    --tss-shadow: 0 0 0 1px var(--tss-gs-0);
+    --tss-shadow-hover: 0 0 0 1px var(--tss-gs-0), 2px 2px 0 0 var(--tss-gs-8);
+    --tss-shadow-md: 0 0 0 1px var(--tss-gs-0), 2px 2px 0 0 var(--tss-gs-8);
+    --tss-shadow-md-hover: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-shadow-lg: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-shadow-lg-hover: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-shadow-xl: 0 0 0 1px var(--tss-gs-0), 4px 4px 0 0 var(--tss-gs-8);
+    --tss-shadow-xl-hover: 0 0 0 1px var(--tss-gs-0), 4px 4px 0 0 var(--tss-gs-8);
+    --tss-box-shadow: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-box-shadow-darker: 0 0 0 1px var(--tss-gs-0), 3px 3px 0 0 var(--tss-gs-8);
+    --tss-card-shadow: 0 0 0 1px var(--tss-gs-0);
+    --tss-toast-shadow: 0 0 0 1px var(--tss-gs-0), 4px 4px 0 0 var(--tss-gs-8);
+
+    --tss-ring-offset-width: 2px;
+    --tss-ring-offset-color: var(--tss-gs-15);
+    --tss-ring-opacity: 1;
+    --tss-ring-color: var(--tss-gs-0);
+
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: var(--tss-gs-8);
+    --tss-scrollbar-thumb-hidden-color: var(--tss-gs-12);
+    --tss-simplebar-thumb-color: var(--tss-gs-8);
+    --tss-overlay-light: rgba(var(--tss-gs-15-root), 0.72);
+    --tss-overlay-dark: rgba(var(--tss-gs-0-root), 0.4);
+
+    --tss-default-background-color-root: var(--tss-gs-15-root);
+    --tss-default-foreground-color-root: var(--tss-gs-0-root);
+    --tss-secondary-background-color-root: var(--tss-gs-15-root);
+    --tss-secondary-foreground-color-root: var(--tss-gs-6-root);
+    --tss-sidebar-background-color-root: var(--tss-gs-14-root);
+    --tss-disabled-background-color-root: var(--tss-gs-14-root);
+    --tss-disabled-foreground-color-root: var(--tss-gs-9-root);
+    --tss-default-border-color-root: var(--tss-gs-0-root);
+    --tss-dark-border-color-root: var(--tss-gs-0-root);
+    --tss-default-separator-color-root: var(--tss-gs-11-root);
+    --tss-invalid-border-color-root: var(--tss-gs-0-root);
+    --tss-default-background-hover-color-root: var(--tss-gs-13-root);
+    --tss-default-foreground-hover-color-root: var(--tss-gs-0-root);
+    --tss-default-background-active-color-root: var(--tss-gs-12-root);
+    --tss-default-foreground-active-color-root: var(--tss-gs-0-root);
+    --tss-progress-background-color-root: var(--tss-gs-13-root);
+    --tss-link-color-root: var(--tss-gs-0-root);
+    --tss-highlight-color-root: var(--tss-gs-0-root);
+    --tss-tooltip-background-color-root: var(--tss-gs-0-root);
+    --tss-tooltip-foreground-color-root: var(--tss-gs-15-root);
+    --tss-primary-background-color-root: var(--tss-gs-0-root);
+    --tss-primary-foreground-color-root: var(--tss-gs-15-root);
+    --tss-primary-border-color-root: var(--tss-gs-0-root);
+    --tss-primary-background-hover-color-root: var(--tss-gs-3-root);
+    --tss-primary-foreground-hover-color-root: var(--tss-gs-15-root);
+    --tss-primary-background-active-color-root: var(--tss-gs-1-root);
+    --tss-primary-foreground-active-color-root: var(--tss-gs-15-root);
+    --tss-warning-background-color-root: var(--tss-gs-12-root);
+    --tss-warning-foreground-color-root: var(--tss-gs-0-root);
+    --tss-warning-border-color-root: var(--tss-gs-0-root);
+    --tss-warning-background-hover-color-root: var(--tss-gs-11-root);
+    --tss-warning-foreground-hover-color-root: var(--tss-gs-0-root);
+    --tss-warning-background-active-color-root: var(--tss-gs-10-root);
+    --tss-warning-foreground-active-color-root: var(--tss-gs-0-root);
+    --tss-danger-background-color-root: var(--tss-gs-2-root);
+    --tss-danger-foreground-color-root: var(--tss-gs-15-root);
+    --tss-danger-border-color-root: var(--tss-gs-0-root);
+    --tss-danger-background-hover-color-root: var(--tss-gs-4-root);
+    --tss-danger-foreground-hover-color-root: var(--tss-gs-15-root);
+    --tss-danger-background-active-color-root: var(--tss-gs-1-root);
+    --tss-danger-foreground-active-color-root: var(--tss-gs-15-root);
+    --tss-success-background-color-root: var(--tss-gs-6-root);
+    --tss-success-foreground-color-root: var(--tss-gs-15-root);
+    --tss-success-border-color-root: var(--tss-gs-0-root);
+    --tss-success-background-hover-color-root: var(--tss-gs-7-root);
+    --tss-success-foreground-hover-color-root: var(--tss-gs-15-root);
+    --tss-success-background-active-color-root: var(--tss-gs-5-root);
+    --tss-success-foreground-active-color-root: var(--tss-gs-15-root);
+    --tss-slider-color-root: var(--tss-gs-10-root);
+    --tss-slider-active-color-root: var(--tss-gs-0-root);
+    --tss-slider-disabled-color-root: var(--tss-gs-12-root);
+    --tss-primary-shadow-color-root: var(--tss-gs-0-root);
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.16);
+
+    --tss-chart-series-1: var(--tss-gs-0);
+    --tss-chart-series-2: var(--tss-gs-8);
+    --tss-chart-series-3: var(--tss-gs-4);
+    --tss-chart-series-4: var(--tss-gs-11);
+    --tss-chart-series-5: var(--tss-gs-2);
+    --tss-chart-series-6: var(--tss-gs-6);
+    --tss-chart-series-7: var(--tss-gs-10);
+    --tss-chart-series-8: var(--tss-gs-13);
+
+    --tss-colors-lime-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-lime-100: rgb(var(--tss-colors-lime-100-root));
+    --tss-colors-lime-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-lime-200: rgb(var(--tss-colors-lime-200-root));
+    --tss-colors-lime-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-lime-250: rgb(var(--tss-colors-lime-250-root));
+    --tss-colors-lime-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-lime-300: rgb(var(--tss-colors-lime-300-root));
+    --tss-colors-lime-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-lime-400: rgb(var(--tss-colors-lime-400-root));
+    --tss-colors-lime-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-lime-500: rgb(var(--tss-colors-lime-500-root));
+    --tss-colors-lime-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-lime-600: rgb(var(--tss-colors-lime-600-root));
+    --tss-colors-lime-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-lime-700: rgb(var(--tss-colors-lime-700-root));
+    --tss-colors-lime-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-lime-800: rgb(var(--tss-colors-lime-800-root));
+    --tss-colors-lime-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-lime-850: rgb(var(--tss-colors-lime-850-root));
+    --tss-colors-lime-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-lime-900: rgb(var(--tss-colors-lime-900-root));
+    --tss-colors-lime-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-lime-1000: rgb(var(--tss-colors-lime-1000-root));
+    --tss-colors-red-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-red-100: rgb(var(--tss-colors-red-100-root));
+    --tss-colors-red-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-red-200: rgb(var(--tss-colors-red-200-root));
+    --tss-colors-red-250-root: var(--tss-gs-abs-13-root);
+    --tss-colors-red-250: rgb(var(--tss-colors-red-250-root));
+    --tss-colors-red-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-red-300: rgb(var(--tss-colors-red-300-root));
+    --tss-colors-red-400-root: var(--tss-gs-abs-11-root);
+    --tss-colors-red-400: rgb(var(--tss-colors-red-400-root));
+    --tss-colors-red-500-root: var(--tss-gs-abs-10-root);
+    --tss-colors-red-500: rgb(var(--tss-colors-red-500-root));
+    --tss-colors-red-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-red-600: rgb(var(--tss-colors-red-600-root));
+    --tss-colors-red-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-red-700: rgb(var(--tss-colors-red-700-root));
+    --tss-colors-red-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-red-800: rgb(var(--tss-colors-red-800-root));
+    --tss-colors-red-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-red-850: rgb(var(--tss-colors-red-850-root));
+    --tss-colors-red-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-red-900: rgb(var(--tss-colors-red-900-root));
+    --tss-colors-red-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-red-1000: rgb(var(--tss-colors-red-1000-root));
+    --tss-colors-orange-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-orange-100: rgb(var(--tss-colors-orange-100-root));
+    --tss-colors-orange-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-orange-200: rgb(var(--tss-colors-orange-200-root));
+    --tss-colors-orange-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-orange-250: rgb(var(--tss-colors-orange-250-root));
+    --tss-colors-orange-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-orange-300: rgb(var(--tss-colors-orange-300-root));
+    --tss-colors-orange-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-orange-400: rgb(var(--tss-colors-orange-400-root));
+    --tss-colors-orange-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-orange-500: rgb(var(--tss-colors-orange-500-root));
+    --tss-colors-orange-600-root: var(--tss-gs-abs-10-root);
+    --tss-colors-orange-600: rgb(var(--tss-colors-orange-600-root));
+    --tss-colors-orange-700-root: var(--tss-gs-abs-8-root);
+    --tss-colors-orange-700: rgb(var(--tss-colors-orange-700-root));
+    --tss-colors-orange-800-root: var(--tss-gs-abs-7-root);
+    --tss-colors-orange-800: rgb(var(--tss-colors-orange-800-root));
+    --tss-colors-orange-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-orange-850: rgb(var(--tss-colors-orange-850-root));
+    --tss-colors-orange-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-orange-900: rgb(var(--tss-colors-orange-900-root));
+    --tss-colors-orange-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-orange-1000: rgb(var(--tss-colors-orange-1000-root));
+    --tss-colors-yellow-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-yellow-100: rgb(var(--tss-colors-yellow-100-root));
+    --tss-colors-yellow-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-yellow-200: rgb(var(--tss-colors-yellow-200-root));
+    --tss-colors-yellow-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-yellow-250: rgb(var(--tss-colors-yellow-250-root));
+    --tss-colors-yellow-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-yellow-300: rgb(var(--tss-colors-yellow-300-root));
+    --tss-colors-yellow-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-yellow-400: rgb(var(--tss-colors-yellow-400-root));
+    --tss-colors-yellow-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-yellow-500: rgb(var(--tss-colors-yellow-500-root));
+    --tss-colors-yellow-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-yellow-600: rgb(var(--tss-colors-yellow-600-root));
+    --tss-colors-yellow-700-root: var(--tss-gs-abs-8-root);
+    --tss-colors-yellow-700: rgb(var(--tss-colors-yellow-700-root));
+    --tss-colors-yellow-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-yellow-800: rgb(var(--tss-colors-yellow-800-root));
+    --tss-colors-yellow-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-yellow-850: rgb(var(--tss-colors-yellow-850-root));
+    --tss-colors-yellow-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-yellow-900: rgb(var(--tss-colors-yellow-900-root));
+    --tss-colors-yellow-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-yellow-1000: rgb(var(--tss-colors-yellow-1000-root));
+    --tss-colors-green-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-green-100: rgb(var(--tss-colors-green-100-root));
+    --tss-colors-green-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-green-200: rgb(var(--tss-colors-green-200-root));
+    --tss-colors-green-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-green-250: rgb(var(--tss-colors-green-250-root));
+    --tss-colors-green-300-root: var(--tss-gs-abs-13-root);
+    --tss-colors-green-300: rgb(var(--tss-colors-green-300-root));
+    --tss-colors-green-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-green-400: rgb(var(--tss-colors-green-400-root));
+    --tss-colors-green-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-green-500: rgb(var(--tss-colors-green-500-root));
+    --tss-colors-green-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-green-600: rgb(var(--tss-colors-green-600-root));
+    --tss-colors-green-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-green-700: rgb(var(--tss-colors-green-700-root));
+    --tss-colors-green-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-green-800: rgb(var(--tss-colors-green-800-root));
+    --tss-colors-green-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-green-850: rgb(var(--tss-colors-green-850-root));
+    --tss-colors-green-900-root: var(--tss-gs-abs-4-root);
+    --tss-colors-green-900: rgb(var(--tss-colors-green-900-root));
+    --tss-colors-green-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-green-1000: rgb(var(--tss-colors-green-1000-root));
+    --tss-colors-teal-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-teal-100: rgb(var(--tss-colors-teal-100-root));
+    --tss-colors-teal-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-teal-200: rgb(var(--tss-colors-teal-200-root));
+    --tss-colors-teal-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-teal-250: rgb(var(--tss-colors-teal-250-root));
+    --tss-colors-teal-300-root: var(--tss-gs-abs-14-root);
+    --tss-colors-teal-300: rgb(var(--tss-colors-teal-300-root));
+    --tss-colors-teal-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-teal-400: rgb(var(--tss-colors-teal-400-root));
+    --tss-colors-teal-500-root: var(--tss-gs-abs-11-root);
+    --tss-colors-teal-500: rgb(var(--tss-colors-teal-500-root));
+    --tss-colors-teal-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-teal-600: rgb(var(--tss-colors-teal-600-root));
+    --tss-colors-teal-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-teal-700: rgb(var(--tss-colors-teal-700-root));
+    --tss-colors-teal-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-teal-800: rgb(var(--tss-colors-teal-800-root));
+    --tss-colors-teal-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-teal-850: rgb(var(--tss-colors-teal-850-root));
+    --tss-colors-teal-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-teal-900: rgb(var(--tss-colors-teal-900-root));
+    --tss-colors-teal-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-teal-1000: rgb(var(--tss-colors-teal-1000-root));
+    --tss-colors-blue-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-blue-100: rgb(var(--tss-colors-blue-100-root));
+    --tss-colors-blue-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-blue-200: rgb(var(--tss-colors-blue-200-root));
+    --tss-colors-blue-250-root: var(--tss-gs-abs-13-root);
+    --tss-colors-blue-250: rgb(var(--tss-colors-blue-250-root));
+    --tss-colors-blue-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-blue-300: rgb(var(--tss-colors-blue-300-root));
+    --tss-colors-blue-400-root: var(--tss-gs-abs-10-root);
+    --tss-colors-blue-400: rgb(var(--tss-colors-blue-400-root));
+    --tss-colors-blue-500-root: var(--tss-gs-abs-9-root);
+    --tss-colors-blue-500: rgb(var(--tss-colors-blue-500-root));
+    --tss-colors-blue-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-blue-600: rgb(var(--tss-colors-blue-600-root));
+    --tss-colors-blue-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-blue-700: rgb(var(--tss-colors-blue-700-root));
+    --tss-colors-blue-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-blue-800: rgb(var(--tss-colors-blue-800-root));
+    --tss-colors-blue-850-root: var(--tss-gs-abs-4-root);
+    --tss-colors-blue-850: rgb(var(--tss-colors-blue-850-root));
+    --tss-colors-blue-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-blue-900: rgb(var(--tss-colors-blue-900-root));
+    --tss-colors-blue-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-blue-1000: rgb(var(--tss-colors-blue-1000-root));
+    --tss-colors-purple-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-purple-100: rgb(var(--tss-colors-purple-100-root));
+    --tss-colors-purple-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-purple-200: rgb(var(--tss-colors-purple-200-root));
+    --tss-colors-purple-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-purple-250: rgb(var(--tss-colors-purple-250-root));
+    --tss-colors-purple-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-purple-300: rgb(var(--tss-colors-purple-300-root));
+    --tss-colors-purple-400-root: var(--tss-gs-abs-11-root);
+    --tss-colors-purple-400: rgb(var(--tss-colors-purple-400-root));
+    --tss-colors-purple-500-root: var(--tss-gs-abs-10-root);
+    --tss-colors-purple-500: rgb(var(--tss-colors-purple-500-root));
+    --tss-colors-purple-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-purple-600: rgb(var(--tss-colors-purple-600-root));
+    --tss-colors-purple-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-purple-700: rgb(var(--tss-colors-purple-700-root));
+    --tss-colors-purple-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-purple-800: rgb(var(--tss-colors-purple-800-root));
+    --tss-colors-purple-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-purple-850: rgb(var(--tss-colors-purple-850-root));
+    --tss-colors-purple-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-purple-900: rgb(var(--tss-colors-purple-900-root));
+    --tss-colors-purple-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-purple-1000: rgb(var(--tss-colors-purple-1000-root));
+    --tss-colors-magenta-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-magenta-100: rgb(var(--tss-colors-magenta-100-root));
+    --tss-colors-magenta-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-magenta-200: rgb(var(--tss-colors-magenta-200-root));
+    --tss-colors-magenta-250-root: var(--tss-gs-abs-14-root);
+    --tss-colors-magenta-250: rgb(var(--tss-colors-magenta-250-root));
+    --tss-colors-magenta-300-root: var(--tss-gs-abs-12-root);
+    --tss-colors-magenta-300: rgb(var(--tss-colors-magenta-300-root));
+    --tss-colors-magenta-400-root: var(--tss-gs-abs-11-root);
+    --tss-colors-magenta-400: rgb(var(--tss-colors-magenta-400-root));
+    --tss-colors-magenta-500-root: var(--tss-gs-abs-10-root);
+    --tss-colors-magenta-500: rgb(var(--tss-colors-magenta-500-root));
+    --tss-colors-magenta-600-root: var(--tss-gs-abs-9-root);
+    --tss-colors-magenta-600: rgb(var(--tss-colors-magenta-600-root));
+    --tss-colors-magenta-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-magenta-700: rgb(var(--tss-colors-magenta-700-root));
+    --tss-colors-magenta-800-root: var(--tss-gs-abs-6-root);
+    --tss-colors-magenta-800: rgb(var(--tss-colors-magenta-800-root));
+    --tss-colors-magenta-850-root: var(--tss-gs-abs-5-root);
+    --tss-colors-magenta-850: rgb(var(--tss-colors-magenta-850-root));
+    --tss-colors-magenta-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-magenta-900: rgb(var(--tss-colors-magenta-900-root));
+    --tss-colors-magenta-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-magenta-1000: rgb(var(--tss-colors-magenta-1000-root));
+    --tss-colors-neutral-0-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: var(--tss-gs-abs-9-root);
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: var(--tss-gs-abs-5-root);
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+    --tss-colors-neutral-100-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-100-alpha: rgb(var(--tss-colors-neutral-100-alpha-root));
+    --tss-colors-neutral-200-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-200-alpha: rgb(var(--tss-colors-neutral-200-alpha-root));
+    --tss-colors-neutral-300-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-300-alpha: rgb(var(--tss-colors-neutral-300-alpha-root));
+    --tss-colors-neutral-400-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-400-alpha: rgb(var(--tss-colors-neutral-400-alpha-root));
+    --tss-colors-neutral-500-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-500-alpha: rgb(var(--tss-colors-neutral-500-alpha-root));
+    --tss-colors-dark-neutral-0-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-0: rgb(var(--tss-colors-dark-neutral-0-root));
+    --tss-colors-dark-neutral-100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-dark-neutral-100: rgb(var(--tss-colors-dark-neutral-100-root));
+    --tss-colors-dark-neutral-200-root: var(--tss-gs-abs-1-root);
+    --tss-colors-dark-neutral-200: rgb(var(--tss-colors-dark-neutral-200-root));
+    --tss-colors-dark-neutral-300-root: var(--tss-gs-abs-2-root);
+    --tss-colors-dark-neutral-300: rgb(var(--tss-colors-dark-neutral-300-root));
+    --tss-colors-dark-neutral-400-root: var(--tss-gs-abs-5-root);
+    --tss-colors-dark-neutral-400: rgb(var(--tss-colors-dark-neutral-400-root));
+    --tss-colors-dark-neutral-500-root: var(--tss-gs-abs-6-root);
+    --tss-colors-dark-neutral-500: rgb(var(--tss-colors-dark-neutral-500-root));
+    --tss-colors-dark-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-dark-neutral-600: rgb(var(--tss-colors-dark-neutral-600-root));
+    --tss-colors-dark-neutral-700-root: var(--tss-gs-abs-10-root);
+    --tss-colors-dark-neutral-700: rgb(var(--tss-colors-dark-neutral-700-root));
+    --tss-colors-dark-neutral-800-root: var(--tss-gs-abs-11-root);
+    --tss-colors-dark-neutral-800: rgb(var(--tss-colors-dark-neutral-800-root));
+    --tss-colors-dark-neutral-900-root: var(--tss-gs-abs-13-root);
+    --tss-colors-dark-neutral-900: rgb(var(--tss-colors-dark-neutral-900-root));
+    --tss-colors-dark-neutral-1000-root: var(--tss-gs-abs-14-root);
+    --tss-colors-dark-neutral-1000: rgb(var(--tss-colors-dark-neutral-1000-root));
+    --tss-colors-dark-neutral-1100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-1100: rgb(var(--tss-colors-dark-neutral-1100-root));
+    --tss-colors-dark-neutral-100-alpha-root: var(--tss-gs-abs-12-root);
+    --tss-colors-dark-neutral-100-alpha: rgb(var(--tss-colors-dark-neutral-100-alpha-root));
+    --tss-colors-dark-neutral-200-alpha-root: var(--tss-gs-abs-14-root);
+    --tss-colors-dark-neutral-200-alpha: rgb(var(--tss-colors-dark-neutral-200-alpha-root));
+    --tss-colors-dark-neutral-300-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-300-alpha: rgb(var(--tss-colors-dark-neutral-300-alpha-root));
+    --tss-colors-dark-neutral-400-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-400-alpha: rgb(var(--tss-colors-dark-neutral-400-alpha-root));
+    --tss-colors-dark-neutral-500-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-500-alpha: rgb(var(--tss-colors-dark-neutral-500-alpha-root));
+
+    --tss-gradient-lime: linear-gradient(135deg, var(--tss-colors-lime-300), var(--tss-colors-lime-600));
+    --tss-gradient-red: linear-gradient(135deg, var(--tss-colors-red-300), var(--tss-colors-red-600));
+    --tss-gradient-orange: linear-gradient(135deg, var(--tss-colors-orange-300), var(--tss-colors-orange-600));
+    --tss-gradient-yellow: linear-gradient(135deg, var(--tss-colors-yellow-300), var(--tss-colors-yellow-600));
+    --tss-gradient-green: linear-gradient(135deg, var(--tss-colors-green-300), var(--tss-colors-green-600));
+    --tss-gradient-teal: linear-gradient(135deg, var(--tss-colors-teal-300), var(--tss-colors-teal-600));
+    --tss-gradient-blue: linear-gradient(135deg, var(--tss-colors-blue-300), var(--tss-colors-blue-600));
+    --tss-gradient-purple: linear-gradient(135deg, var(--tss-colors-purple-300), var(--tss-colors-purple-600));
+    --tss-gradient-magenta: linear-gradient(135deg, var(--tss-colors-magenta-300), var(--tss-colors-magenta-600));
+    --tss-gradient-ai: var(--tss-gs-bayer-25-img), linear-gradient(var(--tss-gs-13), var(--tss-gs-13));
+
+    --tss-ai-from: var(--tss-gs-0);
+    --tss-ai-to: var(--tss-gs-0);
+    --tss-ai-accent: var(--tss-gs-0);
+    --tss-ai-gradient: linear-gradient(var(--tss-gs-0), var(--tss-gs-0));
+    --tss-ai-gradient-hover: linear-gradient(var(--tss-gs-3), var(--tss-gs-3));
+    --tss-ai-gradient-text: linear-gradient(var(--tss-gs-0), var(--tss-gs-0));
+    --tss-ai-surface: var(--tss-gs-bayer-12-img);
+    --tss-ai-surface-strong: var(--tss-gs-bayer-25-img);
+    --tss-ai-border-color: var(--tss-gs-0);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+    --tss-ai-arc: repeating-conic-gradient(var(--tss-gs-0) 0 12deg, transparent 12deg 30deg);
+    --tss-ai-on-fill: var(--tss-gs-15);
+
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe {
+    --tss-gs-0-root: 22, 21, 19;
+    --tss-gs-1-root: 33, 32, 30;
+    --tss-gs-2-root: 45, 44, 41;
+    --tss-gs-3-root: 57, 56, 53;
+    --tss-gs-4-root: 70, 69, 65;
+    --tss-gs-5-root: 83, 82, 78;
+    --tss-gs-6-root: 97, 95, 91;
+    --tss-gs-7-root: 110, 109, 104;
+    --tss-gs-8-root: 125, 123, 118;
+    --tss-gs-9-root: 139, 137, 131;
+    --tss-gs-10-root: 154, 151, 146;
+    --tss-gs-11-root: 169, 166, 160;
+    --tss-gs-12-root: 184, 181, 175;
+    --tss-gs-13-root: 199, 197, 190;
+    --tss-gs-14-root: 215, 212, 205;
+    --tss-gs-15-root: 231, 228, 220;
+    --tss-gs-edge-sm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM0 2h1v1h-1zM6 2h1v1h-1zM0 3h1v1h-1zM6 3h1v1h-1zM0 4h1v1h-1zM6 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1z'/%3E%3Cpath fill='%23161513' d='M8 2h1v1h-1zM7 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM8 6h1v1h-1zM3 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1zM2 8h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM8 8h1v1h-1z'/%3E%3C/svg%3E") 3 / 3px / 0 2px 2px 0 repeat;
+    --tss-gs-edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM0 1h1v1h-1zM8 1h1v1h-1zM0 2h1v1h-1zM8 2h1v1h-1zM0 3h1v1h-1zM8 3h1v1h-1zM0 4h1v1h-1zM8 4h1v1h-1zM0 5h1v1h-1zM8 5h1v1h-1zM0 6h1v1h-1zM8 6h1v1h-1zM0 7h1v1h-1zM8 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1z'/%3E%3Cpath fill='%23161513' d='M9 3h1v1h-1zM10 4h1v1h-1zM9 5h1v1h-1zM10 6h1v1h-1zM9 7h1v1h-1zM10 8h1v1h-1zM3 9h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM10 10h1v1h-1z'/%3E%3C/svg%3E") 4 / 4px / 0 3px 3px 0 repeat;
+    --tss-gs-edge-lg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM12 0h1v1h-1zM0 1h1v1h-1zM12 1h1v1h-1zM0 2h1v1h-1zM12 2h1v1h-1zM0 3h1v1h-1zM12 3h1v1h-1zM0 4h1v1h-1zM12 4h1v1h-1zM0 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM12 6h1v1h-1zM0 7h1v1h-1zM12 7h1v1h-1zM0 8h1v1h-1zM12 8h1v1h-1zM0 9h1v1h-1zM12 9h1v1h-1zM0 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM12 11h1v1h-1zM0 12h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1z'/%3E%3Cpath fill='%23161513' d='M13 5h1v1h-1zM15 5h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM13 11h1v1h-1zM15 11h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM5 13h1v1h-1zM7 13h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM13 13h1v1h-1zM15 13h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM13 15h1v1h-1zM15 15h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1z'/%3E%3C/svg%3E") 6 / 6px / 0 5px 5px 0 repeat;
+    --tss-gs-hatch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-mid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%237d7b76' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-12: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-25: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-50: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-75: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-12-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-25-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23161513' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+}
+
+body.tss-theme-graustufe.tss-dark-mode {
+    --tss-colors-dark-neutral-0-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-0: rgb(var(--tss-colors-dark-neutral-0-root));
+    --tss-colors-dark-neutral-100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-100: rgb(var(--tss-colors-dark-neutral-100-root));
+    --tss-colors-dark-neutral-200-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-200: rgb(var(--tss-colors-dark-neutral-200-root));
+    --tss-colors-dark-neutral-300-root: var(--tss-gs-abs-15-root);
+    --tss-colors-dark-neutral-300: rgb(var(--tss-colors-dark-neutral-300-root));
+    --tss-colors-dark-neutral-400-root: var(--tss-gs-abs-12-root);
+    --tss-colors-dark-neutral-400: rgb(var(--tss-colors-dark-neutral-400-root));
+    --tss-colors-dark-neutral-500-root: var(--tss-gs-abs-9-root);
+    --tss-colors-dark-neutral-500: rgb(var(--tss-colors-dark-neutral-500-root));
+    --tss-colors-dark-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-dark-neutral-600: rgb(var(--tss-colors-dark-neutral-600-root));
+    --tss-colors-dark-neutral-700-root: var(--tss-gs-abs-7-root);
+    --tss-colors-dark-neutral-700: rgb(var(--tss-colors-dark-neutral-700-root));
+    --tss-colors-dark-neutral-800-root: var(--tss-gs-abs-5-root);
+    --tss-colors-dark-neutral-800: rgb(var(--tss-colors-dark-neutral-800-root));
+    --tss-colors-dark-neutral-900-root: var(--tss-gs-abs-3-root);
+    --tss-colors-dark-neutral-900: rgb(var(--tss-colors-dark-neutral-900-root));
+    --tss-colors-dark-neutral-1000-root: var(--tss-gs-abs-2-root);
+    --tss-colors-dark-neutral-1000: rgb(var(--tss-colors-dark-neutral-1000-root));
+    --tss-colors-dark-neutral-1100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-dark-neutral-1100: rgb(var(--tss-colors-dark-neutral-1100-root));
+    --tss-colors-dark-neutral-100-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-100-alpha: rgb(var(--tss-colors-dark-neutral-100-alpha-root));
+    --tss-colors-dark-neutral-200-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-200-alpha: rgb(var(--tss-colors-dark-neutral-200-alpha-root));
+    --tss-colors-dark-neutral-300-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-300-alpha: rgb(var(--tss-colors-dark-neutral-300-alpha-root));
+    --tss-colors-dark-neutral-400-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-400-alpha: rgb(var(--tss-colors-dark-neutral-400-alpha-root));
+    --tss-colors-dark-neutral-500-alpha-root: var(--tss-gs-abs-0-root);
+    --tss-colors-dark-neutral-500-alpha: rgb(var(--tss-colors-dark-neutral-500-alpha-root));
+    --tss-colors-neutral-0-root: var(--tss-gs-abs-0-root);
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: var(--tss-gs-abs-1-root);
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: var(--tss-gs-abs-1-root);
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: var(--tss-gs-abs-2-root);
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: var(--tss-gs-abs-5-root);
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: var(--tss-gs-abs-6-root);
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: var(--tss-gs-abs-8-root);
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: var(--tss-gs-abs-10-root);
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: var(--tss-gs-abs-11-root);
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: var(--tss-gs-abs-13-root);
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: var(--tss-gs-abs-14-root);
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+    --tss-colors-neutral-100-alpha-root: var(--tss-gs-abs-12-root);
+    --tss-colors-neutral-100-alpha: rgb(var(--tss-colors-neutral-100-alpha-root));
+    --tss-colors-neutral-200-alpha-root: var(--tss-gs-abs-14-root);
+    --tss-colors-neutral-200-alpha: rgb(var(--tss-colors-neutral-200-alpha-root));
+    --tss-colors-neutral-300-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-300-alpha: rgb(var(--tss-colors-neutral-300-alpha-root));
+    --tss-colors-neutral-400-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-400-alpha: rgb(var(--tss-colors-neutral-400-alpha-root));
+    --tss-colors-neutral-500-alpha-root: var(--tss-gs-abs-15-root);
+    --tss-colors-neutral-500-alpha: rgb(var(--tss-colors-neutral-500-alpha-root));
+}
+
+body.tss-theme-graustufe.tss-dark-mode {
+    --tss-gs-0-root: 231, 228, 220;
+    --tss-gs-1-root: 215, 212, 205;
+    --tss-gs-2-root: 199, 197, 190;
+    --tss-gs-3-root: 184, 181, 175;
+    --tss-gs-4-root: 169, 166, 160;
+    --tss-gs-5-root: 154, 151, 146;
+    --tss-gs-6-root: 139, 137, 131;
+    --tss-gs-7-root: 125, 123, 118;
+    --tss-gs-8-root: 110, 109, 104;
+    --tss-gs-9-root: 97, 95, 91;
+    --tss-gs-10-root: 83, 82, 78;
+    --tss-gs-11-root: 70, 69, 65;
+    --tss-gs-12-root: 57, 56, 53;
+    --tss-gs-13-root: 45, 44, 41;
+    --tss-gs-14-root: 33, 32, 30;
+    --tss-gs-15-root: 22, 21, 19;
+    --tss-gs-edge-sm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' shape-rendering='crispEdges'%3E%3Cpath fill='%23d7d4cd' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM0 2h1v1h-1zM6 2h1v1h-1zM0 3h1v1h-1zM6 3h1v1h-1zM0 4h1v1h-1zM6 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1z'/%3E%3Cpath fill='%238b8983' d='M8 2h1v1h-1zM7 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM8 6h1v1h-1zM3 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1zM2 8h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM8 8h1v1h-1z'/%3E%3C/svg%3E") 3 / 3px / 0 2px 2px 0 repeat;
+    --tss-gs-edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath fill='%23d7d4cd' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM0 1h1v1h-1zM8 1h1v1h-1zM0 2h1v1h-1zM8 2h1v1h-1zM0 3h1v1h-1zM8 3h1v1h-1zM0 4h1v1h-1zM8 4h1v1h-1zM0 5h1v1h-1zM8 5h1v1h-1zM0 6h1v1h-1zM8 6h1v1h-1zM0 7h1v1h-1zM8 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1z'/%3E%3Cpath fill='%238b8983' d='M9 3h1v1h-1zM10 4h1v1h-1zM9 5h1v1h-1zM10 6h1v1h-1zM9 7h1v1h-1zM10 8h1v1h-1zM3 9h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM10 10h1v1h-1z'/%3E%3C/svg%3E") 4 / 4px / 0 3px 3px 0 repeat;
+    --tss-gs-edge-lg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' shape-rendering='crispEdges'%3E%3Cpath fill='%23d7d4cd' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM12 0h1v1h-1zM0 1h1v1h-1zM12 1h1v1h-1zM0 2h1v1h-1zM12 2h1v1h-1zM0 3h1v1h-1zM12 3h1v1h-1zM0 4h1v1h-1zM12 4h1v1h-1zM0 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM12 6h1v1h-1zM0 7h1v1h-1zM12 7h1v1h-1zM0 8h1v1h-1zM12 8h1v1h-1zM0 9h1v1h-1zM12 9h1v1h-1zM0 10h1v1h-1zM12 10h1v1h-1zM0 11h1v1h-1zM12 11h1v1h-1zM0 12h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1z'/%3E%3Cpath fill='%238b8983' d='M13 5h1v1h-1zM15 5h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM13 11h1v1h-1zM15 11h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM5 13h1v1h-1zM7 13h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM13 13h1v1h-1zM15 13h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM13 15h1v1h-1zM15 15h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1z'/%3E%3C/svg%3E") 6 / 6px / 0 5px 5px 0 repeat;
+    --tss-gs-hatch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-mid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%236e6d68' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-12: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-25: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-50: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-bayer-75: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM0 2h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1z'/%3E%3C/svg%3E") 0 0 / 4px 4px repeat;
+    --tss-gs-hatch-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 3h1v1h-1zM1 2h1v1h-1zM2 1h1v1h-1zM3 0h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-12-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+    --tss-gs-bayer-25-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath fill='%23e7e4dc' d='M0 0h1v1h-1zM2 0h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1z'/%3E%3C/svg%3E");
+}
+
+
+body.tss-theme-graustufe,
+body.tss-theme-graustufe *,
+body.tss-theme-graustufe *::before,
+body.tss-theme-graustufe *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+}
+
+body.tss-theme-graustufe * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+
+body.tss-theme-graustufe {
+    font-family: var(--tss-gs-text);
+    font-optical-sizing: auto;
+    font-variant-numeric: lining-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body.tss-theme-graustufe button,
+body.tss-theme-graustufe input,
+body.tss-theme-graustufe select,
+body.tss-theme-graustufe textarea {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe code,
+body.tss-theme-graustufe pre,
+body.tss-theme-graustufe kbd,
+body.tss-theme-graustufe samp {
+    font-family: var(--tss-gs-mono);
+}
+
+body.tss-theme-graustufe ::selection {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe :focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+body.tss-theme-graustufe input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-graustufe textarea:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-graustufe a {
+    color: var(--tss-gs-0);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe a:hover {
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-graustufe hr {
+    border: 0;
+    border-top: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe img,
+body.tss-theme-graustufe video,
+body.tss-theme-graustufe canvas,
+body.tss-theme-graustufe picture,
+body.tss-theme-graustufe iframe,
+body.tss-theme-graustufe .ec,
+body.tss-theme-graustufe i[class*="ec-"],
+body.tss-theme-graustufe span[class*="ec-"] {
+    filter: var(--tss-gs-panel);
+}
+
+
+html:has(> body.tss-theme-graustufe) {
+    --tss-gs-sb-rest: rgb(199, 197, 190);
+    --tss-gs-sb-near: rgb(125, 123, 118);
+    --tss-gs-sb-hot: rgb(22, 21, 19);
+}
+
+html:has(> body.tss-theme-graustufe.tss-dark-mode) {
+    --tss-gs-sb-rest: rgb(57, 56, 53);
+    --tss-gs-sb-near: rgb(125, 123, 118);
+    --tss-gs-sb-hot: rgb(231, 228, 220);
+}
+
+body.tss-theme-graustufe {
+    --tss-gs-sb-rest: var(--tss-gs-12);
+    --tss-gs-sb-near: var(--tss-gs-8);
+    --tss-gs-sb-hot: var(--tss-gs-0);
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar,
+    body.tss-theme-graustufe::-webkit-scrollbar,
+    body.tss-theme-graustufe ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-corner,
+    body.tss-theme-graustufe::-webkit-scrollbar-corner,
+    body.tss-theme-graustufe ::-webkit-scrollbar-corner,
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-track,
+    body.tss-theme-graustufe::-webkit-scrollbar-track,
+    body.tss-theme-graustufe ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-graustufe):hover::-webkit-scrollbar-track:vertical,
+    body.tss-theme-graustufe:hover::-webkit-scrollbar-track:vertical,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-track:vertical {
+        background: linear-gradient(90deg, transparent 4px, var(--tss-gs-sb-near) 4px 5px, transparent 5px);
+    }
+
+    html:has(> body.tss-theme-graustufe):hover::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-graustufe:hover::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-track:horizontal {
+        background: linear-gradient(180deg, transparent 4px, var(--tss-gs-sb-near) 4px 5px, transparent 5px);
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe ::-webkit-scrollbar-thumb {
+        background-color: var(--tss-gs-sb-rest);
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        border-radius: 0;
+        min-height: 32px;
+        min-width: 32px;
+    }
+
+    html:has(> body.tss-theme-graustufe):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-thumb {
+        background-color: var(--tss-gs-sb-near);
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-graustufe::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-graustufe ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-thumb:hover,
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-graustufe::-webkit-scrollbar-thumb:active,
+    body.tss-theme-graustufe ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-graustufe *:hover::-webkit-scrollbar-thumb:active {
+        background-color: var(--tss-gs-sb-hot);
+    }
+
+    html:has(> body.tss-theme-graustufe)::-webkit-scrollbar-button,
+    body.tss-theme-graustufe::-webkit-scrollbar-button,
+    body.tss-theme-graustufe ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-graustufe),
+    body.tss-theme-graustufe,
+    body.tss-theme-graustufe * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-gs-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-graustufe):hover,
+    body.tss-theme-graustufe *:hover {
+        scrollbar-color: var(--tss-gs-sb-near) transparent;
+    }
+}
+
+body.tss-theme-graustufe .tippy-box {
+    transition-property: visibility !important;
+    transition-duration: 1ms !important;
+    transition-timing-function: linear !important;
+    transition-delay: 0s !important;
+}
+
+
+body.tss-theme-graustufe [style*="rgb("]:not(body),
+body.tss-theme-graustufe [style*="hsl("]:not(body),
+body.tss-theme-graustufe [style*="gradient("]:not(body),
+body.tss-theme-graustufe [style*="#"]:not(body),
+body.tss-theme-graustufe [style*="--tss-token-tint"],
+body.tss-theme-graustufe svg {
+    filter: var(--tss-gs-panel);
+}
+
+
+body.tss-theme-graustufe .tss-fontcolor-primary,
+body.tss-theme-graustufe .tss-fontcolor-danger,
+body.tss-theme-graustufe .tss-fontcolor-invalid {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-fontcolor-success,
+body.tss-theme-graustufe .tss-fontcolor-warning {
+    color: var(--tss-gs-4);
+}
+
+body.tss-theme-graustufe .tss-fontcolor-secondary {
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe [style*="background-color: var(--tss-primary-background-color)"],
+body.tss-theme-graustufe [style*="background: var(--tss-primary-background-color)"],
+body.tss-theme-graustufe [style*="background-color: var(--tss-primary-background-color)"] .tss-fontcolor-default,
+body.tss-theme-graustufe [style*="background: var(--tss-primary-background-color)"] .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-color);
+}
+
+
+body.tss-theme-graustufe .baklava-editor,
+body.tss-theme-graustufe .tss-nodeview {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe ﻿
+.tss-nodeview,
+body.tss-theme-graustufe .tss-dark-mode .tss-nodeview,
+body.tss-theme-graustufe .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+    border-radius: 0;
+}
+
+
+
+body.tss-theme-graustufe .tss-btn {
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border-radius: var(--tss-gs-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-btn:focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-fontcolor-default {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled):hover {
+    border-color: transparent;
+    background-color: var(--tss-gs-13);
+}
+
+
+body.tss-theme-graustufe .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-graustufe .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-graustufe .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-image: var(--tss-gs-edge-sm);
+    filter: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    filter: none;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    border-image: none;
+    border-color: var(--tss-gs-0);
+    transform: translate(2px, 2px);
+    filter: none;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    outline: 1px solid var(--tss-gs-0);
+    outline-offset: 2px;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: 3px;
+}
+
+
+body.tss-theme-graustufe .tss-btn.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: transparent;
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-gs-4);
+}
+
+
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-gs-0);
+    border-image: none;
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-link:hover > span {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-link:focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: 1px;
+}
+
+
+body.tss-theme-graustufe .tss-btn.tss-disabled {
+    background: transparent;
+    border: 1px dashed var(--tss-gs-9);
+    border-image: none;
+    color: var(--tss-gs-9);
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-disabled.tss-btn-link,
+body.tss-theme-graustufe .tss-btn.tss-disabled.tss-btn-noborder {
+    border-color: transparent;
+}
+
+
+body.tss-theme-graustufe .tss-btn.tss-btn-spinning .tss-btn-spin-ring .tss-btn-spin-track {
+    opacity: 0;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-spinning .tss-btn-spin-ring .tss-btn-spin-arc {
+    opacity: 1;
+    stroke-dasharray: 0.01 7.853;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-btn-default.tss-btn-spin-success .tss-btn-spin-ring,
+body.tss-theme-graustufe .tss-btn.tss-btn-default.tss-btn-spin-error .tss-btn-spin-ring {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-btn-unchecked .tss-fontcolor-default {
+    color: var(--tss-gs-6);
+}
+
+
+body.tss-theme-graustufe .tss-label > label {
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-text-glow {
+    text-shadow: none;
+    font-weight: 700;
+}
+
+
+body.tss-theme-graustufe .tss-listitemtext-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-listitemtext-subtitle {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-listitemtext-icon {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-statefulitemrow {
+    --tss-statefulitemrow-surface: var(--tss-gs-15);
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-primary,
+body.tss-theme-graustufe .tss-statefulitemrow-success,
+body.tss-theme-graustufe .tss-statefulitemrow-warning,
+body.tss-theme-graustufe .tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: var(--tss-gs-15);
+    --tss-statefulitemrow-accent: var(--tss-gs-0);
+    position: relative;
+    box-shadow: inset 6px 0 0 var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-success {
+    box-shadow: none;
+    background: var(--tss-gs-dither) , var(--tss-gs-15);
+    background-size: 2px 2px, auto;
+    background-repeat: repeat-y, no-repeat;
+    background-position: 0 0, 0 0;
+    background-clip: border-box;
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-success,
+body.tss-theme-graustufe .tss-statefulitemrow-warning {
+    box-shadow: none;
+    background: linear-gradient(90deg, transparent 6px, var(--tss-gs-15) 6px), var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-success::before,
+body.tss-theme-graustufe .tss-statefulitemrow-warning::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    pointer-events: none;
+    background: var(--tss-gs-dither);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-warning::before {
+    background: var(--tss-gs-hatch);
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-danger .tss-statefulitemrow-title {
+    font-weight: 800;
+}
+
+body.tss-theme-graustufe .tss-statefulitemrow-interactive:hover {
+    background: var(--tss-gs-13);
+}
+
+
+body.tss-theme-graustufe .tss-textbox {
+    font-family: var(--tss-gs-ui);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-textbox::placeholder {
+    color: var(--tss-gs-8) !important;
+    opacity: 1;
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-textbox:hover {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-textbox:focus {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-textbox.tss-disabled {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-10);
+    color: var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: var(--tss-gs-0);
+    box-shadow: inset 4px 0 0 var(--tss-gs-0);
+    padding-left: 14px;
+}
+
+body.tss-theme-graustufe .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: inset 4px 0 0 var(--tss-gs-0), 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-textbox-error {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-textbox.tss-textbox-noborder,
+body.tss-theme-graustufe .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-graustufe .tss-textbox.tss-textbox-noborder:focus {
+    border-color: transparent;
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-textblock table {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-textblock table thead {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-textblock table th {
+    font-family: var(--tss-gs-ui);
+    color: var(--tss-gs-0);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-textblock table td {
+    border-bottom: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-textblock table tbody tr:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-default-foreground-color);
+    pointer-events: none;
+}
+
+body.tss-theme-graustufe .tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn > i {
+    animation: none;
+}
+
+
+body.tss-theme-graustufe .tss-textarea {
+    font-family: var(--tss-gs-text);
+    line-height: 1.5;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+
+body.tss-theme-graustufe .tss-card {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-card.tss-card-hover:hover,
+body.tss-theme-graustufe .tss-card.tss-card-hover:active {
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-card.tss-has-layout {
+    border-image: var(--tss-gs-edge) !important;
+}
+
+body.tss-theme-graustufe .tss-card-header,
+body.tss-theme-graustufe .tss-card-footer {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-card-content {
+    background: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-card-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-expander {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-expander-header:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-expander-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-expander-content {
+    border-top: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-expander-icon {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-expander-header:focus-visible {
+    outline-offset: -4px;
+}
+
+
+body.tss-theme-graustufe .tss-token {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-chip {
+    border-radius: 2px;
+}
+
+body.tss-theme-graustufe .tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-graustufe .tss-token-filled {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-token-primary {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-token-danger {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    outline: 1px solid var(--tss-gs-0);
+    outline-offset: 1px;
+}
+
+body.tss-theme-graustufe .tss-token-success {
+    background: var(--tss-gs-6);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-token-warning {
+    background: var(--tss-gs-12);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-token-info {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+body.tss-theme-graustufe .tss-token-outline,
+body.tss-theme-graustufe .tss-token-outline.tss-token-primary,
+body.tss-theme-graustufe .tss-token-outline.tss-token-success,
+body.tss-theme-graustufe .tss-token-outline.tss-token-warning,
+body.tss-theme-graustufe .tss-token-outline.tss-token-danger,
+body.tss-theme-graustufe .tss-token-outline.tss-token-info {
+    background: transparent;
+    color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-token-outline.tss-token-danger {
+    border-style: double;
+    border-width: 3px;
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-token-outline.tss-token-warning {
+    border-style: dashed;
+}
+
+body.tss-theme-graustufe .tss-token-tinted {
+    filter: var(--tss-gs-panel);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-token-remove:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tag {
+    border-color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-icontile {
+    --tss-icontile-radius: 0px;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-icontile.tss-icontile-plain,
+body.tss-theme-graustufe.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-avatar {
+    background: var(--tss-gs-13);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-avatar.tss-avatar-generated {
+    background: linear-gradient(135deg, hsl(var(--tss-avatar-hue), 60%, 50%), hsl(calc(var(--tss-avatar-hue) + 40), 80%, 40%));
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: rgb(255, 255, 255);
+}
+
+body.tss-theme-graustufe .tss-avatar-presence {
+    border: 2px solid var(--tss-gs-15);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-presence-online {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-presence-away {
+    background: linear-gradient(90deg, var(--tss-gs-0) 50%, var(--tss-gs-15) 50%);
+}
+
+body.tss-theme-graustufe .tss-presence-busy {
+    background: linear-gradient(var(--tss-gs-15), var(--tss-gs-15)) center / 60% 2px no-repeat, var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-presence-offline {
+    background: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-breadcrumb {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-breadcrumb-chevron {
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-checkbox-container {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container .tss-checkbox-mark {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container .tss-checkbox-mark:after {
+    border-color: var(--tss-gs-9);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-graustufe .tss-checkbox-container:hover .tss-checkbox-mark {
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-graustufe .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
+    background-color: var(--tss-gs-14);
+    border: 1px dashed var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-gs-10);
+    border-color: var(--tss-gs-10);
+}
+
+
+body.tss-theme-graustufe .tss-option-container {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-option-container .tss-option-mark {
+    border: 1px solid var(--tss-gs-0);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-option-container .tss-option-mark:after {
+    border-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-option-container:hover .tss-option-mark {
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-graustufe .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-graustufe .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+body.tss-theme-graustufe .tss-option-container.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-option-container.tss-disabled .tss-option-mark {
+    border: 1px dashed var(--tss-gs-9);
+    background: var(--tss-gs-14);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-gs-9);
+}
+
+
+body.tss-theme-graustufe .tss-dropdown {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container {
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container:hover {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container:has(> .tss-dropdown:focus-visible),
+body.tss-theme-graustufe .tss-dropdown-container:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-graustufe .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-noborder,
+body.tss-theme-graustufe .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-disabled {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-10);
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: 0;
+    box-shadow: inset 4px 0 0 var(--tss-gs-0);
+    padding-left: 12px;
+}
+
+body.tss-theme-graustufe .tss-dropdown-error {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-dropdown-item-on-box {
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-dropdown-popup {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item {
+    font-family: var(--tss-gs-ui);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dropdown-item:hover {
+    background-color: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item:focus,
+body.tss-theme-graustufe .tss-dropdown-item.tss-dropdown-item-focus {
+    border: 1px solid var(--tss-gs-0);
+    background-color: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus,
+body.tss-theme-graustufe .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+}
+
+body.tss-theme-graustufe :not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected,
+body.tss-theme-graustufe :not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected:hover {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe :not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-dropdown-header {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-dropdown-divider {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item.tss-disabled:hover {
+    background-color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: var(--tss-gs-9);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
+    background-color: var(--tss-gs-14);
+    border: 1px dashed var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: var(--tss-gs-rule);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
+    border: 2px dotted var(--tss-gs-0);
+}
+
+
+
+body.tss-theme-graustufe .tss-cron-editor,
+body.tss-theme-graustufe .tss-cron-inline-dropdown.tss-dropdown-container {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-cron-open {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-filedroparea {
+    border: 2px dashed var(--tss-gs-0);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-filedroparea:hover,
+body.tss-theme-graustufe .tss-filedroparea.tss-dragover,
+body.tss-theme-graustufe .tss-filedroparea.tss-drag-over {
+    background: var(--tss-gs-bayer-12), var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-filedroparea,
+body.tss-theme-graustufe .tss-filedroparea-overlay {
+    border-radius: 0;
+}
+
+
+
+body.tss-theme-graustufe .tss-contextmenu {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-popup {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover,
+body.tss-theme-graustufe .tss-contextmenu-item.tss-selected {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover *,
+body.tss-theme-graustufe .tss-contextmenu-item.tss-selected * {
+    color: var(--tss-gs-15) !important;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item:focus {
+    border: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    border-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-header {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-contextmenu-divider {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-graustufe .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-item.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-contextmenu-error {
+    color: var(--tss-gs-0);
+    font-style: italic;
+    font-weight: 600;
+}
+
+
+body.tss-theme-graustufe .tss-horizontalseparator-container::before,
+body.tss-theme-graustufe .tss-horizontalseparator-container::after {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-horizontalseparator {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-horizontalseparator.tss-primary {
+    color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+
+body.tss-theme-graustufe .tss-editablelabel-displaybox:hover {
+    background: var(--tss-gs-13);
+    box-shadow: inset 0 -1px 0 var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-editablelabel-textbox {
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-editablelabel-cancel-icon {
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-layer-content:not(.tss-layer-content-transparent) {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+}
+
+
+body.tss-theme-graustufe .tss-detailslist {
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+body.tss-theme-graustufe .tss-detailslist-header {
+    background: var(--tss-gs-15);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-detailslist-column-header {
+    font-family: var(--tss-gs-ui);
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container.tss-selected,
+body.tss-theme-graustufe .tss-detailslist-list-item-container.tss-detailslist-selected {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-layer-picker-suggestions {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-picker-suggestions > .tss-picker-label {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-picker-selection {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-picker-selection:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-picker-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-picker-remove:hover {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-autocompletebox-list {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-match {
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-status,
+body.tss-theme-graustufe .tss-autocompletebox-status-valid,
+body.tss-theme-graustufe .tss-autocompletebox-status-warning,
+body.tss-theme-graustufe .tss-autocompletebox-status-invalid {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-autocompletebox-status-invalid {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-color: var(--tss-gs-0);
+    box-shadow: inset 4px 0 0 var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-panel-container {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-panel-container.tss-dark {
+    background: var(--tss-gs-bayer-50);
+}
+
+body.tss-theme-graustufe .tss-panel-container.tss-panel-modeless,
+body.tss-theme-graustufe .tss-panel-modeless {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-panel {
+    background-color: var(--tss-gs-15);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far {
+    border-left: var(--tss-gs-rule);
+    box-shadow: -6px 0 0 0 var(--tss-gs-15), -6px 0 0 0 transparent;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-near {
+    border-right: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far::before,
+body.tss-theme-graustufe .tss-panel.tss-panelSide-near::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    pointer-events: none;
+    background: var(--tss-gs-dither);
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far::before {
+    left: -7px;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-near::before {
+    right: -7px;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far {
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-panel-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-panel-command-button {
+    color: var(--tss-gs-0);
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-panel-command-button:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-panel-command-button:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-panel-footer {
+    border-top: var(--tss-gs-rule-faint);
+}
+
+
+body.tss-theme-graustufe .tss-drawer-container.tss-drawer-open {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-drawer {
+    background-color: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-bottom: 0;
+}
+
+body.tss-theme-graustufe .tss-drawer-handle-bar {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    height: 3px;
+}
+
+body.tss-theme-graustufe .tss-drawer-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-drawer-close {
+    color: var(--tss-gs-0);
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-drawer-close:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-drawer-footer {
+    border-top: var(--tss-gs-rule);
+}
+
+
+body.tss-theme-graustufe .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    border-bottom: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-pivot-titlebar {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-pivot-titlebar > .tss-pivot-selected-title {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-pivot-line {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    height: 3px;
+}
+
+body.tss-theme-graustufe .tss-pivot-tab-close:hover {
+    color: var(--tss-gs-15);
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pivot-tab-close:focus-visible {
+    outline: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-graustufe .tss-pivot-tab-needs-saving::after,
+body.tss-theme-graustufe .tss-pivot-tab-mark {
+    background: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-cardpivot-titlebar {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab {
+    border-right: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab:last-child {
+    border-right: none;
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: 3px solid var(--tss-gs-0);
+    font-weight: 700;
+}
+
+
+body.tss-theme-graustufe .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-graustufe .tss-segmentedpivot-titlebar {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-segmentedpivot-tab {
+    border-radius: 0;
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-segmentedpivot-tab:hover {
+    background-color: var(--tss-gs-13);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-graustufe .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    box-shadow: none;
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-graustufe .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-gs-15) !important;
+    -webkit-text-fill-color: var(--tss-gs-15) !important;
+}
+
+body.tss-theme-graustufe .tss-segmentedpivot-tab:focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: 1px;
+}
+
+
+body.tss-theme-graustufe .tss-metric-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-metric-value {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-metric-icon > .tss-icontile,
+body.tss-theme-graustufe .tss-metric-compact .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-graustufe .tss-metric-value-filled .tss-metric-value {
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-contribution-bar {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contribution-segment + .tss-contribution-segment {
+    box-shadow: inset 1px 0 0 var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-contribution-legend-dot {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contribution-toggle {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-contribution-toggle:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-sparkline-reference {
+    stroke: var(--tss-gs-8);
+    stroke-dasharray: 1 3;
+}
+
+body.tss-theme-graustufe .tss-sparkline-end {
+    border-radius: 0;
+}
+
+
+body.tss-theme-graustufe .tss-trendbadge {
+    border-radius: 0;
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-trendbadge-good {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-trendbadge-bad {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: none;
+    outline: 1px dashed var(--tss-gs-0);
+    outline-offset: -1px;
+}
+
+
+body.tss-theme-graustufe .tss-targetbar {
+    --tss-targetbar-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-targetbar-track {
+    border-radius: 0;
+    background: var(--tss-gs-bayer-12), var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-targetbar-fill {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-targetbar-marker {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    width: 2px;
+}
+
+body.tss-theme-graustufe .tss-targetbar-value {
+    font-family: var(--tss-gs-mono);
+}
+
+body.tss-theme-graustufe .tss-targetbar-caption {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+
+body.tss-theme-graustufe .tss-datatable {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+body.tss-theme-graustufe .tss-datatable-header {
+    background: var(--tss-gs-15);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-datatable-heading {
+    font-family: var(--tss-gs-ui);
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-graustufe .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 0;
+}
+
+body.tss-theme-graustufe .tss-datatable-row:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-datatable-accented::before {
+    background: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-gantt {
+    --tss-gantt-border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-gantt-header-label,
+body.tss-theme-graustufe .tss-gantt-header-track {
+    background: var(--tss-gs-14);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-gantt {
+    border-radius: 0;
+}
+
+
+
+body.tss-theme-graustufe .tss-progressindicator {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+    height: 10px;
+}
+
+body.tss-theme-graustufe .tss-progressindicator > .tss-progressindicator-bar {
+    background: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    left: 0;
+    width: 100% !important;
+    transform: none;
+    background: var(--tss-gs-hatch);
+}
+
+
+body.tss-theme-graustufe .tss-modal-container {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-modal-container.tss-dark {
+    background: var(--tss-gs-bayer-50);
+}
+
+body.tss-theme-graustufe .tss-modal {
+    background-color: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-modal-header,
+body.tss-theme-graustufe .tss-modal-footer {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-modal-header-content {
+    font-family: var(--tss-gs-text);
+}
+
+body.tss-theme-graustufe .tss-modal-header-content .tss-textblock.tss-fontsize-large,
+body.tss-theme-graustufe .tss-modal-header-content .tss-textblock.tss-fontsize-mediumplus,
+body.tss-theme-graustufe .tss-modal-header-content .tss-textblock.tss-fontsize-medium {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-modal-header-commands > .tss-btn,
+body.tss-theme-graustufe .tss-modal-header-commands > button,
+body.tss-theme-graustufe .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-graustufe .tss-modal-left-header-commands > button {
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    border: 1px solid transparent;
+}
+
+body.tss-theme-graustufe .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-graustufe .tss-modal-header-commands > button:hover,
+body.tss-theme-graustufe .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-graustufe .tss-modal-left-header-commands > button:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-graustufe .tss-modal-header-commands > button:active,
+body.tss-theme-graustufe .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-graustufe .tss-modal-left-header-commands > button:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-dialog {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dialog .tss-modal-footer {
+    border-top: var(--tss-gs-rule-faint);
+}
+
+
+body.tss-theme-graustufe .tss-pagination-footer {
+    border-top: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-pagination-button {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-graustufe .tss-pagination-button:hover:not(:disabled) {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-pagination-button:focus-visible {
+    outline: var(--tss-gs-focus);
+}
+
+body.tss-theme-graustufe .tss-pagination-button.tss-active,
+body.tss-theme-graustufe .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pagination-ellipsis {
+    color: var(--tss-gs-6);
+}
+
+
+body.tss-theme-graustufe .tss-inlinepagination {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-inlinepagination-button {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-inlinepagination-button:hover:not(:disabled) {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-inlinepagination-button:focus-visible {
+    outline: 2px solid var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-inlinelabel {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-mark-color {
+    border-radius: 0;
+    filter: var(--tss-gs-panel);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-interactive:hover,
+body.tss-theme-graustufe .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-interactive:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-interactive:focus-visible {
+    outline: var(--tss-gs-focus);
+}
+
+body.tss-theme-graustufe .tss-omniresult-footer .tss-inlinelabel {
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+body.tss-theme-graustufe .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    background: transparent;
+    text-decoration: underline;
+}
+
+
+body.tss-theme-graustufe .tss-nav {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: var(--tss-gs-13);
+    border-left-color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-nav-link-button:after {
+    border-color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-searchbox {
+    font-family: var(--tss-gs-ui);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox::placeholder {
+    color: var(--tss-gs-8);
+    opacity: 1;
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container:hover {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-container:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-disabled {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-10);
+    color: var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-underlined,
+body.tss-theme-graustufe .tss-searchbox-container.tss-underlined:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    border-width: 0 0 1px;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-gs-0);
+    border-width: 0 0 2px;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-icon,
+body.tss-theme-graustufe .tss-searchbox-clear,
+body.tss-theme-graustufe .tss-searchbox-cancel,
+body.tss-theme-graustufe .tss-searchbox-failed-icon {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-clear,
+body.tss-theme-graustufe .tss-searchbox-cancel {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-searchbox-clear:hover,
+body.tss-theme-graustufe .tss-searchbox-cancel:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-searchbox-clear:focus-visible,
+body.tss-theme-graustufe .tss-searchbox-cancel:focus-visible {
+    outline: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-searchbox-failed:focus-within,
+body.tss-theme-graustufe .tss-searchbox-container.tss-searchbox-failed {
+    border-color: var(--tss-gs-0);
+    border-style: dashed;
+}
+
+body.tss-theme-graustufe .tss-searchbox-progress {
+    height: 3px;
+}
+
+body.tss-theme-graustufe .tss-searchbox-progress-bar {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-progress.tss-searchbox-progress-indeterminate > .tss-searchbox-progress-bar {
+    left: 0;
+    width: 100%;
+    background: var(--tss-gs-dither);
+}
+
+body.tss-theme-graustufe .tss-searchable-list-no-match {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+
+body.tss-theme-graustufe ::highlight(tss-marked),
+body.tss-theme-graustufe mark {
+    background-color: var(--tss-gs-11);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe ::highlight(tss-marked-focused) {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-omnibox-container {
+    --tss-omnibox-radius: var(--tss-gs-radius);
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-full,
+body.tss-theme-graustufe .tss-omnibox-container[class*="tss-omnibox-rounded"] {
+    --tss-omnibox-radius: var(--tss-gs-radius);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container:hover {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    border-radius: var(--tss-gs-radius);
+}
+
+body.tss-theme-graustufe .tss-omnibox-container,
+body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-sm .tss-omnibox-mode-toggle,
+body.tss-theme-graustufe .tss-omnibox-search-container,
+body.tss-theme-graustufe .tss-omnibox-search-token-word,
+body.tss-theme-graustufe .tss-omnibox-inline-chip,
+body.tss-theme-graustufe .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-graustufe .tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-graustufe .tss-btn.tss-omnibox-model-selector-btn,
+body.tss-theme-graustufe .tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-omnibox-container,
+body.tss-theme-graustufe .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+
+body.tss-theme-graustufe .tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-default-foreground-color);
+    pointer-events: none;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-omnibox-dictate-btn.tss-omnibox-dictating-btn > i {
+    animation: none;
+}
+
+
+body.tss-theme-graustufe .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toolagent-popup {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-toolagent-badge {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-toolagent-section-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-toolagent-trigger,
+body.tss-theme-graustufe .tss-toolagent-popup,
+body.tss-theme-graustufe .tss-toolagent-item,
+body.tss-theme-graustufe .tss-toolagent-item-checkmark,
+body.tss-theme-graustufe .tss-toolagent-item-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-toolagent-popup {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-annotatedtexteditor [style*="background"] {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-annotated-text-container,
+body.tss-theme-graustufe .tss-annotated-text-entity,
+body.tss-theme-graustufe .tss-annotated-text-hover-tag {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-annotated-text-container,
+body.tss-theme-graustufe .tss-annotated-text-container:hover,
+body.tss-theme-graustufe .tss-annotated-text-hover-tag {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-sectiontitle-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-sectiontitle-subtitle {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}
+
+
+body.tss-theme-graustufe .tss-sectionstack-secondary {
+    background: var(--tss-gs-14);
+}
+
+body.tss-theme-graustufe .tss-sectionstack-card {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+}
+
+
+body.tss-theme-graustufe .tss-slider-fake-background,
+body.tss-theme-graustufe .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    border-radius: 0;
+    background: var(--tss-gs-bayer-12), var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider-fake-progress,
+body.tss-theme-graustufe .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider-container.tss-vertical .tss-slider-fake-background,
+body.tss-theme-graustufe .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background,
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-background {
+    background: var(--tss-gs-14);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-graustufe .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-slider,
+body.tss-theme-graustufe .tss-slider:hover {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider.tss-fake,
+body.tss-theme-graustufe .tss-slider.tss-fake:hover {
+    background-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-slider::-webkit-slider-thumb {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider::-moz-range-thumb {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider:hover::-webkit-slider-thumb,
+body.tss-theme-graustufe .tss-slider:active::-webkit-slider-thumb {
+    border-color: var(--tss-gs-0);
+    background-color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 2px var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-slider:hover::-moz-range-thumb {
+    border-color: var(--tss-gs-0);
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider::-moz-range-progress,
+body.tss-theme-graustufe .tss-slider:hover::-moz-range-progress {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-slider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: var(--tss-gs-focus);
+    outline-offset: 1px;
+}
+
+body.tss-theme-graustufe .tss-slider.tss-disabled,
+body.tss-theme-graustufe .tss-slider.tss-disabled:hover {
+    background-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border-color: var(--tss-gs-9);
+    background-color: var(--tss-gs-14);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-slider.tss-disabled::-moz-range-thumb {
+    border-color: var(--tss-gs-9);
+    background-color: var(--tss-gs-14);
+}
+
+
+
+body.tss-theme-graustufe .tss-time-histogram-picker-bar {
+    background: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-time-histogram-picker-bar,
+body.tss-theme-graustufe .tss-time-histogram-picker-track::before,
+body.tss-theme-graustufe .tss-time-histogram-picker-selection,
+body.tss-theme-graustufe .tss-time-histogram-picker-thumb,
+body.tss-theme-graustufe .tss-time-histogram-picker-empty {
+    border-radius: 0;
+}
+
+
+body.tss-theme-graustufe .tss-time-histogram-picker-drag-label {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-time-histogram-picker-drag-band {
+    border-color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-spinner {
+    --tss-spinner-color: var(--tss-gs-0);
+    border-style: dotted;
+    border-color: var(--tss-gs-0);
+    border-width: max(2px, calc(var(--tss-spinner-size) * 0.55));
+    animation: none;
+}
+
+body.tss-theme-graustufe .tss-spinner.tss-spinner-progress {
+    border: none;
+    background: conic-gradient(var(--tss-gs-0) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-gs-12) 0);
+}
+
+body.tss-theme-graustufe .tss-spinner-success,
+body.tss-theme-graustufe .tss-spinner-danger,
+body.tss-theme-graustufe .tss-spinner-warning {
+    --tss-spinner-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-spinner-label {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}
+
+
+body.tss-theme-graustufe .tss-commandbar {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item {
+    border-radius: 0;
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-commandbar-item-primary,
+body.tss-theme-graustufe .tss-commandbar-item-primary:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-commandpalette-overlay {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-animator {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-back,
+body.tss-theme-graustufe .tss-commandpalette-close,
+body.tss-theme-graustufe .tss-commandpalette-item,
+body.tss-theme-graustufe .tss-commandpalette-result,
+body.tss-theme-graustufe .tss-commandpalette-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item:hover,
+body.tss-theme-graustufe .tss-commandpalette-result:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item.tss-active,
+body.tss-theme-graustufe .tss-commandpalette-result.tss-active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item.tss-active *,
+body.tss-theme-graustufe .tss-commandpalette-result.tss-active * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-section {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}
+
+
+body.tss-theme-graustufe .tss-sidebar {
+    background: var(--tss-gs-14);
+    border-right: var(--tss-gs-rule);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-graustufe .tss-sidebar-identity-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-sidebar-identity-subtitle {
+    font-family: var(--tss-gs-ui);
+    color: var(--tss-gs-6);
+}
+
+
+body.tss-theme-graustufe .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: 0;
+    font-weight: 500;
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-gs-0);
+    background-color: var(--tss-gs-14);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-gs-15);
+    background: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) i,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) i,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) i {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn i,
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands > a > .tss-btn {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    border-color: var(--tss-gs-15);
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-graustufe .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    color: var(--tss-gs-0);
+    background: transparent;
+    border-color: transparent;
+    border-left: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-graustufe .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border: solid var(--tss-gs-0);
+    border-width: 0 1.5px 1.5px 0;
+}
+
+body.tss-theme-graustufe .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-graustufe .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-bayer-25);
+}
+
+
+body.tss-theme-graustufe .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 0;
+    border-top: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-sidebar-section-header {
+    font-family: var(--tss-gs-text);
+}
+
+body.tss-theme-graustufe .tss-sidebar.tss-sidebar-closed .tss-sidebar-header .tss-sidebar-identity-separated,
+body.tss-theme-graustufe .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated,
+body.tss-theme-graustufe .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated,
+body.tss-theme-graustufe .tss-sidebar .tss-sidebar-divider {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-sidebar-status-card {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-sidebar .tss-searchbox-container {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container {
+    border-radius: 0;
+}
+
+
+body.tss-theme-graustufe .tss-sidebar-page-bar {
+    border-bottom: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-sidebar-page-bar-title,
+body.tss-theme-graustufe .tss-sidebar-nav-overlay-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    border-image: var(--tss-gs-edge);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-sidebar-badges > .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-navbar {
+    box-shadow: none !important;
+    border-bottom: var(--tss-gs-rule);
+    border-right: 0;
+}
+
+body.tss-theme-graustufe .tss-sidebar.tss-sidebar-closed .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-size: 19px;
+    letter-spacing: -0.04em;
+}
+
+
+body.tss-theme-graustufe .tss-sidenav {
+    background: var(--tss-gs-14);
+    border-right: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-sidenav-footer {
+    border-top: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-graustufe .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn.tss-sidenav-selected {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-gs-0) !important;
+}
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    background: var(--tss-gs-0) !important;
+}
+
+body.tss-theme-graustufe .tss-splitview-panel-style.tss-split-left > *:first-child {
+    box-shadow: 1px 0 0 var(--tss-gs-0), 5px 0 0 var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: -1px 0 0 var(--tss-gs-0), -5px 0 0 var(--tss-gs-11);
+}
+
+
+body.tss-theme-graustufe .tss-toggle-container {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-toggle-container .tss-toggle-mark {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container .tss-toggle-mark:after {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container:hover .tss-toggle-mark {
+    background-color: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-graustufe .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled .tss-toggle-mark {
+    background-color: var(--tss-gs-14);
+    border: 1px dashed var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background-color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-gs-10);
+    border-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-gs-14);
+}
+
+
+body.tss-theme-graustufe .tss-icon-toggle {
+    --tss-icon-toggle-radius: 0px;
+    background: var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    color: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: var(--tss-gs-13);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-graustufe .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-graustufe.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: var(--tss-gs-focus);
+    outline-offset: 1px;
+}
+
+
+body.tss-theme-graustufe .tss-skeleton {
+    background: var(--tss-gs-bayer-25), var(--tss-gs-15);
+    border-radius: 0;
+    opacity: 0.55;
+}
+
+body.tss-theme-graustufe .tss-skeleton-circle {
+    border-radius: 50%;
+}
+
+body.tss-theme-graustufe .tss-skeleton-animated::after {
+    content: none;
+    display: none;
+}
+
+
+body.tss-theme-graustufe .tss-stepper-step {
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-stepper-step:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-stepper-circle {
+    border: 1px solid var(--tss-gs-8);
+    color: var(--tss-gs-6);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-stepper-active .tss-stepper-circle {
+    border: 2px solid var(--tss-gs-0);
+    color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-stepper-active .tss-stepper-label {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-gs-0);
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-stepper-description {
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-stepper-content {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-stepper-nav {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-carousel-viewport {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-carousel-nav {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-carousel-nav:hover {
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-carousel-nav:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-carousel-indicator {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-carousel-indicator.tss-active {
+    background: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-gs-0), var(--tss-gs-0)) no-repeat center/1px 100%;
+}
+
+body.tss-theme-graustufe .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-gs-0), var(--tss-gs-0)) no-repeat 20px 0px/1px 100%;
+}
+
+body.tss-theme-graustufe .tss-timeline-container::after {
+    background: var(--tss-gs-15);
+    border: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-timeline-container .tss-timeline-content {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-sm);
+}
+
+
+body.tss-theme-graustufe .tss-conversation-item::before {
+    background: var(--tss-gs-0);
+    width: 1px;
+}
+
+body.tss-theme-graustufe .tss-conversation-comment {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-conversation-comment-header {
+    background: var(--tss-gs-14);
+    border-bottom: var(--tss-gs-rule);
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-conversation-comment-author {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-conversation-comment-meta {
+    color: var(--tss-gs-6);
+}
+
+
+body.tss-theme-graustufe .tss-metadata-section {
+    border-bottom: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-metadata-section-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-metadata-section-title-editable:hover {
+    color: var(--tss-gs-0);
+    text-decoration: underline;
+}
+
+body.tss-theme-graustufe .tss-metadata-person-name,
+body.tss-theme-graustufe .tss-metadata-item-title {
+    font-family: var(--tss-gs-ui);
+}
+
+
+body.tss-theme-graustufe .tippy-box {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-gs-ui);
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tippy-box > .tippy-content > div {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tippy-arrow {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-popover'],
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-image: none;
+}
+
+
+body.tss-theme-graustufe .tss-popover {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-popover'] {
+    background: transparent;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-menu {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-menu-item {
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-menu-item:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-open,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-menu-item:focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
+    color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) .tss-menu-item-label {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-label {
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-menu-header {
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-menu-divider {
+    background-color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-tagsinput {
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-tagsinput:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-chip {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-chip-remove {
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-entry {
+    font-family: var(--tss-gs-ui);
+}
+
+
+body.tss-theme-graustufe .tss-actionbutton-container {
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-actionbutton-container:hover {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-actionbutton-actionbtn,
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-left: var(--tss-gs-rule) !important;
+}
+
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover,
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-actionbutton-displaybutton:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-btn-primary:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-actionbutton-container > .tss-btn-primary.tss-actionbutton-actionbtn {
+    border-left: 1px solid var(--tss-gs-15) !important;
+}
+
+
+body.tss-theme-graustufe .tss-message-icon {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-message-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-message-text {
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-message-note {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-left-width: 4px;
+    border-radius: 0;
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-message-info,
+body.tss-theme-graustufe .tss-message-success,
+body.tss-theme-graustufe .tss-message-warning,
+body.tss-theme-graustufe .tss-message-error {
+    position: relative;
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    padding-left: 24px;
+}
+
+body.tss-theme-graustufe .tss-message-info::before,
+body.tss-theme-graustufe .tss-message-success::before,
+body.tss-theme-graustufe .tss-message-warning::before,
+body.tss-theme-graustufe .tss-message-error::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    border-right: var(--tss-gs-rule);
+    background: var(--tss-gs-0);
+    pointer-events: none;
+}
+
+body.tss-theme-graustufe .tss-message-success::before {
+    background: var(--tss-gs-dither);
+}
+
+body.tss-theme-graustufe .tss-message-warning::before {
+    background: var(--tss-gs-hatch);
+}
+
+body.tss-theme-graustufe .tss-message-info .tss-message-icon,
+body.tss-theme-graustufe .tss-message-success .tss-message-icon,
+body.tss-theme-graustufe .tss-message-warning .tss-message-icon,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-info .tss-message-icon,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-success .tss-message-icon,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-warning .tss-message-icon {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-message-error .tss-message-icon,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-error .tss-message-icon {
+    color: var(--tss-gs-15);
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-message-info .tss-message-title,
+body.tss-theme-graustufe .tss-message-success .tss-message-title,
+body.tss-theme-graustufe .tss-message-warning .tss-message-title,
+body.tss-theme-graustufe .tss-message-error .tss-message-title,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-info .tss-message-title,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-success .tss-message-title,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-warning .tss-message-title,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-error .tss-message-title {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-message-info .tss-message-text,
+body.tss-theme-graustufe .tss-message-success .tss-message-text,
+body.tss-theme-graustufe .tss-message-warning .tss-message-text,
+body.tss-theme-graustufe .tss-message-error .tss-message-text,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-info .tss-message-text,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-success .tss-message-text,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-warning .tss-message-text,
+body.tss-theme-graustufe.tss-dark-mode .tss-message-error .tss-message-text {
+    color: var(--tss-gs-2);
+}
+
+
+body.tss-theme-graustufe .tss-banner {
+    --tss-banner-accent: var(--tss-gs-0);
+    --tss-banner-title-color: var(--tss-gs-0);
+    --tss-banner-text-color: var(--tss-gs-0);
+    --tss-banner-surface: var(--tss-gs-15);
+    --tss-banner-border-color: var(--tss-gs-0);
+    --tss-gs-banner-band: none;
+    position: relative;
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-banner-primary,
+body.tss-theme-graustufe .tss-banner-success,
+body.tss-theme-graustufe .tss-banner-warning,
+body.tss-theme-graustufe .tss-banner-danger {
+    --tss-banner-accent: var(--tss-gs-0);
+    --tss-banner-title-color: var(--tss-gs-0);
+    --tss-banner-text-color: var(--tss-gs-0);
+    padding-left: 22px;
+}
+
+body.tss-theme-graustufe .tss-banner-primary { --tss-gs-banner-band: linear-gradient(var(--tss-gs-0), var(--tss-gs-0)); }
+body.tss-theme-graustufe .tss-banner-success { --tss-gs-banner-band: var(--tss-gs-dither); }
+body.tss-theme-graustufe .tss-banner-warning { --tss-gs-banner-band: var(--tss-gs-hatch); }
+body.tss-theme-graustufe .tss-banner-danger { --tss-gs-banner-band: linear-gradient(var(--tss-gs-0), var(--tss-gs-0)); }
+
+body.tss-theme-graustufe .tss-banner-primary::before,
+body.tss-theme-graustufe .tss-banner-success::before,
+body.tss-theme-graustufe .tss-banner-warning::before,
+body.tss-theme-graustufe .tss-banner-danger::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: var(--tss-gs-banner-band);
+    border-right: var(--tss-gs-rule);
+    pointer-events: none;
+}
+
+body.tss-theme-graustufe .tss-banner-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-banner-text {
+    font-family: var(--tss-gs-text);
+}
+
+body.tss-theme-graustufe .tss-banner-time-text {
+    font-family: var(--tss-gs-ui);
+    opacity: 1;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-graustufe.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-banner-danger .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-graustufe.tss-dark-mode .tss-banner-danger .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-graustufe .tss-banner-badge-pill.tss-badge {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-banner-action-warning {
+    background: var(--tss-gs-12);
+    color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-banner-dismiss-button {
+    color: var(--tss-gs-0);
+    opacity: 1;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-banner-dismiss-button:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-toast-container > .tss-banner {
+    border: none;
+}
+
+
+body.tss-theme-graustufe .tss-tree {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-tree-item-content {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-tree-item-content:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-tree-item-content.tss-selected,
+body.tss-theme-graustufe .tss-tree-item-content.tss-selected:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tree-item-content.tss-selected * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: var(--tss-gs-focus);
+}
+
+body.tss-theme-graustufe .tss-tree-chevron:hover,
+body.tss-theme-graustufe .tss-tree-checkbox:hover {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-12);
+}
+
+
+body.tss-theme-graustufe .tss-diagram-node {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-diagram {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-diagram-node,
+body.tss-theme-graustufe .tss-diagram-node.tss-diagram-node-dragging,
+body.tss-theme-graustufe .tss-diagram-node:hover {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-uptime-bars span,
+body.tss-theme-graustufe .tss-uptime-bars-compact span,
+body.tss-theme-graustufe .tss-uptime-month-day,
+body.tss-theme-graustufe .tss-uptime-month-empty {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.none,
+body.tss-theme-graustufe .tss-uptime-bars span,
+body.tss-theme-graustufe .tss-uptime-month-day {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.operational,
+body.tss-theme-graustufe .tss-uptime-month-day.operational {
+    background: var(--tss-gs-8);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.maintenance,
+body.tss-theme-graustufe .tss-uptime-month-day.maintenance {
+    background: var(--tss-gs-12);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.minor,
+body.tss-theme-graustufe .tss-uptime-month-day.minor {
+    background: var(--tss-gs-hatch), var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.major,
+body.tss-theme-graustufe .tss-uptime-month-day.major {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.future,
+body.tss-theme-graustufe .tss-uptime-month-day.future {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-uptime-month-card {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-uptime-month-header span {
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='uptime'] {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border: 0;
+}
+
+
+body.tss-theme-graustufe .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-gs-0);
+    --tss-activitycalendar-empty-color: var(--tss-gs-13);
+    --tss-activitycalendar-radius: 0px;
+}
+
+body.tss-theme-graustufe .tss-activitycalendar-summary-value {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-activitycalendar-day,
+body.tss-theme-graustufe .tss-activitycalendar-tooltip {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-activitycalendar-tooltip {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-scheduler-event,
+body.tss-theme-graustufe .tss-scheduler-chip,
+body.tss-theme-graustufe .tss-scheduler-resource-chip {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-scheduler,
+body.tss-theme-graustufe .tss-scheduler-event,
+body.tss-theme-graustufe .tss-scheduler-chip,
+body.tss-theme-graustufe .tss-scheduler-bar,
+body.tss-theme-graustufe .tss-scheduler-resize-end::after,
+body.tss-theme-graustufe .tss-scheduler-ghost,
+body.tss-theme-graustufe .tss-scheduler-tg-daynum,
+body.tss-theme-graustufe .tss-scheduler-month-date,
+body.tss-theme-graustufe .tss-scheduler-month-more,
+body.tss-theme-graustufe .tss-scheduler-agenda-row,
+body.tss-theme-graustufe .tss-scheduler-agenda-bar {
+    border-radius: 0;
+}
+
+
+
+
+body.tss-theme-graustufe .tss-dockpanel,
+body.tss-theme-graustufe .tss-dockpanel-splitter::after,
+body.tss-theme-graustufe .tss-dockpanel-slot,
+body.tss-theme-graustufe .tss-dockpanel-document,
+body.tss-theme-graustufe .tss-dockpanel-button,
+body.tss-theme-graustufe .tss-dockpanel-restore,
+body.tss-theme-graustufe .tss-dockpanel-rail-tab,
+body.tss-theme-graustufe .tss-dockpanel-drag-ghost,
+body.tss-theme-graustufe .tss-dockpanel-preview,
+body.tss-theme-graustufe .tss-dockpanel-guide,
+body.tss-theme-graustufe .tss-dockpanel-guide::before,
+body.tss-theme-graustufe .tss-dockpanel-guide-fill {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dockpanel-flyout > .tss-dockpanel-slot,
+body.tss-theme-graustufe .tss-dockpanel-drag-ghost,
+body.tss-theme-graustufe .tss-dockpanel-guide {
+    box-shadow: none;
+}
+
+
+body.tss-theme-graustufe .tss-dockpanel-tab {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-dockpanel-tab.tss-dockpanel-tab-active,
+body.tss-theme-graustufe .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-dockpanel-splitter-active::after {
+    background: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-chatarea {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-bubble {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-bubble {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-bubble .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-content {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-references,
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-references {
+    border-top-color: var(--tss-gs-8);
+}
+
+body.tss-theme-graustufe .tss-chatarea-scrollbtn {
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-sm);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-remove,
+body.tss-theme-graustufe.tss-dark-mode .tss-chatmessage-remove {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-remove:hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-chatmessage-remove:hover,
+body.tss-theme-graustufe .tss-chatmessage-remove:active,
+body.tss-theme-graustufe.tss-dark-mode .tss-chatmessage-remove:active {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    outline: 1px solid var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-toolcall,
+body.tss-theme-graustufe .tss-toolsused {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toolcall-header,
+body.tss-theme-graustufe .tss-toolsused-header {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toolcall-header:hover,
+body.tss-theme-graustufe .tss-toolsused-header:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-toolcall-icon,
+body.tss-theme-graustufe .tss-toolsused-list-icon {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toolcall,
+body.tss-theme-graustufe .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-graustufe .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-graustufe .tss-toolcall > .tss-toolcall-content,
+body.tss-theme-graustufe .tss-toolcall-icon,
+body.tss-theme-graustufe .tss-toolcall-secondary-action,
+body.tss-theme-graustufe .tss-toolsused-inline-list,
+body.tss-theme-graustufe .tss-toolsused-modal-detail-icon,
+body.tss-theme-graustufe .tss-toolsused-list-icon,
+body.tss-theme-graustufe .tss-toolcallinspect-response {
+    border-radius: 0;
+}
+
+
+
+body.tss-theme-graustufe .tss-contextcard {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextcard-clickable:hover,
+body.tss-theme-graustufe .tss-contextcard-menu-open {
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-contextcard-clickable:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-image: none;
+}
+
+body.tss-theme-graustufe .tss-contextcard-clickable:active .tss-contextcard-sublabel,
+body.tss-theme-graustufe .tss-contextcard-clickable:active .tss-contextcard-chevron {
+    color: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-contextcard-icon {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-contextcard-icon-nobackground,
+body.tss-theme-graustufe .tss-contextcard-icon-image {
+    border: 0;
+}
+
+body.tss-theme-graustufe .tss-contextcard-label {
+    font-family: var(--tss-gs-ui);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-contextcard-sublabel {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-contextcard-mono .tss-contextcard-sublabel {
+    font-style: normal;
+}
+
+body.tss-theme-graustufe .tss-contextcard-badge {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-contextcard-badge-custom {
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-contextcard-chevron {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextcard-remove,
+body.tss-theme-graustufe.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-contextcard-remove:hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-contextcard-remove:hover,
+body.tss-theme-graustufe .tss-contextcard-remove:active,
+body.tss-theme-graustufe.tss-dark-mode .tss-contextcard-remove:active {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    outline: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-contextcard-compact,
+body.tss-theme-graustufe .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+
+body.tss-theme-graustufe .tss-contextcards [class*="tss-contextcards-"] {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-contextcards [class*="tss-contextcards-"]:focus-visible {
+    outline: var(--tss-gs-focus);
+}
+
+
+body.tss-theme-graustufe .tss-actioncard-card {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-actioncard-icon {
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-actioncard-label {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-actioncard-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action,
+body.tss-theme-graustufe .tss-actioncard-more,
+body.tss-theme-graustufe .tss-actioncard-action-icon {
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action:hover,
+body.tss-theme-graustufe .tss-actioncard-more:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action:hover * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-actioncard-skeleton-line {
+    border-radius: 0;
+    background: var(--tss-gs-bayer-25), var(--tss-gs-15);
+    opacity: 0.55;
+}
+
+
+body.tss-theme-graustufe .tss-questionnaire [class*="tss-questionnaire"] {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-questionnaire-option {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-questionnaire-option:hover {
+    border-color: var(--tss-gs-0);
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-questionnaire-option.tss-questionnaire-option-selected,
+body.tss-theme-graustufe .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-rating {
+    --tss-rating-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-rating-star {
+    color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-progressring-track {
+    stroke: var(--tss-gs-12);
+}
+
+body.tss-theme-graustufe .tss-progressring-fill {
+    stroke: var(--tss-gs-0);
+    stroke-linecap: butt;
+}
+
+body.tss-theme-graustufe .tss-progressring-label {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-progressring-indeterminate .tss-progressring-fill {
+    stroke-linecap: round;
+    stroke-dasharray: 0.01 calc(var(--tss-ring-circ, 150) / 16);
+}
+
+
+body.tss-theme-graustufe .tss-colorpalette-swatch {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px var(--tss-gs-15), 0 0 0 4px var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-kbd-key {
+    font-family: var(--tss-gs-mono);
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-bottom-width: 3px;
+    border-radius: 2px;
+}
+
+body.tss-theme-graustufe .tss-kbd-separator {
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-shortcut-guide-section-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-shortcut-guide-row {
+    border-bottom: var(--tss-gs-rule-faint);
+}
+
+
+body.tss-theme-graustufe .tss-notif-bell,
+body.tss-theme-graustufe [class*="tss-notif-"] {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-notif-dot {
+    border-radius: 50%;
+}
+
+body.tss-theme-graustufe .tss-notif-count,
+body.tss-theme-graustufe .tss-notif-badge {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-info { background: var(--tss-gs-0); }
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-success { background: var(--tss-gs-15); box-shadow: inset 0 0 0 2px var(--tss-gs-0); }
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-warning { background: linear-gradient(90deg, var(--tss-gs-0) 50%, var(--tss-gs-15) 50%); box-shadow: inset 0 0 0 1px var(--tss-gs-0); }
+body.tss-theme-graustufe .tss-notif-dot.tss-notif-danger { background: var(--tss-gs-0); box-shadow: 0 0 0 2px var(--tss-gs-15), 0 0 0 3px var(--tss-gs-0); }
+
+
+body.tss-theme-graustufe .tss-markdown {
+    font-family: var(--tss-gs-text);
+    line-height: 1.6;
+    color: var(--tss-gs-0);
+    hyphens: auto;
+}
+
+body.tss-theme-graustufe .tss-markdown h1,
+body.tss-theme-graustufe .tss-markdown h2,
+body.tss-theme-graustufe .tss-markdown h3,
+body.tss-theme-graustufe .tss-markdown h4,
+body.tss-theme-graustufe .tss-markdown h5,
+body.tss-theme-graustufe .tss-markdown h6 {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-markdown h1,
+body.tss-theme-graustufe .tss-markdown h2 {
+    border-bottom: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-markdown h6 {
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-markdown a {
+    color: var(--tss-gs-0);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-graustufe .tss-markdown a:hover {
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-graustufe .tss-markdown hr {
+    background: var(--tss-gs-0);
+    height: 1px;
+}
+
+body.tss-theme-graustufe .tss-markdown blockquote {
+    color: var(--tss-gs-4);
+    font-style: italic;
+    border-left: 3px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-markdown table th,
+body.tss-theme-graustufe .tss-markdown table td {
+    border: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-markdown table th {
+    font-family: var(--tss-gs-ui);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-markdown table tr,
+body.tss-theme-graustufe .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-gs-15);
+    border-top: 0;
+}
+
+body.tss-theme-graustufe .tss-markdown table tr:nth-child(2n) {
+    background: var(--tss-gs-14);
+}
+
+body.tss-theme-graustufe .tss-markdown code {
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule-faint);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-markdown pre {
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tss-markdown pre code {
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-markdown kbd {
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-bottom-width: 3px;
+    border-radius: 2px;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-markdown mark {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+
+body.tss-theme-graustufe .tss-mermaid,
+body.tss-theme-graustufe .tss-markdown .tss-mermaid {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge-sm);
+    --pele-radius: 0px;
+    --pele-font: var(--tss-gs-ui);
+    --pele-font-mono: var(--tss-gs-mono);
+    --pele-line: var(--tss-gs-0);
+    --pele-border: var(--tss-gs-0);
+    --pele-accent: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-flint-chart,
+body.tss-theme-graustufe .tss-markdown .tss-flint-chart {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge-sm);
+}
+
+
+body.tss-theme-graustufe .tss-plan {
+    --plan-accent: var(--tss-gs-0);
+    --plan-accent-soft: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-plan-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-plan-step-progress-bar {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-plan,
+body.tss-theme-graustufe .tss-plan-cmd,
+body.tss-theme-graustufe .tss-plan-step-toggle,
+body.tss-theme-graustufe .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-graustufe .tss-plan .tss-plan-startstop {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-plan,
+body.tss-theme-graustufe .tss-plan .tss-plan-startstop:hover {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-pagesstack-page,
+body.tss-theme-graustufe.tss-dark-mode .tss-pagesstack-page {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: -2px 0 0 var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-page:hover {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-lines,
+body.tss-theme-graustufe.tss-dark-mode .tss-pagesstack-lines {
+    background: repeating-linear-gradient(to bottom, var(--tss-gs-10) 0 1px, transparent 1px 5px);
+}
+
+body.tss-theme-graustufe .tss-pagesstack-more {
+    border-radius: 0;
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+
+body.tss-theme-graustufe .tss-omniresult.tss-omniresult-active {
+    box-shadow: inset 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-omniresult.tss-omniresult-selected {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-omniresult-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-omniresult mark,
+body.tss-theme-graustufe .tss-omniresult-excerpt mark {
+    background: transparent;
+    color: var(--tss-gs-0);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+body.tss-theme-graustufe .tss-omniresult-icon {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe ﻿
+
+.tss-omniresult,
+body.tss-theme-graustufe .tss-omniresult-icon-badge img,
+body.tss-theme-graustufe .tss-omniresult-icon-badge svg,
+body.tss-theme-graustufe .tss-omniresult-icon-inline .tss-omniresult-icon-badge img,
+body.tss-theme-graustufe .tss-omniresult-icon-inline .tss-omniresult-icon-badge svg,
+body.tss-theme-graustufe .tss-omniresult-highlight,
+body.tss-theme-graustufe .tss-omniresult-footer-more-glyph,
+body.tss-theme-graustufe .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup,
+body.tss-theme-graustufe .tss-omniresult-source .tss-inlinelabel-mark-color,
+body.tss-theme-graustufe .tss-omniresult-menu-button,
+body.tss-theme-graustufe .tss-modal.tss-omniresult-modal,
+body.tss-theme-graustufe .tss-omniresult-modal-button,
+body.tss-theme-graustufe .tss-omniresult-modal-open,
+body.tss-theme-graustufe .tss-modal.tss-omniresult-modal .tss-modal-header-commands > .tss-omniresult-modal-button {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-detailsgrid {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-detailsgrid-borderless,
+body.tss-theme-graustufe .tss-detailsgrid-stacked,
+body.tss-theme-graustufe .tss-detailsgrid-stacked.tss-detailsgrid-multicolumn {
+    border: none;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-detailsgrid-row {
+    border-bottom-color: var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-detailsgrid-label {
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+    color: var(--tss-gs-6);
+}
+
+
+
+body.tss-theme-graustufe .tss-modalstack-trail-step {
+    border-radius: 0;
+}
+
+
+body.tss-theme-graustufe .tss-modalstack-scrim {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-modalstack-sheets > .tss-modalstack-sheet {
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-modalstack-trail-current {
+    font-weight: 700;
+}
+
+
+body.tss-theme-graustufe .tss-codediff .d2h-wrapper {
+    filter: var(--tss-gs-panel);
+}
+
+body.tss-theme-graustufe .tss-codediff .d2h-file-wrapper,
+body.tss-theme-graustufe .tss-codediff .d2h-file-list-wrapper {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-codediff .d2h-code-line,
+body.tss-theme-graustufe .tss-codediff .d2h-code-side-line,
+body.tss-theme-graustufe .tss-codediff .d2h-code-linenumber,
+body.tss-theme-graustufe .tss-codediff .d2h-code-side-linenumber {
+    font-family: var(--tss-gs-mono);
+}
+
+body.tss-theme-graustufe .tss-codediff .d2h-file-header {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-codediff del,
+body.tss-theme-graustufe .tss-codediff ins {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+
+body.tss-theme-graustufe .tss-textblock.tss-ai-surface {
+    border-radius: 0;
+    border-color: var(--tss-gs-0);
+    border-left-width: 3px;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-ai:not(.tss-disabled) {
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) {
+    border-image: none;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-textblock.tss-ai-surface {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    box-shadow: none;
+}
+
+
+
+body.tss-theme-graustufe .tss-chart {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-chart text {
+    font-family: var(--tss-gs-ui);
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+body.tss-theme-graustufe .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+}
+
+body.tss-theme-graustufe .tss-chart path[fill="none"][stroke^="var(--tss-chart-series-2"] { stroke-dasharray: 7 4; }
+body.tss-theme-graustufe .tss-chart path[fill="none"][stroke^="var(--tss-chart-series-3"] { stroke-dasharray: 2 3; }
+body.tss-theme-graustufe .tss-chart path[fill="none"][stroke^="var(--tss-chart-series-4"] { stroke-dasharray: 9 3 2 3; }
+body.tss-theme-graustufe .tss-chart path[fill="none"][stroke^="var(--tss-chart-series-5"] { stroke-dasharray: 14 4; }
+body.tss-theme-graustufe .tss-chart path[fill="none"][stroke^="var(--tss-chart-series-6"] { stroke-dasharray: 9 3 2 3 2 3; }
+body.tss-theme-graustufe .tss-chart path[fill="none"][stroke^="var(--tss-chart-series-7"] { stroke-dasharray: 3 2; }
+body.tss-theme-graustufe .tss-chart path[fill="none"][stroke^="var(--tss-chart-series-8"] { stroke-dasharray: 1 5; }
+
+body.tss-theme-graustufe .tss-chart rect[fill^="var(--tss-chart-series"],
+body.tss-theme-graustufe .tss-chart path[fill^="var(--tss-chart-series"] {
+    stroke: var(--tss-gs-0);
+    stroke-width: 1px;
+    rx: 0;
+}
+
+body.tss-theme-graustufe .tss-chart circle[fill^="var(--tss-chart-series"] {
+    stroke: var(--tss-gs-15);
+    stroke-width: 1px;
+}
+
+body.tss-theme-graustufe .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: var(--tss-gs-15);
+    stroke: var(--tss-gs-0);
+    stroke-width: 1px;
+    rx: 0;
+}
+
+body.tss-theme-graustufe .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-gs-0);
+    rx: 0;
+}
+
+body.tss-theme-graustufe .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-chart text[fill="#ffffff"] {
+    fill: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chart-zoom-hint {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+
+body.tss-theme-graustufe .tss-toast-container {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-image: none;
+    border: 0;
+    border-bottom: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: 0;
+    border-top: var(--tss-gs-rule);
+}
+
+
+body.tss-theme-graustufe .tss-overflowset-separator {
+    color: var(--tss-gs-0);
+}
+
+
+body.tss-theme-graustufe .tss-pixelavatar,
+body.tss-theme-graustufe .tss-pixelavatar-badge {
+    filter: var(--tss-gs-panel);
+}
