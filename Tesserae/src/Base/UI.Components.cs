@@ -857,6 +857,13 @@ namespace Tesserae
         public static Mermaid Mermaid(string source = "", bool sanitize = true) => new Mermaid(source, sanitize);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.JsonViewer"/>: a JSON document as a collapsible, syntax-coloured tree whose
+        /// containers build their children when opened and show them a batch at a time.
+        /// </summary>
+        /// <param name="json">The JSON text; text that does not parse is shown as the parser's error. Null for an empty viewer.</param>
+        public static JsonViewer JsonViewer(string json = null) => new JsonViewer(json);
+
+        /// <summary>
         /// Creates a chart drawn by Microsoft's Flint, of <paramref name="type"/>, to be given its data and encodings
         /// with the fluent methods (<c>.Columns(...)</c>, <c>.AddRow(...)</c>, <c>.X(...)</c>, <c>.Y(...)</c>, ...).
         /// </summary>
