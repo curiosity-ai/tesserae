@@ -1,0 +1,195 @@
+/* JsonViewer: a JSON document as a collapsible, syntax-coloured tree. A theme restyles it through the
+   --tss-jsonviewer-* variables below, which default to the palette. */
+
+.tss-jsonviewer {
+    --tss-jsonviewer-key: var(--tss-colors-purple-700);
+    --tss-jsonviewer-string: var(--tss-colors-green-700);
+    --tss-jsonviewer-number: var(--tss-colors-blue-600);
+    --tss-jsonviewer-boolean: var(--tss-colors-orange-600);
+    --tss-jsonviewer-null: var(--tss-secondary-foreground-color);
+    --tss-jsonviewer-punctuation: var(--tss-secondary-foreground-color);
+    --tss-jsonviewer-guide: var(--tss-default-border-color);
+    --tss-jsonviewer-indent: 16px;
+
+    font-family: var(--tss-monospace-font-family);
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--tss-default-foreground-color);
+    min-width: 0;
+}
+
+.tss-dark-mode .tss-jsonviewer {
+    --tss-jsonviewer-key: var(--tss-colors-purple-300);
+    --tss-jsonviewer-string: var(--tss-colors-green-300);
+    --tss-jsonviewer-number: var(--tss-colors-blue-300);
+    --tss-jsonviewer-boolean: var(--tss-colors-orange-300);
+}
+
+.tss-jsonviewer-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    min-height: 20px;
+    padding-right: 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+    cursor: default;
+    outline: none;
+}
+
+.tss-jsonviewer-row[aria-expanded] {
+    cursor: pointer;
+}
+
+.tss-jsonviewer-row:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-jsonviewer-row:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-primary-background-color);
+}
+
+.tss-jsonviewer-toggle {
+    flex: 0 0 16px;
+    width: 16px;
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tss-jsonviewer-punctuation);
+    font-size: 11px;
+    transition: transform 0.12s ease;
+}
+
+.tss-jsonviewer-expanded > .tss-jsonviewer-row > .tss-jsonviewer-toggle {
+    transform: rotate(90deg);
+}
+
+.tss-jsonviewer-key {
+    color: var(--tss-jsonviewer-key);
+}
+
+.tss-jsonviewer-index {
+    color: var(--tss-jsonviewer-punctuation);
+}
+
+.tss-jsonviewer-label {
+    font-weight: 600;
+}
+
+/* A flex item drops the whitespace at its edges, so the gap after the colon is a margin. */
+.tss-jsonviewer-colon {
+    margin-right: 1ch;
+}
+
+.tss-jsonviewer-colon,
+.tss-jsonviewer-brace,
+.tss-jsonviewer-summary,
+.tss-jsonviewer-close {
+    color: var(--tss-jsonviewer-punctuation);
+}
+
+.tss-jsonviewer-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.tss-jsonviewer-string {
+    color: var(--tss-jsonviewer-string);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.tss-jsonviewer-number {
+    color: var(--tss-jsonviewer-number);
+}
+
+.tss-jsonviewer-boolean {
+    color: var(--tss-jsonviewer-boolean);
+}
+
+.tss-jsonviewer-null {
+    color: var(--tss-jsonviewer-null);
+    font-style: italic;
+}
+
+.tss-jsonviewer-truncated {
+    cursor: pointer;
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+}
+
+.tss-jsonviewer-count {
+    margin-left: 8px;
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 11px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* Collapsed: the summary and the count. Open: the children and the closing brace. */
+.tss-jsonviewer-children,
+.tss-jsonviewer-close,
+.tss-jsonviewer-expanded > .tss-jsonviewer-row > .tss-jsonviewer-summary,
+.tss-jsonviewer-expanded > .tss-jsonviewer-row > .tss-jsonviewer-count {
+    display: none;
+}
+
+.tss-jsonviewer-expanded > .tss-jsonviewer-children {
+    display: block;
+    margin-left: 7px;
+    padding-left: calc(var(--tss-jsonviewer-indent) - 7px);
+    border-left: 1px solid var(--tss-jsonviewer-guide);
+}
+
+.tss-jsonviewer-expanded > .tss-jsonviewer-close {
+    display: block;
+    padding-left: 16px;
+}
+
+.tss-jsonviewer-copy {
+    margin-left: auto;
+    padding: 0 4px;
+    border: none;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 12px;
+    line-height: 20px;
+    cursor: pointer;
+    opacity: 0;
+    flex: 0 0 auto;
+}
+
+.tss-jsonviewer-row:hover > .tss-jsonviewer-copy,
+.tss-jsonviewer-row:focus-within > .tss-jsonviewer-copy {
+    opacity: 1;
+}
+
+.tss-jsonviewer-copy:hover {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-jsonviewer-more {
+    padding: 2px 0 2px 16px;
+    font-size: 12px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-jsonviewer-more-button {
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: var(--tss-primary-background-color);
+    cursor: pointer;
+}
+
+.tss-jsonviewer-more-button:hover {
+    text-decoration: underline;
+}
+
+.tss-jsonviewer-error {
+    padding: 8px;
+    color: var(--tss-danger-background-color);
+    white-space: pre-wrap;
+}

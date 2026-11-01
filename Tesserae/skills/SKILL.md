@@ -214,7 +214,7 @@ sidebar-status-card · sidenav · stepper · text-breadcrumbs
 
 **Lists & Data** — rendering a collection of items
 conversation · details-grid · details-list · infinite-scrolling-list · items-list ·
-keyed-observable-stack · metadata-panel · observable-stack · sortable-stack ·
+json-viewer · keyed-observable-stack · metadata-panel · observable-stack · sortable-stack ·
 stateful-item-row · task-board · timeline · tree · virtualized-list
 
 **Search** — search inputs and their result surfaces

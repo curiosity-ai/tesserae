@@ -127,5 +127,6 @@ var files = new Tree().Compact().Selectable(TreeSelectionMode.Multiple).CascadeS
 
 ## Related
 
+- JsonViewer — a JSON document as a tree — `json-viewer.md`
 - Components overview — `/tesserae/components/`
 - Full docs & API: `/tesserae/lists/tree`
