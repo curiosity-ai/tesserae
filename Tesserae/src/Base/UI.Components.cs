@@ -882,6 +882,17 @@ namespace Tesserae
         public static CodeDiff CodeDiff(string diff = "", Tesserae.CodeDiff.Format format = Tesserae.CodeDiff.Format.LineByLine) => new CodeDiff(diff, format);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.InlineDiff"/>: a compact diff for the middle of a conversation,
+        /// drawn from a unified diff with no script loaded.
+        /// </summary>
+        public static InlineDiff InlineDiff(string diff = "") => new InlineDiff(diff);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.InlineDiff"/> that compares two versions of a text.
+        /// </summary>
+        public static InlineDiff InlineDiff(string before, string after, string fileName = null) => new InlineDiff(before, after, fileName);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.FileSelector"/> component.
         /// </summary>
         public static FileSelector FileSelector() => new FileSelector();

@@ -1,0 +1,237 @@
+/* InlineDiff - a small diff for the middle of a conversation.
+   Row tints are mixed from the theme's own success / danger colours, so every theme (and dark mode) reads
+   the diff in its own palette without a rule of its own. */
+
+.tss-inlinediff {
+    --tss-inlinediff-add:        var(--tss-success-background-color, #2e9e5b);
+    --tss-inlinediff-del:        var(--tss-danger-background-color, #d13438);
+    --tss-inlinediff-add-tint:   color-mix(in srgb, var(--tss-inlinediff-add) 14%, transparent);
+    --tss-inlinediff-del-tint:   color-mix(in srgb, var(--tss-inlinediff-del) 14%, transparent);
+    --tss-inlinediff-add-mark:   color-mix(in srgb, var(--tss-inlinediff-add) 34%, transparent);
+    --tss-inlinediff-del-mark:   color-mix(in srgb, var(--tss-inlinediff-del) 34%, transparent);
+    --tss-inlinediff-gutter:     color-mix(in srgb, var(--tss-default-foreground-color) 45%, transparent);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-inlinediff-empty {
+    display: none;
+}
+
+.tss-inlinediff-file {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 8px;
+    background: var(--tss-default-background-color);
+    overflow: hidden;
+    min-width: 0;
+}
+
+/* ---- header ---- */
+
+.tss-inlinediff-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 7%, var(--tss-default-background-color));
+    color: var(--tss-default-foreground-color);
+    user-select: none;
+    min-width: 0;
+}
+
+.tss-inlinediff-header-toggle {
+    cursor: pointer;
+}
+
+.tss-inlinediff-header-toggle:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: -2px;
+}
+
+.tss-inlinediff-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--tss-inlinediff-gutter);
+}
+
+.tss-inlinediff-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--tss-monospace-font-family);
+}
+
+.tss-inlinediff-kind {
+    flex-shrink: 0;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--tss-inlinediff-gutter);
+}
+
+.tss-inlinediff-stats {
+    display: inline-flex;
+    gap: 6px;
+    flex-shrink: 0;
+    font-family: var(--tss-monospace-font-family);
+}
+
+.tss-inlinediff-stat-added   { color: var(--tss-inlinediff-add); }
+.tss-inlinediff-stat-removed { color: var(--tss-inlinediff-del); }
+
+.tss-inlinediff-chevron {
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 12px;
+    transition: transform 0.15s ease-in-out;
+}
+
+.tss-inlinediff-folded > .tss-inlinediff-header {
+    border-bottom-color: transparent;
+}
+
+.tss-inlinediff-folded > .tss-inlinediff-header .tss-inlinediff-chevron {
+    transform: rotate(-90deg);
+}
+
+.tss-inlinediff-folded > .tss-inlinediff-body {
+    display: none;
+}
+
+/* ---- body ---- */
+
+.tss-inlinediff-body {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+.tss-inlinediff-row {
+    display: grid;
+    grid-template-columns: max-content max-content 1.4em minmax(0, 1fr);
+    align-items: start;
+}
+
+.tss-inlinediff-nonumbers .tss-inlinediff-num {
+    display: none;
+}
+
+.tss-inlinediff-nonumbers .tss-inlinediff-row {
+    grid-template-columns: 1.4em minmax(0, 1fr);
+}
+
+.tss-inlinediff-num {
+    min-width: 3ch;
+    padding: 0 6px;
+    text-align: right;
+    color: var(--tss-inlinediff-gutter);
+    user-select: none;
+    box-sizing: content-box;
+}
+
+.tss-inlinediff-sign {
+    text-align: center;
+    user-select: none;
+    color: var(--tss-inlinediff-gutter);
+}
+
+.tss-inlinediff-text {
+    padding: 0 8px 0 2px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+
+.tss-inlinediff-nowrap .tss-inlinediff-text {
+    white-space: pre;
+    overflow-wrap: normal;
+}
+
+.tss-inlinediff-nowrap .tss-inlinediff-row {
+    width: max-content;
+    min-width: 100%;
+}
+
+.tss-inlinediff-add {
+    background: var(--tss-inlinediff-add-tint);
+}
+
+.tss-inlinediff-add .tss-inlinediff-sign {
+    color: var(--tss-inlinediff-add);
+}
+
+.tss-inlinediff-del {
+    background: var(--tss-inlinediff-del-tint);
+}
+
+.tss-inlinediff-del .tss-inlinediff-sign {
+    color: var(--tss-inlinediff-del);
+}
+
+.tss-inlinediff-add .tss-inlinediff-mark {
+    background: var(--tss-inlinediff-add-mark);
+}
+
+.tss-inlinediff-del .tss-inlinediff-mark {
+    background: var(--tss-inlinediff-del-mark);
+}
+
+.tss-inlinediff-mark {
+    border-radius: 2px;
+}
+
+.tss-inlinediff-hunk {
+    color: var(--tss-inlinediff-gutter);
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 4%, transparent);
+    font-size: 11px;
+}
+
+/* Lines past the fold stay out until "Show more" is pressed. */
+.tss-inlinediff-more {
+    display: none;
+}
+
+.tss-inlinediff-open > .tss-inlinediff-more {
+    display: grid;
+}
+
+.tss-inlinediff-nowrap .tss-inlinediff-open > .tss-inlinediff-more {
+    display: grid;
+}
+
+.tss-inlinediff-expand {
+    appearance: none;
+    border: 0;
+    border-top: 1px solid var(--tss-default-border-color);
+    background: transparent;
+    color: var(--tss-inlinediff-gutter);
+    font: inherit;
+    font-family: inherit;
+    font-size: 11px;
+    padding: 4px 8px;
+    cursor: pointer;
+    text-align: left;
+    position: sticky;
+    left: 0;
+}
+
+.tss-inlinediff-expand:hover,
+.tss-inlinediff-expand:focus-visible {
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 7%, var(--tss-default-background-color));
+    color: var(--tss-default-foreground-color);
+}
