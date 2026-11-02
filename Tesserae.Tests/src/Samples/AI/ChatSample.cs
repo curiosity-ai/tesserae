@@ -165,6 +165,16 @@ namespace Tesserae.Tests.Samples
                 TextBlock("I scanned the project, ran the build, and looked at routing options. Here's what I found:")
             ), Avatar(null, "AI")).MaxWidth());
 
+            // An edit shows up between the tool call that made it and the reply, as an InlineDiff.
+            chatArea.Add(ChatMessage(VStack().WS().Children(
+                ToolCall(UIcons.FileEdit, "Edit src/Greeter.cs", () => TextBlock("The file was updated.").BreakSpaces()),
+                InlineDiff(
+                    "public static string Greet(string name)\n{\n    return \"Hello, \" + name;\n}\n",
+                    "public static string Greet(string name, string greeting = \"Hello\")\n{\n    return greeting + \", \" + name + \"!\";\n}\n",
+                    "src/Greeter.cs").WS(),
+                TextBlock("Greet now takes an optional greeting.")
+            ), Avatar(null, "AI")).MaxWidth());
+
             RenderQueue();
 
             input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)

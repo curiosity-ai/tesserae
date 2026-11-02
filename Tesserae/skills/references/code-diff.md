@@ -72,5 +72,6 @@ var ui = VStack().WS().Children(editor, sideBySide, diff);
 
 - MarkdownBlock — rendered prose rather than a diff — `markdown-block.md`
 - TextArea — the editor a diff is usually produced from — `text-area.md`
+- InlineDiff — a compact, script-free diff for the middle of a chat — `inline-diff.md`
 - Sandbox — for HTML you did not produce — `sandbox.md`
 - Full docs & API: `/tesserae/text/code-diff`

@@ -136,6 +136,7 @@ var failed = ToolCall(UIcons.Globe, "Fetch https://api.example.com/v1/status",
 
 ## Related
 
+- InlineDiff — the edit a call made, drawn inline — `inline-diff.md`
 - LiveProgress — `live-progress.md`
 - Chat — `chat.md`
 - ActionCard — actions drawn as rows like a call's header — `action-card.md`

@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Curiosity theme - Inline Diff
+   --------------------------------------------------------------------------
+   A diff in a transcript is a record like a tool call, so it gets the same
+   square paper cell in a 1px hairline frame. The header is a stone strip with
+   the file name in Geist Mono; added and removed lines are tinted with the
+   theme's own success and danger inks, the changed span inside a line a shade
+   stronger.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-inlinediff-file {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-inlinediff-header {
+}
+
+body.tss-theme-curiosity .tss-inlinediff-mark {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-inlinediff-expand {
+    color: var(--tss-secondary-foreground-color);
+}
