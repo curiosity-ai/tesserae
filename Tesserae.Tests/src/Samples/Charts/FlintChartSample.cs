@@ -29,6 +29,7 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(Card(ClickDemo()).SetTitle("Clicks")))
                .Section(Stack().Children(Card(SpecDemo()).SetTitle("From a Flint spec (JSON)")))
                .Section(Stack().Children(Card(InteractionsDemo()).SetTitle("Interactions")))
+               .Section(Stack().Children(Card(SizingDemo()).SetTitle("Fitting the space it is given")))
                .Section(Stack().Children(Card(ErrorDemo()).SetTitle("A spec that cannot be drawn")))
                .Section(Stack().Children(Card(Gallery(
                     Cell(FlintChartType.ScatterPlot, "Weight against fuel economy", Rows(FlintChart(FlintChartType.ScatterPlot), CarColumns, cars)
@@ -121,6 +122,53 @@ namespace Tesserae.Tests.Samples
                 Grid(new UnitSize("repeat(auto-fill, minmax(340px, 1fr))")).WS().Gap(16.px()).PT(16).Children(bars, lines),
                 Card(output).PT(8));
         }
+
+        // A chart takes the width of the box it is put in: stretched, a fraction of it, a fixed width, or what is left in a
+        // row. Each box has a dashed outline so the edge the chart is meant to fill is visible; the ids are what the
+        // browser tests measure.
+        private static IComponent SizingDemo()
+        {
+            var resizable = VStack().Id("flint-size-box").W(480).Children(Sales("flint-size-stretch", "Stretched (WS)").WS());
+
+            Action<int> resize = width => resizable.Width(width.px());
+
+            return VStack().WS().Children(
+                TextBlock("A chart is laid out for the width of the box it sits in, and again when that width changes. .WS() fills the box, .W(...) takes a fixed width (the chart is laid out for it, not for its box), a percentage is a share of the box, and .Grow() takes what is left in a row. .H(...) with FillHeight() does the same for the height."),
+                Grid(new UnitSize("repeat(auto-fill, minmax(340px, 1fr))")).WS().Gap(16.px()).PT(16).Children(
+                    Case("Stretched (WS) in a box that can be resized",
+                        HStack().Children(
+                            Button("320").OnClick(() => resize(320)).Id("flint-size-320"),
+                            Button("480").OnClick(() => resize(480)).Id("flint-size-480"),
+                            Button("640").OnClick(() => resize(640)).Id("flint-size-640")).PB(8),
+                        Outlined(resizable)),
+                    Case("Fixed width: W(300) in a wider box",
+                        Outlined(VStack().WS().Children(Sales("flint-size-fixed", "Fixed 300px").W(300)))),
+                    Case("Half of the box: W(50.percent())",
+                        Outlined(VStack().WS().Children(Sales("flint-size-percent", "Half").W(50.percent())))),
+                    Case("Fixed width and height: W(380).H(240), FillHeight",
+                        Outlined(VStack().WS().Children(Sales("flint-size-both", "Fixed 380 by 240").W(380).H(240).FillHeight()))),
+                    Case("What is left in a row: a 120px label, then the chart with Grow()",
+                        Outlined(HStack().WS().Children(
+                            TextBlock("A 120px label").W(120).NoShrink(),
+                            Sales("flint-size-grow", "Grow").Grow()))),
+                    Case("Stretched in a grid cell",
+                        Outlined(Grid(new UnitSize[] { 1.fr(), 1.fr() }).WS().Gap(8.px()).Children(
+                            Sales("flint-size-grid-a", "Cell A").WS(),
+                            Sales("flint-size-grid-b", "Cell B").WS())))));
+        }
+
+        private static FlintChart Sales(string id, string title)
+            => ProductSales(FlintChart(FlintChartType.BarChart)).X("Product").Y("Sales").Title(title).Id(id);
+
+        private static IComponent Case(string caption, params IComponent[] content)
+        {
+            var all = new List<IComponent> { TextBlock(caption).Small().Secondary().PB(8) };
+            all.AddRange(content);
+            return VStack().WS().Children(all.ToArray());
+        }
+
+        private static IComponent Outlined(IComponent box)
+            => box.Style(s => { s.outline = "1px dashed var(--tss-default-border-color)"; s.outlineOffset = "-1px"; });
 
         private const string SpecJson = @"{
   ""data"": { ""values"": [

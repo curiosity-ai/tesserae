@@ -244,7 +244,11 @@ namespace Tesserae
             return Redraw();
         }
 
-        /// <summary>The size the chart is laid out for when its data fits comfortably (Flint's default is 400 by 320); it still fits the width it has.</summary>
+        /// <summary>
+        /// The height the chart is laid out for when its data fits comfortably (Flint's default is 320). The width is
+        /// always the width of the chart's own box (<c>.WS()</c>, <c>.Width(...)</c>, a grid cell or what is left in a row),
+        /// so the width given here is not used.
+        /// </summary>
         public FlintChart BaseSize(int width, int height)
         {
             Script.Write("{0}.baseSize = { width: {1}, height: {2} };", ChartSpec(), width, height);
@@ -327,7 +331,8 @@ namespace Tesserae
         {
             var drawing = new FlintChartDrawing(InnerElement, "tss-flintchart-frame")
             {
-                Input = MakeInput,
+                Input     = MakeInput,
+                FillWidth = true,
             };
 
             drawing.OnDrawn = () =>

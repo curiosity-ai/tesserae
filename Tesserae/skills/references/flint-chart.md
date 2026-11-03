@@ -74,7 +74,7 @@ The fluent methods write into the spec, so they also adjust a chart made from JS
 - `.Property(string name, object value)` — the chart type's own `chartProperties`
   (`innerRadius`, `showPoints`, `stackMode`, `binCount`, `cornerRadius`, `region`, …).
 - `.Title`, `.Subtitle`, `.Label` (a kicker above the title), `.Source(text, href = null)`.
-- `.BaseSize(width, height)` — the size Flint aims for (default 400×320).
+- `.BaseSize(width, height)` — the size Flint aims for (default 400×320). Only the height is used: the width is always the chart's own box.
 - `.Tooltips(bool = true)` — hover readouts, on by default.
 - `.Interactions(params FlintInteraction[])` — Flint's presets: `Inspect`,
   `InspectIndex`, `ClickHighlight`, `LegendToggle`, `BrushX`, `BrushZoom`, `Navigate`,
@@ -130,9 +130,11 @@ gives each gesture one owner) and are reported from their events.
 
 ## Layout and lifecycle
 
-- Width: the chart is laid out for the width it has, and again when it changes. Give it
-  a width (`.WS()`, a grid cell, a vertical stack's stretch); a content-sized parent
-  leaves it at its minimum.
+- Width: the chart is drawn at exactly the width of its box and again when that changes
+  (wider is a new mount, narrower is laid out in place): `.WS()`, a fixed `.W(...)`, a
+  percentage, a grid cell, or what is left in a row with `.Grow()`. It never keeps a width
+  of its own (Flint's 400px) or stops short of the box. A content-sized parent leaves it at
+  its minimum.
 - Height: the chart chooses its own height for its width. With `.FillHeight()` it is laid
   out for the height it is given (`.H(...)`, `.HS()`, `.Grow()`) instead, titles and key
   included. Without `FillHeight()`, an explicit `.H(...)` only clips or pads it.

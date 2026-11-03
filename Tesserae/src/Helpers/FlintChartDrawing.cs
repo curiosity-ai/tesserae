@@ -39,6 +39,7 @@ namespace Tesserae
         private          bool           _hostSurface;
         private          double         _laidOutWidth;
         private          double         _laidOutHeight;
+        private          double         _targetWidth;
         private          double         _chromeHeight;
         private          ResizeObserver _resizeObserver;
         private          int            _relayoutTimer;
@@ -67,6 +68,13 @@ namespace Tesserae
 
         /// <summary>Whether <see cref="Theme"/> replaces a <c>theme_spec</c> the spec states.</summary>
         public bool OverrideSpecTheme { get; set; }
+
+        /// <summary>
+        /// Whether the chart takes the host's width as the width it is drawn at, rather than as a ceiling over a width of
+        /// its own (Flint's <c>baseSize</c>, 400px by default). A chart that does not fill is as wide as it chooses, up to
+        /// the host's width.
+        /// </summary>
+        public bool FillWidth { get; set; }
 
         /// <summary>Whether the chart is laid out for the host's height as well as its width, rather than choosing its own height.</summary>
         public bool FillHeight { get; set; }
@@ -257,7 +265,12 @@ namespace Tesserae
 
                 //The height is only a ceiling to Flint, over a target of its own (320px by default): a chart that fills its
                 //host targets the height it is given.
-                if (height > 0) Script.Write("(function (c, h) { var b = c.baseSize || {}; c.baseSize = { width: b.width || 400, height: h }; })({0}.chart_spec, {1})", input, Requested(height));
+                //Width is the same: Flint draws at its base width (400px) when the host is wider, so a chart that fills its host
+                //targets the host's width.
+                if (height > 0 || FillWidth)
+                {
+                    Script.Write("(function (c, w, h) { var b = c.baseSize || {}; c.baseSize = { width: w > 0 ? w : (b.width || 400), height: h > 0 ? h : (b.height || 320) }; })({0}.chart_spec, {1}, {2})", input, FillWidth ? width : 0, Requested(height));
+                }
 
                 object surface;
                 try
@@ -307,6 +320,7 @@ namespace Tesserae
                 _hostSurface  = hostSurface;
                 _laidOutWidth  = width;
                 _laidOutHeight = height;
+                _targetWidth   = width;
 
                 if (OnClick != null) Flint.OnInteraction(surface, detail => ReportClick(detail));
 
@@ -350,6 +364,13 @@ namespace Tesserae
             {
                 if (themeJson is null) Script.Write("delete {0}.theme_spec;", input);
                 else Script.Write("{0}.theme_spec = JSON.parse({1});", input, themeJson);
+            }
+
+            //Flint stops widening the bands of a chart with few categories well short of the room it is given (its house
+            //style: bandStepFit 0.7 and less), so a chart that fills its host asks for the band to fit it, unless the theme says.
+            if (FillWidth)
+            {
+                Script.Write("(function (i) { var t = i.theme_spec = i.theme_spec || {}; var l = t.layout = t.layout || {}; if (l.bandStepFit === undefined) { l.bandStepFit = 1; } })({0})", input);
             }
 
             //A theme whose surface is the host's: the frame draws it, and the chart is left unpainted over it.
@@ -412,8 +433,8 @@ namespace Tesserae
             var height = FillHeight ? AvailableHeight(_frame) : 0;
             if (Math.Abs(width - _laidOutWidth) <= RelayoutTolerancePx && Math.Abs(height - _laidOutHeight) <= RelayoutTolerancePx) return;
 
-            //A taller host is a new target, which only a new mount sets.
-            if (height > _laidOutHeight + RelayoutTolerancePx)
+            //A taller or wider host is a new target, which only a new mount sets; a smaller one is a ceiling Flint lays out within.
+            if (height > _laidOutHeight + RelayoutTolerancePx || (FillWidth && width > _targetWidth + RelayoutTolerancePx))
             {
                 await MountAsync();
                 return;
