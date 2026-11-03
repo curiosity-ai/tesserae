@@ -103,7 +103,7 @@ Mosaik, so their screens are references you can copy component by component:
 | `curiosity-ai/workspace-demo` | the default workspace |
 | `curiosity-ai/automotive-demo` | dashboards, investigations, a findings board (Field Quality) |
 | `curiosity-ai/tech-data-demo` | document search and node renderers for technical data |
-| `curiosity-ai/aviation-safety-demo` | home dashboard, news and feeds, chat |
+| `curiosity-ai/aviation-intelligence-demo` | news monitoring: home dashboard, news and feeds, reports, chat |
 | `curiosity-ai/demos-template` | the starting point every demo shares |
 
 The Tesserae Themes design system shows several of these screens as "Pages"
