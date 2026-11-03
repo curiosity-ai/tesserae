@@ -326,12 +326,12 @@ dotnet serve --port 5000
 
 ## UI design: short, clean, functional, built from what exists
 
-Read the `ui-design` skill (`.claude/skills/ui-design/SKILL.md`) before you design, build or review any UI. In short:
+Read the `ui-design` skill (`.claude/skills/ui-design/SKILL.md`) before you design, build or review any UI. Its source is `curiosity-ai/design-systems`; keep the copies the same. In short:
 
-- **No explanation sentences in the UI.** Labels are short nouns or verbs. No paragraph that says what a page or setting is for.
+- **No explanation sentences in the UI.** Labels are short nouns or verbs. No paragraph that says what a page or setting is for. A one-line description is a last resort, justified in the PR.
 - **Clean and functional.** One primary action per view, tokens for spacing and colour, no nested boxes, rare options out of the way.
 - **Let the design explain the function.** A filter, selector, segmented control, badge or empty state beats text or a tooltip. Tooltips only name icon-only controls or show truncated values.
-- **Follow known patterns.** Search online for how well-known products solve the same problem, follow the shared pattern, and name the references in the PR.
+- **Follow known patterns.** Start from our demos (`workspace-demo`, `automotive-demo`, `tech-data-demo`, `aviation-safety-demo`), then search online for how well-known products solve the same problem. Name the references in the PR.
 - **Reuse Tesserae and Mosaik components aggressively.** Extend one with a fluent option before you fork it.
 - **A new component is fine** when it gives clearly better UX. Say in the PR why no existing one was enough.
 
