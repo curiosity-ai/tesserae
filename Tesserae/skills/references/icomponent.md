@@ -128,6 +128,12 @@ so an icon-only button is named after what its tooltip says (see `accessibility.
 set on an element - the tooltip itself is only built on the first hover, which a touch
 layout never has, so this is how one finds out what an icon-only control is for.
 
+A tooltip waits `delayShow` (250ms) before it appears, on the first hover too. While one is open
+(and for 300ms after it closes), hovering another tooltip shows it at once, with no delay and no
+animation, and the one being left goes without fading. This is a default Tippy plugin
+(`tippy.warm.js`), so it applies to every hover tooltip, including an application's own `tippy()`
+calls; menus and popovers shown by hand are not affected.
+
 A component can skip a tooltip that would only repeat what it already shows in full. `InlineLabel`
 does this: a tooltip matching its own text shows only while that text is ellipsized, checked on every
 hover.

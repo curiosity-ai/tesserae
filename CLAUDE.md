@@ -166,6 +166,11 @@ What makes it work, and what to keep when touching it:
   the matching file under `Tesserae.Themes.Curiosity/tps/assets/css/`.
 - The fonts (Schibsted Grotesk, Geist Mono, OFL) are bundled in the package rather than loaded from
   Google Fonts. The skill reference is `Tesserae/skills/references/custom-themes.md`.
+- **Tooltips open instantly once one is open** (`Tesserae/tps/assets/js/tippy.warm.js`, a default Tippy plugin like
+  `tippy.unmount.js`): while a hover tooltip is mounted, and for 300ms after the last one closes, the next skips its
+  show delay and animation, and the one being left is unmounted without fading. A lazily created tooltip
+  (`Tooltip(...)`, `OverflowTooltip`) calls `tippy.tssShowWhenHovered`, which applies the show delay itself on the
+  first hover and skips it when warm.
 - **A second theme: `Tesserae.Themes.Stratus`** ([Tesserae.Themes.Stratus/](Tesserae.Themes.Stratus/)), an aerospace
   design language built from the tokens and component behaviour of an open-source aerospace design system (used as a reference
   only; the package is deliberately not named after it): deep navy accent, cool greys, filled inputs with a bottom rule, 3px/6px/8px radii, shadows from a
