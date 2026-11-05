@@ -594,7 +594,9 @@ namespace Tesserae
                     Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11}, theme: {12}, zIndex: {13}, onShow: function() { if ({14}()) return false; } });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex, (Func<bool>)IsRedundant);
                 }
 
-                Transpose.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
+                //Tippy's own mouseenter has already gone by, so show it here: after the usual delay if the pointer is
+                //still on the element, or at once when another tooltip is open (see tippy.warm.js)
+                Transpose.Script.Write("tippy.tssShowWhenHovered({0}._tippy, {0}, {1}, {2});", element, delayShow, (Func<bool>)(() => rendered["tooltipMarker"] == marker && !IsRedundant()));
 
                 var currentTippy = Transpose.Script.Write<object>("{0}._tippy", element);
 

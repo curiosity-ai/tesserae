@@ -219,10 +219,8 @@ namespace Tesserae
 
             //The pointer is already on it, so tippy's own mouseenter has been and gone: show it after the usual delay
             //if the pointer is still there by then
-            window.setTimeout(_ =>
-            {
-                if (IsOurs(element) && element.matches(":hover")) Transpose.Script.Write("{0}.show();", instance);
-            }, DelayShow);
+            //(or at once when another tooltip is open, see tippy.warm.js)
+            Transpose.Script.Write("tippy.tssShowWhenHovered({0}, {1}, {2}, {3});", instance, element, DelayShow, (Func<bool>)(() => IsOurs(element)));
 
             //A block taken out of the document while its tooltip is up would leave the tooltip hanging
             DomObserver.WhenRemoved(element, () =>
