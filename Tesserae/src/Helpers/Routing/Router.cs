@@ -73,8 +73,6 @@ namespace Tesserae
         private static readonly Dictionary<string, Func<Parameters, bool>> _registedRoutesMappedToActions        = new Dictionary<string, Func<Parameters, bool>>();
         private static readonly Dictionary<string, string>                 _paths                                = new Dictionary<string, string>();
         private static          List<Route>                                _routesToTryMatchingOnLocationChanged = new List<Route>();
-        private static double _tryNavigateAgain;
-        private static bool _tryNavigateAgainSet = false;
 
         /// <summary>
         /// Pushes a new history entry for <paramref name="path"/> without re-matching routes.
@@ -300,28 +298,8 @@ namespace Tesserae
             {
                 if (!windowLocationSaysAlreadyThere)
                 {
-                    _tryNavigateAgain = setTimeout(_ =>
-                    {
-                        window.location.href = path;
-                    }, 1);
-                    _tryNavigateAgainSet = true;
-                    
                     // If the window.location doesn't indicate that we're already at the desired path then update that and the "locationchange" event listener will fire off the LocationChanged method
-                    window.location.href = path; // during handling of the "locationchange" event, _tryNavigateAgain might be cleared if we want the path not to change by the handler
-
-                    if (!window.location.href.EndsWith(path))
-                    {
-                        if (_tryNavigateAgainSet)
-                        {
-                            // Sometimes assigning window.location.href doesn't actually work
-                            console.debug("Failed to navigate to ", path, " from", window.location.href, "\nRetrying on a timeout");
-                        }
-                    }
-                    else
-                    {
-                        _tryNavigateAgainSet = false;
-                        clearTimeout(_tryNavigateAgain);
-                    }
+                    window.location.href = path;
 
                     return;
                 }
@@ -537,8 +515,6 @@ namespace Tesserae
                         // New route was matched but refused to activate, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
                         if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
                         {
-                            window.clearTimeout(_tryNavigateAgain);
-                            _tryNavigateAgainSet = false;
                             window.location.href = _currentState.FullPath;
                         }
                     }
@@ -548,8 +524,6 @@ namespace Tesserae
                     // New route was matched but onBeforeNavigate denied navigation, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
                     if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
                     {
-                        window.clearTimeout(_tryNavigateAgain);
-                        _tryNavigateAgainSet = false;
                         window.location.href = _currentState.FullPath;
                     }
                 }
