@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -18,6 +19,20 @@ namespace Tesserae
         private HTMLElement       _spinLabel;
         private bool              _isSpinningInPlace;
         private int               _spinGeneration;
+
+        private bool              _clickAnimationListening;
+        private bool              _clickAnimationEnabled;
+        private UIcons            _clickAnimationIcon = UIcons.Check;
+        private string            _clickAnimationText;
+        private int               _clickAnimationHoldMs = DEFAULT_CLICK_ANIMATION_HOLD_MS;
+        private int               _clickAnimationGeneration;
+        private bool              _isClickAnimating;
+        private bool              _clickAnimationHadIcon;
+        private string            _clickAnimationOriginalIcon;
+        private string            _clickAnimationOriginalIconColor;
+        private string            _clickAnimationOriginalText;
+        private string            _clickAnimationOriginalMinWidth;
+        private string            _clickAnimationPinnedWidth;
 
         /// <summary>
         /// Initializes a new instance of this class. Give it an <paramref name="href"/> and it becomes a real
@@ -577,6 +592,131 @@ namespace Tesserae
             }
 
             UndoSpinner(outcome);
+        }
+
+        /// <summary>How long a clicked button holds its <see cref="AnimateOnClick(UIcons,string,int)"/> glyph before it swaps back.</summary>
+        public const int DEFAULT_CLICK_ANIMATION_HOLD_MS = 1500;
+
+        private const string CLICK_ANIMATION_CLASS = "tss-btn-click-animation";
+
+        /// <summary>
+        /// Turns on a click animation: when the button is clicked its icon (and, given a <paramref name="text"/>,
+        /// its label) swaps for <paramref name="icon"/> with a short pop, is held for
+        /// <paramref name="holdMilliseconds"/>, then swaps back. The feedback for an action with no result of its
+        /// own to show - a "copy" glyph that turns into a check. It runs on every click, whatever
+        /// <see cref="ComponentBase{T,THtml}.OnClick(Action{T, MouseEvent}, bool)"/> handlers the button has (it
+        /// does not use that slot, so it neither replaces nor is replaced by them), and a click while the swap
+        /// is showing holds it for another full period rather than restarting from the original glyph.
+        /// While the text is swapped the button keeps the width it had, so nothing around it moves.
+        /// </summary>
+        public Button AnimateOnClick(UIcons icon, string text = null, int holdMilliseconds = DEFAULT_CLICK_ANIMATION_HOLD_MS)
+        {
+            _clickAnimationIcon   = icon;
+            _clickAnimationText   = text;
+            _clickAnimationHoldMs = holdMilliseconds;
+
+            return AnimateOnClick(true);
+        }
+
+        /// <summary>
+        /// Enables or disables the click animation configured by <see cref="AnimateOnClick(UIcons,string,int)"/>
+        /// (a check, no text, <see cref="DEFAULT_CLICK_ANIMATION_HOLD_MS"/> until it is configured). Disabling it
+        /// while it is showing puts the button's own icon and text back at once.
+        /// </summary>
+        public Button AnimateOnClick(bool enabled = true)
+        {
+            _clickAnimationEnabled = enabled;
+
+            if (!enabled)
+            {
+                EndClickAnimation();
+            }
+            else if (!_clickAnimationListening)
+            {
+                _clickAnimationListening = true;
+
+                // Its own listener: a button keeps one OnClick handler and a later OnClick would replace the animation.
+                InnerElement.addEventListener("click", _ =>
+                {
+                    if (_clickAnimationEnabled && !_isSpinningInPlace) PlayClickAnimation();
+                });
+            }
+
+            return this;
+        }
+
+        /// <summary>Turns the click animation off. Shorthand for <c>AnimateOnClick(false)</c>.</summary>
+        public Button NoAnimateOnClick() => AnimateOnClick(false);
+
+        /// <summary>Whether a click plays the animation set by <see cref="AnimateOnClick(UIcons,string,int)"/>.</summary>
+        public bool IsAnimateOnClick => _clickAnimationEnabled;
+
+        private void PlayClickAnimation()
+        {
+            var generation = ++_clickAnimationGeneration;
+
+            if (!_isClickAnimating)
+            {
+                _isClickAnimating                = true;
+                _clickAnimationHadIcon           = _iconSpan is object;
+                _clickAnimationOriginalIcon      = _iconSpan?.className;
+                _clickAnimationOriginalIconColor = _iconSpan?.style.color;
+                _clickAnimationOriginalText      = Text;
+                _clickAnimationOriginalMinWidth  = InnerElement.style.minWidth;
+                _clickAnimationPinnedWidth       = (_clickAnimationText is object && InnerElement.IsMounted())
+                    ? Math.Ceiling(InnerElement.getBoundingClientRect().As<DOMRect>().width).px().ToString()
+                    : null;
+            }
+
+            // Keeps the size token the button's own icon was drawn with
+            var sizeToken = _clickAnimationOriginalIcon is object ? _clickAnimationOriginalIcon.Split(' ').Last() : null;
+            var iconClass = Tesserae.Icon.Transform(_clickAnimationIcon, UIconsWeight.Regular);
+
+            Icon = string.IsNullOrEmpty(sizeToken) || !sizeToken.StartsWith("tss-fontsize") ? $"{iconClass} {Size}" : $"{iconClass} {sizeToken}";
+
+            if (_clickAnimationText is object)
+            {
+                Text = _clickAnimationText;
+
+                //The Text setter resets the minimum width, so the pin goes on after it
+                if (_clickAnimationPinnedWidth is object) InnerElement.style.minWidth = _clickAnimationPinnedWidth;
+            }
+
+            // Takes the class off and puts it back after a reflow, so a click on the swapped button replays the pop
+            InnerElement.classList.remove(CLICK_ANIMATION_CLASS);
+            InnerElement.getBoundingClientRect();
+            InnerElement.classList.add(CLICK_ANIMATION_CLASS);
+
+            window.setTimeout(_ =>
+            {
+                if (generation == _clickAnimationGeneration) EndClickAnimation();
+            }, _clickAnimationHoldMs);
+        }
+
+        private void EndClickAnimation()
+        {
+            if (!_isClickAnimating) return;
+
+            _isClickAnimating = false;
+            _clickAnimationGeneration++;
+
+            InnerElement.classList.remove(CLICK_ANIMATION_CLASS);
+
+            if (_clickAnimationText is object)
+            {
+                Text                        = _clickAnimationOriginalText;
+                InnerElement.style.minWidth = _clickAnimationOriginalMinWidth;
+            }
+
+            if (_clickAnimationHadIcon)
+            {
+                Icon = _clickAnimationOriginalIcon;
+                _iconSpan.style.color = _clickAnimationOriginalIconColor;
+            }
+            else
+            {
+                Icon = null;
+            }
         }
 
         /// <summary>
