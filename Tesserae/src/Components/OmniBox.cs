@@ -14,7 +14,7 @@ namespace Tesserae
     /// (search/chat) and async value providers.
     /// </summary>
     [Transpose.Name("tss.OmniBox")]
-    public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex, IDictationTarget
+    public partial class OmniBox : IComponent, IHasBackgroundColor, ITabIndex, IDictationTarget
     {
 
         public class InlineFilterChip
@@ -408,6 +408,7 @@ namespace Tesserae
                 ExpandOnFocus = false;
                 TokenIgnoreCase = false;
                 GeneratingText = "Generating";
+                CodeBlocks = true;
             }
 
             /// <summary>
@@ -491,6 +492,15 @@ namespace Tesserae
             /// number hanging off it. Leave it unset (or at zero) for no limit and no counter.
             /// </summary>
             public int MaxCharacters { get; set; }
+
+            /// <summary>
+            /// Gets or sets whether the chat input takes fenced code blocks. On by default: typing ``` at the start
+            /// of a line opens a code box inside the input (Enter is a new line there, Ctrl/Cmd+Enter sends, ``` on
+            /// its last line or Escape leaves it, and Backspace in an empty box removes it), and text that arrives
+            /// with fences in it is split into boxes. The message keeps the fences, each one backtick longer than
+            /// the longest run of backticks in its block (never fewer than three). Off, ``` is plain text.
+            /// </summary>
+            public bool CodeBlocks { get; set; }
 
             /// <summary>
             /// Gets or sets whether the box has a microphone button that dictates into the active input. Off by default.
@@ -639,6 +649,7 @@ namespace Tesserae
         private Action                    _hideModelPopover;
         private ChatMention                _chatMention;
         private int                        _mentionStart = -1;
+        private HTMLTextAreaElement        _mentionInput;
         private int                        _mentionEnd   = -1;
         private static HTMLDivElement       _mentionCaretMirror;
         private readonly HTMLDivElement _footer;
@@ -1123,87 +1134,12 @@ namespace Tesserae
                 //the auto-sizing cannot go under, which a phone pays for in height on every keystroke-free screen
                 _chatInput.setAttribute("rows", "1");
 
-                _chatInput.addEventListener("keydown", (e) =>
-                {
-                    var ke = e.As<KeyboardEvent>();
-                    KeyDown?.Invoke(this, ke);
+                _chatPlaceholder   = config.PlaceholderChat ?? "";
+                _codeBlocksEnabled = config.CodeBlocks;
 
-                    if (_chatMention != null && _mentionStart >= 0 && (_chatMention.IsOpen?.Invoke() ?? false))
-                    {
-                        if (ke.key == "ArrowDown")
-                        {
-                            StopEvent(e);
-                            _chatMention.OnMove?.Invoke(1);
-                            return;
-                        }
-                        if (ke.key == "ArrowUp")
-                        {
-                            StopEvent(e);
-                            _chatMention.OnMove?.Invoke(-1);
-                            return;
-                        }
-                        if (ke.key == "Enter" || ke.key == "Tab")
-                        {
-                            StopEvent(e);
-                            if (_chatMention.OnCommit?.Invoke() ?? false)
-                            {
-                                CommitChatMention();
-                            }
-                            return;
-                        }
-                        if (ke.key == "Escape")
-                        {
-                            StopEvent(e);
-                            HideChatMention();
-                            return;
-                        }
-                    }
-
-                    if ((ke.key == "ArrowUp" || ke.key == "ArrowDown") && TryWalkChatHistory(ke, older: ke.key == "ArrowUp"))
-                    {
-                        StopEvent(e);
-                        return;
-                    }
-
-                    if (ke.key == "Enter" && !ke.shiftKey)
-                    {
-                        TriggerChat();
-                        StopEvent(e);
-                    }
-                });
-
-                _chatInput.addEventListener("input", (e) =>
-                {
-                    UpdateChatTriggerActiveState();
-                    UpdateChatCounter();
-                    ResizeChatInput();
-                    Input?.Invoke(this, e);
-                    TryUpdateChatMention();
-                });
-                _chatInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
-                _chatInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
-                _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
-                _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
-
-                _chatInput.addEventListener("paste", (e) =>
-                {
-                    //Nothing subscribed means the browser's own paste, unchanged - reading the
-                    //clipboard to hand nobody the result would only cost the paste a frame.
-                    if (ChatPasted is null) return;
-
-                    var clipboard = e.As<ClipboardEvent>();
-
-                    var paste = new ChatPaste
-                    {
-                        Text  = clipboard?.clipboardData?.getData("text/plain") ?? string.Empty,
-                        Files = FilesOnClipboard(clipboard)
-                    };
-
-                    ChatPasted.Invoke(this, paste);
-
-                    //Only a handler that says it took the paste keeps it out of the input.
-                    if (paste.Handled) StopEvent(e);
-                });
+                WireChatProse(_chatInput);
+                _chatSegments.Add(new ChatSegment { Input = _chatInput, Root = _chatInput });
+                _lastChatInput = _chatInput;
 
                 _chatContainer = Div(Att("tss-omnibox-chat-container"), _chatInput);
 
@@ -1371,9 +1307,21 @@ namespace Tesserae
 
             DictationTargets.Register(_container, this);
 
-            _container.addEventListener("click", (_) =>
+            _container.addEventListener("click", (e) =>
             {
-                _activeInput.focus();
+                //A chat textarea (the input, a code box, the text after one) focuses itself, and must keep its focus
+                var target = e.target.As<HTMLElement>();
+                if (target is object && _chatSegments.Any(seg => seg.Input == target)) return;
+
+                if (target is object && _chatContainer is object && _chatContainer.contains(target))
+                {
+                    var block = target.closest("." + CODE_BLOCK_CLASS);
+                    var code  = block is object ? _chatSegments.FirstOrDefault(seg => seg.Root == block) : null;
+                    if (code is object) { code.Input.focus(); return; }
+                }
+
+                if (_activeInput == _chatInput && _lastChatInput is object) _lastChatInput.focus();
+                else _activeInput.focus();
             });
 
 
@@ -1554,7 +1502,7 @@ namespace Tesserae
             }
             else if (enteringMode == Mode.Search)
             {
-                var chatText = _chatInput.value;
+                var chatText = ChatText;
                 if (!string.IsNullOrEmpty(chatText))
                 {
                     SearchText = chatText;
@@ -2279,12 +2227,15 @@ namespace Tesserae
         /// </summary>
         public bool HasContextToAdd => _contextCards.Count > 0;
 
-        private void TryUpdateChatMention()
+        private void TryUpdateChatMention(HTMLTextAreaElement input)
         {
             if (_chatMention == null) return;
 
-            var val    = _chatInput.value ?? string.Empty;
-            var cursor = (int)_chatInput.selectionStart;
+            if (_mentionStart >= 0 && _mentionInput != input) HideChatMention();
+            _mentionInput = input;
+
+            var val    = input.value ?? string.Empty;
+            var cursor = (int)input.selectionStart;
 
             int atIdx = -1;
             for (int i = cursor - 1; i >= 0; i--)
@@ -2312,7 +2263,7 @@ namespace Tesserae
 
             if (!wasOpen)
             {
-                var (x, y) = GetCaretClientPosition(_chatInput, atIdx);
+                var (x, y) = GetCaretClientPosition(input, atIdx);
                 _chatMention.OnShow?.Invoke(x, y);
             }
 
@@ -2334,7 +2285,8 @@ namespace Tesserae
                 return;
             }
 
-            var val   = _chatInput.value ?? string.Empty;
+            var input = _mentionInput ?? _chatInput;
+            var val   = input.value ?? string.Empty;
             var start = _mentionStart;
             var end   = Math.Min(_mentionEnd, val.Length);
 
@@ -2352,13 +2304,13 @@ namespace Tesserae
                 after = after.Substring(1);
             }
 
-            _chatInput.value = before + after;
-            _chatInput.setSelectionRange((uint)before.Length, (uint)before.Length);
+            input.value = before + after;
+            input.setSelectionRange((uint)before.Length, (uint)before.Length);
 
             HideChatMention();
             UpdateChatCounter();
             ResizeChatInput();
-            _chatInput.focus();
+            input.focus();
         }
 
         private static (double x, double y) GetCaretClientPosition(HTMLTextAreaElement textarea, int caretIndex)
@@ -2443,6 +2395,10 @@ namespace Tesserae
             var field = _activeInput ?? (HTMLElement)_searchInput ?? _chatInput;
             if (field == null) return double.NaN;
 
+            //With code boxes in the chat input, the caret is in whichever of its textareas was focused last
+            var chatField = field == _chatInput ? (_lastChatInput ?? _chatInput) : null;
+            if (chatField is object) field = chatField;
+
             var rect = field.getBoundingClientRect().As<DOMRect>();
             if (rect.width <= 0) return double.NaN;
 
@@ -2450,10 +2406,10 @@ namespace Tesserae
             int    caret;
             bool   wraps;
 
-            if (field == _chatInput)
+            if (chatField is object)
             {
-                value = _chatInput.value ?? string.Empty;
-                caret = (int)_chatInput.selectionStart;
+                value = chatField.value ?? string.Empty;
+                caret = (int)chatField.selectionStart;
                 wraps = true;
             }
             else
@@ -3199,23 +3155,22 @@ namespace Tesserae
                 if (!_isStopping) TriggerStop();
                 return;
             }
-            var val = _chatInput.value;
+            var val = ChatText;
+            var hadFocus = ChatHasFocus();
             AddToChatHistory(val);
             Chatted?.Invoke(this, new ChatMessage() { Text = val });
-            _chatInput.value = "";
-            UpdateChatTriggerActiveState();
-            UpdateChatCounter();
-            ResizeChatInput();
+            SetChatSegmentsFromText("");
+            if (hadFocus) _chatInput.focus();
         }
 
         // While generating, the trigger sends instead of stopping only when the host asked for it and
         // there is actually something to send - an empty input still offers "stop".
-        private bool CanSendWhileGenerating => _allowSendWhileGenerating && _chatInput != null && !string.IsNullOrWhiteSpace(_chatInput.value);
+        private bool CanSendWhileGenerating => _allowSendWhileGenerating && _chatInput != null && !string.IsNullOrWhiteSpace(ChatText);
 
         private void UpdateChatTriggerActiveState()
         {
             if (_chatTriggerBtn == null || _chatInput == null) return;
-            var hasText = !string.IsNullOrEmpty(_chatInput.value) && !string.IsNullOrWhiteSpace(_chatInput.value);
+            var hasText = !string.IsNullOrWhiteSpace(ChatText);
             var el = _chatTriggerBtn.Render();
             if (hasText) el.classList.add("tss-omnibox-chat-btn-active");
             else el.classList.remove("tss-omnibox-chat-btn-active");
@@ -3283,7 +3238,9 @@ namespace Tesserae
         {
             if (_chatCounter is null || _chatInput is null) return;
 
-            var used = _chatInput.value is null ? 0 : _chatInput.value.Length;
+            ApplyChatBudget();
+
+            var used = (ChatText ?? string.Empty).Length;
 
             if (_maxChatCharacters > 0 && used > _maxChatCharacters * CHAT_COUNTER_VISIBLE_FROM)
             {
@@ -3304,25 +3261,37 @@ namespace Tesserae
         private void ResizeChatInput()
         {
             if (_chatInput == null) return;
-            ContentHeight.FitWhenRendered(_chatInput, FitChatInput);
+
+            foreach (var t in ChatTextAreas.ToArray())
+            {
+                var textarea = t;
+                ContentHeight.FitWhenRendered(textarea, () => FitChatInput(textarea));
+            }
         }
 
-        private void FitChatInput()
+        private void FitChatInput(HTMLTextAreaElement textarea)
         {
-            // Reset to auto so scrollHeight reflects the content height, not the current box height.
-            _chatInput.style.height = "auto";
-            var contentHeight = _chatInput.scrollHeight;
+            // With code boxes in it the whole input scrolls (tss.omnibox.css caps it), so no one textarea scrolls on
+            // its own; collapsing one to measure it must not throw away where that scroll was.
+            var capped    = !HasCodeBlocks;
+            var scrollTop = _chatContainer?.scrollTop ?? 0;
 
-            if (contentHeight > chatInputMaxHeight)
+            // Reset to auto so scrollHeight reflects the content height, not the current box height.
+            textarea.style.height = "auto";
+            var contentHeight = textarea.scrollHeight;
+
+            if (capped && contentHeight > chatInputMaxHeight)
             {
-                _chatInput.style.height = chatInputMaxHeight + "px";
-                _chatInput.style.overflowY = "auto";
+                textarea.style.height = chatInputMaxHeight + "px";
+                textarea.style.overflowY = "auto";
             }
             else
             {
-                _chatInput.style.height = contentHeight + "px";
-                _chatInput.style.overflowY = "hidden";
+                textarea.style.height = contentHeight + "px";
+                textarea.style.overflowY = "hidden";
             }
+
+            if (_chatContainer is object && _chatContainer.scrollTop != scrollTop) _chatContainer.scrollTop = scrollTop;
         }
 
         private void TriggerStop()
@@ -3933,7 +3902,7 @@ namespace Tesserae
         {
             if (!IsPlainArrowKey(ke)) return false;
 
-            var current = _chatInput.value;
+            var current = ChatText;
 
             if (!_chatHistoryWalk.IsWalking(current))
             {
@@ -3949,10 +3918,9 @@ namespace Tesserae
 
             ChatText = _chatHistoryWalk.Step(older);
             //What the box holds, not what was asked for: a textarea normalizes line endings as it takes a value
-            _chatHistoryWalk.Shown(_chatInput.value);
+            _chatHistoryWalk.Shown(ChatText);
 
-            var end = (uint)_chatInput.value.Length;
-            _chatInput.setSelectionRange(end, end);
+            FocusSegment(_chatSegments[_chatSegments.Count - 1], atEnd: true);
             return true;
         }
 
@@ -4383,7 +4351,8 @@ namespace Tesserae
             set
             {
                 if(_searchInput is object) _searchInput.tabIndex = value;
-                if(_chatInput   is object) _chatInput.tabIndex = value;
+                _chatTabIndex = value;
+                foreach (var t in ChatTextAreas) t.tabIndex = value;
             }
         }
 
@@ -4399,13 +4368,13 @@ namespace Tesserae
                 {
                     _container.classList.remove("tss-disabled");
                     if(_searchInput is object) _searchInput.disabled = false;
-                    if(_chatInput is object) _chatInput.disabled = false;
+                    foreach (var t in ChatTextAreas) t.disabled = false;
                 }
                 else
                 {
                     _container.classList.add("tss-disabled");
                     if(_searchInput is object) _searchInput.disabled = true;
-                    if(_chatInput is object) _chatInput.disabled = true;
+                    foreach (var t in ChatTextAreas) t.disabled = true;
                 }
             }
         }
@@ -4429,13 +4398,10 @@ namespace Tesserae
         /// </summary>
         public string ChatText
         {
-            get => _chatInput.value;
+            get => ComposeChatText();
             set
             {
-                _chatInput.value = value;
-                UpdateChatTriggerActiveState();
-                UpdateChatCounter();
-                ResizeChatInput();
+                SetChatSegmentsFromText(value ?? string.Empty);
                 Input?.Invoke(this, null);
             }
         }
@@ -4450,12 +4416,6 @@ namespace Tesserae
             set
             {
                 _maxChatCharacters = value > 0 ? value : 0;
-
-                if (_chatInput is object)
-                {
-                    if (_maxChatCharacters > 0) _chatInput.maxLength = _maxChatCharacters;
-                    else _chatInput.removeAttribute("maxlength");
-                }
 
                 UpdateChatCounter();
             }
@@ -4475,8 +4435,12 @@ namespace Tesserae
         /// </summary>
         public string ChatPlaceholder
         {
-            get => _chatInput.placeholder;
-            set => _chatInput.placeholder = value;
+            get => _chatPlaceholder;
+            set
+            {
+                _chatPlaceholder = value ?? string.Empty;
+                UpdateChatPlaceholder();
+            }
         }
 
 

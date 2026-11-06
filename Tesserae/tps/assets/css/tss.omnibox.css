@@ -479,6 +479,73 @@
     resize: none;
 }
 
+/* Code blocks in the chat input (OmniBox.CodeBlocks.cs): typing ``` at the start of a line opens a box, and the
+   input becomes a column of textareas - the text, a box, the text after it, and so on. The column scrolls as one
+   past a cap, so no single textarea scrolls inside another scroller. */
+.tss-omnibox-chat-container.tss-omnibox-has-code {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: min(50vh, 420px);
+    overflow-y: auto;
+}
+
+    .tss-omnibox-chat-container.tss-omnibox-has-code > .tss-omnibox-chat-input {
+        display: block;
+        flex: 0 0 auto;
+    }
+
+.tss-omnibox-code-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin: 0 5px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-sm);
+    background-color: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+    cursor: text;
+}
+
+    .tss-omnibox-code-block:focus-within {
+        border-color: var(--tss-primary-background-color);
+    }
+
+.tss-omnibox-code-lang {
+    padding: 4px 10px 0 10px;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    line-height: 16px;
+    opacity: 0.65;
+    user-select: none;
+}
+
+.tss-omnibox-code-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background: transparent;
+    color: inherit;
+    caret-color: currentColor;
+    outline: none;
+    padding: 8px 10px;
+    margin: 0;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 13px;
+    line-height: 20px;
+    tab-size: 4;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow-y: hidden;
+    resize: none;
+}
+
+    .tss-omnibox-code-lang + .tss-omnibox-code-input {
+        padding-top: 2px;
+    }
+
 .tss-omnibox-chat-input::placeholder {
     color: var(--tss-default-foreground-color) !important;
     opacity: 0.5;
