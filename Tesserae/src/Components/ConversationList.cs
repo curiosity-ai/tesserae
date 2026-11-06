@@ -175,6 +175,7 @@ namespace Tesserae
         private int                   _openPopups;
         private double                _clockTimer;
         private string                _emptyText         = "Conversations you start will show up here".t();
+        private IComponent            _emptyComponent;
         private string                _closedTooltip     = "History".t();
 
         /// <summary>Initializes a new, empty conversation list.</summary>
@@ -315,7 +316,16 @@ namespace Tesserae
         /// <summary>The text shown when the list holds no conversations at all.</summary>
         public ConversationList EmptyMessage(string text)
         {
-            _emptyText = text;
+            _emptyText      = text;
+            _emptyComponent = null;
+            Refresh();
+            return this;
+        }
+
+        /// <summary>What the list shows, in place of the default icon and text, when it holds no conversations at all.</summary>
+        public ConversationList EmptyMessage(IComponent emptyMessage)
+        {
+            _emptyComponent = emptyMessage;
             Refresh();
             return this;
         }
@@ -822,6 +832,12 @@ namespace Tesserae
             {
                 _statusHost.appendChild(Spinner().Render());
                 _statusHost.appendChild(TextDiv("tss-convlist-status-text", searching ? "Searching…".t() : "Loading…".t()));
+                return;
+            }
+
+            if (CurrentFilter.IsDefault && _emptyComponent is object)
+            {
+                _statusHost.appendChild(_emptyComponent.Render());
                 return;
             }
 
