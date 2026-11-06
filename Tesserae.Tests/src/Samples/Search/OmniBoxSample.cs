@@ -31,6 +31,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(InlineChips()))
                .FlatSection(VStack().WS().Children(FooterItems()))
                .FlatSection(VStack().WS().Children(CharacterLimit()))
+               .FlatSection(VStack().WS().Children(CodeBlocks()))
                .FlatSection(VStack().WS().Children(Dictation()))
                .FlatSection(VStack().WS().Children(KeyboardShortcut()))
                .FlatSection(VStack().WS().Children(SuggestedText()))
@@ -411,6 +412,38 @@ namespace Tesserae.Tests.Samples
                 "Config.MaxCharacters caps how long a chat message can be: the input stops taking text at the limit, and a \"used / max\" counter sits next to the send button. It only shows past half the budget — below that it is collapsed, so a short message never has a number hanging off it. OmniBox.MaxChatCharacters changes the cap later, and zero lifts it.",
                 box,
                 HStack().MT(8).Children(raise, lift.ML(8)));
+        }
+
+        // ---------- Code blocks ----------
+
+        private IComponent CodeBlocks()
+        {
+            var sent     = TextBlock("Nothing sent yet").Secondary();
+            var rendered = MarkdownBlock("").WS();
+
+            var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat = "Type ``` at the start of a line to open a code block"
+            })
+            .WS()
+            .OnChat((s, q) =>
+            {
+                // What the host gets is Markdown: the fences are kept, and grow past any backticks inside a block
+                sent.Text     = q.Text;
+                rendered.Text = q.Text;
+            }));
+
+            var prefill = Button("Fill with a block that holds ```").OnClick(() =>
+                box.SetChatText("Why does this README snippet break my renderer?\n````markdown\nUse a fence:\n```js\nconsole.log(1);\n```\n````\nAnd this one is fine:\n```csharp\nvar x = 42;\n```").Focus());
+
+            return FeatureCard("Code blocks", "Fenced code inside the chat input",
+                "Type ``` at the start of a line and a code box opens inside the input; type more to open another. Enter is a new line inside a box and Ctrl/Cmd+Enter sends; ``` on its last line, Escape or the arrow keys leave it, and Backspace in an empty box removes it. Pasted or prefilled text with fences is split into boxes too. The message sent keeps the fences, each one backtick longer than the longest run of backticks inside its block.",
+                box,
+                HStack().MT(8).Children(prefill),
+                SampleSubTitle("Last message, as sent").MT(16),
+                sent.Wrap().Style(st => { st.whiteSpace = "pre-wrap"; st.fontFamily = Theme.Fonts.Monospace; }),
+                SampleSubTitle("Rendered back").MT(16),
+                rendered);
         }
 
         // ---------- Dictation ----------

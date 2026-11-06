@@ -377,6 +377,11 @@ body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container {
         display: block;
     }
 
+    /* With code boxes in it the input scrolls past a lower cap than on a desktop: the keyboard has the other half */
+    body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container.tss-omnibox-has-code {
+        max-height: 40vh;
+    }
+
 body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibox-search-container {
     padding: 0px;
 }
