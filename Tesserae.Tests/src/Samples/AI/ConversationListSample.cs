@@ -135,19 +135,37 @@ namespace Tesserae.Tests.Samples
 
         private static IEnumerable<ConversationListItem> Generate(SampleRandom random)
         {
-            var titles = new[]
+            //Each chat is about the repository its second line names - all three are open source.
+            const string CATALYST = "curiosity-ai/catalyst", TESSERAE = "curiosity-ai/tesserae", ROCKSDB = "curiosity-ai/rocksdbsharp";
+
+            var chats = new (string Title, string Repo)[]
             {
-                "RocksDB C# port for .NET 10/11",  "Chat history list component",   "Locked Facets feature bug",
-                "Agentic website implementation",  "File content indexing fields",  "Tables OCR newline handling",
-                "AppSettings share option flag",   "Mobile rendering issues review","Repo handover continuation",
-                "UID128 front-end methods",        "Access control caching classes","Flint charts horizontal scaling",
-                "Guidelines cleanup and review",   "Quarterly planning notes",      "Embedding model benchmark",
-                "Release notes for 26.11",         "Customer onboarding checklist", "Search relevance tuning",
-                "Dark mode contrast audit",        "Replica failover drill",        "Translation batch for German",
-                "Graph schema migration",          "Invoice parser edge cases",     "Weekly changelog draft",
+                ("RocksDB 10 native binaries for .NET 11",   ROCKSDB),
+                ("Conversation list component",              TESSERAE),
+                ("Tokenizer splits URLs with ports",         CATALYST),
+                ("Column family options for TTL",            ROCKSDB),
+                ("Sidebar flyout on the collapsed rail",     TESSERAE),
+                ("Spotter model for product names",          CATALYST),
+                ("Iterator leak when disposing snapshots",   ROCKSDB),
+                ("Mobile rendering issues review",           TESSERAE),
+                ("Language detection on short texts",        CATALYST),
+                ("WriteBatch with merge operators",          ROCKSDB),
+                ("Dark mode contrast audit",                 TESSERAE),
+                ("Lemmatizer for German compounds",          CATALYST),
+                ("Flint charts horizontal scaling",          TESSERAE),
+                ("Benchmark FastText embeddings",            CATALYST),
+                ("Linux ARM64 build of librocksdb",          ROCKSDB),
+                ("Release notes for the next version",       TESSERAE),
+                ("Sentence detector abbreviations",          CATALYST),
+                ("Backup engine API wrapper",                ROCKSDB),
+                ("Icon font re-centering",                   TESSERAE),
+                ("Entity recognizer training data",          CATALYST),
+                ("Compaction filter callbacks",              ROCKSDB),
+                ("Gallery samples render the same",          TESSERAE),
+                ("Stop-word lists for 30 languages",         CATALYST),
+                ("Bloom filter defaults",                    ROCKSDB),
             };
 
-            var repos  = new[] { "curiosity-ai/catalyst", "curiosity-ai/tesserae", "curiosity-ai/rocksdbsharp" };
             var states = new string[] { null, null, null, null, null, null, COMPLETED, COMPLETED, ARCHIVED, ARCHIVED, NEEDS_INPUT };
 
             //Minutes ago, growing down the list: a couple of fresh ones, then hours, days, weeks.
@@ -155,15 +173,15 @@ namespace Tesserae.Tests.Samples
 
             var now = DateTimeOffset.Now;
 
-            for (int i = 0; i < titles.Length; i++)
+            for (int i = 0; i < chats.Length; i++)
             {
                 var more = random.Next(0, 5);
 
                 yield return new ConversationListItem
                 {
                     Id       = "c" + i,
-                    Title    = titles[i],
-                    Subtitle = repos[random.Next(0, repos.Length)] + (more > 0 ? ", +" + more + " more" : ""),
+                    Title    = chats[i].Title,
+                    Subtitle = chats[i].Repo + (more > 0 ? ", +" + more + " more" : ""),
                     Time     = now.AddMinutes(-ages[i]),
                     IsPinned = i == 2 || i == 7 || i == 13,
                     State    = i == 0 ? WORKING : i == 1 ? NEEDS_INPUT : states[random.Next(0, states.Length)],

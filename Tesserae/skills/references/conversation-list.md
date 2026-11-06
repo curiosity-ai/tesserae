@@ -20,7 +20,7 @@ public static ConversationList ConversationList(string title = null)
 new ConversationListItem
 {
     Id        = "c1",                       // stable key; rows are reconciled by it
-    Title     = "Quarterly planning notes",
+    Title     = "Tokenizer splits URLs with ports",
     Subtitle  = "curiosity-ai/catalyst",     // optional second line
     Time      = DateTimeOffset.Now.AddHours(-9),
     IsPinned  = true,
