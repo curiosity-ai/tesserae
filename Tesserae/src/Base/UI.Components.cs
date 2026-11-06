@@ -1711,6 +1711,13 @@ namespace Tesserae
         public static CombinedObservable<T1, T2> Combine<T1, T2>(IObservable<T1> o1, IObservable<T2> o2) => new CombinedObservable<T1, T2>(o1, o2);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ConversationList"/>: a chat history with a pinned section, a search, a filter by
+        /// state and by time, and a flyout for a collapsed sidebar.
+        /// </summary>
+        /// <param name="title">The header's title. None leaves the header with only its buttons.</param>
+        public static ConversationList ConversationList(string title = null) => new ConversationList(title);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Conversation"/>: an issue-style discussion thread of comments and events on a rail.
         /// </summary>
         public static Conversation Conversation() => new Conversation();

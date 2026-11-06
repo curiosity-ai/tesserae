@@ -1,0 +1,479 @@
+/* ConversationList: a chat history with a pinned section, a search and a filter in its header,
+   a state dot per row and the relative time it last changed. */
+
+.tss-convlist-host {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.tss-convlist {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+    color: var(--tss-default-foreground-color);
+    --tss-convlist-row-hover: var(--tss-default-background-hover-color);
+    --tss-convlist-row-selected: var(--tss-primary-background-color-transparent, rgba(var(--tss-primary-background-color-root), 0.12));
+}
+
+/* ---------- Header ---------- */
+
+.tss-convlist-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 32px;
+    padding: 4px 4px 4px 8px;
+    flex-shrink: 0;
+}
+
+.tss-convlist-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-convlist-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.tss-convlist-header-button.tss-btn {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    padding: 0;
+    color: var(--tss-secondary-foreground-color);
+    border-radius: var(--tss-border-radius-md);
+}
+
+.tss-convlist-header-button.tss-btn:hover {
+    color: var(--tss-default-foreground-color);
+}
+
+/* An active filter or an open search is said by the button itself, so a glance at the header tells the list is narrowed. */
+.tss-convlist-header-button-active.tss-btn {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-convlist-header-button-active.tss-btn::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-primary-background-color);
+}
+
+/* ---------- Search and filter summary ---------- */
+
+.tss-convlist-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 4px 6px 4px;
+    flex-shrink: 0;
+}
+
+.tss-convlist-search-icon {
+    position: absolute;
+    left: 14px;
+    top: calc(50% - 3px);
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: var(--tss-secondary-foreground-color);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tss-convlist-search .tss-convlist-search-box {
+    width: 100%;
+    padding-left: 28px;
+}
+
+.tss-convlist-filter-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 4px 6px 4px;
+    padding: 2px 2px 2px 8px;
+    min-height: 26px;
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-secondary-background-color);
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    flex-shrink: 0;
+}
+
+.tss-convlist-filter-summary-icon {
+    font-size: 11px;
+}
+
+.tss-convlist-filter-summary-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-convlist-filter-clear.tss-btn {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    padding: 0;
+    font-size: 10px;
+}
+
+/* ---------- Body and sections ---------- */
+
+.tss-convlist-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 4px 8px 4px;
+}
+
+.tss-convlist-section + .tss-convlist-section {
+    margin-top: 6px;
+}
+
+.tss-convlist-section-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 6px 4px 6px;
+    font-size: var(--tss-font-size-tiny);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+    user-select: none;
+}
+
+.tss-convlist-section-toggle {
+    cursor: pointer;
+    border-radius: var(--tss-border-radius-sm);
+}
+
+.tss-convlist-section-toggle:hover {
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-convlist-section-toggle:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: -2px;
+}
+
+.tss-convlist-section-chevron {
+    font-size: 10px;
+    transition: transform 120ms ease;
+}
+
+.tss-convlist-section-collapsed .tss-convlist-section-chevron {
+    transform: rotate(-90deg);
+}
+
+.tss-convlist-section-collapsed > .tss-convlist-rows {
+    display: none;
+}
+
+.tss-convlist-section-count {
+    margin-left: auto;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: 0;
+}
+
+/* ---------- Rows ---------- */
+
+.tss-convlist-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.tss-convlist-row {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 6px 7px 8px;
+    border-radius: var(--tss-border-radius-md);
+    cursor: pointer;
+    min-width: 0;
+    outline: none;
+}
+
+.tss-convlist-row:hover {
+    background: var(--tss-convlist-row-hover);
+}
+
+.tss-convlist-row:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-primary-background-color);
+}
+
+.tss-convlist-row-selected,
+.tss-convlist-row-selected:hover {
+    background: var(--tss-convlist-row-selected);
+}
+
+.tss-convlist-row-selected .tss-convlist-row-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-convlist-dot-host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.tss-convlist-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.tss-convlist-dot-idle {
+    border: 1.5px solid var(--tss-secondary-foreground-color);
+    opacity: 0.7;
+}
+
+.tss-convlist-dot-muted {
+    border: 1.5px dashed var(--tss-secondary-foreground-color);
+    opacity: 0.5;
+}
+
+.tss-convlist-dot-running {
+    background: var(--tss-primary-background-color);
+    animation: tss-convlist-pulse 1.4s ease-in-out infinite;
+}
+
+.tss-convlist-dot-attention {
+    background: var(--tss-warning-background-color);
+}
+
+.tss-convlist-dot-success {
+    background: var(--tss-success-background-color);
+}
+
+@keyframes tss-convlist-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--tss-primary-background-color-root), 0.45); }
+    50%      { box-shadow: 0 0 0 4px rgba(var(--tss-primary-background-color-root), 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-convlist-dot-running {
+        animation: none;
+    }
+}
+
+.tss-convlist-row-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 1px;
+}
+
+.tss-convlist-row-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    height: 18px;
+}
+
+.tss-convlist-row-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: 12px;
+}
+
+.tss-convlist-row-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: var(--tss-font-size-small);
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-convlist-row-trailing {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.tss-convlist-row-time {
+    flex-shrink: 0;
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    font-variant-numeric: tabular-nums;
+}
+
+.tss-convlist-row-subtitle {
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* The "more" button takes the time's place while the row is hovered, so the row never gets narrower for it. */
+.tss-convlist-row-menu.tss-btn {
+    display: none;
+    position: absolute;
+    right: 4px;
+    top: 5px;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    padding: 0;
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-convlist-row-hover);
+}
+
+.tss-convlist-row-selected .tss-convlist-row-menu.tss-btn {
+    background: transparent;
+}
+
+.tss-convlist-row-has-menu:hover .tss-convlist-row-menu.tss-btn,
+.tss-convlist-row-has-menu:focus-within .tss-convlist-row-menu.tss-btn {
+    display: flex;
+}
+
+.tss-convlist-row-has-menu:hover .tss-convlist-row-time,
+.tss-convlist-row-has-menu:focus-within .tss-convlist-row-time {
+    visibility: hidden;
+}
+
+/* A touch screen has no hover to reveal the menu with, so it is always there and the time steps aside for it. */
+@media (hover: none) {
+    .tss-convlist-row-has-menu .tss-convlist-row-menu.tss-btn {
+        display: flex;
+        position: static;
+        background: transparent;
+        flex-shrink: 0;
+        margin-top: -3px;
+    }
+
+    .tss-convlist-row-has-menu .tss-convlist-row-time {
+        visibility: visible;
+    }
+
+    .tss-convlist-row {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+/* ---------- Empty, loading, load-more ---------- */
+
+.tss-convlist-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 32px 16px;
+    text-align: center;
+}
+
+.tss-convlist-status-icon {
+    font-size: 28px;
+    color: var(--tss-secondary-foreground-color);
+    opacity: 0.6;
+}
+
+.tss-convlist-status-text {
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-convlist-sensor:empty {
+    display: none;
+}
+
+.tss-convlist-sensor {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+/* ---------- Filter menu ---------- */
+
+.tss-convlist-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.tss-convlist-menu-icon {
+    width: 14px;
+    font-size: 13px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-convlist-menu-label {
+    flex: 1 1 auto;
+}
+
+.tss-convlist-menu-check {
+    font-size: 12px;
+    color: var(--tss-primary-background-color);
+}
+
+/* ---------- Collapsed rail and flyout ---------- */
+
+.tss-convlist-rail-button-open.tss-btn {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tippy-box[data-theme~='tss-convlist-flyout-theme'] {
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.16));
+    overflow: hidden;
+}
+
+.tippy-box[data-theme~='tss-convlist-flyout-theme'] > .tippy-content {
+    padding: 0;
+}
+
+.tippy-box[data-theme~='tss-convlist-flyout-theme'] > .tippy-content > div {
+    overflow: visible !important;
+}
+
+.tss-convlist-flyout {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    max-width: calc(100vw - 80px);
+    height: min(560px, 70vh);
+    padding: 4px 0;
+}
