@@ -78,6 +78,15 @@ namespace Tesserae.Tests.Samples
                             window.setTimeout(_ => byHand.UndoSpinner(ButtonSpinnerOutcome.Success), 2500);
                         })
                     ),
+                    SampleSubTitle("Click Animation"),
+                    TextBlock("AnimateOnClick(icon, text, holdMilliseconds) swaps the button's icon (and, given a text, its label) for a moment when it is clicked, then swaps back - the feedback for an action with no result of its own to show, such as copy. It keeps its own click listener, so an OnClick handler neither replaces it nor is replaced by it, and a swapped label keeps the button's width. AnimateOnClick(false) / NoAnimateOnClick() turns it off.").MB(8),
+                    HStack().AlignItemsCenter().Children(
+                        Button().SetIcon(UIcons.Copy).Tooltip("Copy").AnimateOnClick(UIcons.Check).OnClick(() => { }),
+                        Button().SetIcon(UIcons.Copy).Tooltip("Copy (primary)").Primary().AnimateOnClick(UIcons.Check),
+                        Button("Copy link").SetIcon(UIcons.Link).AnimateOnClick(UIcons.Check, "Copied!").OnClick(() => { }),
+                        Button("Share").SetIcon(UIcons.Share).Primary().AnimateOnClick(UIcons.Check, "Shared", holdMilliseconds: 3000),
+                        Button("Disabled again").SetIcon(UIcons.Copy).AnimateOnClick(UIcons.Check, "Copied!").NoAnimateOnClick().OnClick(() => Toast().Information("The animation is off"))
+                    ),
                     SampleSubTitle("Variations"),
                     HStack().Children(
                         ButtonAndIcon("Split Button", (m, i, ev) => Toast().Information("Icon clicked"), mainIcon: UIcons.Rocket, secondaryIcon: UIcons.AngleDown).OnClick((b, _) => Toast().Success("Main action")),
