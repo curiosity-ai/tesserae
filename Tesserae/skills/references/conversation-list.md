@@ -21,7 +21,7 @@ new ConversationListItem
 {
     Id        = "c1",                       // stable key; rows are reconciled by it
     Title     = "Quarterly planning notes",
-    Subtitle  = "curiosity-ai/mosaik",       // optional second line
+    Subtitle  = "curiosity-ai/catalyst",     // optional second line
     Time      = DateTimeOffset.Now.AddHours(-9),
     IsPinned  = true,
     State     = "working",                  // key of a state added with AddState; null = idle

@@ -147,7 +147,7 @@ namespace Tesserae.Tests.Samples
                 "Graph schema migration",          "Invoice parser edge cases",     "Weekly changelog draft",
             };
 
-            var repos  = new[] { "curiosity-ai/mosaik", "curiosity-ai/tesserae", "curiosity-ai/rocksdb", "curiosity-ai/blog" };
+            var repos  = new[] { "curiosity-ai/catalyst", "curiosity-ai/tesserae", "curiosity-ai/rocksdbsharp" };
             var states = new string[] { null, null, null, null, null, null, COMPLETED, COMPLETED, ARCHIVED, ARCHIVED, NEEDS_INPUT };
 
             //Minutes ago, growing down the list: a couple of fresh ones, then hours, days, weeks.
