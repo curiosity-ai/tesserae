@@ -114,17 +114,15 @@ namespace Tesserae
         // from the per-status `.is-*` CSS rules like any other icon, and there
         // is no inline SVG in the component.
         //
-        // The Running glyph is a spinner rotated by CSS. For a font glyph to
-        // spin *in place* instead of orbiting off-center, the icon element must
-        // be a glyph-centered square with `transform-origin: 50% 50%`; the
-        // `.tss-plan-step-icon .tss-icon` rules in tss.plan.css pin it to a
-        // fixed size, collapse line-height to 1 and flex-center the glyph so the
-        // rotation pivot sits exactly on the glyph's center.
+        // Running is the exception: it is drawn by the toolkit's spinner
+        // (Spinner.Ring), not a glyph, so it looks like every other spinner in
+        // the active theme. StatusIcon still names a glyph for it, for anything
+        // that wants one icon per status.
         public static UIcons StatusIcon(PlanStatus status)
         {
             switch (status)
             {
-                case PlanStatus.Running:   return UIcons.Spinner;     // rotated via CSS
+                case PlanStatus.Running:   return UIcons.Spinner;
                 case PlanStatus.Completed: return UIcons.CheckCircle;
                 case PlanStatus.Failed:    return UIcons.CrossCircle;
                 case PlanStatus.Canceled:  return UIcons.Ban;
@@ -133,22 +131,33 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Creates the status-glyph element (a UIcons <c>&lt;i&gt;</c>) for
-        /// <paramref name="status"/>.
+        /// Creates the status element for <paramref name="status"/>: the
+        /// spinner ring while running, a UIcons <c>&lt;i&gt;</c> otherwise.
         /// </summary>
         public static HTMLElement CreateStatusIcon(PlanStatus status)
         {
+            if (status == PlanStatus.Running) return Spinner.Ring();
             return I(Att("tss-icon " + StatusIcon(status)));
         }
 
         /// <summary>
-        /// Points an existing status-glyph element at the glyph for
-        /// <paramref name="status"/>. Only the icon class changes, so a running
-        /// spinner's CSS animation is not restarted when unrelated fields update.
+        /// Points an existing status element at <paramref name="status"/> and
+        /// returns the element that now stands for it. A glyph-to-glyph change
+        /// only swaps the icon class; to or from Running the element is
+        /// replaced, since the spinner is not a glyph.
         /// </summary>
-        public static void SetStatusIcon(HTMLElement iconEl, PlanStatus status)
+        public static HTMLElement SetStatusIcon(HTMLElement iconEl, PlanStatus status)
         {
-            iconEl.className = "tss-icon " + StatusIcon(status);
+            var wasRing = iconEl.classList.contains("tss-spinner");
+            if (!wasRing && status != PlanStatus.Running)
+            {
+                iconEl.className = "tss-icon " + StatusIcon(status);
+                return iconEl;
+            }
+
+            var replacement = CreateStatusIcon(status);
+            iconEl.parentElement?.replaceChild(replacement, iconEl);
+            return replacement;
         }
 
         public static string StatusText(PlanStatus status)
@@ -683,7 +692,7 @@ namespace Tesserae
         {
             private readonly HTMLElement _root;
             private readonly HTMLElement _iconSlot;
-            private readonly HTMLElement _statusIcon;
+            private          HTMLElement _statusIcon;
             private readonly HTMLElement _textEl;
             private readonly HTMLElement _stageEl;
             private readonly HTMLElement _toggleEl;
@@ -733,8 +742,8 @@ namespace Tesserae
                 Key = key;
                 _status = status;
 
-                // Rail / status node (UIcons glyph; the spinner spins in place
-                // when running — see the centering note in PlanVisuals).
+                // Rail / status node (a UIcons glyph, or the spinner while
+                // running - see PlanVisuals.CreateStatusIcon).
                 _statusIcon = PlanVisuals.CreateStatusIcon(status);
                 _iconSlot = Div(Att("tss-plan-step-icon"), _statusIcon);
                 var rail = Div(Att("tss-plan-step-rail"), _iconSlot);
@@ -825,10 +834,10 @@ namespace Tesserae
             {
                 // Only swap the glyph when the status actually changes, so the
                 // running spinner's animation isn't restarted on every update.
-                // Color + spin come from the parent `.is-*` class via CSS.
+                // Color comes from the parent `.is-*` class via CSS.
                 if (status != _status)
                 {
-                    PlanVisuals.SetStatusIcon(_statusIcon, status);
+                    _statusIcon = PlanVisuals.SetStatusIcon(_statusIcon, status);
                 }
                 _status = status;
                 PlanVisuals.RemoveStepStatusClasses(_root);

@@ -1438,7 +1438,8 @@ namespace Tesserae
                     {
                         alreadyRun = true;
 
-                        var loading = new Item("Loading...", UIcons.Spinner);
+                        var loading = new Item("Loading...");
+                        loading._headerDiv.insertBefore(Spinner.Ring(), loading._textSpan); // Where the icon goes
                         Add(loading);
 
                         Task.Run(async () =>

@@ -67,7 +67,7 @@ namespace Tesserae
             //it did not answer, and - on a box that has said it can cancel - the cancel button under a pointer.
             //It stands where the clear button does, which is where the user is already looking.
             _status = Div(Att("tss-searchbox-status"),
-                          Div(Att("tss-spinner")),
+                          Spinner.Ring(),
                           I(Att($"tss-searchbox-failed-icon {UIcons.TriangleWarning.ToCssClass()}")),
                           _cancelButton);
 

@@ -3,7 +3,7 @@
    --------------------------------------------------------------------------
    The Mac's busy cursor turned in whole steps, never smoothly: the wristwatch
    moved its hands a tick at a time and the beach ball rotated in jumps. The
-   spinner is a 1-bit ring with a gap, turned in eight steps. A determinate
+   spinner is a 1-bit ring with a quarter gap and square ends, turned in eight steps. A determinate
    spinner is a ring filled clockwise in ink over a dithered track. Success
    danger and warning are not colours; the ring stays ink and the label carries it.
    ========================================================================== */
@@ -15,18 +15,33 @@
 
 body.tss-theme-retroos .tss-spinner {
     --tss-spinner-color: rgb(var(--tss-default-foreground-color-root));
-    border: none;
-    border-radius: 50%;
-    background: conic-gradient(rgb(var(--tss-default-foreground-color-root)) 0 270deg, transparent 0);
-    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - max(var(--tss-spinner-size), 2px)), #000 0);
-    mask: radial-gradient(farthest-side, #0000 calc(100% - max(var(--tss-spinner-size), 2px)), #000 0);
-    animation: tss-retroos-steps 0.8s steps(8, end) infinite;
+    --tss-spinner-stroke: 6;
+    --tss-spinner-arc: 94.25 31.42;
 }
 
+    /* Longhands, so a ring the button holds paused (tss.button.css) stays paused. */
+    body.tss-theme-retroos .tss-spinner > .tss-spinner-orbit {
+        stroke-linecap: butt;
+        animation-name: tss-retroos-steps;
+        animation-duration: 0.8s;
+        animation-timing-function: steps(8, end);
+    }
+
+    body.tss-theme-retroos .tss-spinner .tss-spinner-track {
+        stroke-opacity: 0;
+    }
+
+/* The determinate ring is ink over the dither, which an svg stroke cannot paint: the band is the
+   element's own background, masked to the ring (--tss-spinner-mask). */
 body.tss-theme-retroos .tss-spinner.tss-spinner-progress {
-    animation: none;
     background: conic-gradient(rgb(var(--tss-default-foreground-color-root)) calc(var(--tss-spinner-progress, 0) * 1%), transparent 0), var(--tss-retro-dither);
+    -webkit-mask: var(--tss-spinner-mask);
+    mask: var(--tss-spinner-mask);
 }
+
+    body.tss-theme-retroos .tss-spinner.tss-spinner-progress > .tss-spinner-orbit {
+        display: none;
+    }
 
 body.tss-theme-retroos .tss-spinner-success,
 body.tss-theme-retroos .tss-spinner-warning,
