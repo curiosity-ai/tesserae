@@ -42,6 +42,10 @@ isn't disabled is selected on render.
   unselected items the accent, and the selected pill is filled with the gradient. See `ai-variants.md`.
 - `.Disabled(bool value = true)` — disable the whole control. Items disabled on their own
   stay disabled when it is re-enabled.
+- `.Hidden(bool value = true)` — hide the whole control (it takes no space).
+- `IconToggleItem(...).Hidden(bool = true)` — an item that starts hidden.
+- `.SetItemHidden(T data, bool hidden = true)` — show or hide the item carrying that data at
+  any time. Hiding the selected item doesn't change the selection.
 
 ## Example
 

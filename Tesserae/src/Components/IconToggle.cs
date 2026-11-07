@@ -48,6 +48,11 @@ namespace Tesserae
                     b.Disabled();
                 }
 
+                if (item.IsHidden)
+                {
+                    b.Render().classList.add("tss-collapse");
+                }
+
                 _items[item] = b;
                 _stack.Add(b);
             }
@@ -193,6 +198,33 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures whether the whole control is hidden. A hidden control takes no space.
+        /// </summary>
+        public IconToggle<T> Hidden(bool value = true)
+        {
+            _stack.Render().UpdateClassIf(value, "tss-collapse");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Shows or hides the item carrying the given data, at any time. Values that don't match any item are ignored.
+        /// Hiding the selected item doesn't change the selection.
+        /// </summary>
+        public IconToggle<T> SetItemHidden(T item, bool hidden = true)
+        {
+            foreach (var kv in _items)
+            {
+                if (EqualityComparer<T>.Default.Equals(kv.Key.Data, item))
+                {
+                    kv.Value.Render().UpdateClassIf(hidden, "tss-collapse");
+                }
+            }
+
+            return this;
+        }
+
         private void MarkSelected(T item)
         {
             foreach (var kv in _items)
@@ -241,6 +273,21 @@ namespace Tesserae
             /// Gets whether this item can be selected.
             /// </summary>
             public bool IsDisabled { get; private set; }
+
+            /// <summary>
+            /// Gets whether this item starts hidden.
+            /// </summary>
+            public bool IsHidden { get; private set; }
+
+            /// <summary>
+            /// Configures whether this item starts hidden. To change it later, use <see cref="IconToggle{T}.SetItemHidden"/>.
+            /// </summary>
+            public Item Hidden(bool value = true)
+            {
+                IsHidden = value;
+
+                return this;
+            }
 
             /// <summary>
             /// Sets a label to show next to the icon.

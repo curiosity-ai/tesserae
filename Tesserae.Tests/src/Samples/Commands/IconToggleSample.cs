@@ -67,6 +67,10 @@ namespace Tesserae.Tests.Samples
                         TextBlock("An item can be disabled on its own, or the whole control at once.").Secondary(),
                         DisabledExample(),
 
+                        SampleSubTitle("Hidden"),
+                        TextBlock("An item can start hidden and be shown or hidden later with SetItemHidden; Hidden() hides the whole control.").Secondary(),
+                        HiddenExample(),
+
                         SampleSubTitle("Driving content"),
                         TextBlock("The selection is an observable, so a DeferSync can rebuild a panel whenever it changes.").Secondary(),
                         DrivingContentExample(),
@@ -152,6 +156,18 @@ namespace Tesserae.Tests.Samples
                 IconToggle(
                     IconToggleItem(UIcons.Comment, "Ask the assistant", ComposerMode.Chat,   "Chat"),
                     IconToggleItem(UIcons.Search,  "Search everything", ComposerMode.Search, "Search")).FullWidth());
+        }
+
+        private static IComponent HiddenExample()
+        {
+            var toggle = IconToggle(
+                IconToggleItem(UIcons.List,   "List view", ViewMode.List),
+                IconToggleItem(UIcons.Apps,   "Grid view", ViewMode.Grid),
+                IconToggleItem(UIcons.Marker, "Map view",  ViewMode.Table).Hidden());
+
+            var showMap = Toggle("Show the map item").OnChange((t, _) => toggle.SetItemHidden(ViewMode.Table, !t.IsChecked));
+
+            return VStack().Children(LabelledRow("Item hidden until shown", toggle), showMap);
         }
 
         private static IComponent DisabledExample()
