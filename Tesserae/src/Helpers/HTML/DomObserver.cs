@@ -165,8 +165,21 @@ namespace Tesserae
 
                     if (element is null) continue;
 
-                    // The element may have been re-removed between the mutation firing and rAF.
-                    if (!element.IsMounted()) continue;
+                    // The element may have been re-removed between the mutation firing and rAF - a
+                    // tooltip's content is appended to the body and then handed to tippy, which keeps it
+                    // in a popper that stays out of the document until the tooltip is first shown. The
+                    // marker and the entry are already gone by now, so dropping it here would mean
+                    // nothing ever reports that mounting and a Defer in there sits on its loading
+                    // message for good. It is armed again instead, for whenever the element does land.
+                    if (!element.IsMounted())
+                    {
+                        element.setAttribute(MountAttr, "");
+                        _elementsToTrackMountingOf.Add(entry);
+
+                        //The observer stopped when the lists drained a moment ago, before this ran.
+                        StartObservingIfNeeded();
+                        continue;
+                    }
 
                     entry.CallbackOrNullIfCollected?.Invoke();
                 }
