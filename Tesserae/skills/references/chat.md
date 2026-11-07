@@ -31,6 +31,7 @@ ChatArea:
 - `.Add(ChatMessage)` — append a message. Auto-scrolls into view **only if the reader is at
   the bottom**; if they scrolled up, the message is appended without moving them. Adding an
   anchored message (see `.ScrollAnchor()`) always re-engages following.
+- `.Add(ChatTimeDivider)` — append a [time divider](chat-time-divider.md) between two messages, where the conversation picked up after a pause. Not a turn: it never anchors the scroll.
 - `.PrependRange(IEnumerable<ChatMessage>)` — insert older messages at the top while keeping
   the reader's scroll position stable (for loading history above the fold).
 - `.Clear()` — remove all messages (also resets follow state and start-position).

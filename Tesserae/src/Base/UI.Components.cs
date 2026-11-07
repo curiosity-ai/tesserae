@@ -1711,6 +1711,14 @@ namespace Tesserae
         public static CombinedObservable<T1, T2> Combine<T1, T2>(IObservable<T1> o1, IObservable<T2> o2) => new CombinedObservable<T1, T2>(o1, o2);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ChatTimeDivider"/>: a wavy divider with the time, for where a chat transcript picks up
+        /// again after a pause (see <see cref="Tesserae.ChatTimeDivider.IsGap"/>).
+        /// </summary>
+        /// <param name="time">When the messages below the divider start.</param>
+        /// <param name="label">The text to show instead of the formatted time. None formats <paramref name="time"/>.</param>
+        public static ChatTimeDivider ChatTimeDivider(DateTimeOffset time, string label = null) => new ChatTimeDivider(time, label);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.ConversationList"/>: a chat history with a pinned section, a search, a filter by
         /// state and by time, and a flyout for a collapsed sidebar.
         /// </summary>
