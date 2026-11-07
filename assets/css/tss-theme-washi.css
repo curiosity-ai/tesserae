@@ -1,0 +1,4907 @@
+
+@font-face { font-family: "Shippori Mincho"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("../fonts/washi/shippori-mincho-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Shippori Mincho"; font-style: normal; font-weight: 600 800; font-display: swap; src: url("../fonts/washi/shippori-mincho-latin-600-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "Zen Kaku Gothic New"; font-style: normal; font-weight: 100 400; font-display: swap; src: url("../fonts/washi/zen-kaku-gothic-new-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Zen Kaku Gothic New"; font-style: normal; font-weight: 500 600; font-display: swap; src: url("../fonts/washi/zen-kaku-gothic-new-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Zen Kaku Gothic New"; font-style: normal; font-weight: 700 900; font-display: swap; src: url("../fonts/washi/zen-kaku-gothic-new-latin-700-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/washi/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+
+
+body.tss-theme-washi {
+    --tss-wa-kin: rgb(196, 160, 86);
+    --tss-wa-kin-bright: rgb(222, 188, 112);
+
+    --tss-wa-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-wa-ink-soft: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-wa-paper: rgb(var(--tss-default-background-color-root));
+    --tss-wa-sheet: rgb(var(--tss-secondary-background-color-root));
+    --tss-wa-shu: rgb(var(--tss-primary-background-color-root));
+    --tss-wa-shu-deep: rgb(var(--tss-primary-background-active-color-root));
+    --tss-wa-on-shu: rgb(var(--tss-primary-foreground-color-root));
+    --tss-wa-ai: rgb(38, 72, 118);
+    --tss-wa-koke: rgb(var(--tss-success-background-color-root));
+    --tss-wa-kincha: rgb(var(--tss-warning-background-color-root));
+    --tss-wa-enji: rgb(var(--tss-danger-background-color-root));
+    --tss-wa-thread: rgb(38, 72, 118);
+    --tss-wa-line: rgba(var(--tss-default-foreground-color-root), 0.13);
+    --tss-wa-line-strong: rgba(var(--tss-default-foreground-color-root), 0.55);
+    --tss-wa-wash: rgba(var(--tss-default-foreground-color-root), 0.045);
+    --tss-wa-wash-strong: rgba(var(--tss-default-foreground-color-root), 0.085);
+    --tss-wa-shu-wash: rgba(var(--tss-primary-background-color-root), 0.08);
+    --tss-wa-thread-halo: rgba(38, 72, 118, 0.14);
+    --tss-wa-field-edge: rgba(var(--tss-default-foreground-color-root), 0.2);
+    --tss-wa-field-edge-hover: rgba(var(--tss-default-foreground-color-root), 0.42);
+    --tss-ring-offset-shadow: 0 0 0 0 transparent;
+    --tss-ring-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+    --tss-landing-group-color: rgb(var(--tss-default-foreground-color-root));
+
+    --tss-wa-grain:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560' fill='none'%3E%3Cg stroke='%23826a48' stroke-linecap='round' stroke-opacity='0.1' stroke-width='0.6'%3E%3Cpath d='M-20 84C110 62 250 118 580 66'/%3E%3Cpath d='M30 312C170 276 300 338 590 286'/%3E%3Cpath d='M-12 452C92 470 214 406 336 446'/%3E%3Cpath d='M206 -10C236 122 180 262 232 388'/%3E%3Cpath d='M418 150C392 260 446 390 398 570'/%3E%3Cpath d='M70 180C120 196 150 170 214 188' stroke-width='0.45'/%3E%3Cpath d='M330 520C380 500 460 530 520 506' stroke-width='0.45'/%3E%3C/g%3E%3Cg stroke='%23ffffff' stroke-linecap='round' stroke-opacity='0.4' stroke-width='0.8'%3E%3Cpath d='M-10 222C140 200 270 246 400 214'/%3E%3Cpath d='M300 30C330 120 300 170 342 236'/%3E%3Cpath d='M120 380C210 360 300 400 470 372'/%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --tss-wa-pores: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    --tss-wa-sheen: none;
+    --tss-wa-lattice-ink: rgba(var(--tss-default-foreground-color-root), 0.065);
+    --tss-wa-lattice: linear-gradient(90deg, var(--tss-wa-lattice-ink) 1px, transparent 1px), linear-gradient(180deg, var(--tss-wa-lattice-ink) 1px, transparent 1px);
+
+    --tss-wa-stroke: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 6' preserveAspectRatio='none'%3E%3Cpath d='M0 3.4C4 1.6 12 1 30 1.1C80 1.4 140 2.2 200 2.9C150 3.6 90 4.6 40 5C16 5.2 4 4.8 0 3.4Z'/%3E%3C/svg%3E");
+    --tss-wa-stroke-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 200' preserveAspectRatio='none'%3E%3Cpath d='M3.4 0C1.6 4 1 12 1.1 30C1.4 80 2.2 140 2.9 200C3.6 150 4.6 90 5 40C5.2 16 4.8 4 3.4 0Z'/%3E%3C/svg%3E");
+    --tss-wa-hanko: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cfilter id='r' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.11' numOctaves='2' seed='7' result='t'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='t' scale='2.6' xChannelSelector='R' yChannelSelector='G' result='d'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' seed='3' result='g'/%3E%3CfeColorMatrix in='g' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 0 0 0 2.35' result='s'/%3E%3CfeComposite in='d' in2='s' operator='in'/%3E%3C/filter%3E%3Crect x='2.5' y='2.5' width='35' height='35' rx='2.5' filter='url(%23r)'/%3E%3C/svg%3E");
+    --tss-wa-hanko-round: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cfilter id='r' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.11' numOctaves='2' seed='4' result='t'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='t' scale='2.4' xChannelSelector='R' yChannelSelector='G' result='d'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' seed='9' result='g'/%3E%3CfeColorMatrix in='g' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 0 0 0 2.35' result='s'/%3E%3CfeComposite in='d' in2='s' operator='in'/%3E%3C/filter%3E%3Ccircle cx='20' cy='20' r='17.5' filter='url(%23r)'/%3E%3C/svg%3E");
+
+    --tss-wa-lift: 0 0 0 1px rgba(92, 72, 44, 0.07), 0 1px 1px rgba(92, 72, 44, 0.05), 0 8px 22px -12px rgba(92, 72, 44, 0.2);
+    --tss-wa-lift-hover: 0 0 0 1px rgba(92, 72, 44, 0.1), 0 2px 3px rgba(92, 72, 44, 0.06), 0 14px 30px -14px rgba(92, 72, 44, 0.3);
+    --tss-wa-float: 0 0 0 1px rgba(92, 72, 44, 0.1), 0 3px 8px -2px rgba(92, 72, 44, 0.1), 0 22px 48px -18px rgba(92, 72, 44, 0.34);
+    --tss-wa-focus: 0 0 0 1px rgb(var(--tss-default-background-color-root)), 0 0 0 2.5px var(--tss-wa-thread);
+
+    --tss-wa-serif: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif", Georgia, serif;
+    --tss-wa-sans: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans", "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
+
+    --tss-wa-radius: 3px;
+    --tss-wa-radius-small: 2px;
+    --tss-wa-ease: cubic-bezier(0.25, 0.6, 0.3, 1);
+    --tss-wa-quick: 120ms;
+
+    --tss-sansserif-font-family: var(--tss-wa-sans);
+    --tss-monospace-font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 500;
+    --tss-font-weight-bold: 700;
+
+    --tss-primary-shadow: none;
+    --tss-shadow-sm: none;
+    --tss-shadow-sm-hover: none;
+    --tss-shadow: var(--tss-wa-lift);
+    --tss-shadow-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-md: var(--tss-wa-lift);
+    --tss-shadow-md-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-lg: var(--tss-wa-float);
+    --tss-shadow-lg-hover: var(--tss-wa-float);
+    --tss-shadow-xl: var(--tss-wa-float);
+    --tss-shadow-xl-hover: var(--tss-wa-float);
+    --tss-box-shadow: var(--tss-wa-float);
+    --tss-box-shadow-darker: var(--tss-wa-float);
+    --tss-card-shadow: var(--tss-wa-lift);
+    --tss-toast-shadow: var(--tss-wa-float);
+
+    --tss-border-radius-sm: 2px;
+    --tss-border-radius-md: 3px;
+    --tss-border-radius-lg: 4px;
+    --tss-border-radius-xl: 6px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-ring-offset-width: 1px;
+    --tss-ring-opacity: 0.9;
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-overlay-light: rgba(247, 243, 234, 0.72);
+    --tss-overlay-dark: rgba(40, 30, 20, 0.32);
+
+    --tss-default-background-color-root: 246, 242, 233;
+    --tss-default-foreground-color-root: 34, 31, 28;
+    --tss-secondary-background-color-root: 251, 249, 243;
+    --tss-secondary-foreground-color-root: 108, 100, 90;
+    --tss-sidebar-background-color-root: 240, 234, 221;
+    --tss-disabled-background-color-root: 236, 231, 220;
+    --tss-disabled-foreground-color-root: 160, 151, 139;
+    --tss-default-border-color-root: 220, 211, 195;
+    --tss-dark-border-color-root: 150, 140, 125;
+    --tss-default-separator-color-root: 226, 218, 203;
+    --tss-invalid-border-color-root: 168, 42, 50;
+    --tss-default-background-hover-color-root: 237, 231, 218;
+    --tss-default-foreground-hover-color-root: 22, 20, 18;
+    --tss-default-background-active-color-root: 229, 221, 205;
+    --tss-default-foreground-active-color-root: 22, 20, 18;
+    --tss-progress-background-color-root: 228, 220, 205;
+    --tss-link-color-root: 38, 72, 118;
+    --tss-highlight-color-root: 164, 118, 36;
+    --tss-tooltip-background-color-root: 38, 34, 31;
+    --tss-tooltip-foreground-color-root: 246, 242, 233;
+    --tss-primary-background-color-root: 200, 60, 38;
+    --tss-primary-foreground-color-root: 255, 250, 242;
+    --tss-primary-border-color-root: 168, 46, 28;
+    --tss-primary-background-hover-color-root: 214, 72, 48;
+    --tss-primary-foreground-hover-color-root: 255, 250, 242;
+    --tss-primary-background-active-color-root: 172, 48, 30;
+    --tss-primary-foreground-active-color-root: 255, 250, 242;
+    --tss-warning-background-color-root: 196, 146, 52;
+    --tss-warning-foreground-color-root: 34, 31, 28;
+    --tss-warning-border-color-root: 164, 118, 36;
+    --tss-warning-background-hover-color-root: 208, 160, 68;
+    --tss-warning-foreground-hover-color-root: 34, 31, 28;
+    --tss-warning-background-active-color-root: 178, 130, 42;
+    --tss-warning-foreground-active-color-root: 34, 31, 28;
+    --tss-danger-background-color-root: 150, 34, 50;
+    --tss-danger-foreground-color-root: 255, 250, 242;
+    --tss-danger-border-color-root: 122, 24, 38;
+    --tss-danger-background-hover-color-root: 166, 44, 60;
+    --tss-danger-foreground-hover-color-root: 255, 250, 242;
+    --tss-danger-background-active-color-root: 128, 26, 40;
+    --tss-danger-foreground-active-color-root: 255, 250, 242;
+    --tss-success-background-color-root: 92, 116, 64;
+    --tss-success-foreground-color-root: 255, 250, 242;
+    --tss-success-border-color-root: 72, 94, 48;
+    --tss-success-background-hover-color-root: 104, 130, 74;
+    --tss-success-foreground-hover-color-root: 255, 250, 242;
+    --tss-success-background-active-color-root: 78, 100, 54;
+    --tss-success-foreground-active-color-root: 255, 250, 242;
+    --tss-slider-color-root: 196, 186, 170;
+    --tss-slider-active-color-root: 200, 60, 38;
+    --tss-slider-disabled-color-root: 222, 214, 200;
+    --tss-primary-shadow-color-root: 200, 60, 38;
+
+    --tss-colors-neutral-0-root: 255, 253, 248;
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: 249, 246, 239;
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: 241, 236, 226;
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: 226, 219, 205;
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: 190, 181, 166;
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: 150, 141, 128;
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: 128, 119, 107;
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: 108, 100, 90;
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: 82, 76, 68;
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: 60, 55, 49;
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: 42, 38, 34;
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: 30, 27, 24;
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.1);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: var(--tss-wa-thread);
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    --tss-wa-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-wa-ink-soft: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-wa-paper: rgb(var(--tss-default-background-color-root));
+    --tss-wa-sheet: rgb(var(--tss-secondary-background-color-root));
+    --tss-wa-shu: rgb(var(--tss-primary-background-color-root));
+    --tss-wa-shu-deep: rgb(var(--tss-primary-background-active-color-root));
+    --tss-wa-on-shu: rgb(var(--tss-primary-foreground-color-root));
+    --tss-wa-ai: rgb(136, 168, 212);
+    --tss-wa-koke: rgb(var(--tss-success-background-color-root));
+    --tss-wa-kincha: rgb(var(--tss-warning-background-color-root));
+    --tss-wa-enji: rgb(var(--tss-danger-background-color-root));
+    --tss-wa-thread: rgb(212, 176, 100);
+    --tss-wa-line: rgba(var(--tss-default-foreground-color-root), 0.12);
+    --tss-wa-line-strong: rgba(var(--tss-default-foreground-color-root), 0.5);
+    --tss-wa-wash: rgba(var(--tss-default-foreground-color-root), 0.05);
+    --tss-wa-wash-strong: rgba(var(--tss-default-foreground-color-root), 0.095);
+    --tss-wa-shu-wash: rgba(var(--tss-primary-background-color-root), 0.13);
+    --tss-wa-thread-halo: rgba(212, 176, 100, 0.2);
+    --tss-wa-field-edge: rgba(var(--tss-default-foreground-color-root), 0.18);
+    --tss-wa-field-edge-hover: rgba(var(--tss-default-foreground-color-root), 0.38);
+    --tss-ring-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+    --tss-landing-group-color: rgb(var(--tss-default-foreground-color-root));
+
+    --tss-wa-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.7 0 0 0 0 0.5 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --tss-wa-sheen: linear-gradient(160deg, rgba(255, 226, 190, 0.055) 0%, rgba(255, 226, 190, 0.012) 28%, rgba(255, 226, 190, 0) 46%, rgba(120, 30, 14, 0) 70%, rgba(120, 30, 14, 0.07) 100%);
+    --tss-wa-lattice-ink: rgba(212, 176, 100, 0.04);
+
+    --tss-wa-lift: 0 0 0 1px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 230, 200, 0.045), 0 10px 24px -12px rgba(0, 0, 0, 0.7);
+    --tss-wa-lift-hover: 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 230, 200, 0.06), 0 16px 32px -14px rgba(0, 0, 0, 0.8);
+    --tss-wa-float: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 230, 200, 0.06), 0 24px 52px -18px rgba(0, 0, 0, 0.85);
+
+    --tss-shadow: var(--tss-wa-lift);
+    --tss-shadow-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-md: var(--tss-wa-lift);
+    --tss-shadow-md-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-lg: var(--tss-wa-float);
+    --tss-shadow-lg-hover: var(--tss-wa-float);
+    --tss-shadow-xl: var(--tss-wa-float);
+    --tss-shadow-xl-hover: var(--tss-wa-float);
+    --tss-box-shadow: var(--tss-wa-float);
+    --tss-box-shadow-darker: var(--tss-wa-float);
+    --tss-card-shadow: var(--tss-wa-lift);
+    --tss-toast-shadow: var(--tss-wa-float);
+    --tss-wa-focus: 0 0 0 1px rgb(var(--tss-default-background-color-root)), 0 0 0 2.5px var(--tss-wa-thread);
+    --tss-overlay-light: rgba(26, 20, 17, 0.72);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.55);
+
+    --tss-default-background-color-root: 27, 21, 18;
+    --tss-default-foreground-color-root: 238, 229, 212;
+    --tss-secondary-background-color-root: 37, 29, 25;
+    --tss-secondary-foreground-color-root: 172, 158, 138;
+    --tss-sidebar-background-color-root: 21, 16, 13;
+    --tss-disabled-background-color-root: 40, 33, 29;
+    --tss-disabled-foreground-color-root: 112, 100, 88;
+    --tss-default-border-color-root: 68, 56, 47;
+    --tss-dark-border-color-root: 118, 102, 86;
+    --tss-default-separator-color-root: 56, 46, 39;
+    --tss-invalid-border-color-root: 232, 104, 104;
+    --tss-default-background-hover-color-root: 46, 37, 32;
+    --tss-default-foreground-hover-color-root: 248, 241, 228;
+    --tss-default-background-active-color-root: 56, 45, 38;
+    --tss-default-foreground-active-color-root: 248, 241, 228;
+    --tss-progress-background-color-root: 56, 46, 39;
+    --tss-link-color-root: 140, 172, 216;
+    --tss-highlight-color-root: 212, 176, 100;
+    --tss-tooltip-background-color-root: 238, 229, 212;
+    --tss-tooltip-foreground-color-root: 27, 21, 18;
+    --tss-primary-background-color-root: 226, 84, 56;
+    --tss-primary-foreground-color-root: 30, 20, 16;
+    --tss-primary-border-color-root: 176, 56, 34;
+    --tss-primary-background-hover-color-root: 238, 100, 70;
+    --tss-primary-foreground-hover-color-root: 30, 20, 16;
+    --tss-primary-background-active-color-root: 200, 68, 44;
+    --tss-primary-foreground-active-color-root: 30, 20, 16;
+    --tss-warning-background-color-root: 212, 168, 82;
+    --tss-warning-foreground-color-root: 27, 21, 18;
+    --tss-warning-border-color-root: 160, 122, 50;
+    --tss-warning-background-hover-color-root: 224, 182, 98;
+    --tss-warning-foreground-hover-color-root: 27, 21, 18;
+    --tss-warning-background-active-color-root: 192, 150, 68;
+    --tss-warning-foreground-active-color-root: 27, 21, 18;
+    --tss-danger-background-color-root: 196, 62, 76;
+    --tss-danger-foreground-color-root: 255, 248, 238;
+    --tss-danger-border-color-root: 140, 36, 50;
+    --tss-danger-background-hover-color-root: 210, 76, 90;
+    --tss-danger-foreground-hover-color-root: 255, 248, 238;
+    --tss-danger-background-active-color-root: 172, 50, 64;
+    --tss-danger-foreground-active-color-root: 255, 248, 238;
+    --tss-success-background-color-root: 146, 170, 104;
+    --tss-success-foreground-color-root: 27, 21, 18;
+    --tss-success-border-color-root: 104, 126, 70;
+    --tss-success-background-hover-color-root: 160, 184, 118;
+    --tss-success-foreground-hover-color-root: 27, 21, 18;
+    --tss-success-background-active-color-root: 128, 152, 88;
+    --tss-success-foreground-active-color-root: 27, 21, 18;
+    --tss-slider-color-root: 92, 78, 66;
+    --tss-slider-active-color-root: 226, 84, 56;
+    --tss-slider-disabled-color-root: 56, 46, 39;
+    --tss-primary-shadow-color-root: 226, 84, 56;
+
+    --tss-colors-neutral-0-root: 27, 21, 18;
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: 33, 26, 22;
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: 40, 32, 27;
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: 52, 42, 36;
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: 78, 66, 57;
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: 102, 89, 78;
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: 128, 114, 100;
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: 152, 138, 122;
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: 172, 158, 140;
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: 194, 182, 164;
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: 210, 200, 183;
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: 228, 220, 205;
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.1);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: var(--tss-wa-thread);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+
+body.tss-theme-washi {
+    font-family: var(--tss-sansserif-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-kerning: normal;
+}
+
+body.tss-theme-washi .tss-fontsize-mediumplus:not(i),
+body.tss-theme-washi .tss-fontsize-large:not(i),
+body.tss-theme-washi .tss-fontsize-xlarge:not(i),
+body.tss-theme-washi .tss-fontsize-xxlarge:not(i),
+body.tss-theme-washi .tss-fontsize-mega:not(i) {
+    font-family: var(--tss-wa-serif);
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-washi .tss-fontsize-large.tss-fontweight-bold:not(i),
+body.tss-theme-washi .tss-fontsize-xlarge.tss-fontweight-bold:not(i),
+body.tss-theme-washi .tss-fontsize-xxlarge.tss-fontweight-bold:not(i),
+body.tss-theme-washi .tss-fontsize-mega.tss-fontweight-bold:not(i) {
+    font-weight: 600;
+}
+
+body.tss-theme-washi ::selection {
+    background: rgba(200, 60, 38, 0.2);
+}
+
+body.tss-theme-washi.tss-dark-mode ::selection {
+    background: rgba(212, 176, 100, 0.3);
+}
+
+body.tss-theme-washi :focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 2px;
+}
+
+body.tss-theme-washi input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-washi textarea:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-washi a {
+    color: rgb(var(--tss-link-color-root));
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-fontcolor-primary {
+    color: var(--tss-wa-shu);
+}
+
+
+html:has(> body.tss-theme-washi),
+body.tss-theme-washi {
+    --tss-wa-sb-rest: rgba(34, 31, 28, 0.12);
+    --tss-wa-sb-near: rgba(34, 31, 28, 0.34);
+    --tss-wa-sb-hot: rgba(34, 31, 28, 0.82);
+}
+
+html:has(> body.tss-theme-washi.tss-dark-mode),
+body.tss-theme-washi.tss-dark-mode {
+    --tss-wa-sb-rest: rgba(238, 229, 212, 0.1);
+    --tss-wa-sb-near: rgba(238, 229, 212, 0.3);
+    --tss-wa-sb-hot: rgb(212, 176, 100);
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar,
+    body.tss-theme-washi::-webkit-scrollbar,
+    body.tss-theme-washi ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-corner,
+    body.tss-theme-washi::-webkit-scrollbar-corner,
+    body.tss-theme-washi ::-webkit-scrollbar-corner,
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-track,
+    body.tss-theme-washi::-webkit-scrollbar-track,
+    body.tss-theme-washi ::-webkit-scrollbar-track,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-thumb,
+    body.tss-theme-washi::-webkit-scrollbar-thumb,
+    body.tss-theme-washi ::-webkit-scrollbar-thumb {
+        background: var(--tss-wa-sb-rest);
+        background-clip: padding-box;
+        border: 3px solid transparent;
+        border-radius: 9px;
+        min-height: 32px;
+        min-width: 32px;
+    }
+
+    html:has(> body.tss-theme-washi):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-washi:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-thumb {
+        background: var(--tss-wa-sb-near);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-washi::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-washi ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-thumb:hover,
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-washi::-webkit-scrollbar-thumb:active,
+    body.tss-theme-washi ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-thumb:active {
+        background: var(--tss-wa-sb-hot);
+        background-clip: padding-box;
+        border-width: 2px;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-button,
+    body.tss-theme-washi::-webkit-scrollbar-button,
+    body.tss-theme-washi ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-washi),
+    body.tss-theme-washi,
+    body.tss-theme-washi * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-wa-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-washi):hover,
+    body.tss-theme-washi *:hover {
+        scrollbar-color: var(--tss-wa-sb-near) transparent;
+    }
+}
+
+
+body.tss-theme-washi .tss-landing-group + div {
+    height: 4px !important;
+    background: rgba(var(--tss-default-foreground-color-root), 0.4) !important;
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-landing-group {
+    font-weight: 500;
+}
+
+
+body.tss-theme-washi .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-wa-shu);
+    --baklava-control-color-error: var(--tss-wa-enji);
+    --baklava-control-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-control-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-hover: rgb(var(--tss-default-background-hover-color-root));
+    --baklava-control-color-active: rgb(var(--tss-default-background-active-color-root));
+    --baklava-control-color-disabled-foreground: rgb(var(--tss-disabled-foreground-color-root));
+    --baklava-control-border-radius: 2px;
+    --baklava-sidebar-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-sidebar-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-hover: rgba(var(--tss-primary-background-color-root), 0.12);
+    --baklava-node-title-color-background: rgb(var(--tss-default-background-hover-color-root));
+    --baklava-node-title-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-group-node-title-color-background: color-mix(in srgb, var(--tss-wa-koke) 22%, rgb(var(--tss-secondary-background-color-root)));
+    --baklava-group-node-title-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-interface-port-color: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-border-radius: 3px;
+    --baklava-color-connection-default: rgba(var(--tss-default-foreground-color-root), 0.6);
+    --baklava-color-connection-allowed: var(--tss-wa-koke);
+    --baklava-color-connection-forbidden: var(--tss-wa-enji);
+    --baklava-editor-background-pattern-default: rgb(var(--tss-default-background-color-root));
+    --baklava-editor-background-pattern-line: rgba(var(--tss-default-foreground-color-root), 0.07);
+    --baklava-editor-background-pattern-black: rgba(var(--tss-default-foreground-color-root), 0.12);
+    --baklava-context-menu-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-context-menu-shadow: var(--tss-wa-float);
+    --baklava-toolbar-background: rgba(var(--tss-secondary-background-color-root), 0.9);
+    --baklava-toolbar-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-palette-background: rgba(var(--tss-secondary-background-color-root), 0.9);
+    --baklava-node-palette-foreground: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-nodeview .baklava-node {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-nodeview .baklava-node > .__title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+}
+
+
+body.tss-theme-washi .tss-btn {
+    border-radius: var(--tss-wa-radius);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease), color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease), transform var(--tss-wa-quick) var(--tss-wa-ease), border-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-btn.tss-small {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-btn:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 2px;
+}
+
+
+body.tss-theme-washi .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai),
+body.tss-theme-washi .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai),
+body.tss-theme-washi .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai),
+body.tss-theme-washi .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai) {
+    background-image: var(--tss-wa-pores);
+    border-color: transparent;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    filter: none;
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover,
+body.tss-theme-washi .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover,
+body.tss-theme-washi .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover,
+body.tss-theme-washi .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover {
+    filter: none;
+    transform: translateY(-1px);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(92, 40, 20, 0.12), 0 8px 16px -10px rgba(92, 40, 20, 0.5);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover,
+body.tss-theme-washi.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover,
+body.tss-theme-washi.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover,
+body.tss-theme-washi.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):hover {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.4), 0 10px 18px -10px rgba(0, 0, 0, 0.9);
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):active,
+body.tss-theme-washi .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):active,
+body.tss-theme-washi .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):active,
+body.tss-theme-washi .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-ai):active {
+    filter: none;
+    transform: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+
+body.tss-theme-washi .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-ai):not(.tss-btn-nohover):hover {
+    background-color: var(--tss-wa-wash);
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-ai):active,
+body.tss-theme-washi .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-ai):not(.tss-btn-nohover):active:hover {
+    background-color: var(--tss-wa-wash-strong);
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-ai):not(.tss-btn-nohover):hover .tss-fontcolor-default,
+body.tss-theme-washi .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-ai):active .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-ai):hover {
+    background-color: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: rgba(var(--tss-primary-background-color-root), 0.09);
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active {
+    color: rgb(var(--tss-danger-background-color-root));
+    background-color: rgba(var(--tss-danger-background-color-root), 0.09);
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active {
+    color: rgb(var(--tss-warning-border-color-root));
+    background-color: rgba(var(--tss-warning-background-color-root), 0.14);
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active {
+    color: rgb(var(--tss-success-background-color-root));
+    background-color: rgba(var(--tss-success-background-color-root), 0.1);
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-washi .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-washi .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-washi:not(.tss-dark-mode) .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-washi:not(.tss-dark-mode) .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-washi:not(.tss-dark-mode) .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-washi:not(.tss-dark-mode) .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-warning-border-color-root));
+}
+
+
+body.tss-theme-washi .tss-btn.tss-btn-link:not(.tss-disabled) {
+    box-shadow: none;
+    transform: none;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-link[href]:hover > span {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+
+body.tss-theme-washi .tss-btn.tss-disabled:not(.tss-btn-link):not(.tss-btn-nobg):not(.tss-btn-default) {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    box-shadow: none;
+}
+
+
+body.tss-theme-washi .tss-btn-and-icon {
+    border-radius: var(--tss-wa-radius);
+    overflow: hidden;
+}
+
+body.tss-theme-washi .tss-btn-and-icon .tss-btn {
+    border-radius: 0;
+    transform: none !important;
+}
+
+body.tss-theme-washi .tss-btn-and-icon:hover {
+    background: var(--tss-wa-wash);
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-btn-and-icon .tss-btn.tss-btn-and-icon-icon {
+    box-shadow: inset 1px 0 0 var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-btn-and-icon .tss-btn-primary.tss-btn-and-icon-icon:not(.tss-disabled) {
+    box-shadow: inset 1px 0 0 rgba(255, 250, 242, 0.35);
+}
+
+
+body.tss-theme-washi .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-btn {
+        transition: none;
+    }
+
+    body.tss-theme-washi .tss-btn:hover,
+    body.tss-theme-washi .tss-btn:active {
+        transform: none !important;
+    }
+}
+
+
+body.tss-theme-washi .tss-listitemtext-title {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-listitemtext-icon {
+    background: var(--tss-wa-wash-strong);
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-statefulitemrow-primary {
+    --tss-statefulitemrow-accent: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi .tss-statefulitemrow-interactive:hover {
+    background: color-mix(in srgb, rgb(var(--tss-default-foreground-color-root)) 5%, var(--tss-statefulitemrow-surface));
+}
+
+
+body.tss-theme-washi .tss-textbox:not(.tss-ai) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-textbox:not(.tss-ai):hover {
+    border-color: var(--tss-wa-field-edge-hover);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-textbox:not(.tss-ai):focus {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-textbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.75;
+}
+
+body.tss-theme-washi .tss-textbox.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-washi .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: 0 0 0 3px rgba(var(--tss-invalid-border-color-root), 0.16);
+}
+
+body.tss-theme-washi .tss-textbox-error {
+    color: rgb(var(--tss-invalid-border-color-root));
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-textbox.tss-textbox-noborder,
+body.tss-theme-washi .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-washi .tss-textbox.tss-textbox-noborder:focus {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-textblock table {
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-textblock table thead {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-textblock table th {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+    border-bottom: 1px solid var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-textblock table td {
+    border-bottom: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-textblock table tbody tr:hover {
+    background: var(--tss-wa-wash);
+}
+
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card.tss-card-hover:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-wa-lift-hover);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card.tss-card-hover:active {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card > .tss-card-header,
+body.tss-theme-washi :not(.tss-ai) > .tss-card > .tss-card-footer {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-washi .tss-card-header {
+    padding-left: 2px;
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card > .tss-card-content {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card.tss-has-layout > .tss-card-content {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-card-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi i.tss-card-title-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+
+body.tss-theme-washi .tss-expander {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-expander-header:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-expander-title {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-expander-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-expander-content {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-expander-icon {
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-token {
+    border-radius: var(--tss-wa-radius-small);
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi .tss-badge {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-token.tss-chip,
+body.tss-theme-washi .tss-token.tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-washi .tss-token:not(.tss-token-primary):not(.tss-token-success):not(.tss-token-warning):not(.tss-token-danger):not(.tss-token-info):not(.tss-token-tinted):not(.tss-token-outline) {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-tag:not(.tss-token-primary):not(.tss-token-success):not(.tss-token-warning):not(.tss-token-danger):not(.tss-token-info):not(.tss-token-tinted) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+}
+
+body.tss-theme-washi .tss-token-outline {
+    border-color: var(--tss-wa-field-edge);
+}
+
+body.tss-theme-washi .tss-token-primary:not(.tss-token-outline) {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-token-info:not(.tss-token-outline) {
+    background: var(--tss-wa-ai);
+    color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-token-outline.tss-token-info {
+    color: var(--tss-wa-ai);
+    border-color: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi:not(.tss-dark-mode) .tss-token-outline.tss-token-warning {
+    color: rgb(var(--tss-warning-border-color-root));
+    border-color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-washi .tss-token-remove {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+
+body.tss-theme-washi .tss-icontile {
+    --tss-icontile-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-icontile.tss-icontile-plain,
+body.tss-theme-washi.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-icontile-text {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    text-transform: none;
+}
+
+
+body.tss-theme-washi .tss-avatar {
+    background: var(--tss-wa-wash-strong);
+    box-shadow: inset 0 0 0 1px var(--tss-wa-line);
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+body.tss-theme-washi .tss-avatar.tss-avatar-generated {
+    background: linear-gradient(160deg, hsl(var(--tss-avatar-hue), 32%, 46%), hsl(calc(var(--tss-avatar-hue) + 24), 38%, 36%));
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: rgb(255, 250, 242);
+}
+
+body.tss-theme-washi .tss-avatar-presence {
+    border-color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-presence-online { background: var(--tss-wa-koke); }
+body.tss-theme-washi .tss-presence-away { background: var(--tss-wa-kincha); }
+body.tss-theme-washi .tss-presence-busy { background: var(--tss-wa-shu); }
+
+body.tss-theme-washi .tss-persona-name {
+    font-weight: 500;
+}
+
+
+body.tss-theme-washi .tss-breadcrumb .tss-btn {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 400;
+}
+
+body.tss-theme-washi .tss-breadcrumb .tss-btn:last-child,
+body.tss-theme-washi .tss-breadcrumb .tss-btn:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-breadcrumb-chevron {
+    color: rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+
+body.tss-theme-washi .tss-textbreadcrumb {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-textbreadcrumb:hover {
+    background: var(--tss-wa-wash-strong);
+    border-color: transparent;
+}
+
+
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark {
+    border: 1px solid rgba(var(--tss-default-foreground-color-root), 0.5);
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), background-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 9px;
+}
+
+body.tss-theme-washi .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark:after {
+    z-index: 1;
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
+    border-width: 0 1.5px 1.5px 0;
+}
+
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    -webkit-mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    opacity: 0;
+    transform: scale(1.12) rotate(-3deg);
+    transition: opacity 140ms var(--tss-wa-ease), transform 140ms var(--tss-wa-ease);
+    pointer-events: none;
+}
+
+body.tss-theme-washi .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-washi .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-checkbox-container input:checked ~ .tss-checkbox-mark::before {
+    opacity: 1;
+    transform: rotate(-3deg);
+}
+
+body.tss-theme-washi .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark::before {
+    background-color: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-wa-on-shu);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-washi .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-washi .tss-checkbox-container.tss-disabled:hover input ~ .tss-checkbox-mark {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark::before {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark,
+    body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark::before {
+        transition: none;
+    }
+}
+
+
+body.tss-theme-washi .tss-option-container .tss-option-mark {
+    box-sizing: border-box;
+    border: 1px solid rgba(var(--tss-default-foreground-color-root), 0.5);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-option-container .tss-option-mark:after,
+body.tss-theme-washi .tss-option-container[class*="tss-fontsize-"] .tss-option-mark:after {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 56%;
+    height: 56%;
+    border: 0;
+    border-radius: 0;
+    background-color: rgba(var(--tss-default-foreground-color-root), 0.16);
+    -webkit-mask: var(--tss-wa-hanko-round) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko-round) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-option-container:hover input:not(:checked) ~ .tss-option-mark {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-washi .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-washi .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    background-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-option-container.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-washi .tss-option-container.tss-disabled:hover input ~ .tss-option-mark,
+body.tss-theme-washi .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border-color: var(--tss-wa-line);
+    background: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-washi .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+
+body.tss-theme-washi .tss-dropdown-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-dropdown-container:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge-hover);
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-washi .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-washi .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-dropdown-container.tss-noborder,
+body.tss-theme-washi .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-dropdown-container.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+}
+
+body.tss-theme-washi .tss-dropdown-container.tss-invalid {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-washi .tss-dropdown-container > .tss-dropdown-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-dropdown-popup {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-dropdown-item,
+body.tss-theme-washi .tss-dropdown-header {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: var(--tss-wa-radius-small);
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-dropdown-item:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-dropdown-item:focus,
+body.tss-theme-washi .tss-dropdown-item.tss-dropdown-item-focus {
+    background: var(--tss-wa-wash-strong);
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-dropdown-popup:not(.tss-no-focus) > .tss-dropdown-item:focus-visible {
+    border-color: var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-dropdown-popup:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    background: var(--tss-wa-shu-wash);
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-dropdown-header {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+body.tss-theme-washi .tss-dropdown-divider {
+    background: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dropdown-multi > .tss-dropdown-item:before {
+    border: 1px solid rgba(var(--tss-default-foreground-color-root), 0.5);
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-washi .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    width: 24px;
+    height: 24px;
+    left: 6px;
+    border-color: transparent;
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    -webkit-mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
+    border-width: 0 1.5px 1.5px 0;
+}
+
+body.tss-theme-washi .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-wa-on-shu);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-washi .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-dropdown-error {
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+
+body.tss-theme-washi .tss-cron-editor {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-cron-desc {
+    border-bottom: 1px dotted rgba(var(--tss-default-foreground-color-root), 0.6);
+}
+
+body.tss-theme-washi .tss-cron-open {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-cron-inline-dropdown.tss-dropdown-container,
+body.tss-theme-washi .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background: rgba(var(--tss-default-foreground-color-root), 0.82);
+}
+
+body.tss-theme-washi .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-washi .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-washi .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: rgb(var(--tss-default-background-color-root)) !important;
+}
+
+
+body.tss-theme-washi .tss-filedroparea {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1.5px dashed rgba(var(--tss-default-foreground-color-root), 0.3);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-filedroparea.tss-dropping {
+    background: var(--tss-wa-shu-wash);
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-filedroparea-overlay,
+body.tss-theme-washi.tss-dark-mode .tss-filedroparea-overlay {
+    background: rgba(var(--tss-default-background-color-root), 0.85);
+    border: 1.5px dashed var(--tss-wa-shu);
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-contextmenu {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextmenu:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.55);
+}
+
+body.tss-theme-washi .tss-contextmenu.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-popup {
+    padding: 4px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-contextmenu-item {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wa-radius-small);
+    min-height: 34px;
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-contextmenu-item i {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-selected:not(.tss-disabled),
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):focus,
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):active {
+    background: var(--tss-wa-wash-strong);
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-selected:not(.tss-disabled)::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    bottom: 9px;
+    width: 3px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-contextmenu-item:focus-visible,
+body.tss-theme-washi .tss-contextmenu-header:focus-visible,
+body.tss-theme-washi .tss-contextmenu-divider:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):hover i,
+body.tss-theme-washi .tss-contextmenu-item.tss-selected:not(.tss-disabled) i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(.tss-selected):not(:hover):focus {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-disabled,
+body.tss-theme-washi .tss-contextmenu-item.tss-disabled i {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-contextmenu-item-separator,
+body.tss-theme-washi .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-washi .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-contextmenu-header {
+    background: transparent;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+}
+
+body.tss-theme-washi .tss-contextmenu-divider {
+    background: var(--tss-wa-line);
+    margin: 4px 6px;
+    width: auto;
+}
+
+body.tss-theme-washi .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-color: var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-horizontalseparator-container::before,
+body.tss-theme-washi .tss-horizontalseparator-container::after {
+    height: 4px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.28);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-horizontalseparator-container::before {
+    transform: scaleX(-1);
+}
+
+body.tss-theme-washi .tss-horizontalseparator {
+    font-family: var(--tss-wa-serif);
+    letter-spacing: 0.04em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-horizontalseparator.tss-primary {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-horizontalseparator-container:has(> .tss-horizontalseparator.tss-primary)::before,
+body.tss-theme-washi .tss-horizontalseparator-container:has(> .tss-horizontalseparator.tss-primary)::after {
+    background: var(--tss-wa-shu);
+    opacity: 0.7;
+}
+
+
+body.tss-theme-washi .tss-editablelabel-displaybox {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-editablelabel-displaybox:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-editablelabel-textbox {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-thread);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+
+body.tss-theme-washi .tss-layer-content:not(.tss-layer-content-transparent) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}
+
+
+body.tss-theme-washi .tss-detailslist-header {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-detailslist-column-header,
+body.tss-theme-washi .tss-detailslist-column-header > .tss-textblock {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+body.tss-theme-washi .tss-detailslist-column-header.tss-cursor-pointer:hover,
+body.tss-theme-washi .tss-detailslist-column-header.tss-cursor-pointer:hover > .tss-textblock {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-detailslist-list-items-container > .tss-detailslist-list-item-container:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-washi .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-detailslist-list-item-container:hover {
+    background: var(--tss-wa-wash);
+}
+
+
+body.tss-theme-washi .tss-layer-picker-suggestions {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-picker-suggestions > .tss-picker-label {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-washi .tss-picker-suggestions > .tss-picker-suggestion {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-picker-selection:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-picker-remove {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-picker-remove:hover {
+    border-color: var(--tss-wa-line);
+    background: var(--tss-wa-wash);
+}
+
+
+body.tss-theme-washi .tss-autocompletebox-list {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-autocompletebox-match {
+    font-weight: 700;
+}
+
+
+body.tss-theme-washi .tss-panel-container {
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-washi .tss-panel-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-washi .tss-panel {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-wa-grain);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-panel {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+}
+
+body.tss-theme-washi .tss-panel-title {
+    font-family: var(--tss-wa-serif);
+}
+
+body.tss-theme-washi .tss-panel-command-button {
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-panel-command-button:hover {
+    background: var(--tss-wa-wash);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-panel-command-button:active {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-panel-command-button:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-panel-footer {
+    border-top: 1px solid var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-drawer {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-wa-grain);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-shadow: 0 -1px 0 var(--tss-wa-line), 0 -18px 40px -18px rgba(60, 40, 20, 0.35);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-drawer {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5), 0 -18px 40px -18px rgba(0, 0, 0, 0.85);
+}
+
+body.tss-theme-washi .tss-drawer-handle-bar {
+    width: 44px;
+    height: 4px;
+    border-radius: 0;
+    background: rgba(var(--tss-default-foreground-color-root), 0.4);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-drawer-close {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-drawer-close:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-drawer-footer {
+    border-top-color: var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-pivot-titlebar {
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding-bottom: 6px;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title,
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:hover,
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:active {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-pivot-selected-title > span,
+body.tss-theme-washi .tss-pivot-titlebar > .tss-pivot-selected-title > div {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-pivot-line {
+    height: 4px;
+    background: var(--tss-wa-shu);
+    border-radius: 0;
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    transition: left 260ms var(--tss-wa-ease), width 260ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-pivot-line.tss-pivot-line-instant {
+    transition: none;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar-more,
+body.tss-theme-washi .tss-pivot-titlebar-scroll-left,
+body.tss-theme-washi .tss-pivot-titlebar-scroll-right {
+    border-radius: var(--tss-wa-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-pivot-tab-close {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-pivot-tab-close:hover {
+    color: var(--tss-wa-enji);
+}
+
+body.tss-theme-washi .tss-pivot-tab-close:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-washi .tss-pivot-tab-needs-saving::after,
+body.tss-theme-washi .tss-pivot-tab-mark {
+    border-radius: 1px;
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-pivot-tab-drag,
+body.tss-theme-washi .tss-pivot-tab-fallback {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-pivot-line {
+        transition: none;
+    }
+}
+
+
+body.tss-theme-washi .tss-cardpivot-titlebar {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+body.tss-theme-washi .tss-cardpivot-tab {
+    position: relative;
+    background: transparent;
+    border-right-color: var(--tss-wa-line);
+    border-bottom-color: transparent;
+}
+
+body.tss-theme-washi .tss-cardpivot-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom-color: transparent;
+}
+
+body.tss-theme-washi .tss-cardpivot-tab.tss-cardpivot-selected::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+    height: 4px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar,
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper {
+    background: var(--tss-wa-wash);
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    padding: 3px;
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab {
+    border-radius: var(--tss-wa-radius-small);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:active {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 0 0 1px var(--tss-wa-line), 0 1px 3px rgba(60, 40, 20, 0.1);
+    font-weight: 500;
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-background-color-root)), 0 0 0 2.5px var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-metric-value,
+body.tss-theme-washi .tss-metric-value .tss-textblock {
+    font-family: var(--tss-wa-serif);
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-washi .tss-metric-title {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-washi .tss-metric-value-filled .tss-metric-value {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-metric-clickable {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-metric-clickable:hover {
+    background: var(--tss-wa-wash);
+    box-shadow: 0 0 0 6px var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-metric-clickable:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+
+body.tss-theme-washi .tss-contribution-bar {
+    border-radius: 1px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.08);
+}
+
+body.tss-theme-washi .tss-contribution-toggle {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-blue-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-blue-500)"] {
+    background-color: var(--tss-chart-series-2) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-teal-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-teal-500)"] {
+    background-color: var(--tss-chart-series-7) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-green-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-green-500)"] {
+    background-color: var(--tss-chart-series-3) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-orange-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-orange-500)"] {
+    background-color: var(--tss-chart-series-4) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-purple-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-purple-500)"] {
+    background-color: var(--tss-chart-series-5) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-magenta-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-magenta-500)"] {
+    background-color: var(--tss-chart-series-8) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-red-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-red-500)"] {
+    background-color: var(--tss-chart-series-1) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-blue-400)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-blue-400)"] {
+    background-color: var(--tss-chart-series-6) !important;
+}
+
+
+body.tss-theme-washi .tss-trendbadge {
+    border-radius: var(--tss-wa-radius-small);
+    font-family: var(--tss-sansserif-font-family);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}
+
+
+body.tss-theme-washi .tss-targetbar-track {
+    border-radius: 1px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.1);
+}
+
+body.tss-theme-washi .tss-targetbar-fill {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-targetbar-marker {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+
+body.tss-theme-washi .tss-datatable {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-datatable-header {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-washi .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-washi .tss-datatable-row:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-datatable-heading {
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+body.tss-theme-washi .tss-gantt-bar {
+    --tss-gantt-bar-color: var(--tss-chart-series-2);
+    border-radius: 2px;
+}
+
+body.tss-theme-washi .tss-gantt-bar-blue    { --tss-gantt-bar-color: var(--tss-chart-series-2); }
+body.tss-theme-washi .tss-gantt-bar-green   { --tss-gantt-bar-color: var(--tss-chart-series-3); }
+body.tss-theme-washi .tss-gantt-bar-purple  { --tss-gantt-bar-color: var(--tss-chart-series-5); }
+body.tss-theme-washi .tss-gantt-bar-orange  { --tss-gantt-bar-color: var(--tss-chart-series-1); }
+body.tss-theme-washi .tss-gantt-bar-red     { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-washi .tss-gantt-bar-teal    { --tss-gantt-bar-color: var(--tss-chart-series-7); }
+body.tss-theme-washi .tss-gantt-bar-magenta { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-washi .tss-gantt-bar-yellow  { --tss-gantt-bar-color: var(--tss-chart-series-4); }
+body.tss-theme-washi .tss-gantt-bar-neutral { --tss-gantt-bar-color: var(--tss-chart-series-6); }
+
+
+body.tss-theme-washi .tss-progressindicator:not(.tss-ai) {
+    height: 6px;
+    border-radius: 1px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.1);
+}
+
+body.tss-theme-washi .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar {
+    border-radius: 1px;
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar-indeterminate {
+    background: linear-gradient(to right, transparent 0%, var(--tss-wa-shu) 50%, transparent 100%);
+}
+
+
+body.tss-theme-washi .tss-modal-container {
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-washi .tss-modal-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-washi .tss-modal-container.tss-modal-modeless {
+    background-color: transparent;
+}
+
+body.tss-theme-washi .tss-modal {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-wa-grain);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-modal {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+}
+
+body.tss-theme-washi .tss-modal.tss-embedded {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-modal-header,
+body.tss-theme-washi .tss-modal-footer {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-modal-header {
+    padding-left: 18px;
+    padding-right: 10px;
+}
+
+body.tss-theme-washi .tss-modal-content {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+body.tss-theme-washi .tss-modal-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+body.tss-theme-washi .tss-modal-header-content:not(:empty) {
+    padding-top: 12px;
+    padding-bottom: 10px;
+}
+
+body.tss-theme-washi .tss-modal-header-content > .tss-textblock {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-modal-header-content:has(> .tss-textblock:only-child) {
+    position: relative;
+}
+
+body.tss-theme-washi .tss-modal-header-content:has(> .tss-textblock:only-child)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: min(140px, 60%);
+    height: 3px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-btn,
+body.tss-theme-washi .tss-modal-header-commands > button,
+body.tss-theme-washi .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-washi .tss-modal-left-header-commands > button {
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-washi .tss-modal-header-commands > button:hover,
+body.tss-theme-washi .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-washi .tss-modal-left-header-commands > button:hover {
+    background: var(--tss-wa-wash);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-washi .tss-modal-header-commands > button:active,
+body.tss-theme-washi .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-washi .tss-modal-left-header-commands > button:active {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-modal-button:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-modal-footer-commands:not(:empty),
+body.tss-theme-washi .tss-modal-left-footer-commands:not(:empty) {
+    padding-top: 10px;
+    padding-bottom: 12px;
+}
+
+body.tss-theme-washi .tss-modal-animate {
+    animation-timing-function: var(--tss-wa-ease);
+}
+
+
+body.tss-theme-washi .tss-dialog {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-dialog .tss-modal-header {
+    padding: 16px 18px 0 18px;
+}
+
+body.tss-theme-washi .tss-dialog .tss-modal-content {
+    padding: 2px 18px 4px 18px;
+    line-height: 1.6;
+}
+
+body.tss-theme-washi .tss-dialog .tss-modal-footer {
+    padding: 4px 18px 10px 18px;
+}
+
+
+body.tss-theme-washi .tss-pagination-footer {
+    background: transparent;
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-pagination-button {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-pagination-button:hover:not(:disabled) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-pagination-button.tss-active {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    border-color: transparent;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-pagination-nav {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-pagination-button:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+
+body.tss-theme-washi .tss-inlinepagination {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-inlinepagination-button {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-inlinepagination-button:hover:not(:disabled) {
+    background: var(--tss-wa-wash-strong);
+}
+
+
+body.tss-theme-washi .tss-inlinelabel:not(.tss-ai) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-inlinelabel-interactive:hover,
+body.tss-theme-washi .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-inlinelabel-interactive:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-omniresult-footer .tss-inlinelabel {
+    background: none;
+}
+
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header {
+    position: relative;
+    background: transparent;
+    border-left-color: transparent;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: var(--tss-wa-wash-strong);
+    border-left-color: transparent;
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header.tss-selected::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: 5px;
+    bottom: 5px;
+    width: 4px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header,
+body.tss-theme-washi .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: transparent;
+}
+
+body.tss-theme-washi .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected::before {
+    left: auto;
+    right: -4px;
+}
+
+body.tss-theme-washi .tss-nav-link-button:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.5);
+}
+
+
+body.tss-theme-washi .tss-searchbox-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-searchbox-container:hover {
+    border-color: var(--tss-wa-field-edge-hover);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-searchbox-container:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-searchbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.75;
+}
+
+body.tss-theme-washi .tss-searchbox-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-searchbox-container.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-searchbox-container.tss-underlined {
+    background: transparent;
+    border-color: var(--tss-wa-line-strong);
+    border-radius: 0;
+    border-width: 0 0 1px;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-searchbox-progress-bar {
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-searchbox-clear,
+body.tss-theme-washi .tss-searchbox-cancel {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+
+body.tss-theme-washi ::highlight(tss-marked) {
+    background-color: rgba(var(--tss-warning-background-color-root), 0.34);
+    color: inherit;
+}
+
+body.tss-theme-washi ::highlight(tss-marked-focused) {
+    background-color: rgb(var(--tss-primary-background-color-root));
+    color: rgb(var(--tss-primary-foreground-color-root));
+}
+
+body.tss-theme-washi mark {
+    background-color: rgba(var(--tss-warning-background-color-root), 0.34);
+    color: inherit;
+    border-radius: 1px;
+}
+
+
+body.tss-theme-washi .tss-omnibox-container {
+    --tss-omnibox-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    box-shadow: none;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover {
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-omnibox-container:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    background: transparent;
+    border-right-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-omnibox-search-input::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+}
+
+body.tss-theme-washi .tss-omnibox-search-token-word,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-word {
+    color: color-mix(in srgb, var(--tss-wa-ai) 75%, rgb(var(--tss-default-foreground-color-root)));
+    background: color-mix(in srgb, var(--tss-wa-ai) 12%, transparent);
+    outline-color: color-mix(in srgb, var(--tss-wa-ai) 30%, transparent);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-omnibox-search-token-operator-and,
+body.tss-theme-washi .tss-omnibox-search-token-operator-or,
+body.tss-theme-washi .tss-omnibox-search-token-operator-not,
+body.tss-theme-washi .tss-omnibox-search-token-paren,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-operator-and,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-operator-or,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-operator-not,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-paren {
+    color: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi .tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: 999px;
+}
+
+
+body.tss-theme-washi .tss-toolagent-trigger {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toolagent-trigger:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-wa-shu);
+    background: var(--tss-wa-shu-wash);
+}
+
+body.tss-theme-washi .tss-toolagent-trigger:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-toolagent-badge {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-toolagent-popup {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-toolagent-item {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-toolagent-item:hover,
+body.tss-theme-washi .tss-toolagent-item.tss-toolagent-item-highlight {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-toolagent-item-checkmark {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.5);
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    border-color: transparent;
+    background-color: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-hanko) center / 120% 120% no-repeat;
+    mask: var(--tss-wa-hanko) center / 120% 120% no-repeat;
+}
+
+
+body.tss-theme-washi .tss-annotated-text-entity,
+body.tss-theme-washi.tss-dark-mode .tss-annotated-text-entity {
+    border-radius: 1px;
+    outline-color: color-mix(in srgb, var(--tss-wa-ai) 55%, transparent);
+    background-color: color-mix(in srgb, var(--tss-wa-ai) 14%, transparent);
+}
+
+body.tss-theme-washi .tss-annotated-text-hover-tag,
+body.tss-theme-washi.tss-dark-mode .tss-annotated-text-hover-tag {
+    border-radius: var(--tss-wa-radius-small);
+    border-color: color-mix(in srgb, var(--tss-wa-ai) 40%, transparent);
+    background: color-mix(in srgb, var(--tss-wa-ai) 8%, rgb(var(--tss-secondary-background-color-root)));
+    color: color-mix(in srgb, var(--tss-wa-ai) 70%, rgb(var(--tss-default-foreground-color-root)));
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-annotated-text-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-annotated-text-container:hover {
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-annotated-text-container:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+
+body.tss-theme-washi .tss-sectiontitle-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-sectiontitle-icon {
+    position: relative;
+    isolation: isolate;
+    width: 32px;
+    height: 32px;
+    line-height: 32px !important;
+    flex: 0 0 32px;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-sectiontitle-icon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    -webkit-mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    transform: rotate(-2deg);
+}
+
+body.tss-theme-washi .tss-sectiontitle-subtitle {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+
+body.tss-theme-washi .tss-sectionstack-secondary {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-sectionstack-item {
+    margin-bottom: 22px !important;
+}
+
+body.tss-theme-washi .tss-sectionstack .tss-sectionstack-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+body.tss-theme-washi .tss-sectionstack-card {
+    padding: 20px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}
+
+
+body.tss-theme-washi .tss-slider-fake-background,
+body.tss-theme-washi .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    top: 6px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.14);
+}
+
+body.tss-theme-washi .tss-slider-fake-progress,
+body.tss-theme-washi .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    top: 6px;
+    height: 4px;
+    border-radius: 2px 0 0 2px;
+    background-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    top: 0;
+    left: 10px;
+    width: 4px;
+    height: 100%;
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    top: auto;
+    left: 10px;
+    width: 4px;
+    border-radius: 0 0 2px 2px;
+}
+
+body.tss-theme-washi .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-washi .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-washi .tss-slider,
+body.tss-theme-washi .tss-slider:hover {
+    background-color: transparent;
+}
+
+body.tss-theme-washi .tss-slider::-webkit-slider-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: var(--tss-wa-radius-small);
+    border: 1.5px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 3px rgba(60, 40, 20, 0.18);
+    cursor: grab;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-slider::-moz-range-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: var(--tss-wa-radius-small);
+    border: 1.5px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 3px rgba(60, 40, 20, 0.18);
+    cursor: grab;
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 12px;
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: 22px;
+    height: 12px;
+}
+
+body.tss-theme-washi .tss-slider:hover::-webkit-slider-thumb,
+body.tss-theme-washi .tss-slider:active::-webkit-slider-thumb {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-slider:hover::-moz-range-thumb,
+body.tss-theme-washi .tss-slider:active::-moz-range-thumb {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-slider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-washi .tss-slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+    border-color: var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-slider.tss-disabled::-moz-range-thumb {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+
+body.tss-theme-washi .tss-time-histogram-picker-bars {
+    border-bottom-color: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-bar {
+    border-radius: 1px 1px 0 0;
+    background: rgba(var(--tss-default-foreground-color-root), 0.14);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-bar.tss-selected {
+    background: rgba(var(--tss-default-foreground-color-root), 0.62);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-track::before {
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.14);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-selection {
+    height: 4px;
+    border-radius: 0;
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: var(--tss-wa-radius-small);
+    border: 1.5px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 3px rgba(60, 40, 20, 0.18);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-thumb:hover {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-thumb:focus {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-empty {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-drag-label {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-drag-band {
+    border-color: var(--tss-wa-shu);
+    background: transparent;
+}
+
+
+body.tss-theme-washi .tss-spinner:not(.tss-ai) {
+    border-color: var(--tss-spinner-color, var(--tss-wa-shu)) rgba(var(--tss-default-foreground-color-root), 0.1) rgba(var(--tss-default-foreground-color-root), 0.1);
+}
+
+body.tss-theme-washi .tss-spinner.tss-spinner-progress:not(.tss-ai) {
+    background: conic-gradient(var(--tss-spinner-color, var(--tss-wa-shu)) calc(var(--tss-spinner-progress, 0) * 1%), rgba(var(--tss-default-foreground-color-root), 0.1) 0);
+}
+
+body.tss-theme-washi .tss-spinner-label {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.02em;
+}
+
+
+body.tss-theme-washi .tss-commandbar {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-commandbar-item {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-commandbar-item:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-commandbar-item-primary {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-commandbar-item-primary:hover {
+    background-color: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+
+body.tss-theme-washi .tss-commandpalette-overlay {
+    background: var(--tss-overlay-light);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-commandpalette-overlay {
+    background: var(--tss-overlay-dark);
+}
+
+body.tss-theme-washi .tss-commandpalette-animator {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-wa-grain);
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-commandpalette-animator {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+}
+
+body.tss-theme-washi .tss-commandpalette-search-container {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-commandpalette-close {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-commandpalette-close:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-commandpalette-section {
+    font-family: var(--tss-wa-serif);
+    font-size: 12px;
+    text-transform: none;
+    letter-spacing: 0.05em;
+}
+
+body.tss-theme-washi .tss-commandpalette-item {
+    position: relative;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-commandpalette-item:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-commandpalette-item.tss-active,
+body.tss-theme-washi .tss-commandpalette-result.tss-active,
+body.tss-theme-washi .tss-commandpalette-result:hover {
+    background: var(--tss-wa-shu-wash);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-commandpalette-item.tss-active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle,
+body.tss-theme-washi .tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-commandpalette-icon {
+    border-radius: var(--tss-wa-radius);
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-commandpalette-title {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-commandpalette-shortcut,
+body.tss-theme-washi .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-bottom-width: 2px;
+    border-radius: var(--tss-wa-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+
+body.tss-theme-washi .tss-sidebar {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-wa-lattice), var(--tss-wa-grain);
+    background-size: 62px 100%, 100% 124px, auto, auto;
+    background-position: 11px 0, 0 30px, 0 0, 0 0;
+    box-shadow: inset -1px 0 0 var(--tss-wa-line);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-sidebar {
+    background-image: var(--tss-wa-lattice), var(--tss-wa-sheen), var(--tss-wa-grain);
+    background-size: 62px 100%, 100% 124px, auto, auto, auto;
+    background-position: 11px 0, 0 30px, 0 0, 0 0, 0 0;
+    box-shadow: inset -1px 0 0 rgba(212, 176, 100, 0.16);
+}
+
+body.tss-theme-washi .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-washi .tss-sidebar-identity-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-family: var(--tss-wa-serif);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 3px;
+    margin-right: 4px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.22);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: var(--tss-wa-radius);
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease), color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: transparent;
+    box-shadow: var(--tss-wa-lift);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn > i,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn > i {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-selected:not(.tss-sidebar-nav-header)::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    margin-top: -3.5px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > .tss-btn:not(.tss-disabled) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after {
+    background-image: none;
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-wa-wash-strong);
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-washi .tss-sidebar-commands-line-extra .tss-btn,
+body.tss-theme-washi .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-sidebar .tss-searchbox-container {
+    border: 1px solid transparent;
+    border-bottom-color: var(--tss-wa-line-strong);
+    border-radius: var(--tss-wa-radius) var(--tss-wa-radius) 0 0;
+    background: rgba(var(--tss-secondary-background-color-root), 0.6);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar .tss-searchbox-container:focus-within {
+    border-bottom-color: var(--tss-wa-thread);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 0 0 var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-sidebar .tss-searchbox {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-washi .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn.tss-rounded-full,
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-washi .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: var(--tss-wa-radius) !important;
+}
+
+body.tss-theme-washi .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-washi .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined:hover,
+body.tss-theme-washi .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined:hover {
+    border-color: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: none;
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: rgba(var(--tss-secondary-background-color-root), 0.6);
+    border: 1px solid transparent;
+    border-bottom-color: var(--tss-wa-line-strong);
+    border-radius: var(--tss-wa-radius) var(--tss-wa-radius) 0 0;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-washi .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgba(var(--tss-secondary-foreground-color-root), 0.7);
+    transition: transform 160ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    background: linear-gradient(var(--tss-wa-line), var(--tss-wa-line)) 19px 6px / 1px calc(100% - 10px) no-repeat;
+}
+
+body.tss-theme-washi .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-washi .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: var(--tss-wa-line);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-sidebar-badges > .tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated,
+body.tss-theme-washi .tss-sidebar .tss-sidebar-divider {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+body.tss-theme-washi .tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-brand-logo > img {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-section-header {
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line);
+    margin-bottom: 6px;
+}
+
+body.tss-theme-washi .tss-sidebar-section-header .tss-sidebar-identity-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+body.tss-theme-washi .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tss-wa-shu);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 18px;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-sidebar-status-card {
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-sidebar-status-dot {
+    background: rgba(var(--tss-default-foreground-color-root), 0.2);
+}
+
+body.tss-theme-washi .tss-sidebar-status-success .tss-sidebar-status-dot {
+    background: var(--tss-wa-koke);
+}
+
+body.tss-theme-washi .tss-sidebar-status-warning .tss-sidebar-status-dot {
+    background: var(--tss-wa-kincha);
+}
+
+body.tss-theme-washi .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-selected i {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidebar-shift-panel-child > .tss-sidebar,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-shift-panel-child > .tss-sidebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn,
+    body.tss-theme-washi .tss-sidebar-nav-arrow.tss-btn:after {
+        transition: none;
+    }
+}
+
+
+body.tss-theme-washi .tss-sidenav {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-wa-grain);
+    border-right-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidenav-footer {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: transparent;
+    box-shadow: var(--tss-wa-lift);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-icon {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-dot {
+    border-radius: 1px;
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    background: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-wa-line-strong) !important;
+}
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: rgba(var(--tss-default-foreground-color-root), 0.22);
+    border-radius: 2px;
+}
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    background: var(--tss-wa-shu) !important;
+}
+
+body.tss-theme-washi .tss-splitview-panel-style.tss-split-left > *:first-child,
+body.tss-theme-washi .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: var(--tss-wa-float);
+}
+
+
+body.tss-theme-washi .tss-toggle-container .tss-toggle-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-washi .tss-toggle-container .tss-toggle-mark,
+body.tss-theme-washi .tss-toggle-container:hover .tss-toggle-mark {
+    border: 1px solid rgba(var(--tss-default-foreground-color-root), 0.45);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: background-color 160ms var(--tss-wa-ease), border-color 160ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-toggle-container:hover .tss-toggle-mark {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-toggle-container .tss-toggle-mark:after,
+body.tss-theme-washi .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 200ms var(--tss-wa-ease), background-color 160ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-washi .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-washi .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-washi .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-toggle-container .tss-toggle-mark,
+    body.tss-theme-washi .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}
+
+
+body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) {
+    --tss-icon-toggle-radius: var(--tss-wa-radius);
+    background: var(--tss-wa-wash);
+    box-shadow: inset 0 0 0 1px var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item {
+    transform: none;
+}
+
+body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: var(--tss-wa-shu);
+    box-shadow: 0 0 0 1px var(--tss-wa-line), 0 1px 3px rgba(60, 40, 20, 0.1);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-washi.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    color: var(--tss-wa-shu);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+
+body.tss-theme-washi .tss-skeleton:not(.tss-ai) {
+    background: var(--tss-wa-wash-strong);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-skeleton.tss-skeleton-circle:not(.tss-ai) {
+    border-radius: 50%;
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-skeleton-animated:not(.tss-ai)::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 236, 210, 0.07), transparent);
+}
+
+
+body.tss-theme-washi .tss-stepper-step {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-stepper-step:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-stepper-circle {
+    position: relative;
+    isolation: isolate;
+    border-width: 1px;
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+body.tss-theme-washi .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-stepper-active .tss-stepper-circle {
+    border-color: transparent;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-stepper-active .tss-stepper-circle::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    border-radius: 50%;
+    background-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-wa-koke);
+    color: var(--tss-wa-koke);
+}
+
+body.tss-theme-washi .tss-stepper-label {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-stepper-content,
+body.tss-theme-washi .tss-stepper-nav {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-carousel-viewport {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-carousel-nav {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+}
+
+body.tss-theme-washi .tss-carousel-nav:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-carousel-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    border-color: transparent;
+    background: rgba(var(--tss-default-foreground-color-root), 0.18);
+}
+
+body.tss-theme-washi .tss-carousel-indicator.tss-active {
+    background: var(--tss-wa-shu);
+    border-color: transparent;
+}
+
+
+body.tss-theme-washi .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-wa-line-strong), var(--tss-wa-line-strong)) no-repeat center / 1px 100%;
+}
+
+body.tss-theme-washi .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-wa-line-strong), var(--tss-wa-line-strong)) no-repeat 20px 0 / 1px 100%;
+}
+
+body.tss-theme-washi .tss-timeline-container::after {
+    background: rgb(var(--tss-default-background-color-root));
+    border-width: 1.5px;
+    border-color: var(--tss-timeline-circle-color, rgb(var(--tss-default-foreground-color-root)));
+}
+
+body.tss-theme-washi .tss-timeline-container .tss-timeline-content {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}
+
+
+body.tss-theme-washi .tss-conversation-item::before {
+    width: 1px;
+    background: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-conversation-comment {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-conversation-comment-header {
+    background: var(--tss-wa-wash);
+    border-bottom-color: var(--tss-wa-line);
+    border-radius: 2px 2px 0 0;
+}
+
+body.tss-theme-washi .tss-conversation-comment-attachment {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-conversation-comment-highlighted {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 1px var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-conversation-comment-highlighted > .tss-conversation-comment-header {
+    border-bottom-color: var(--tss-wa-thread);
+    background: var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-conversation-reaction {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-conversation-reaction-picker {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-conversation-event-icon {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 0 0 3px rgb(var(--tss-default-background-color-root)), inset 0 0 0 1px var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tippy-box:not([data-theme]) {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    border-radius: var(--tss-wa-radius-small);
+    box-shadow: 0 2px 6px -2px rgba(40, 28, 16, 0.3), 0 10px 22px -12px rgba(40, 28, 16, 0.45);
+    font-size: 12px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi.tss-dark-mode .tippy-box:not([data-theme]) {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 10px 22px -10px rgba(0, 0, 0, 0.8);
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) > .tippy-content {
+    padding: 5px 10px;
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) > .tippy-arrow {
+    color: rgb(var(--tss-tooltip-background-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-inertia][data-state=visible] {
+    transition-timing-function: var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled) {
+    background: transparent;
+    border-color: rgba(var(--tss-tooltip-foreground-color-root), 0.3);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled):hover {
+    background: rgba(var(--tss-tooltip-foreground-color-root), 0.12);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tippy-box {
+        transition-duration: 0ms !important;
+    }
+}
+
+
+body.tss-theme-washi .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: rgb(var(--tss-secondary-background-color-root));
+}
+
+
+body.tss-theme-washi .tss-menu {
+    padding: 4px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-menu-item {
+    border-radius: var(--tss-wa-radius-small);
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-menu-item:hover,
+body.tss-theme-washi .tss-menu-item:focus,
+body.tss-theme-washi .tss-menu-item.tss-menu-item-open {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-menu-item:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-menu-item-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi:not(.tss-dark-mode) .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-washi .tss-menu-header {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    font-size: 11.5px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.06em;
+}
+
+body.tss-theme-washi .tss-menu-divider {
+    background: var(--tss-wa-line);
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+
+body.tss-theme-washi .tss-tagsinput {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-tagsinput:hover {
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-tagsinput:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-tagsinput-chip {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-tagsinput-chip-remove {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-wa-wash-strong);
+    color: var(--tss-wa-enji);
+}
+
+
+body.tss-theme-washi .tss-message-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-message-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-message-text {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-message-info,
+body.tss-theme-washi .tss-message-success,
+body.tss-theme-washi .tss-message-warning,
+body.tss-theme-washi .tss-message-error,
+body.tss-theme-washi .tss-message-note {
+    --tss-wa-dye: var(--tss-wa-ai);
+    border-radius: var(--tss-wa-radius);
+    border: 1px solid color-mix(in srgb, var(--tss-wa-dye) 22%, transparent);
+    background: color-mix(in srgb, var(--tss-wa-dye) 6%, rgb(var(--tss-secondary-background-color-root)));
+    color: color-mix(in srgb, var(--tss-wa-dye) 60%, rgb(var(--tss-default-foreground-color-root)));
+}
+
+body.tss-theme-washi .tss-message-success { --tss-wa-dye: var(--tss-wa-koke); }
+body.tss-theme-washi .tss-message-warning { --tss-wa-dye: rgb(var(--tss-warning-border-color-root)); }
+body.tss-theme-washi.tss-dark-mode .tss-message-warning { --tss-wa-dye: var(--tss-wa-kincha); }
+body.tss-theme-washi .tss-message-error { --tss-wa-dye: var(--tss-wa-enji); }
+
+body.tss-theme-washi .tss-message-info .tss-message-icon,
+body.tss-theme-washi .tss-message-success .tss-message-icon,
+body.tss-theme-washi .tss-message-warning .tss-message-icon,
+body.tss-theme-washi .tss-message-error .tss-message-icon {
+    color: var(--tss-wa-dye);
+    background: color-mix(in srgb, var(--tss-wa-dye) 14%, transparent);
+}
+
+body.tss-theme-washi .tss-message-info .tss-message-title,
+body.tss-theme-washi .tss-message-success .tss-message-title,
+body.tss-theme-washi .tss-message-warning .tss-message-title,
+body.tss-theme-washi .tss-message-error .tss-message-title {
+    color: color-mix(in srgb, var(--tss-wa-dye) 80%, rgb(var(--tss-default-foreground-color-root)));
+}
+
+body.tss-theme-washi .tss-message-info .tss-message-text,
+body.tss-theme-washi .tss-message-success .tss-message-text,
+body.tss-theme-washi .tss-message-warning .tss-message-text,
+body.tss-theme-washi .tss-message-error .tss-message-text,
+body.tss-theme-washi .tss-message-note i,
+body.tss-theme-washi.tss-dark-mode .tss-message-note i {
+    color: color-mix(in srgb, var(--tss-wa-dye) 55%, rgb(var(--tss-default-foreground-color-root)));
+}
+
+
+body.tss-theme-washi .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 5%, rgb(var(--tss-secondary-background-color-root)));
+    --tss-banner-border-color: var(--tss-wa-line);
+    position: relative;
+    border-radius: var(--tss-wa-radius);
+    padding-left: 18px;
+}
+
+body.tss-theme-washi .tss-banner::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    bottom: 9px;
+    width: 4px;
+    background: var(--tss-banner-accent);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+body.tss-theme-washi .tss-banner-primary {
+    --tss-banner-accent: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi:not(.tss-dark-mode) .tss-banner-warning {
+    --tss-banner-title-color: color-mix(in srgb, var(--tss-warning-border-color) 80%, var(--tss-default-foreground-color));
+    --tss-banner-text-color: color-mix(in srgb, var(--tss-warning-border-color) 55%, var(--tss-default-foreground-color));
+}
+
+body.tss-theme-washi .tss-banner-flat {
+    border-radius: 0;
+}
+
+body.tss-theme-washi .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-washi.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-banner-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-banner-badge-pill.tss-badge {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-btn.tss-banner-dismiss-button {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toast-container > .tss-banner {
+    border: none;
+}
+
+
+body.tss-theme-washi .tss-tree-item-content {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-tree-item-content:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-tree-item-content.tss-selected {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-tree-item-content.tss-selected .tss-tree-icon {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-tree-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-tree-chevron:hover,
+body.tss-theme-washi .tss-tree-checkbox:hover {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-tree-children {
+    border-left-color: var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-diagram {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-diagram-node {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.35);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-diagram-node:hover,
+body.tss-theme-washi .tss-diagram-node.tss-diagram-node-dragging {
+    box-shadow: var(--tss-wa-lift-hover);
+}
+
+body.tss-theme-washi .tss-diagram-node.tss-diagram-node-icon-only {
+    border-radius: 50%;
+}
+
+
+body.tss-theme-washi .tss-uptime-bars span {
+    border-radius: 1px;
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-uptime-bars span.operational,
+body.tss-theme-washi .tss-uptime-month-day.operational { background: var(--tss-wa-koke); }
+
+body.tss-theme-washi .tss-uptime-bars span.minor,
+body.tss-theme-washi .tss-uptime-month-day.minor { background: var(--tss-wa-kincha); }
+
+body.tss-theme-washi .tss-uptime-bars span.major,
+body.tss-theme-washi .tss-uptime-month-day.major { background: var(--tss-wa-shu); }
+
+body.tss-theme-washi .tss-uptime-bars span.maintenance,
+body.tss-theme-washi .tss-uptime-month-day.maintenance { background: var(--tss-wa-ai); }
+
+body.tss-theme-washi .tss-uptime-bars span.none,
+body.tss-theme-washi .tss-uptime-month-day {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-uptime-bars span.future,
+body.tss-theme-washi .tss-uptime-month-day.future {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-uptime-month-day {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-uptime-month-card {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-uptime-month-header span {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='uptime'] {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius-small);
+    box-shadow: 0 10px 22px -12px rgba(40, 28, 16, 0.5);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='uptime'] .tss-textblock,
+body.tss-theme-washi .tippy-box[data-theme~='uptime'] .tss-fontweight-semibold {
+    color: rgb(var(--tss-tooltip-foreground-color-root)) !important;
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='top'] > .tippy-arrow::before { border-top-color: rgb(var(--tss-tooltip-background-color-root)); }
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='bottom'] > .tippy-arrow::before { border-bottom-color: rgb(var(--tss-tooltip-background-color-root)); }
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='left'] > .tippy-arrow::before { border-left-color: rgb(var(--tss-tooltip-background-color-root)); }
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='right'] > .tippy-arrow::before { border-right-color: rgb(var(--tss-tooltip-background-color-root)); }
+
+
+body.tss-theme-washi .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-wa-ai);
+    --tss-activitycalendar-empty-color: rgba(var(--tss-default-foreground-color-root), 0.08);
+    --tss-activitycalendar-radius: 1px;
+}
+
+body.tss-theme-washi .tss-activitycalendar-summary-item::before {
+    border-left-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-activitycalendar-tooltip {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+
+body.tss-theme-washi .tss-scheduler {
+    --tss-scheduler-radius: var(--tss-wa-radius-small);
+    --tss-scheduler-line-color: var(--tss-wa-line);
+    --tss-scheduler-minor-line-color: rgba(var(--tss-default-foreground-color-root), 0.05);
+    --tss-scheduler-work-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-scheduler-today-color: var(--tss-wa-shu);
+    --tss-scheduler-now-color: var(--tss-wa-shu);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-scheduler-tg-header,
+body.tss-theme-washi .tss-scheduler-tg-corner,
+body.tss-theme-washi .tss-scheduler-tg-gutter,
+body.tss-theme-washi .tss-scheduler-tg-allday-caption {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-scheduler-tg-header {
+    border-bottom-color: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-scheduler-tg-daynum {
+    font-family: var(--tss-wa-serif);
+}
+
+body.tss-theme-washi .tss-scheduler-ghost {
+    border-color: var(--tss-wa-thread);
+    background: var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-scheduler-drop-target {
+    background: var(--tss-wa-thread-halo) !important;
+}
+
+body.tss-theme-washi .tss-scheduler:focus-visible {
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-scheduler-item {
+    --tss-scheduler-item: var(--tss-scheduler-item-color, var(--tss-wa-ai));
+}
+
+
+body.tss-theme-washi .tss-dockpanel {
+    --tss-dockpanel-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-dockpanel-canvas: rgb(var(--tss-default-background-color-root));
+    --tss-dockpanel-radius: var(--tss-wa-radius);
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dockpanel-slot,
+body.tss-theme-washi .tss-dockpanel-document {
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dockpanel-header {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dockpanel-tab {
+    position: relative;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-dockpanel-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-dockpanel-tab.tss-dockpanel-tab-active {
+    border-bottom-color: transparent;
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-dockpanel-tab.tss-dockpanel-tab-active::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 0;
+    height: 3px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+body.tss-theme-washi .tss-dockpanel-splitter:hover::after,
+body.tss-theme-washi .tss-dockpanel-splitter-active::after {
+    background: var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-dockpanel-button:hover,
+body.tss-theme-washi .tss-dockpanel-restore:hover {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on {
+    background: var(--tss-wa-shu-wash);
+}
+
+body.tss-theme-washi .tss-dockpanel-rail-tab {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-dockpanel-flyout > .tss-dockpanel-slot {
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-dockpanel-preview {
+    background: var(--tss-wa-thread-halo);
+    border-color: var(--tss-wa-thread);
+    border-width: 1.5px;
+}
+
+body.tss-theme-washi .tss-dockpanel-guide {
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    box-shadow: var(--tss-wa-lift);
+}
+
+
+body.tss-theme-washi .tss-chatarea {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-chatmessage-bubble {
+    color: rgb(var(--tss-default-foreground-color-root));
+    line-height: 1.6;
+}
+
+body.tss-theme-washi .tss-chat-right .tss-chatmessage-bubble {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 6px 6px 1px 6px;
+}
+
+body.tss-theme-washi .tss-chatmessage-references,
+body.tss-theme-washi .tss-chat-right .tss-chatmessage-references {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-chatarea-scrollbtn {
+    box-shadow: var(--tss-wa-float);
+}
+
+
+body.tss-theme-washi .tss-toolcall,
+body.tss-theme-washi .tss-toolsused-inline-list {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toolcall > .tss-toolcall-header {
+    border-radius: 2px;
+}
+
+body.tss-theme-washi .tss-toolcall.tss-expanded > .tss-toolcall-header {
+    border-radius: 2px 2px 0 0;
+}
+
+body.tss-theme-washi .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0 0 2px 2px;
+}
+
+body.tss-theme-washi .tss-toolcall-header:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-toolcall-header.tss-toolcall-not-expandable:hover {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-toolcall-content {
+    background: transparent;
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-toolcall-icon,
+body.tss-theme-washi .tss-toolsused-modal-detail-icon,
+body.tss-theme-washi .tss-toolsused-list-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-toolcall-secondary-action {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-toolsused-header {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toolsused-header:hover,
+body.tss-theme-washi .tss-toolsused-list-row:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-toolsused-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+}
+
+
+body.tss-theme-washi .tss-contextcard {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    transition: box-shadow 180ms var(--tss-wa-ease), transform 180ms var(--tss-wa-ease), border-color 180ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.18);
+    box-shadow: var(--tss-wa-lift-hover);
+    transform: translateY(-1px);
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:active,
+body.tss-theme-washi .tss-contextcard-menu-open,
+body.tss-theme-washi .tss-contextcard-menu-open:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: inset 0 0 0 1px var(--tss-wa-line);
+    transform: none;
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 2px;
+}
+
+body.tss-theme-washi .tss-contextcard-icon {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextcard-icon:not(.tss-contextcard-icon-nobackground):not(.tss-contextcard-icon-image):not([style*="background"]) {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-contextcard-label {
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-contextcard-sublabel {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcard-badge:not(.tss-contextcard-badge-custom) {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-contextcard-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: transform 180ms var(--tss-wa-ease), color 180ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:hover .tss-contextcard-chevron {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-contextcard-remove,
+body.tss-theme-washi.tss-dark-mode .tss-contextcard-remove {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-washi .tss-contextcard-remove:hover,
+body.tss-theme-washi.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-wa-enji);
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcard-compact {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-contextcard,
+    body.tss-theme-washi .tss-contextcard-chevron {
+        transition: none;
+    }
+
+    body.tss-theme-washi .tss-contextcard-clickable:hover {
+        transform: none;
+    }
+}
+
+
+body.tss-theme-washi .tss-contextcards-header {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-header:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-header:focus-visible,
+body.tss-theme-washi .tss-contextcards-more:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-contextcards-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-list {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    background: transparent;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: var(--tss-wa-enji);
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-compact .tss-contextcards-list {
+    background: transparent;
+    border: none;
+}
+
+body.tss-theme-washi .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove,
+body.tss-theme-washi.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-more {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-more:hover {
+    border-color: var(--tss-wa-shu);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+
+body.tss-theme-washi .tss-actioncard-card,
+body.tss-theme-washi .tss-actioncard-group {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-actioncard-identity {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-actioncard-icon {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-actioncard-icon:not(.tss-actioncard-icon-nobackground):not(.tss-actioncard-icon-image):not([style*="background"]) {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-actioncard-action {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-actioncard-action:hover {
+    background: var(--tss-wa-wash);
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+}
+
+body.tss-theme-washi .tss-actioncard-action-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-actioncard-more {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-actioncard-skeleton-line {
+    border-radius: var(--tss-wa-radius-small);
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-actioncard-group > .tss-actioncard + .tss-actioncard {
+    border-top-color: var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-questionnaire-option {
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-wa-wash);
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.5);
+}
+
+body.tss-theme-washi .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    border-color: transparent;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-questionnaire-answered-badge {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-shu-wash);
+    color: color-mix(in srgb, var(--tss-wa-shu) 75%, rgb(var(--tss-default-foreground-color-root)));
+}
+
+
+body.tss-theme-washi .tss-rating-star {
+    color: rgba(var(--tss-default-foreground-color-root), 0.18);
+}
+
+body.tss-theme-washi .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-rating-color, var(--tss-wa-kin));
+}
+
+body.tss-theme-washi .tss-rating-star:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+
+body.tss-theme-washi .tss-progressring-track {
+    stroke: var(--tss-progressring-track-color, rgba(var(--tss-default-foreground-color-root), 0.1));
+}
+
+body.tss-theme-washi .tss-progressring-label {
+    font-family: var(--tss-wa-serif);
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+
+body.tss-theme-washi .tss-colorpalette-swatch {
+    box-shadow: 0 0 0 1px var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 1.5px rgba(var(--tss-default-foreground-color-root), 0.5);
+}
+
+body.tss-theme-washi .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), 0 0 0 3.5px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-colorpalette-swatch:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+
+body.tss-theme-washi .tss-kbd-key {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-bottom-width: 2px;
+    border-radius: var(--tss-wa-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-shortcut-guide-section-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+body.tss-theme-washi .tss-shortcut-guide-row {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-notif-bell {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-notif-bell:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-notif-bell:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-notif-badge {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-shu);
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-notif-dot {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-notif-dot.tss-notif-info { background: var(--tss-wa-ai); }
+
+body.tss-theme-washi .tss-notif-unread {
+    background: color-mix(in srgb, var(--tss-wa-ai) 7%, transparent) !important;
+}
+
+
+body.tss-theme-washi .tss-markdown {
+    line-height: 1.65;
+}
+
+body.tss-theme-washi .tss-markdown h1,
+body.tss-theme-washi .tss-markdown h2,
+body.tss-theme-washi .tss-markdown h3,
+body.tss-theme-washi .tss-markdown h4 {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+}
+
+body.tss-theme-washi .tss-markdown h5,
+body.tss-theme-washi .tss-markdown h6 {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-markdown h1,
+body.tss-theme-washi .tss-markdown h2 {
+    border-bottom: none;
+    background: linear-gradient(90deg, var(--tss-wa-line-strong) 0%, rgba(var(--tss-default-foreground-color-root), 0.12) 55%, transparent 100%) left bottom / 100% 1px no-repeat;
+}
+
+body.tss-theme-washi .tss-markdown hr {
+    height: 5px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.3);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-markdown blockquote {
+    position: relative;
+    border-left: none;
+    padding-left: 18px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-markdown blockquote::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    width: 4px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.35);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-markdown code {
+    padding: 0.1em 0.35em;
+    font-weight: 400;
+    font-size: 0.92em;
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wa-wash-strong);
+    border: none;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-markdown pre {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    line-height: 1.55;
+}
+
+body.tss-theme-washi .tss-markdown pre code {
+    background: transparent;
+    padding: 0;
+}
+
+body.tss-theme-washi .tss-markdown kbd {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-bottom-width: 2px;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-markdown table th,
+body.tss-theme-washi .tss-markdown table td {
+    border: none;
+    border-bottom: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-markdown table th {
+    font-weight: 500;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    border-bottom: 1px solid var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-markdown table tr,
+body.tss-theme-washi .tss-markdown table tr:nth-child(2n) {
+    background: transparent;
+    border-top: none;
+}
+
+body.tss-theme-washi .tss-markdown table tbody tr:hover {
+    background: var(--tss-wa-wash);
+}
+
+
+body.tss-theme-washi .tss-mermaid {
+    --pele-bg: rgb(var(--tss-secondary-background-color-root));
+    --pele-line: rgba(var(--tss-default-foreground-color-root), 0.6);
+    --pele-surface: rgb(var(--tss-default-background-color-root));
+    --pele-surface-alt: rgb(var(--tss-default-background-hover-color-root));
+    --pele-border: rgba(var(--tss-default-foreground-color-root), 0.55);
+    --pele-accent: var(--tss-wa-shu);
+    --pele-critical: var(--tss-wa-enji);
+    --pele-error: var(--tss-wa-enji);
+    --pele-radius: 3px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-flint-chart {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-plan-running   { --plan-accent: var(--tss-wa-ai);     --plan-accent-soft: color-mix(in srgb, var(--tss-wa-ai) 12%, transparent); }
+body.tss-theme-washi .tss-plan-completed { --plan-accent: var(--tss-wa-koke);   --plan-accent-soft: color-mix(in srgb, var(--tss-wa-koke) 14%, transparent); }
+body.tss-theme-washi .tss-plan-failed    { --plan-accent: var(--tss-wa-enji);   --plan-accent-soft: color-mix(in srgb, var(--tss-wa-enji) 12%, transparent); }
+body.tss-theme-washi .tss-plan-canceled  { --plan-accent: var(--tss-wa-kincha); --plan-accent-soft: color-mix(in srgb, var(--tss-wa-kincha) 16%, transparent); }
+
+body.tss-theme-washi .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-washi.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+    background: color-mix(in srgb, var(--tss-wa-ai) 7%, rgb(var(--tss-secondary-background-color-root)));
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-omniresult {
+    border-radius: var(--tss-wa-radius-small);
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-omniresult:hover,
+body.tss-theme-washi .tss-omniresult.tss-omniresult-active,
+body.tss-theme-washi .tss-omniresult.tss-omniresult-menu-open {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-omniresult.tss-omniresult-selected {
+    background: var(--tss-wa-shu-wash);
+}
+
+body.tss-theme-washi .tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 1.5px var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-omniresult-highlight {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-omniresult-badge-pill {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-omniresult-viewed-flash::after {
+    background: color-mix(in srgb, var(--tss-wa-kin) 24%, transparent);
+}
+
+body.tss-theme-washi .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-modal.tss-omniresult-modal {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    border-top-color: var(--tss-wa-line);
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-omniresult-modal-open {
+    border-radius: var(--tss-wa-radius);
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-omniresult-menu-button:hover {
+    background: var(--tss-wa-wash-strong);
+}
+
+
+body.tss-theme-washi .tss-detailsgrid:not(.tss-detailsgrid-borderless):not(.tss-detailsgrid-stacked) {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+
+body.tss-theme-washi .tss-modalstack-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-modalstack-trail-step {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-modalstack-trail-step:hover {
+    background: var(--tss-wa-wash);
+}
+
+
+body.tss-theme-washi {
+    --tss-ai-from: rgb(132, 108, 170);
+    --tss-ai-to: rgb(44, 78, 128);
+    --tss-ai-accent: rgb(100, 82, 148);
+    --tss-ai-gradient: linear-gradient(115deg, rgb(132, 108, 170), rgb(44, 78, 128));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(144, 120, 182), rgb(54, 90, 142));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(100, 76, 140), rgb(34, 64, 110));
+    --tss-ai-surface: linear-gradient(135deg, rgba(132, 108, 170, 0.09), rgba(44, 78, 128, 0.06));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(132, 108, 170, 0.16), rgba(44, 78, 128, 0.11));
+    --tss-ai-border-color: rgba(110, 90, 156, 0.3);
+    --tss-ai-shadow: 0 0 0 1px rgba(92, 72, 44, 0.05), 0 8px 20px -12px rgba(80, 60, 120, 0.35);
+    --tss-ai-shadow-hover: 0 0 0 1px rgba(92, 72, 44, 0.07), 0 12px 26px -12px rgba(80, 60, 120, 0.45);
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(132, 108, 170) 0deg, rgb(44, 78, 128) 250deg, rgba(44, 78, 128, 0) 330deg, rgba(132, 108, 170, 0) 360deg);
+    --tss-ai-on-fill: rgb(255, 250, 242);
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    --tss-ai-from: rgb(150, 128, 192);
+    --tss-ai-to: rgb(78, 116, 170);
+    --tss-ai-accent: rgb(186, 168, 224);
+    --tss-ai-gradient: linear-gradient(115deg, rgb(150, 128, 192), rgb(78, 116, 170));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(164, 142, 206), rgb(92, 130, 184));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(196, 178, 232), rgb(150, 184, 228));
+    --tss-ai-surface: linear-gradient(135deg, rgba(150, 128, 192, 0.14), rgba(78, 116, 170, 0.1));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(150, 128, 192, 0.24), rgba(78, 116, 170, 0.16));
+    --tss-ai-border-color: rgba(170, 150, 210, 0.36);
+    --tss-ai-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45), 0 8px 20px -10px rgba(0, 0, 0, 0.7);
+    --tss-ai-shadow-hover: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 12px 26px -10px rgba(0, 0, 0, 0.8);
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(186, 168, 224) 0deg, rgb(130, 166, 214) 250deg, rgba(130, 166, 214, 0) 330deg, rgba(186, 168, 224, 0) 360deg);
+}
+
+
+body.tss-theme-washi {
+    --tss-chart-series-1: rgb(200, 60, 38);
+    --tss-chart-series-2: rgb(38, 72, 118);
+    --tss-chart-series-3: rgb(104, 126, 70);
+    --tss-chart-series-4: rgb(196, 146, 52);
+    --tss-chart-series-5: rgb(132, 108, 170);
+    --tss-chart-series-6: rgb(118, 110, 100);
+    --tss-chart-series-7: rgb(64, 132, 148);
+    --tss-chart-series-8: rgb(150, 34, 50);
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    --tss-chart-series-1: rgb(232, 96, 66);
+    --tss-chart-series-2: rgb(130, 164, 212);
+    --tss-chart-series-3: rgb(150, 176, 106);
+    --tss-chart-series-4: rgb(216, 174, 92);
+    --tss-chart-series-5: rgb(176, 156, 214);
+    --tss-chart-series-6: rgb(176, 164, 148);
+    --tss-chart-series-7: rgb(110, 178, 190);
+    --tss-chart-series-8: rgb(214, 92, 104);
+}
+
+body.tss-theme-washi .tss-chart {
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-washi .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(var(--tss-default-foreground-color-root), 0.08);
+}
+
+body.tss-theme-washi .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: rgb(var(--tss-secondary-foreground-color-root));
+    stroke-opacity: 0.55;
+}
+
+body.tss-theme-washi .tss-chart text {
+    fill: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-chart text[font-size="11"] {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: rgb(var(--tss-secondary-background-color-root));
+    stroke: var(--tss-wa-line);
+    rx: 3px;
+    filter: drop-shadow(0 4px 8px rgba(60, 40, 20, 0.18));
+}
+
+body.tss-theme-washi .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+body.tss-theme-washi .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-chart-series-2);
+}
+
+body.tss-theme-washi .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-chart-series-2);
+}
+
+body.tss-theme-washi .tss-chart rect[fill-opacity] {
+    rx: 1px;
+}
+
+
+body.tss-theme-washi .tss-toast-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-radius: 0;
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-top-color: var(--tss-wa-line);
+}
+
+
+body.tss-theme-washi .tss-background-area {
+    background: transparent;
+}
+
+
+body.tss-theme-washi {
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: var(--tss-wa-grain);
+    background-attachment: fixed;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-sansserif-font-family);
+    line-height: 1.5;
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+}
+
+body.tss-theme-washi {
+    color-scheme: light;
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    color-scheme: dark;
+}

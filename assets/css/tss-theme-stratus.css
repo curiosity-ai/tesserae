@@ -1,0 +1,4347 @@
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../fonts/stratus/inter-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../fonts/stratus/inter-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../fonts/stratus/roboto-mono-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../fonts/stratus/roboto-mono-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+body.tss-theme-stratus {
+
+    --tss-str-navy: #00205b;
+    --tss-str-navy-hover: #002d80;
+    --tss-str-navy-active: #063b9e;
+    --tss-str-blue: #255fcc;
+    --tss-str-blue-soft: #e5ecf7;
+    --tss-str-blue-tint: #cfddf8;
+    --tss-str-fill: #fafafa;
+    --tss-str-fill-2: #f1f1f1;
+    --tss-str-fill-3: #e6e6e6;
+    --tss-str-on-fill: #eff1f4;
+    --tss-str-on-fill-2: #e0e3e9;
+    --tss-str-error: #e4002b;
+    --tss-str-success: #08875b;
+    --tss-str-warning: #ffc929;
+    --tss-str-warning-text: #775900;
+    --tss-str-warning-edge: #bb8e09;
+    --tss-str-info: #255fcc;
+    --tss-str-error-soft: #fad1d8;
+    --tss-str-success-soft: #d1ffef;
+    --tss-str-warning-soft: #fff9e5;
+    --tss-str-info-soft: #e5ecf7;
+    --tss-str-rule: #63728a;
+    --tss-str-focus: #255fcc;
+    --tss-str-focus-ring: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px var(--tss-str-focus);
+    --tss-str-elev-1: 0 1px 4px 0 rgba(0, 0, 0, 0.24);
+    --tss-str-elev-2: 0 2px 8px 0 rgba(0, 0, 0, 0.20);
+    --tss-str-elev-3: 0 3px 12px 0 rgba(0, 0, 0, 0.20);
+    --tss-str-elev-4: 0 4px 16px 1px rgba(0, 0, 0, 0.20);
+    --tss-str-elev-6: 0 8px 32px 2px rgba(0, 0, 0, 0.20);
+    --tss-str-elev-8: 0 8px 48px 2px rgba(0, 0, 0, 0.24);
+    --tss-str-elevated-surface: #ffffff;
+    --tss-str-hair: 1px solid var(--tss-default-border-color);
+    --tss-str-ease: .1s ease-in-out;
+
+    --tss-sansserif-font-family: "Inter", Arial, ui-sans-serif, system-ui, sans-serif;
+    --tss-monospace-font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 500;
+    --tss-font-weight-bold: 700;
+
+    --tss-font-size-mega: 48px;
+    --tss-font-size-xxlarge: 36px;
+    --tss-font-size-xlarge: 32px;
+    --tss-font-size-large: 24px;
+    --tss-font-size-mediumplus: 20px;
+    --tss-font-size-medium: 18px;
+    --tss-font-size-smallplus: 16px;
+    --tss-font-size-small: 14px;
+    --tss-font-size-xsmall: 12px;
+    --tss-font-size-tiny: 11px;
+
+    --tss-default-background-color-root: 255, 255, 255;
+    --tss-default-foreground-color-root: 20, 23, 29;
+    --tss-secondary-background-color-root: 250, 250, 250;
+    --tss-secondary-foreground-color-root: 99, 114, 138;
+    --tss-sidebar-background-color-root: 250, 250, 250;
+    --tss-disabled-background-color-root: 241, 241, 241;
+    --tss-disabled-foreground-color-root: 145, 156, 176;
+    --tss-default-border-color-root: 206, 213, 221;
+    --tss-dark-border-color-root: 99, 114, 138;
+    --tss-default-separator-color-root: 224, 227, 233;
+    --tss-invalid-border-color-root: 228, 0, 43;
+    --tss-default-background-hover-color-root: 241, 241, 241;
+    --tss-default-foreground-hover-color-root: 20, 23, 29;
+    --tss-default-background-active-color-root: 229, 236, 247;
+    --tss-default-foreground-active-color-root: 0, 32, 91;
+    --tss-progress-background-color-root: 224, 227, 233;
+    --tss-link-color-root: 37, 95, 204;
+    --tss-highlight-color-root: 37, 95, 204;
+    --tss-tooltip-background-color-root: 20, 23, 29;
+    --tss-tooltip-foreground-color-root: 255, 255, 255;
+    --tss-primary-background-color-root: 0, 32, 91;
+    --tss-primary-foreground-color-root: 255, 255, 255;
+    --tss-primary-border-color-root: 0, 32, 91;
+    --tss-primary-background-hover-color-root: 0, 45, 128;
+    --tss-primary-foreground-hover-color-root: 255, 255, 255;
+    --tss-primary-background-active-color-root: 6, 59, 158;
+    --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 255, 201, 41;
+    --tss-warning-foreground-color-root: 20, 23, 29;
+    --tss-warning-border-color-root: 255, 201, 41;
+    --tss-warning-background-hover-color-root: 221, 171, 23;
+    --tss-warning-foreground-hover-color-root: 20, 23, 29;
+    --tss-warning-background-active-color-root: 187, 142, 9;
+    --tss-warning-foreground-active-color-root: 20, 23, 29;
+    --tss-danger-background-color-root: 228, 0, 43;
+    --tss-danger-foreground-color-root: 255, 255, 255;
+    --tss-danger-border-color-root: 228, 0, 43;
+    --tss-danger-background-hover-color-root: 187, 0, 35;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
+    --tss-danger-background-active-color-root: 146, 0, 28;
+    --tss-danger-foreground-active-color-root: 255, 255, 255;
+    --tss-success-background-color-root: 8, 135, 91;
+    --tss-success-foreground-color-root: 255, 255, 255;
+    --tss-success-border-color-root: 8, 135, 91;
+    --tss-success-background-hover-color-root: 3, 110, 74;
+    --tss-success-foreground-hover-color-root: 255, 255, 255;
+    --tss-success-background-active-color-root: 0, 94, 62;
+    --tss-success-foreground-active-color-root: 255, 255, 255;
+    --tss-slider-color-root: 0, 32, 91;
+    --tss-slider-active-color-root: 206, 213, 221;
+    --tss-slider-disabled-color-root: 224, 227, 233;
+    --tss-primary-shadow-color-root: 0, 0, 0;
+    --tss-shadow-color-from: rgba(0, 0, 0, 0.20);
+    --tss-shadow-color-to: rgba(0, 0, 0, 0.24);
+
+    --tss-primary-shadow: var(--tss-str-elev-1);
+    --tss-box-shadow: var(--tss-str-elev-2);
+    --tss-box-shadow-darker: var(--tss-str-elev-4);
+    --tss-card-shadow: var(--tss-str-elev-1);
+    --tss-toast-shadow: var(--tss-str-elev-2);
+    --tss-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
+    --tss-shadow-sm-hover: var(--tss-str-elev-1);
+    --tss-shadow: var(--tss-str-elev-1);
+    --tss-shadow-hover: var(--tss-str-elev-2);
+    --tss-shadow-md: var(--tss-str-elev-2);
+    --tss-shadow-md-hover: var(--tss-str-elev-3);
+    --tss-shadow-lg: var(--tss-str-elev-4);
+    --tss-shadow-lg-hover: var(--tss-str-elev-4);
+    --tss-shadow-xl: var(--tss-str-elev-6);
+    --tss-shadow-xl-hover: var(--tss-str-elev-8);
+    --tss-overlay-light: rgba(20, 23, 29, 0.32);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.56);
+
+    --tss-border-radius-sm: 3px;
+    --tss-border-radius-md: 3px;
+    --tss-border-radius-lg: 6px;
+    --tss-border-radius-xl: 8px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-ring-offset-width: 2px;
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-ring-opacity: 1;
+
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: #b3bbc8;
+    --tss-scrollbar-thumb-hidden-color: #ced5dd;
+    --tss-simplebar-thumb-color: #b3bbc8;
+
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.12);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-ring-color: var(--tss-str-focus);
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+
+    --tss-str-navy: #86a8e9;
+    --tss-str-navy-hover: #b3cbf8;
+    --tss-str-navy-active: #cfddf8;
+    --tss-str-blue: #86a8e9;
+    --tss-str-blue-soft: #282e3a;
+    --tss-str-blue-tint: #3c4657;
+    --tss-str-fill: #25282e;
+    --tss-str-fill-2: #292d33;
+    --tss-str-fill-3: #32353b;
+    --tss-str-on-fill: #181c21;
+    --tss-str-on-fill-2: #25282e;
+    --tss-str-error: #f86471;
+    --tss-str-success: #27e7a7;
+    --tss-str-warning: #ffd557;
+    --tss-str-warning-text: #ffd557;
+    --tss-str-warning-edge: #ffd557;
+    --tss-str-info: #b3cbf8;
+    --tss-str-error-soft: #6a0014;
+    --tss-str-success-soft: #005e3e;
+    --tss-str-warning-soft: #554000;
+    --tss-str-info-soft: #00205b;
+    --tss-str-rule: #ced5dd;
+    --tss-str-focus: #e5ecf7;
+    --tss-str-elevated-surface: #25282e;
+    --tss-str-elev-1: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
+    --tss-str-elev-2: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+    --tss-str-elev-3: 0 3px 12px 0 rgba(0, 0, 0, 0.5);
+    --tss-str-elev-4: 0 4px 16px 1px rgba(0, 0, 0, 0.5);
+    --tss-str-elev-6: 0 8px 32px 2px rgba(0, 0, 0, 0.55);
+    --tss-str-elev-8: 0 8px 48px 2px rgba(0, 0, 0, 0.6);
+
+    --tss-default-background-color-root: 20, 23, 29;
+    --tss-default-foreground-color-root: 255, 255, 255;
+    --tss-secondary-background-color-root: 24, 28, 33;
+    --tss-secondary-foreground-color-root: 206, 213, 221;
+    --tss-sidebar-background-color-root: 24, 28, 33;
+    --tss-disabled-background-color-root: 37, 40, 46;
+    --tss-disabled-foreground-color-root: 99, 114, 138;
+    --tss-default-border-color-root: 60, 70, 87;
+    --tss-dark-border-color-root: 145, 156, 176;
+    --tss-default-separator-color-root: 50, 53, 59;
+    --tss-invalid-border-color-root: 248, 100, 113;
+    --tss-default-background-hover-color-root: 50, 53, 59;
+    --tss-default-foreground-hover-color-root: 255, 255, 255;
+    --tss-default-background-active-color-root: 40, 46, 58;
+    --tss-default-foreground-active-color-root: 255, 255, 255;
+    --tss-progress-background-color-root: 60, 70, 87;
+    --tss-link-color-root: 134, 168, 233;
+    --tss-highlight-color-root: 134, 168, 233;
+    --tss-tooltip-background-color-root: 224, 227, 233;
+    --tss-tooltip-foreground-color-root: 20, 23, 29;
+    --tss-primary-background-color-root: 134, 168, 233;
+    --tss-primary-foreground-color-root: 20, 23, 29;
+    --tss-primary-border-color-root: 134, 168, 233;
+    --tss-primary-background-hover-color-root: 179, 203, 248;
+    --tss-primary-foreground-hover-color-root: 20, 23, 29;
+    --tss-primary-background-active-color-root: 207, 221, 248;
+    --tss-primary-foreground-active-color-root: 20, 23, 29;
+    --tss-warning-background-color-root: 255, 213, 87;
+    --tss-warning-foreground-color-root: 20, 23, 29;
+    --tss-warning-border-color-root: 255, 213, 87;
+    --tss-warning-background-hover-color-root: 255, 224, 133;
+    --tss-warning-foreground-hover-color-root: 20, 23, 29;
+    --tss-warning-background-active-color-root: 255, 236, 179;
+    --tss-warning-foreground-active-color-root: 20, 23, 29;
+    --tss-danger-background-color-root: 248, 100, 113;
+    --tss-danger-foreground-color-root: 20, 23, 29;
+    --tss-danger-border-color-root: 248, 100, 113;
+    --tss-danger-background-hover-color-root: 255, 137, 152;
+    --tss-danger-foreground-hover-color-root: 20, 23, 29;
+    --tss-danger-background-active-color-root: 255, 162, 176;
+    --tss-danger-foreground-active-color-root: 20, 23, 29;
+    --tss-success-background-color-root: 39, 231, 167;
+    --tss-success-foreground-color-root: 20, 23, 29;
+    --tss-success-border-color-root: 39, 231, 167;
+    --tss-success-background-hover-color-root: 94, 247, 196;
+    --tss-success-foreground-hover-color-root: 20, 23, 29;
+    --tss-success-background-active-color-root: 156, 252, 218;
+    --tss-success-foreground-active-color-root: 20, 23, 29;
+    --tss-slider-color-root: 134, 168, 233;
+    --tss-slider-active-color-root: 60, 70, 87;
+    --tss-slider-disabled-color-root: 37, 40, 46;
+    --tss-primary-shadow-color-root: 0, 0, 0;
+    --tss-shadow-color-from: rgba(0, 0, 0, 0.5);
+    --tss-shadow-color-to: rgba(0, 0, 0, 0.5);
+
+    --tss-primary-shadow: var(--tss-str-elev-1);
+    --tss-box-shadow: var(--tss-str-elev-2);
+    --tss-box-shadow-darker: var(--tss-str-elev-4);
+    --tss-card-shadow: var(--tss-str-elev-1);
+    --tss-toast-shadow: var(--tss-str-elev-2);
+    --tss-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    --tss-shadow-sm-hover: var(--tss-str-elev-1);
+    --tss-shadow: var(--tss-str-elev-1);
+    --tss-shadow-hover: var(--tss-str-elev-2);
+    --tss-shadow-md: var(--tss-str-elev-2);
+    --tss-shadow-md-hover: var(--tss-str-elev-3);
+    --tss-shadow-lg: var(--tss-str-elev-4);
+    --tss-shadow-lg-hover: var(--tss-str-elev-4);
+    --tss-shadow-xl: var(--tss-str-elev-6);
+    --tss-shadow-xl-hover: var(--tss-str-elev-8);
+    --tss-overlay-light: rgba(20, 23, 29, 0.6);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.7);
+
+    --tss-scrollbar-thumb-color: #505d74;
+    --tss-scrollbar-thumb-hidden-color: #3c4657;
+    --tss-simplebar-thumb-color: #505d74;
+
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.16);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-ring-color: var(--tss-str-focus);
+}
+
+body.tss-theme-stratus {
+    font-feature-settings: "kern" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body.tss-theme-stratus :focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus ::selection {
+    background: rgba(37, 95, 204, 0.24);
+}
+
+body.tss-theme-stratus.tss-dark-mode ::selection {
+    background: rgba(134, 168, 233, 0.32);
+}
+
+body.tss-theme-stratus .tss-fontcolor-primary {
+    color: var(--tss-link-color);
+}
+
+body.tss-theme-stratus :where(a) {
+    color: var(--tss-link-color);
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-stratus {
+    --tss-str-scrollbar-thumb: #b3bbc8;
+    --tss-str-scrollbar-thumb-hover: #63728a;
+}
+
+html:has(> body.tss-theme-stratus) {
+    --tss-str-scrollbar-thumb: #b3bbc8;
+    --tss-str-scrollbar-thumb-hover: #63728a;
+}
+
+html:has(> body.tss-theme-stratus.tss-dark-mode) {
+    --tss-str-scrollbar-thumb: #505d74;
+    --tss-str-scrollbar-thumb-hover: #919cb0;
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar,
+    body.tss-theme-stratus::-webkit-scrollbar,
+    body.tss-theme-stratus ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-track,
+    body.tss-theme-stratus::-webkit-scrollbar-track,
+    body.tss-theme-stratus ::-webkit-scrollbar-track,
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-corner,
+    body.tss-theme-stratus::-webkit-scrollbar-corner,
+    body.tss-theme-stratus ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-thumb,
+    body.tss-theme-stratus::-webkit-scrollbar-thumb,
+    body.tss-theme-stratus ::-webkit-scrollbar-thumb {
+        border: 3px solid transparent;
+        border-radius: 9999px;
+        background: var(--tss-str-scrollbar-thumb) padding-box;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-stratus::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-stratus ::-webkit-scrollbar-thumb:hover {
+        background: var(--tss-str-scrollbar-thumb-hover) padding-box;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-button,
+    body.tss-theme-stratus::-webkit-scrollbar-button,
+    body.tss-theme-stratus ::-webkit-scrollbar-button {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-stratus),
+    body.tss-theme-stratus {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-str-scrollbar-thumb) transparent;
+    }
+}
+
+body.tss-theme-stratus .tss-fontcolor-warning {
+    color: var(--tss-str-warning-text);
+}
+
+
+body.tss-theme-stratus .tss-btn {
+    border-radius: var(--tss-border-radius-sm);
+    box-shadow: none;
+    letter-spacing: 0;
+    transition: background-color var(--tss-str-ease), color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-btn:not(.tss-sidebar-btn):not(.tss-sidebar-command) {
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-btn:where(:not(.tss-sidebar-btn):not(.tss-sidebar-command):not(.tss-btn-link)) {
+    min-height: 40px;
+    min-width: 40px;
+    padding: 6px 16px;
+    line-height: 24px;
+    border-width: 2px;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-nominsize {
+    min-height: unset;
+    min-width: unset;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-remove-padding {
+    padding: 0;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-less-padding {
+    padding: 0 8px;
+}
+
+body.tss-theme-stratus .tss-btn.tss-small.tss-btn-less-padding {
+    padding: 0 4px;
+}
+
+body.tss-theme-stratus .tss-btn.tss-small:where(:not(.tss-sidebar-btn):not(.tss-sidebar-command)) {
+    min-height: 32px;
+    padding: 2px 16px;
+    margin: 0;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-only-icon:where(:not(.tss-sidebar-btn):not(.tss-sidebar-command)) {
+    padding: 6px;
+}
+
+body.tss-theme-stratus .tss-btn:hover,
+body.tss-theme-stratus .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-btn:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-btn.tss-disabled {
+    opacity: .4;
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-noborder):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-sidebar-btn):not(.tss-sidebar-command) {
+    border-color: var(--tss-str-navy);
+    color: var(--tss-str-navy);
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled),
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-nobg:not(.tss-disabled) {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-nobg:not(.tss-disabled):hover {
+    border-color: transparent;
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-nobg:not(.tss-disabled):active {
+    border-color: transparent;
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-primary:not(.tss-disabled):hover {
+    filter: none;
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-primary:not(.tss-disabled):active {
+    filter: none;
+    box-shadow: none;
+    border-color: var(--tss-primary-background-active-color);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-success:not(.tss-disabled):hover {
+    border-color: transparent;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: transparent;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg,
+body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-str-success);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning:hover,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning:hover .tss-fontcolor-default {
+    color: var(--tss-str-warning-text);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-warning:not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-warning-foreground-color);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-link,
+body.tss-theme-stratus .tss-btn.tss-btn-link .tss-fontcolor-default {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-btn-and-icon {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-btn-and-icon > .tss-btn,
+body.tss-theme-stratus .tss-btn-and-icon > .tss-btn:hover {
+    border-radius: var(--tss-border-radius-sm) 0 0 var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon,
+body.tss-theme-stratus .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon:hover {
+    border-radius: 0 var(--tss-border-radius-sm) var(--tss-border-radius-sm) 0;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-spinning,
+body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-spin-resolved {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+body.tss-theme-stratus .tss-label {
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 24px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-label {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-label .tss-required,
+body.tss-theme-stratus .tss-label-required {
+    color: var(--tss-str-error);
+}
+
+
+body.tss-theme-stratus .tss-textbox {
+    height: 40px;
+    padding: 0 8px;
+    line-height: 20px;
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-textbox:hover {
+    border: 0;
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-textbox:focus,
+body.tss-theme-stratus .tss-textbox:focus-visible {
+    border: 0;
+    outline: none;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-textbox::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-textbox:hover::placeholder,
+body.tss-theme-stratus .tss-textbox:focus::placeholder {
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-textbox.tss-disabled,
+body.tss-theme-stratus .tss-textbox.tss-disabled:hover {
+    border: 0;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-textbox::placeholder {
+    color: var(--tss-default-foreground-color) !important;
+}
+
+body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbox-noborder),
+body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbox-noborder):hover,
+body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbox-noborder):focus {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox,
+body.tss-theme-stratus .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border: 0;
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox:focus,
+body.tss-theme-stratus .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox:focus {
+    box-shadow: 0 0 0 3px var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-textbox-error {
+    color: var(--tss-str-error);
+    font-size: var(--tss-font-size-xsmall);
+    line-height: 18px;
+    margin-top: 4px;
+}
+
+body.tss-theme-stratus .tss-textbox.tss-textbox-noborder,
+body.tss-theme-stratus .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-stratus .tss-textbox.tss-textbox-noborder:focus {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-textblock table {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: none;
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-textblock table thead {
+    background-color: var(--tss-str-on-fill);
+}
+
+body.tss-theme-stratus .tss-textblock table th {
+    border-bottom: 1px solid var(--tss-default-border-color);
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-textbox.tss-ai,
+body.tss-theme-stratus .tss-textbox.tss-ai:hover {
+    background: var(--tss-ai-surface), var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-ai-accent);
+}
+
+body.tss-theme-stratus .tss-textbox.tss-ai:focus,
+body.tss-theme-stratus .tss-textbox.tss-ai:focus-visible {
+    background: var(--tss-ai-surface), var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-textbox-spinner {
+    height: 40px;
+}
+
+body.tss-theme-stratus .tss-textbox-container:not(.tss-textarea-container) > .tss-textbox-dictate-btn.tss-btn {
+    top: 6px;
+}
+
+
+body.tss-theme-stratus .tss-textarea.tss-textbox {
+    height: auto;
+    padding: 8px;
+    font-family: inherit;
+    font-size: var(--tss-font-size-small);
+    line-height: 20px;
+    resize: vertical;
+}
+
+body.tss-theme-stratus .tss-textarea.tss-textbox.tss-textarea-autoresize {
+    resize: none;
+}
+
+body.tss-theme-stratus .tss-textarea-container > .tss-textarea {
+    height: 100%;
+}
+
+body.tss-theme-stratus .tss-textarea-container > .tss-textarea.tss-textarea-autoresize {
+    height: auto;
+}
+
+
+body.tss-theme-stratus { --tss-str-elev-5: 0 6px 24px 2px rgba(0, 0, 0, 0.20); }
+body.tss-theme-stratus.tss-dark-mode { --tss-str-elev-5: 0 6px 24px 2px rgba(0, 0, 0, 0.55); --tss-str-card-surface: #1c1f25; }
+body.tss-theme-stratus { --tss-str-card-surface: var(--tss-default-background-color); }
+
+body.tss-theme-stratus .tss-card {
+    padding: 24px;
+    border-radius: var(--tss-border-radius-lg);
+    background-color: var(--tss-str-card-surface);
+    box-shadow: var(--tss-str-elev-3);
+    transition: transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1), opacity 300ms cubic-bezier(0.1, 0.9, 0.2, 1) 0.05s, box-shadow 250ms cubic-bezier(.4, .8, 0, .99);
+}
+
+body.tss-theme-stratus .tss-card-container.tss-small > .tss-card { padding: 4px 12px; }
+
+body.tss-theme-stratus .tss-card.tss-card-hover { cursor: pointer; }
+
+body.tss-theme-stratus .tss-card.tss-card-hover:hover {
+    background-color: var(--tss-str-card-surface);
+    box-shadow: var(--tss-str-elev-4);
+}
+
+body.tss-theme-stratus .tss-card.tss-card-hover:active {
+    background-color: var(--tss-str-card-surface);
+    box-shadow: var(--tss-str-elev-5);
+}
+
+body.tss-theme-stratus .tss-card-header,
+body.tss-theme-stratus .tss-card-footer {
+    background-color: var(--tss-str-on-fill);
+    border-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-card-header { border-top-left-radius: var(--tss-border-radius-lg); border-top-right-radius: var(--tss-border-radius-lg); }
+body.tss-theme-stratus .tss-card-footer { border-bottom-left-radius: var(--tss-border-radius-lg); border-bottom-right-radius: var(--tss-border-radius-lg); }
+
+body.tss-theme-stratus .tss-card-title {
+    font-weight: var(--tss-font-weight-semibold);
+    font-size: var(--tss-font-size-mediumplus);
+    line-height: 32px;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-card-content {
+    border-color: var(--tss-default-separator-color);
+    background-color: var(--tss-str-card-surface);
+    box-shadow: var(--tss-str-elev-3);
+}
+
+body.tss-theme-stratus .tss-card.tss-has-layout > .tss-card-content { box-shadow: var(--tss-str-elev-3); }
+
+
+body.tss-theme-stratus {
+    --tss-str-panel-border: #919cb0;
+    --tss-str-chevron: #063b9e;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-panel-border: #e0e3e9;
+    --tss-str-chevron: #cfddf8;
+}
+
+body.tss-theme-stratus .tss-accordion { gap: 8px; }
+
+body.tss-theme-stratus .tss-expander {
+    border: 1px solid var(--tss-str-panel-border);
+    border-radius: 3px;
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-accordion > .tss-expander + .tss-expander,
+body.tss-theme-stratus .tss-accordion > .tss-expander:first-child,
+body.tss-theme-stratus .tss-accordion > .tss-expander:last-child:not(:first-child) {
+    margin-top: 0;
+    border-radius: 3px;
+}
+
+body.tss-theme-stratus .tss-expander-header {
+    min-height: 24px;
+    padding: 8px 16px;
+    font-size: var(--tss-font-size-smallplus);
+    line-height: 24px;
+    transition: background-color var(--tss-str-ease);
+}
+body.tss-theme-stratus .tss-expander-header:hover { background: var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-expander-header:focus-visible { outline-offset: -3px; outline-width: 3px; }
+body.tss-theme-stratus .tss-expander.tss-expanded > .tss-expander-header { background: transparent; }
+body.tss-theme-stratus .tss-expander.tss-expanded > .tss-expander-header:hover { background: var(--tss-default-background-hover-color); }
+
+body.tss-theme-stratus .tss-expander-title { font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-expander-chevron { color: var(--tss-str-chevron); font-size: 20px; }
+
+body.tss-theme-stratus .tss-expander-content {
+    border-top: 0;
+    padding: 8px 16px 16px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-expander-icon { border-radius: var(--tss-border-radius-sm); }
+
+body.tss-theme-stratus .tss-expander-header > .tss-expander-chevron { order: 2; margin-left: auto; transform: none; }
+body.tss-theme-stratus .tss-expander.tss-expanded > .tss-expander-header > .tss-expander-chevron { transform: rotate(180deg); }
+body.tss-theme-stratus .tss-expander-header > .tss-expander-header-content { order: 1; flex: 1; }
+body.tss-theme-stratus .tss-expander-content .tss-textblock.tss-fontcolor-default { color: var(--tss-secondary-foreground-color); }
+
+
+body.tss-theme-stratus .tss-token {
+    gap: 4px;
+    min-height: 24px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 22px;
+}
+
+body.tss-theme-stratus .tss-sidebar .tss-token {
+    min-height: 20px;
+    padding: 0 8px;
+    font-size: var(--tss-font-size-xsmall);
+    line-height: 18px;
+}
+
+body.tss-theme-stratus .tss-tag {
+    min-height: 24px;
+    padding: 0 8px;
+    font-size: var(--tss-font-size-small);
+    line-height: 22px;
+    border-radius: 3px;
+}
+
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-icon {
+    font-size: 16px;
+}
+
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-content {
+    gap: 8px;
+}
+
+body.tss-theme-stratus .tss-sidebar .tss-token:not(#_) .tss-token-icon {
+    font-size: 12px;
+}
+
+body.tss-theme-stratus .tss-sidebar .tss-token:not(#_) .tss-token-content {
+    gap: 4px;
+}
+
+body.tss-theme-stratus .tss-token:not(.tss-token-primary, .tss-token-success, .tss-token-warning, .tss-token-danger, .tss-token-info, .tss-token-ai, .tss-token-outline, .tss-tag) {
+    background: var(--tss-str-on-fill-2);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-chip,
+body.tss-theme-stratus .tss-token-pill {
+    border-radius: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+body.tss-theme-stratus .tss-chip {
+    min-height: 24px;
+    line-height: 22px;
+}
+
+body.tss-theme-stratus .tss-tag {
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-token-outline {
+    background: transparent;
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-token-info {
+    background: var(--tss-str-blue);
+    color: #fff;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-token-info {
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-primary {
+    color: var(--tss-str-navy);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-success {
+    color: var(--tss-str-success);
+    border-color: var(--tss-str-success);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-warning {
+    color: var(--tss-str-warning-text);
+    border-color: var(--tss-str-warning-text);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-danger {
+    color: var(--tss-str-error);
+    border-color: var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-info {
+    color: var(--tss-str-info);
+    border-color: var(--tss-str-info);
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-removable {
+    gap: 8px;
+    padding-right: 3px;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-removable:not(#_) > .tss-token-remove,
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-remove {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--tss-primary-background-color);
+    color: var(--tss-str-on-fill-2);
+    transition: background-color var(--tss-str-ease), opacity var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-token .tss-token-remove i {
+    font-size: 18px;
+    line-height: 1;
+    transform: translateY(2px);
+}
+
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-remove:hover {
+    background: var(--tss-str-blue);
+}
+
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-remove:active {
+    background: var(--tss-primary-background-active-color);
+}
+
+body.tss-theme-stratus .tss-token.tss-token-removable:not(.tss-token-primary, .tss-token-success, .tss-token-warning, .tss-token-danger, .tss-token-info, .tss-token-ai, .tss-token-outline) {
+    color: var(--tss-str-corporate);
+}
+
+
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove {
+    background: currentColor;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove:hover {
+    background: currentColor;
+    opacity: .65;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove:active {
+    background: currentColor;
+    opacity: .85;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove i { color: var(--tss-primary-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove i { color: var(--tss-success-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove i { color: var(--tss-warning-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove i  { color: var(--tss-danger-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove i    { color: var(--tss-str-blue); }
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove i      { color: var(--tss-ai-accent); }
+
+body.tss-theme-stratus .tss-token.tss-token-outline:not(#_) .tss-token-remove i { color: var(--tss-default-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-outline.tss-token-ai:not(#_) .tss-token-remove i { color: var(--tss-default-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-outline.tss-token-ai:not(#_) .tss-token-remove { background: var(--tss-ai-accent); }
+
+body.tss-theme-stratus .tss-token-remove:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+    border-radius: 50%;
+}
+
+
+body.tss-theme-stratus .tss-icontile {
+    --tss-icontile-radius: 6px;
+}
+
+
+body.tss-theme-stratus {
+    --tss-str-avatar-fill: #ced5dd;
+    --tss-str-avatar-ink: #063b9e;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-avatar-fill: #3a3e44;
+    --tss-str-avatar-ink: #cfddf8;
+}
+
+body.tss-theme-stratus .tss-avatar {
+    font-weight: var(--tss-font-weight-bold);
+    background: var(--tss-str-avatar-fill);
+}
+
+body.tss-theme-stratus .tss-avatar.tss-avatar-generated {
+    background: var(--tss-str-avatar-fill);
+}
+
+body.tss-theme-stratus .tss-avatar.tss-avatar-generated > .tss-avatar-initials,
+body.tss-theme-stratus .tss-avatar > .tss-avatar-initials {
+    color: var(--tss-str-avatar-ink);
+}
+
+body.tss-theme-stratus .tss-avatar-presence {
+    box-sizing: content-box;
+    width: 22%;
+    height: 22%;
+    min-width: 7px;
+    min-height: 7px;
+    right: 6%;
+    bottom: 6%;
+    border-width: 1.5px;
+}
+
+body.tss-theme-stratus .tss-presence-online { background: var(--tss-str-success); }
+body.tss-theme-stratus .tss-presence-away   { background: var(--tss-str-warning); }
+body.tss-theme-stratus .tss-presence-busy   { background: var(--tss-str-error); }
+body.tss-theme-stratus .tss-presence-offline { background: var(--tss-dark-border-color); }
+
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn {
+    min-width: 0;
+    min-height: 0;
+    padding: 3px 8px;
+    margin: 0;
+    line-height: 24px;
+    border: 2px solid transparent;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: var(--tss-str-crumb-link);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn:hover {
+    background: transparent;
+    color: var(--tss-str-link-hover);
+    text-decoration: underline;
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) > button.tss-btn:last-of-type {
+    color: var(--tss-secondary-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) > button.tss-btn:last-of-type:hover {
+    text-decoration: none;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-breadcrumb-chevron {
+    color: var(--tss-str-chevron);
+    font-size: 16px;
+}
+
+body.tss-theme-stratus {
+    --tss-str-link-hover: #002d80;
+    --tss-str-chevron: #919cb0;
+    --tss-str-crumb-link: #255fcc;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-link-hover: #b3cbf8;
+    --tss-str-chevron: #e0e3e9;
+    --tss-str-crumb-link: #638ee0;
+}
+
+
+body.tss-theme-stratus .tss-textbreadcrumb {
+    border-radius: var(--tss-border-radius-sm);
+    border-width: 4px;
+    color: var(--tss-str-crumb-link);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb:hover {
+    border-width: 4px;
+    color: var(--tss-str-link-hover);
+    text-decoration: underline;
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb-wrap:last-child .tss-textbreadcrumb {
+    color: var(--tss-secondary-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb-wrap:last-child .tss-textbreadcrumb:hover {
+    text-decoration: none;
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb-sep {
+    color: var(--tss-str-chevron);
+}
+
+
+body.tss-theme-stratus {
+    --tss-str-corporate: #00205b;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-corporate: #cfddf8;
+}
+
+body.tss-theme-stratus .tss-checkbox-container {
+    --tss-str-mark: 16px;
+    align-items: center;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-small {
+    height: 22px;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-medium,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-mediumplus,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-large,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-xlarge,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-xxlarge,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-mega {
+    --tss-str-mark: 24px;
+}
+
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-mark {
+    box-sizing: border-box;
+    width: var(--tss-str-mark);
+    height: var(--tss-str-mark);
+    border-radius: var(--tss-border-radius-sm);
+    border: 1px solid var(--tss-str-corporate);
+    background-color: transparent;
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 8px;
+    line-height: 16px;
+}
+
+body.tss-theme-stratus .tss-checkbox-container:not(.tss-disabled):hover .tss-checkbox-mark {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-mark:after {
+    left: calc(var(--tss-str-mark) * 0.34);
+    top: calc(var(--tss-str-mark) * 0.07);
+    width: calc(var(--tss-str-mark) * 0.31);
+    height: calc(var(--tss-str-mark) * 0.62);
+    border-color: transparent;
+    border-width: 0 calc(var(--tss-str-mark) / 8) calc(var(--tss-str-mark) / 8) 0;
+}
+
+body.tss-theme-stratus .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark:after {
+    display: none;
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container:not(.tss-disabled):hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled:hover .tss-checkbox-mark {
+    background-color: transparent;
+    border-color: var(--tss-str-corporate);
+}
+
+
+body.tss-theme-stratus .tss-option-container {
+    --tss-str-mark: 16px;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-fontsize-medium,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mediumplus,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-large,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xlarge,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xxlarge,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mega {
+    --tss-str-mark: 24px;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-fontsize-small .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-medium .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mediumplus .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-large .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xlarge .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xxlarge .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mega .tss-option-mark {
+    width: var(--tss-str-mark);
+    height: var(--tss-str-mark);
+}
+
+body.tss-theme-stratus .tss-option-container .tss-option-mark {
+    box-sizing: border-box;
+    margin-left: 0;
+    border: 1px solid var(--tss-str-corporate);
+    background-color: transparent;
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-option-container .tss-option-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-stratus .tss-option-container:not(.tss-disabled):hover .tss-option-mark {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-option-container .tss-option-mark:after {
+    box-sizing: border-box;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--tss-str-mark) / 2);
+    height: calc(var(--tss-str-mark) / 2);
+    border: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-option-container:hover input:not(:checked) ~ .tss-option-mark:after {
+    display: none;
+}
+
+body.tss-theme-stratus .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border-color: var(--tss-primary-background-color);
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-option-container:not(.tss-disabled):hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-primary-background-hover-color);
+    background-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-stratus .tss-option-container:hover input:checked ~ .tss-option-mark:after,
+body.tss-theme-stratus .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    border-color: transparent;
+    background-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-disabled:hover .tss-option-mark {
+    border-color: var(--tss-str-corporate);
+    background-color: transparent;
+}
+
+
+body.tss-theme-stratus .tss-dropdown-container {
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown {
+    height: 40px;
+    padding: 0 8px;
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown.tss-dropdown-noarrow {
+    padding: 0 12px;
+}
+
+body.tss-theme-stratus .tss-dropdown-container:hover {
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid:hover {
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-dropdown-nobg {
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-noborder {
+    border: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-disabled {
+    border: 0;
+    background: var(--tss-str-fill);
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid {
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: 0;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid:has(> .tss-dropdown:focus-visible) {
+    box-shadow: 0 0 0 3px var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown-icon {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-error {
+    color: var(--tss-str-error);
+    font-size: var(--tss-font-size-xsmall);
+    margin-top: 4px;
+}
+
+body.tss-theme-stratus .tss-dropdown-popup {
+    border: 0;
+    border-radius: 0 0 var(--tss-border-radius-sm) var(--tss-border-radius-sm);
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-3);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body.tss-theme-stratus .tss-dropdown-item,
+body.tss-theme-stratus .tss-dropdown-header {
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+    margin: 0;
+    padding: 12px;
+    min-height: 44px;
+    width: 100%;
+    border-width: 0;
+}
+
+body.tss-theme-stratus .tss-dropdown-item.tss-selected,
+body.tss-theme-stratus .tss-dropdown-item.tss-selected:hover {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item:focus,
+body.tss-theme-stratus .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+    background-color: var(--tss-default-background-hover-color);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-item.tss-selected:focus,
+body.tss-theme-stratus .tss-dropdown-item.tss-selected.tss-dropdown-item-focus {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item:focus-visible {
+    box-shadow: inset 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-header {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-stratus .tss-dropdown-divider {
+    background-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: var(--tss-str-fill);
+    border: 0;
+    border-radius: 0;
+    margin: 4px 8px 0;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox.tss-searchbox-container {
+    height: 36px;
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox .tss-searchbox {
+    height: 36px;
+    line-height: 36px;
+}
+
+body.tss-theme-stratus .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-stratus .tss-dropdown-item .tss-btn {
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    font-weight: var(--tss-font-weight-regular) !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    line-height: 20px !important;
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-item .tss-btn {
+    font-weight: inherit !important;
+}
+
+body.tss-theme-stratus .tss-dropdown-item-on-box .tss-btn .tss-fontcolor-default,
+body.tss-theme-stratus .tss-dropdown-item .tss-btn .tss-fontcolor-default {
+    color: inherit !important;
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-item:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-container :focus-visible {
+    outline: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-container:has(input:focus-visible) {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+
+body.tss-theme-stratus .tss-cron-editor {
+    border: 0;
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-cron-desc {
+    border-bottom-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-cron-open {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown.tss-dropdown-container {
+    background-color: var(--tss-str-blue-soft);
+    box-shadow: none;
+    border-radius: var(--tss-border-radius-sm);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background-color: var(--tss-str-blue-tint);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown.tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    background-color: var(--tss-str-blue-tint);
+    box-shadow: 0 0 0 2px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-stratus .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-stratus .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: var(--tss-str-navy) !important;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-stratus.tss-dark-mode .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-stratus.tss-dark-mode .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: var(--tss-default-foreground-color) !important;
+}
+
+
+body.tss-theme-stratus .tss-filedroparea {
+    border: 2px dashed var(--tss-str-rule);
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-str-fill);
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-filedroparea:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-filedroparea.tss-dropping {
+    background: var(--tss-default-background-active-color);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-filedroparea-message {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-filedroparea-icon {
+    color: var(--tss-str-navy);
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-stratus .tss-filedroparea.tss-dropping .tss-filedroparea-icon {
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-stratus .tss-filedroparea-overlay {
+    border-color: var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-lg);
+}
+
+
+body.tss-theme-stratus .tss-contextmenu-popup {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+    background: var(--tss-str-elevated-surface);
+    padding: 8px 0;
+}
+
+body.tss-theme-stratus .tss-contextmenu-item {
+    background: transparent;
+    border: 0;
+    min-height: 40px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item:hover,
+body.tss-theme-stratus .tss-contextmenu-item.tss-selected {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item:focus {
+    border: 0;
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -2px;
+}
+
+body.tss-theme-stratus .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    outline: 0;
+}
+
+body.tss-theme-stratus .tss-contextmenu-item:active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-header {
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+    min-height: 32px;
+    line-height: 32px;
+}
+
+body.tss-theme-stratus .tss-contextmenu-divider {
+    background-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-stratus .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background-color: transparent;
+}
+
+body.tss-theme-stratus .tss-horizontalseparator-container {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+body.tss-theme-stratus .tss-horizontalseparator-container::before,
+body.tss-theme-stratus .tss-horizontalseparator-container::after { background-color: var(--tss-str-panel-border, #919cb0); }
+body.tss-theme-stratus .tss-horizontalseparator { color: var(--tss-secondary-foreground-color); }
+
+
+body.tss-theme-stratus .tss-editablelabel-displaybox {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-editablelabel-textbox {
+    min-height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-editablelabel-cancel-icon {
+    color: var(--tss-str-error);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-layer-content { border: 0; border-radius: var(--tss-border-radius-md); box-shadow: var(--tss-str-elev-2); }
+body.tss-theme-stratus .tss-layer-content.tss-layer-content-transparent { border: 0; box-shadow: none; }
+
+
+body.tss-theme-stratus {
+    --tss-detailslist-default-padding: 10px 16px;
+    --tss-str-head-rule: #919cb0;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-head-rule: #e0e3e9;
+}
+
+body.tss-theme-stratus .tss-detailslist-header {
+    background: var(--tss-str-on-fill);
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-head-rule);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header {
+    padding: 14px 16px;
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container,
+body.tss-theme-stratus .tss-detailslist-list-item-container:last-of-type {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container:nth-of-type(even) {
+    background-color: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container.tss-selected,
+body.tss-theme-stratus .tss-detailslist-list-item-container[aria-selected="true"],
+body.tss-theme-stratus .tss-detailslist-list-item-container.tss-selected:nth-of-type(even),
+body.tss-theme-stratus .tss-detailslist-list-item-container[aria-selected="true"]:nth-of-type(even) {
+    background-color: var(--tss-default-background-active-color);
+    box-shadow: none;
+}
+
+
+body.tss-theme-stratus .tss-layer-picker-suggestions {
+    border-radius: 0 0 var(--tss-border-radius-sm) var(--tss-border-radius-sm);
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-3);
+}
+
+body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-label {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-suggestion {
+    padding: 12px;
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-picker-selection {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-picker-selection:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-picker-remove {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-picker-remove:hover {
+    border-color: transparent;
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-panel { box-shadow: var(--tss-str-elev-6); background-color: var(--tss-str-elevated-surface); }
+body.tss-theme-stratus .tss-panel-command { height: 56px; border-bottom: 1px solid var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-panel-title { padding-left: 24px; font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }
+body.tss-theme-stratus .tss-panel-command-button { border-radius: var(--tss-border-radius-sm); width: 40px; height: 40px; margin-right: 8px; font-weight: normal; }
+body.tss-theme-stratus .tss-panel-command-button:hover { outline: none; }
+body.tss-theme-stratus .tss-panel-command-button:active { color: var(--tss-str-navy); outline: none; }
+body.tss-theme-stratus .tss-panel-command-button:focus-visible { outline: 2px solid var(--tss-str-focus); outline-offset: 0; }
+body.tss-theme-stratus .tss-panel-inner { padding: 24px; }
+
+body.tss-theme-stratus .tss-panel-title > *,
+body.tss-theme-stratus .tss-panel-title .tss-textblock { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }
+
+body.tss-theme-stratus .tss-drawer { box-shadow: var(--tss-str-elev-6); background-color: var(--tss-str-elevated-surface); border-top-left-radius: var(--tss-border-radius-xl); border-top-right-radius: var(--tss-border-radius-xl); }
+body.tss-theme-stratus .tss-drawer-handle-bar { background: var(--tss-dark-border-color); }
+body.tss-theme-stratus .tss-drawer-header { border-bottom: 1px solid var(--tss-default-separator-color); padding-left: 24px; font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-drawer-close { border-radius: var(--tss-border-radius-sm); }
+
+body.tss-theme-stratus .tss-drawer-title > *,
+body.tss-theme-stratus .tss-drawer-title .tss-textblock { font-weight: var(--tss-font-weight-bold); }
+
+
+body.tss-theme-stratus {
+    --tss-str-corporate: #063b9e;
+    --tss-str-tab-rule: #00205b;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-corporate: #cfddf8;
+    --tss-str-tab-rule: #cfddf8;
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar {
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab {
+    border: 0;
+    border-radius: 0;
+    min-width: 0;
+    min-height: 40px;
+    padding: 8px 16px;
+    line-height: 24px;
+    margin: 0;
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-str-corporate);
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-tab-rule);
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-str-corporate);
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-tab-rule);
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -2px;
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) > .tss-btn.tss-pivot-tab.tss-pivot-selected-title,
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) > .tss-pivot-selected-title > span,
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) > .tss-pivot-selected-title > div {
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-pivot-line {
+    height: 4px;
+    border-radius: 0;
+    background-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar-more,
+body.tss-theme-stratus .tss-pivot-titlebar-scroll-left,
+body.tss-theme-stratus .tss-pivot-titlebar-scroll-right {
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:not(.tss-pivot-tab) {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:not(.tss-pivot-tab):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+
+body.tss-theme-stratus .tss-cardpivot-titlebar {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-cardpivot-tab {
+    border-right-color: var(--tss-default-border-color);
+    border-bottom: 4px solid transparent;
+}
+
+body.tss-theme-stratus .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: 4px solid var(--tss-str-navy);
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-cardpivot-tab.tss-cardpivot-selected * {
+    color: var(--tss-str-navy);
+}
+
+
+body.tss-theme-stratus {
+    --tss-str-seg-frame: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar {
+    background: var(--tss-default-background-color);
+    box-shadow: none;
+    border: 1px solid var(--tss-str-seg-frame);
+    border-radius: 4px;
+    padding: 0;
+    overflow: hidden;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-stratus .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    border-radius: 4px;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab {
+    position: relative;
+    border-radius: 0;
+    padding: 6px 16px;
+    font-size: var(--tss-font-size-small);
+    line-height: 24px;
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-str-navy);
+    background: transparent;
+    box-shadow: none;
+    transition: background-color var(--tss-str-ease), color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab,
+body.tss-theme-stratus .tss-segmentedpivot-tab *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab + .tss-segmentedpivot-tab::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 0;
+    border-left: 1px solid var(--tss-str-seg-frame);
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected::before,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected + .tss-segmentedpivot-tab::before,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover::before,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover + .tss-segmentedpivot-tab::before {
+    display: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab:active {
+    background: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab:active,
+body.tss-theme-stratus .tss-segmentedpivot-tab:active *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -4px;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    outline-color: var(--tss-primary-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-navy);
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
+    padding: 6px 8px;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-titlebar {
+    padding: 0;
+    width: 44px;
+    box-sizing: border-box;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    margin-bottom: 0;
+    padding: 5px 4px;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-tab-icon {
+    height: 40px;
+    padding: 0;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab + .tss-segmentedpivot-tab::before {
+    top: 0;
+    bottom: auto;
+    left: 8px;
+    right: 8px;
+    height: 0;
+    border-left: 0;
+    border-top: 1px solid var(--tss-str-seg-frame);
+}
+
+body.tss-theme-stratus .tss-metric-title { color: var(--tss-secondary-foreground-color); }
+body.tss-theme-stratus .tss-metric-value { font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-metric-clickable { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-metric-clickable:hover { background: var(--tss-default-background-hover-color); box-shadow: 0 0 0 6px var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-metric-clickable:focus-visible { outline: 2px solid var(--tss-str-focus); }
+
+
+body.tss-theme-stratus .tss-gantt {
+    border-radius: 8px;
+}
+
+body.tss-theme-stratus .tss-gantt-bar {
+    border-radius: 3px;
+}
+
+body.tss-theme-stratus .tss-gantt-tick-label,
+body.tss-theme-stratus .tss-gantt-bar-text {
+    font-family: var(--tss-monospace-font-family);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-stratus .tss-progressindicator { height: 8px; border-radius: 4px; background-color: var(--tss-str-fill-2); }
+body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar { background: var(--tss-str-blue); border-radius: 4px; }
+body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar-indeterminate { background: var(--tss-str-blue); border-radius: 4px; min-width: 25%; }
+
+
+body.tss-theme-stratus { --tss-str-surface-6: #ffffff; }
+body.tss-theme-stratus.tss-dark-mode { --tss-str-surface-6: #32353b; }
+
+body.tss-theme-stratus .tss-modal-container { backdrop-filter: none; }
+
+body.tss-theme-stratus .tss-modal {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-6);
+    background-color: var(--tss-str-surface-6);
+    outline-color: transparent;
+}
+
+body.tss-theme-stratus .tss-modal.tss-embedded { box-shadow: var(--tss-str-elev-1); border-radius: var(--tss-border-radius-lg); }
+
+body.tss-theme-stratus .tss-modal-header,
+body.tss-theme-stratus .tss-modal-footer { background: var(--tss-str-surface-6); padding-left: 24px; padding-right: 24px; }
+
+body.tss-theme-stratus .tss-modal-header { padding-top: 24px; padding-bottom: 0; min-height: 32px; border-bottom: 0; }
+body.tss-theme-stratus .tss-modal-footer { padding-top: 16px; padding-bottom: 24px; border-top: 0; }
+
+body.tss-theme-stratus .tss-modal-footer:not(:has(> :not(:empty))) { padding-top: 0; padding-bottom: 0; }
+
+body.tss-theme-stratus .tss-modal-content { padding: 16px 24px; }
+body.tss-theme-stratus .tss-modal-footer-commands > .tss-btn + .tss-btn { margin-left: 16px; }
+
+body.tss-theme-stratus .tss-modal-header-commands > .tss-btn,
+body.tss-theme-stratus .tss-modal-header-commands > button,
+body.tss-theme-stratus .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-stratus .tss-modal-left-header-commands > button { border-radius: var(--tss-border-radius-sm); }
+
+body.tss-theme-stratus .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-stratus .tss-modal-header-commands > button:active,
+body.tss-theme-stratus .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-stratus .tss-modal-left-header-commands > button:active { color: var(--tss-str-navy); }
+
+body.tss-theme-stratus .tss-modal-header-content,
+body.tss-theme-stratus .tss-modal-header-content > *,
+body.tss-theme-stratus .tss-modal-header-content .tss-textblock { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); line-height: 32px; }
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header { padding: 24px 24px 0 24px; border-bottom: 0; }
+body.tss-theme-stratus .tss-dialog .tss-modal-content { padding: 16px 24px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer { padding: 16px 24px 24px 24px; border-top: 0; }
+
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-commands,
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content { gap: 16px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer .tss-btn { margin-left: 0; margin-right: 16px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer .tss-btn:last-child { margin-right: 0; }
+
+body.tss-theme-stratus .tss-dialog .tss-modal-content.tss-modal-centered-content {
+    text-align: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content { justify-content: flex-end; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content > .tss-stack { gap: 16px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content .tss-btn { margin: 0; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content > .tss-stack { justify-content: flex-end !important; width: 100%; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content > .tss-stack[style*="row-reverse"] { justify-content: flex-start !important; }
+
+body.tss-theme-stratus .tss-dialog {
+    min-width: min(448px, calc(100vw - 32px));
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-content > .tss-textblock {
+    max-width: 400px !important;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content > .tss-textblock {
+    max-width: 360px !important;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content,
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content,
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content > *,
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content .tss-textblock {
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header-commands:not(:has(.tss-btn)) {
+    padding: 0;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header:not(:has(.tss-modal-header-content > *)) {
+    min-height: 0;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header:not(:has(.tss-modal-header-content > *)) + .tss-modal-content {
+    padding-top: 0;
+}
+
+
+body.tss-theme-stratus .tss-pagination-buttons {
+    gap: 8px;
+}
+
+body.tss-theme-stratus .tss-pagination-button {
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-sm);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 24px;
+    transition: background-color var(--tss-str-ease), color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-pagination-button:hover:not(:disabled):not(.tss-active) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-pagination-button.tss-active {
+    background: var(--tss-primary-background-active-color);
+    border-color: transparent;
+    color: var(--tss-primary-foreground-active-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-pagination-button:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-pagination-nav {
+    border-color: var(--tss-str-navy);
+    background: var(--tss-default-background-color);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-pagination-nav:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-pagination-nav:active:not(:disabled) {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-pagination-nav:first-child {
+    margin-right: 16px;
+}
+
+body.tss-theme-stratus .tss-pagination-nav:last-child {
+    margin-left: 16px;
+}
+
+body.tss-theme-stratus .tss-pagination-button.tss-disabled,
+body.tss-theme-stratus .tss-pagination-button:disabled {
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-pagination-ellipsis {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-pagination-status {
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-pagination-footer {
+    background: var(--tss-str-on-fill);
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+
+body.tss-theme-stratus .tss-inlinelabel {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-inlinelabel-image {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+
+body.tss-theme-stratus .tss-searchbox-container {
+    height: 40px;
+    padding: 0 8px;
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-searchbox-container:hover {
+    border: 0;
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-searchbox-container:focus-within {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-searchbox-container.tss-disabled {
+    border: 0;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-searchbox {
+    height: 100%;
+    line-height: 40px;
+}
+
+body.tss-theme-stratus .tss-searchbox::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-searchbox:hover::placeholder,
+body.tss-theme-stratus .tss-searchbox:focus::placeholder {
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-searchbox-container.tss-underlined {
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    padding-bottom: 0;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-searchbox-container.tss-underlined:focus-within {
+    background: transparent;
+    padding-bottom: 0;
+    box-shadow: 0 2px 0 0 var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-searchbox-container.tss-searchbox-failed,
+body.tss-theme-stratus .tss-searchbox-container.tss-searchbox-failed:hover {
+    border: 0;
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-searchbox-container.tss-searchbox-failed:focus-within {
+    box-shadow: 0 0 0 3px var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-searchbox-clear,
+body.tss-theme-stratus .tss-searchbox-cancel {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-searchbox-clear:focus-visible,
+body.tss-theme-stratus .tss-searchbox-cancel:focus-visible {
+    outline-color: var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-searchbox-failed-icon {
+    color: var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-searchbox-progress {
+    height: 3px;
+}
+
+body.tss-theme-stratus .tss-searchbox:focus-visible {
+    outline: none;
+}
+
+
+body.tss-theme-stratus .tss-omnibox-container {
+    --tss-omnibox-radius: 3px;
+    border: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: 20px;
+    border-radius: 20px;
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-chat-and-search,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-mode-chat,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 8px;
+    border-radius: 8px;
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):focus-within {
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-chat-and-search:focus-within,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-mode-chat:focus-within {
+    box-shadow: var(--tss-str-elev-1), 0 0 0 2px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-omnibox-container .tss-omnibox-search-container {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container,
+body.tss-theme-stratus .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-disabled {
+    opacity: .4;
+    background: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-disabled .tss-omnibox-search-container {
+    background-color: transparent;
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(#_) .tss-btn.tss-btn-default {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(#_) .tss-btn.tss-btn-primary {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(#_):not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn,
+body.tss-theme-stratus .tss-omnibox-container:not(#_):not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    border-left-color: transparent;
+    border-right-color: transparent;
+    background: transparent;
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-omnibox-search-input::placeholder {
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}
+
+
+body.tss-theme-stratus .tss-annotated-text-container {
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-annotated-text-container:hover {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-annotated-text-container:focus-within {
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-annotated-text-container.tss-disabled {
+    background: var(--tss-str-fill);
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-annotated-text-container.tss-annotated-text-readonly {
+    background: transparent;
+    box-shadow: 0 -1px 0 0 var(--tss-str-rule) inset;
+}
+
+body.tss-theme-stratus .tss-annotated-text-input::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-annotated-text-entity {
+    border-radius: var(--tss-border-radius-sm);
+    outline-color: var(--tss-str-info);
+    background-color: var(--tss-str-info-soft);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-annotated-text-entity {
+    background-color: rgba(134, 168, 233, 0.24);
+    outline-color: rgba(134, 168, 233, 0.7);
+}
+
+body.tss-theme-stratus .tss-annotated-text-hover-tag,
+body.tss-theme-stratus.tss-dark-mode .tss-annotated-text-hover-tag {
+    border: 0;
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    box-shadow: var(--tss-str-elev-2);
+}
+
+body.tss-theme-stratus .tss-sectiontitle-title { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }
+body.tss-theme-stratus .tss-sectiontitle-subtitle { color: var(--tss-secondary-foreground-color); }
+
+body.tss-theme-stratus .tss-sectionstack-card { border-radius: var(--tss-border-radius-lg); box-shadow: var(--tss-str-elev-1); }
+
+
+body.tss-theme-stratus {
+    --tss-str-slider-track: #ced5dd;
+    --tss-str-slider-thumb: 18px;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-slider-track: #3a3e44;
+}
+
+body.tss-theme-stratus .tss-slider-fake-progress,
+body.tss-theme-stratus .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-slider-fake-background,
+body.tss-theme-stratus .tss-slider-container input:hover ~ .tss-slider-fake-background,
+body.tss-theme-stratus .tss-slider:hover {
+    background-color: var(--tss-str-slider-track);
+}
+
+body.tss-theme-stratus .tss-slider-container:not(.tss-vertical) .tss-slider {
+    margin: 0;
+}
+
+body.tss-theme-stratus .tss-slider-container:not(.tss-vertical) .tss-slider.tss-fake {
+    top: 8px;
+}
+
+body.tss-theme-stratus .tss-slider::-webkit-slider-thumb {
+    box-sizing: border-box;
+    width: var(--tss-str-slider-thumb);
+    height: var(--tss-str-slider-thumb);
+    background-color: var(--tss-primary-background-hover-color);
+    border: 2px solid var(--tss-default-background-color);
+    border-radius: 50%;
+    box-shadow: var(--tss-str-elev-2);
+}
+
+body.tss-theme-stratus .tss-slider::-moz-range-thumb {
+    box-sizing: border-box;
+    width: var(--tss-str-slider-thumb);
+    height: var(--tss-str-slider-thumb);
+    background-color: var(--tss-primary-background-hover-color);
+    border: 2px solid var(--tss-default-background-color);
+    border-radius: 50%;
+    box-shadow: var(--tss-str-elev-2);
+}
+
+body.tss-theme-stratus .tss-slider:hover::-webkit-slider-thumb,
+body.tss-theme-stratus .tss-slider:active::-webkit-slider-thumb {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-slider:hover::-moz-range-thumb,
+body.tss-theme-stratus .tss-slider:active::-moz-range-thumb {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: var(--tss-str-slider-thumb);
+    height: var(--tss-str-slider-thumb);
+}
+
+body.tss-theme-stratus .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: var(--tss-str-slider-thumb);
+    height: var(--tss-str-slider-thumb);
+}
+
+body.tss-theme-stratus .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-slider:focus-visible::-moz-range-thumb {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-slider-container:has(input.tss-disabled) {
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-stratus .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background-color: var(--tss-str-slider-track);
+}
+
+body.tss-theme-stratus .tss-slider.tss-disabled::-webkit-slider-thumb {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-slider.tss-disabled::-moz-range-thumb {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
+    box-shadow: none;
+}
+
+
+body.tss-theme-stratus .tss-spinner {
+    --tss-spinner-color: var(--tss-str-blue);
+    border-color: var(--tss-spinner-color);
+    border-right-color: transparent;
+    animation-duration: .75s;
+    animation-timing-function: linear;
+}
+body.tss-theme-stratus .tss-spinner.tss-spinner-progress {
+    border-color: transparent;
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-str-fill-2) 0);
+}
+body.tss-theme-stratus .tss-spinner-success { --tss-spinner-color: var(--tss-str-success); }
+body.tss-theme-stratus .tss-spinner-danger { --tss-spinner-color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-spinner-warning { --tss-spinner-color: var(--tss-str-warning-edge); }
+
+body.tss-theme-stratus .tss-spinner-size-xsmall .tss-spinner { width: 12px; height: 12px; --tss-spinner-size: 2px; }
+body.tss-theme-stratus .tss-spinner-size-small .tss-spinner { width: 16px; height: 16px; --tss-spinner-size: 2px; }
+body.tss-theme-stratus .tss-spinner-size-medium .tss-spinner { width: 24px; height: 24px; --tss-spinner-size: 3px; }
+body.tss-theme-stratus .tss-spinner-size-large .tss-spinner { width: 56px; height: 56px; --tss-spinner-size: 4px; }
+
+body.tss-theme-stratus .tss-spinner-label { color: var(--tss-default-foreground-color); font-size: var(--tss-font-size-small); line-height: 20px; }
+
+
+body.tss-theme-stratus .tss-commandbar {
+    background: var(--tss-str-on-fill);
+    border: 0;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-sm);
+    padding: 4px 8px;
+}
+
+body.tss-theme-stratus .tss-commandbar-item {
+    border-radius: var(--tss-border-radius-sm);
+    font-family: inherit;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    padding: 8px 12px;
+    color: var(--tss-str-navy);
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-commandbar-item:hover {
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-commandbar-item:active {
+    background: var(--tss-str-blue-tint);
+}
+
+body.tss-theme-stratus .tss-commandbar-item:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 1px;
+}
+
+body.tss-theme-stratus .tss-commandbar-item-primary {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-commandbar-item-primary:hover {
+    background: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-commandbar-item-primary:active {
+    background: var(--tss-primary-background-active-color);
+}
+
+body.tss-theme-stratus .tss-commandbar-item.tss-disabled,
+body.tss-theme-stratus .tss-commandbar-item:disabled {
+    opacity: .4;
+}
+
+
+body.tss-theme-stratus .tss-commandpalette-overlay {
+    background: var(--tss-overlay-light);
+}
+
+body.tss-theme-stratus .tss-commandpalette-animator {
+    background: var(--tss-str-elevated-surface);
+    border: 0;
+    border-radius: var(--tss-border-radius-xl);
+    box-shadow: var(--tss-str-elev-6);
+}
+
+body.tss-theme-stratus .tss-commandpalette-search-container {
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-commandpalette-search:not(#_),
+body.tss-theme-stratus .tss-omnibox-container.tss-commandpalette-search:not(#_):hover,
+body.tss-theme-stratus .tss-omnibox-container.tss-commandpalette-search:not(#_):focus-within {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-commandpalette-section {
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+    letter-spacing: .04em;
+}
+
+body.tss-theme-stratus .tss-commandpalette-item {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-commandpalette-item.tss-active {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle,
+body.tss-theme-stratus .tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    border-color: var(--tss-str-rule);
+    color: var(--tss-default-foreground-color);
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-commandpalette-result.tss-active,
+body.tss-theme-stratus .tss-commandpalette-result:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-commandpalette-result.tss-active {
+    background: var(--tss-default-background-active-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-commandpalette-shortcut {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: var(--tss-str-rule);
+    background: var(--tss-str-on-fill);
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-stratus .tss-commandpalette-back:not(#_),
+body.tss-theme-stratus .tss-commandpalette-close:not(#_) {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+
+body.tss-theme-stratus .tss-sidebar {
+    border-right: 0;
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-sidebar.tss-sidebar-page {
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default,
+body.tss-theme-stratus .tss-navbar-drawer:not(#_) .tss-btn.tss-btn-default {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-corporate);
+    font-weight: var(--tss-font-weight-regular);
+    border-radius: 0;
+    min-height: 40px;
+    line-height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-navbar-drawer:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: transparent;
+    color: var(--tss-default-foreground-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: var(--tss-default-background-active-color);
+    border-color: transparent;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-btn.tss-sidebar-btn:not(.tss-sidebar-command):not(.tss-sidebar-nav-arrow):not(.tss-sidebar-btn-closed-icon) {
+    height: 40px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: transparent;
+    color: var(--tss-default-foreground-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) {
+    background: var(--tss-default-background-active-color);
+    border-color: transparent;
+    color: var(--tss-str-corporate);
+    font-weight: var(--tss-font-weight-bold);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-corporate);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) > .tss-stack-item:nth-child(2) {
+    width: calc(100% + 24px) !important;
+    overflow-x: hidden;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
+    overflow: visible;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open,
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-nav-children > .tss-stack-item {
+    margin-bottom: 0;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100vw;
+    right: -100vw;
+    z-index: -1;
+    background: transparent;
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover::before,
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-nav-header.tss-sidebar-btn-open:hover::before {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open:not(.tss-sidebar-selected):active::before {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open.tss-sidebar-selected::before {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-str-corporate);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav-header > .tss-btn.tss-sidebar-nav-button {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav-header > .tss-btn.tss-sidebar-nav-button:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-commands .tss-btn.tss-btn-default {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-sidebar-btn-open:not(.tss-sidebar-identity) > .tss-sidebar-commands {
+    top: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+body.tss-theme-stratus .tss-sidebar-badge,
+body.tss-theme-stratus .tss-sidebar-badges .tss-badge {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-stratus .tss-sidebar-separator {
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-sidebar .tss-searchbox-container {
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-navbar {
+    border-bottom: 1px solid var(--tss-default-border-color);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-navbar-drawer {
+    box-shadow: var(--tss-str-elev-4);
+}
+
+body.tss-theme-stratus .tss-sidebar-nav-overlay-panel {
+    box-shadow: var(--tss-str-elev-4);
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+}
+
+
+body.tss-theme-stratus .tss-sidenav {
+    border-right: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-sidenav-footer {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(#_) {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(#_):hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-label {
+    font-size: var(--tss-font-size-tiny);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: 0;
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:not(#_),
+body.tss-theme-stratus .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:not(#_):hover {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+    border-color: transparent;
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-label {
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-dot {
+    background: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
+    background: var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-dot.tss-sidenav-btn-dot-warning {
+    background: var(--tss-str-warning);
+    box-shadow: 0 0 0 1px var(--tss-str-warning-edge);
+}
+
+body.tss-theme-stratus .tss-splitview > .tss-splitter:before { background: var(--tss-default-border-color); }
+body.tss-theme-stratus .tss-splitview > .tss-splitter:after { background: var(--tss-dark-border-color); border-radius: 9999px; }
+body.tss-theme-stratus .tss-splitview > .tss-splitter:hover:before,
+body.tss-theme-stratus .tss-splitview > .tss-splitter:active:before { background: var(--tss-str-focus) !important; }
+body.tss-theme-stratus .tss-splitview > .tss-splitter:hover:after,
+body.tss-theme-stratus .tss-splitview > .tss-splitter:active:after { background: var(--tss-str-focus) !important; }
+
+
+body.tss-theme-stratus .tss-toggle-container {
+    align-items: center;
+    height: 24px;
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-mark {
+    box-sizing: border-box;
+    width: 48px;
+    height: 24px;
+    border-radius: 40px;
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-str-corporate);
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-text {
+    margin-left: 8px;
+    min-height: 24px;
+    line-height: 24px;
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-text .tss-textblock {
+    font-size: var(--tss-font-size-smallplus);
+    line-height: 24px;
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-mark:after {
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--tss-primary-background-color);
+    box-shadow: var(--tss-str-elev-2);
+    transition: transform .25s ease-in-out;
+}
+
+body.tss-theme-stratus .tss-toggle-container:not(.tss-disabled):hover .tss-toggle-mark {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-toggle-container:not(.tss-disabled):hover .tss-toggle-mark:after {
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container:hover input:checked ~ .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container:not(.tss-disabled):hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-stratus .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    left: 2px;
+    background-color: var(--tss-default-background-color);
+    transform: translate(24px, 0);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container.tss-disabled:hover .tss-toggle-mark {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container.tss-disabled:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+
+body.tss-theme-stratus .tss-icon-toggle {
+    --tss-icon-toggle-radius: var(--tss-border-radius-lg);
+    background: var(--tss-str-fill-2);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: var(--tss-str-fill-3);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 1px;
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-icon-toggle.tss-icon-toggle-disabled {
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-skeleton { background: var(--tss-str-on-fill); border-radius: 3px; }
+body.tss-theme-stratus .tss-skeleton-circle { border-radius: 50%; }
+body.tss-theme-stratus .tss-skeleton-animated::after { background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0)); }
+body.tss-theme-stratus.tss-dark-mode .tss-skeleton-animated::after { background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0)); }
+
+
+body.tss-theme-stratus .tss-stepper-step {
+    border-radius: var(--tss-border-radius-sm);
+    padding: 6px 8px;
+    column-gap: 8px;
+}
+
+body.tss-theme-stratus .tss-stepper-circle {
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    border: 0;
+    background: var(--tss-str-on-fill);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 32px;
+}
+
+body.tss-theme-stratus .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 0;
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-stepper-label {
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-str-navy);
+    border: 0;
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-stepper-active .tss-stepper-label {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-complete .tss-stepper-circle {
+    background: var(--tss-default-background-color);
+    border: 2px solid var(--tss-str-navy);
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-complete .tss-stepper-label {
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-description {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-stepper-header {
+    gap: 40px;
+}
+
+body.tss-theme-stratus .tss-stepper-step {
+    position: relative;
+}
+
+body.tss-theme-stratus .tss-stepper-step + .tss-stepper-step::before {
+    content: "";
+    position: absolute;
+    left: -32px;
+    top: calc(50% - 1px);
+    width: 24px;
+    height: 2px;
+    background: var(--tss-str-on-fill-2);
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-stepper-complete + .tss-stepper-step::before,
+body.tss-theme-stratus .tss-stepper-active + .tss-stepper-step.tss-stepper-complete::before {
+    background: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-stepper-content {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+    padding: 16px;
+}
+
+body.tss-theme-stratus .tss-stepper-nav {
+    border: 2px solid var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+    color: var(--tss-str-navy);
+    background: var(--tss-default-background-color);
+    font-weight: var(--tss-font-weight-bold);
+    min-height: 40px;
+    padding: 6px 16px;
+    line-height: 24px;
+}
+
+body.tss-theme-stratus .tss-stepper-nav:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-stepper-nav:disabled,
+body.tss-theme-stratus .tss-stepper-nav.tss-disabled {
+    opacity: .4;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-circle,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-label {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-active .tss-stepper-circle {
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-active .tss-stepper-label,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-complete .tss-stepper-label,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-complete .tss-stepper-circle {
+    color: var(--tss-str-corporate);
+}
+
+
+body.tss-theme-stratus .tss-carousel-nav {
+    border: 0;
+    background: var(--tss-str-elevated-surface);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-str-elev-2);
+    transition: background-color var(--tss-str-ease), box-shadow var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-carousel-nav:hover:not(.tss-disabled):not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: var(--tss-str-elev-3);
+}
+
+body.tss-theme-stratus .tss-carousel-nav:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-carousel-nav:disabled,
+body.tss-theme-stratus .tss-carousel-nav.tss-disabled {
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-carousel-indicator {
+    border-color: var(--tss-str-rule);
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-carousel-indicator.tss-active {
+    background: var(--tss-str-navy);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-carousel-indicator:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+
+body.tss-theme-stratus .tss-timeline-owner {
+    background-image: linear-gradient(var(--tss-default-border-color), var(--tss-default-border-color));
+}
+
+body.tss-theme-stratus .tss-timeline-container .tss-timeline-content {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+
+body.tss-theme-stratus .tss-conversation-comment {
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tss-conversation-comment-header {
+    border-radius: 5px 5px 0 0;
+    background: var(--tss-str-on-fill);
+}
+
+body.tss-theme-stratus .tss-conversation-comment-highlighted {
+    box-shadow: 0 0 0 2px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-conversation-composer-box {
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tss-conversation-composer-tabs {
+    border-radius: 5px 5px 0 0;
+}
+
+
+body.tss-theme-stratus .tss-gridpicker-button {
+    border-radius: 2px;
+    background-color: var(--tss-str-on-fill-2);
+    box-shadow: none;
+}
+
+
+body.tss-theme-stratus { --tss-str-tip-bg: #00205b; --tss-str-tip-fg: #ffffff; }
+body.tss-theme-stratus.tss-dark-mode { --tss-str-tip-bg: #ffffff; --tss-str-tip-fg: #14171d; }
+
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover']) {
+    background-color: var(--tss-str-tip-bg);
+    color: var(--tss-str-tip-fg);
+    border-radius: 3px;
+    box-shadow: var(--tss-str-elev-1);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
+    opacity: .9;
+}
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover']) > .tippy-content { padding: 4px 8px; }
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover']) > .tippy-arrow { color: var(--tss-str-tip-bg); }
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover'])[data-state=hidden] { opacity: 0; }
+body.tss-theme-stratus .tippy-box[data-theme~='tss-popover'] { box-shadow: none; border-radius: 0; font-size: var(--tss-font-size-small); font-weight: inherit; opacity: 1; }
+
+body.tss-theme-stratus .tippy-box[data-theme~='tss-popover'] > .tippy-arrow { color: var(--tss-str-elevated-surface); }
+body.tss-theme-stratus .tss-popover { font-size: var(--tss-font-size-small); }
+
+
+body.tss-theme-stratus .tss-menu {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+    padding: 8px 0;
+    background-color: var(--tss-str-elevated-surface);
+}
+
+body.tss-theme-stratus .tss-menu-item {
+    padding: 8px 16px;
+    min-height: 40px;
+    box-sizing: border-box;
+    border: 0;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-menu-item:hover,
+body.tss-theme-stratus .tss-menu-item:focus,
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-open {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-menu-item:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -2px;
+}
+
+body.tss-theme-stratus .tss-menu-item:active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) {
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) {
+    color: var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: var(--tss-str-warning-text);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
+    color: var(--tss-str-success);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-menu-header {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-menu-divider {
+    background-color: var(--tss-default-separator-color);
+}
+
+
+body.tss-theme-stratus .tss-tagsinput {
+    min-height: 40px;
+    padding: 4px 8px;
+    font-weight: var(--tss-font-weight-regular);
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-tagsinput:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-tagsinput:focus-within {
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-tagsinput-chip {
+    background: var(--tss-str-blue-soft);
+    color: var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-full);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    padding: 2px 4px 2px 10px;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-tagsinput-chip {
+    background: var(--tss-str-blue-tint);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-tagsinput-chip-remove {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-str-blue-tint);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-str-fill-3);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-tagsinput-entry:focus-visible {
+    outline: none;
+}
+
+
+body.tss-theme-stratus .tss-actionbutton-container {
+    border: 1px solid var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+    overflow: hidden;
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn:active,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-left: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:active {
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary { background: var(--tss-primary-background-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:hover { background: var(--tss-primary-background-hover-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:active { background: var(--tss-primary-background-active-color); }
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:active {
+    color: var(--tss-danger-foreground-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger { background: var(--tss-danger-background-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:hover { background: var(--tss-danger-background-hover-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:active { background: var(--tss-danger-background-active-color); }
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:active {
+    color: var(--tss-warning-foreground-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning { background: var(--tss-warning-background-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:hover { background: var(--tss-warning-background-hover-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:active { background: var(--tss-warning-background-active-color); }
+
+body.tss-theme-stratus .tss-message-icon { background: var(--tss-str-on-fill); color: var(--tss-secondary-foreground-color); }
+body.tss-theme-stratus .tss-message-title { font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-message-text { color: var(--tss-secondary-foreground-color); }
+body.tss-theme-stratus .tss-message-info, body.tss-theme-stratus .tss-message-success, body.tss-theme-stratus .tss-message-warning, body.tss-theme-stratus .tss-message-error { border-radius: var(--tss-border-radius-sm); border: 0; border-left: 4px solid transparent; }
+body.tss-theme-stratus .tss-message-info    { background-color: color-mix(in srgb, var(--tss-str-info) 11%, var(--tss-default-background-color));    border-left-color: var(--tss-str-info); }
+body.tss-theme-stratus .tss-message-success { background-color: color-mix(in srgb, var(--tss-str-success) 11%, var(--tss-default-background-color)); border-left-color: var(--tss-str-success); }
+body.tss-theme-stratus .tss-message-warning { background-color: color-mix(in srgb, var(--tss-str-warning) 11%, var(--tss-default-background-color)); border-left-color: var(--tss-str-warning); }
+body.tss-theme-stratus .tss-message-error   { background-color: color-mix(in srgb, var(--tss-str-error) 11%, var(--tss-default-background-color));   border-left-color: var(--tss-str-error); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-info,
+body.tss-theme-stratus.tss-dark-mode .tss-message-success,
+body.tss-theme-stratus.tss-dark-mode .tss-message-warning,
+body.tss-theme-stratus.tss-dark-mode .tss-message-error { border-color: transparent; }
+body.tss-theme-stratus.tss-dark-mode .tss-message-info    { border-left-color: var(--tss-str-info); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-success { border-left-color: var(--tss-str-success); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-warning { border-left-color: var(--tss-str-warning); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-error   { border-left-color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-message-info .tss-message-icon,
+body.tss-theme-stratus .tss-message-success .tss-message-icon,
+body.tss-theme-stratus .tss-message-warning .tss-message-icon,
+body.tss-theme-stratus .tss-message-error .tss-message-icon { background: transparent; }
+body.tss-theme-stratus .tss-message-info .tss-message-icon { color: var(--tss-str-info); }
+body.tss-theme-stratus .tss-message-success .tss-message-icon { color: var(--tss-str-success); }
+body.tss-theme-stratus .tss-message-warning .tss-message-icon { color: var(--tss-str-warning-text); }
+body.tss-theme-stratus .tss-message-error .tss-message-icon { color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-message-info .tss-message-title, body.tss-theme-stratus .tss-message-success .tss-message-title, body.tss-theme-stratus .tss-message-warning .tss-message-title, body.tss-theme-stratus .tss-message-error .tss-message-title,
+body.tss-theme-stratus .tss-message-info .tss-message-text, body.tss-theme-stratus .tss-message-success .tss-message-text, body.tss-theme-stratus .tss-message-warning .tss-message-text, body.tss-theme-stratus .tss-message-error .tss-message-text { color: var(--tss-default-foreground-color); }
+body.tss-theme-stratus .tss-message-note { border-radius: var(--tss-border-radius-sm); }
+
+
+body.tss-theme-stratus .tss-banner {
+    --tss-banner-surface: var(--tss-str-blue);
+    --tss-banner-text-color: var(--tss-primary-foreground-color);
+    --tss-banner-title-color: var(--tss-primary-foreground-color);
+    --tss-banner-accent: var(--tss-primary-foreground-color);
+    --tss-banner-border-color: transparent;
+    min-height: 56px;
+    padding: 8px 16px;
+    gap: 16px;
+    border: 0;
+    border-radius: 0;
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-banner:not(.tss-banner-primary):not(.tss-banner-success):not(.tss-banner-warning):not(.tss-banner-danger) {
+    --tss-banner-surface: var(--tss-str-on-fill-2);
+    --tss-banner-text-color: var(--tss-default-foreground-color);
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-accent: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-banner-primary { --tss-banner-surface: var(--tss-str-blue); }
+body.tss-theme-stratus .tss-banner-success {
+    --tss-banner-surface: var(--tss-success-background-color);
+    --tss-banner-text-color: var(--tss-success-foreground-color);
+    --tss-banner-title-color: var(--tss-success-foreground-color);
+    --tss-banner-accent: var(--tss-success-foreground-color);
+}
+body.tss-theme-stratus .tss-banner-danger {
+    --tss-banner-surface: var(--tss-danger-background-color);
+    --tss-banner-text-color: var(--tss-danger-foreground-color);
+    --tss-banner-title-color: var(--tss-danger-foreground-color);
+    --tss-banner-accent: var(--tss-danger-foreground-color);
+}
+body.tss-theme-stratus .tss-banner-warning {
+    --tss-banner-surface: var(--tss-warning-background-color);
+    --tss-banner-text-color: var(--tss-warning-foreground-color);
+    --tss-banner-title-color: var(--tss-warning-foreground-color);
+    --tss-banner-accent: var(--tss-warning-foreground-color);
+}
+
+body.tss-theme-stratus .tss-banner-compact { padding: 4px 16px; min-height: 40px; gap: 12px; }
+body.tss-theme-stratus .tss-banner-flat { border-radius: 0; }
+
+body.tss-theme-stratus .tss-banner-title { font-size: var(--tss-font-size-small); font-weight: var(--tss-font-weight-bold); line-height: 20px; }
+body.tss-theme-stratus .tss-banner-text { font-size: var(--tss-font-size-small); font-weight: var(--tss-font-weight-semibold); line-height: 20px; }
+body.tss-theme-stratus .tss-banner-content { gap: 0; }
+
+body.tss-theme-stratus .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-stratus.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    --tss-icontile-size: 24px;
+    background: transparent;
+    color: var(--tss-banner-text-color);
+    border-radius: 0;
+}
+body.tss-theme-stratus .tss-banner-compact .tss-banner-icon > .tss-icontile { --tss-icontile-size: 24px; }
+
+body.tss-theme-stratus .tss-banner-badge-pill.tss-badge {
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--tss-banner-text-color) 22%, transparent);
+    color: var(--tss-banner-text-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn,
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-banner-text-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn .tss-fontcolor-default { color: inherit; }
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn:hover,
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: color-mix(in srgb, var(--tss-banner-text-color) 18%, transparent);
+    color: var(--tss-banner-text-color);
+}
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    opacity: 1;
+    padding: 2px;
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-banner-text-color);
+    border-radius: var(--tss-border-radius-sm);
+}
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button:hover {
+    background: color-mix(in srgb, var(--tss-banner-text-color) 30%, transparent);
+    color: var(--tss-banner-text-color);
+}
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button:active {
+    background: color-mix(in srgb, var(--tss-banner-text-color) 50%, transparent);
+}
+body.tss-theme-stratus .tss-banner :focus-visible { outline-color: var(--tss-banner-text-color); }
+
+body.tss-theme-stratus .tss-toast-container > .tss-banner { border-radius: inherit; }
+
+body.tss-theme-stratus .tss-banner .tss-banner-dismiss-button i,
+body.tss-theme-stratus .tss-banner .tss-banner-dismiss-button .tss-fontcolor-default,
+body.tss-theme-stratus .tss-banner .tss-banner-icon-tile i { color: inherit; }
+body.tss-theme-stratus .tss-banner .tss-banner-icon-tile i { font-size: 20px; }
+body.tss-theme-stratus .tss-banner .tss-banner-dismiss-button i { font-size: 16px; }
+
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled),
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):active { color: var(--tss-banner-text-color); }
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover { background: color-mix(in srgb, var(--tss-banner-text-color) 30%, transparent); }
+
+body.tss-theme-stratus .tss-banner { --tss-banner-tone: var(--tss-str-blue); }
+body.tss-theme-stratus .tss-banner:not(.tss-banner-primary):not(.tss-banner-success):not(.tss-banner-warning):not(.tss-banner-danger) { --tss-banner-tone: var(--tss-str-rule); }
+body.tss-theme-stratus .tss-banner-success { --tss-banner-tone: var(--tss-success-background-color); }
+body.tss-theme-stratus .tss-banner-warning { --tss-banner-tone: var(--tss-warning-background-color); }
+body.tss-theme-stratus .tss-banner-danger { --tss-banner-tone: var(--tss-danger-background-color); }
+
+
+body.tss-theme-stratus .tss-toast-container {
+    width: 328px;
+    border-radius: var(--tss-border-radius-sm);
+    box-shadow: var(--tss-str-elev-6);
+    background: var(--tss-str-surface-6, var(--tss-default-background-color));
+}
+body.tss-theme-stratus .tss-toast-container:hover { box-shadow: var(--tss-str-elev-8); }
+body.tss-theme-stratus .tss-toast-topcenter > .tss-toast-container,
+body.tss-theme-stratus .tss-toast-bottomcenter > .tss-toast-container { min-width: 328px; }
+
+body.tss-theme-stratus .tss-toast-container > .tss-banner {
+    --tss-banner-surface: var(--tss-str-surface-6, var(--tss-default-background-color));
+    --tss-banner-text-color: var(--tss-default-foreground-color);
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-accent: var(--tss-banner-tone);
+    min-height: 40px;
+    padding: 8px 8px 8px 16px;
+    gap: 8px;
+    border-left: 8px solid var(--tss-banner-tone);
+    border-radius: inherit;
+    font-weight: var(--tss-font-weight-regular);
+}
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-title { font-size: var(--tss-font-size-smallplus); line-height: 24px; }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-text { font-weight: var(--tss-font-weight-regular); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-icontile.tss-banner-icon-tile { color: var(--tss-banner-tone); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner.tss-banner-warning .tss-icontile.tss-banner-icon-tile { color: var(--tss-str-warning-text); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-badge-pill.tss-badge { background: var(--tss-banner-tone); color: var(--tss-primary-foreground-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner.tss-banner-warning .tss-banner-badge-pill.tss-badge { color: var(--tss-warning-foreground-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn,
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled) { color: var(--tss-link-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn:hover,
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled):hover { background: var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled),
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):active { color: var(--tss-default-foreground-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover { background: var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner :focus-visible { outline-color: var(--tss-str-focus); }
+body.tss-theme-stratus .tss-toast-fullwidth.tss-toast > .tss-toast-container { border-radius: 0; }
+
+body.tss-theme-stratus .tss-banner-time-text {
+    font-size: var(--tss-font-size-xsmall);
+    line-height: 24px;
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-banner-dismiss-button {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    align-self: flex-start;
+}
+
+
+body.tss-theme-stratus .tss-tree-item-content {
+    border-radius: var(--tss-border-radius-sm);
+    padding: 6px 8px;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -2px;
+}
+
+body.tss-theme-stratus .tss-tree-item-content.tss-selected {
+    background-color: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-semibold);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-tree-chevron:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+}
+
+
+body.tss-theme-stratus .tss-taskboard-card {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+    transition: box-shadow var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-taskboard-card:hover {
+    box-shadow: var(--tss-str-elev-2);
+}
+
+body.tss-theme-stratus .tss-taskboard-card.sortable-chosen,
+body.tss-theme-stratus .tss-taskboard-card.sortable-drag {
+    box-shadow: var(--tss-str-elev-3);
+}
+
+body.tss-theme-stratus .tss-taskboard-column-readonly .tss-taskboard-card:hover {
+    box-shadow: var(--tss-str-elev-1);
+}
+
+
+body.tss-theme-stratus .tss-scheduler {
+    --tss-scheduler-radius: 3px;
+    --tss-scheduler-today-color: var(--tss-str-blue);
+    --tss-scheduler-now-color: var(--tss-str-error);
+    --tss-scheduler-selection-color: var(--tss-str-focus);
+    border-radius: 6px;
+}
+
+body.tss-theme-stratus .tss-scheduler-toolbar {
+    background: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-scheduler-ghost {
+    border-color: var(--tss-str-blue);
+    background: color-mix(in srgb, var(--tss-str-blue) 14%, transparent);
+}
+
+body.tss-theme-stratus .tss-scheduler-tooltip-title {
+    font-weight: 600;
+}
+
+
+body.tss-theme-stratus .tss-dockpanel,
+body.tss-theme-stratus .tss-dockpanel-toggle {
+    --tss-dockpanel-radius: 6px;
+    --tss-dockpanel-accent: var(--tss-str-blue);
+    --tss-dockpanel-canvas: var(--tss-str-fill-2);
+}
+
+body.tss-theme-stratus .tss-dockpanel-slot,
+body.tss-theme-stratus .tss-dockpanel-document {
+    border-color: transparent;
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-dockpanel-flyout > .tss-dockpanel-slot {
+    box-shadow: var(--tss-str-elev-4);
+}
+
+body.tss-theme-stratus .tss-dockpanel-guide,
+body.tss-theme-stratus .tss-dockpanel-drag-ghost {
+    border-radius: 3px;
+    box-shadow: var(--tss-str-elev-2);
+}
+
+body.tss-theme-stratus .tss-dockpanel-rail-tab {
+    border-radius: 3px;
+}
+
+
+body.tss-theme-stratus .tss-chat-right .tss-chatmessage-bubble {
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-chatarea-scrollbtn {
+    box-shadow: var(--tss-str-elev-2);
+}
+
+
+body.tss-theme-stratus .tss-toolcall {
+    border-radius: var(--tss-border-radius-lg);
+    border-color: var(--tss-default-border-color);
+    background: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-toolcall > .tss-toolcall-header {
+    border-radius: 5px;
+}
+
+body.tss-theme-stratus .tss-toolcall.tss-expanded > .tss-toolcall-header {
+    border-radius: 5px 5px 0 0;
+}
+
+body.tss-theme-stratus .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0 0 5px 5px;
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-toolcall-icon {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-toolcall-secondary-action {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-liveprogress { color: var(--tss-secondary-foreground-color); font-style: normal; font-size: var(--tss-font-size-xsmall); }
+
+body.tss-theme-stratus .tss-contextcard { border-radius: var(--tss-border-radius-lg); transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease); }
+body.tss-theme-stratus .tss-contextcard-clickable:hover { background: var(--tss-default-background-hover-color); box-shadow: var(--tss-str-elev-1); }
+body.tss-theme-stratus .tss-contextcard-icon { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-contextcard-label { font-weight: var(--tss-font-weight-bold); }
+
+body.tss-theme-stratus .tss-contextcards-icon { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-contextcards-list > .tss-contextcard { border-radius: var(--tss-border-radius-lg); }
+
+body.tss-theme-stratus .tss-actioncard-card { border-radius: var(--tss-border-radius-lg); box-shadow: var(--tss-str-elev-1); border-color: var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-actioncard-icon { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-actioncard-label { font-weight: var(--tss-font-weight-bold); }
+
+
+body.tss-theme-stratus .tss-questionnaire {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-card-shadow);
+    padding: 16px;
+}
+
+body.tss-theme-stratus .tss-questionnaire-question {
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-questionnaire-option {
+    border: 1px solid var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-full);
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-str-blue-soft);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-questionnaire-option:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-questionnaire-answered-badge {
+    background: var(--tss-str-info-soft);
+    color: var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-questionnaire-answered-badge {
+    color: var(--tss-default-foreground-color);
+}
+
+
+body.tss-theme-stratus {
+    --tss-rating-color: #063b9e;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-rating-color: #cfddf8;
+}
+
+body.tss-theme-stratus .tss-rating-star {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--tss-rating-color);
+}
+
+body.tss-theme-stratus .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-rating-color);
+}
+
+body.tss-theme-stratus .tss-rating-readonly .tss-rating-star:not(.tss-rating-star-filled) {
+    opacity: .6;
+}
+
+body.tss-theme-stratus .tss-rating-star:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-progressring-track { stroke: var(--tss-str-fill-2); }
+body.tss-theme-stratus .tss-progressring-fill { stroke: var(--tss-str-blue); }
+body.tss-theme-stratus .tss-progressring-label { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-xsmall); }
+
+
+body.tss-theme-stratus .tss-colorpalette-swatch {
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 2px var(--tss-str-blue);
+}
+
+body.tss-theme-stratus .tss-colorpalette-swatch:focus-visible {
+    outline-color: var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 4px var(--tss-str-focus);
+}
+
+
+body.tss-theme-stratus .tss-kbd-key {
+    border-radius: 3px;
+    background: var(--tss-str-fill);
+    border: 1px solid var(--tss-default-border-color);
+    border-bottom-width: 2px;
+    border-bottom-color: var(--tss-str-rule);
+    box-shadow: none;
+    color: var(--tss-default-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+
+body.tss-theme-stratus .tss-notif-bell:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-notif-bell:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-notif-badge {
+    background: var(--tss-str-error);
+    color: var(--tss-danger-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-notif-dot.tss-notif-info    { background: var(--tss-str-info); }
+body.tss-theme-stratus .tss-notif-dot.tss-notif-success { background: var(--tss-str-success); }
+body.tss-theme-stratus .tss-notif-dot.tss-notif-warning { background: var(--tss-str-warning); }
+body.tss-theme-stratus .tss-notif-dot.tss-notif-danger  { background: var(--tss-str-error); }
+
+body.tss-theme-stratus .tss-notif-unread {
+    background: var(--tss-str-blue-soft) !important;
+}
+
+
+body.tss-theme-stratus .tss-markdown pre {
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-str-on-fill);
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-markdown code {
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-stratus .tss-markdown :not(pre) > code {
+    background: var(--tss-str-on-fill);
+    border-radius: 3px;
+}
+
+body.tss-theme-stratus .tss-markdown kbd {
+    border-radius: 3px;
+    border-bottom-width: 2px;
+    border-bottom-color: var(--tss-str-rule);
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-stratus .tss-markdown blockquote {
+    border-left: 4px solid var(--tss-str-navy);
+    background: var(--tss-str-fill);
+    border-radius: 0 3px 3px 0;
+}
+
+body.tss-theme-stratus .tss-markdown table {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: none;
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-markdown th {
+    background: var(--tss-str-on-fill);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+
+body.tss-theme-stratus .tss-mermaid {
+    --pele-surface: var(--tss-str-on-fill);
+    --pele-surface-alt: var(--tss-str-on-fill-2);
+    --pele-line: var(--tss-str-rule);
+    --pele-border: var(--tss-str-rule);
+    --pele-accent: var(--tss-primary-background-color);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+
+body.tss-theme-stratus .tss-flint-chart {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+
+body.tss-theme-stratus .tss-pagesstack-page {
+    border-radius: var(--tss-border-radius-sm);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-pagesstack-page:hover {
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-str-focus);
+    box-shadow: 0 0 0 2px var(--tss-str-focus);
+}
+
+
+body.tss-theme-stratus .tss-detailsgrid {
+    font-size: var(--tss-font-size-small);
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tss-detailsgrid-row {
+    border-bottom-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-detailsgrid-label {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-modalstack-scrim { backdrop-filter: none; }
+body.tss-theme-stratus .tss-modalstack-tab:hover { background: var(--tss-default-background-active-color); }
+body.tss-theme-stratus .tss-modalstack-tab:focus-visible { outline-color: var(--tss-str-focus); }
+body.tss-theme-stratus .tss-modalstack-trail-step:hover { color: var(--tss-str-navy); }
+
+
+body.tss-theme-stratus {
+    --tss-chart-series-1: #255fcc;
+    --tss-chart-series-2: #18a272;
+    --tss-chart-series-3: #ff8f2e;
+    --tss-chart-series-4: #bb35a7;
+    --tss-chart-series-5: #219ae1;
+    --tss-chart-series-6: #f0369e;
+    --tss-chart-series-7: #a3da22;
+    --tss-chart-series-8: #f23346;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-chart-series-1: #86a8e9;
+    --tss-chart-series-2: #27e7a7;
+    --tss-chart-series-3: #ffc38f;
+    --tss-chart-series-4: #f489e4;
+    --tss-chart-series-5: #5fc3ff;
+    --tss-chart-series-6: #ff8bcb;
+    --tss-chart-series-7: #beef4f;
+    --tss-chart-series-8: #ff8998;
+}
+
+body.tss-theme-stratus .tss-chart text,
+body.tss-theme-stratus .tss-sparkline text {
+    font-family: var(--tss-sansserif-font-family);
+    fill: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-chart svg > text[font-size="11"] {
+    fill: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-chart svg > line {
+    stroke: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-chart linearGradient stop,
+body.tss-theme-stratus .tss-sparkline linearGradient stop {
+    stop-opacity: 0.16;
+}
