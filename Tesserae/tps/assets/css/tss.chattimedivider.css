@@ -1,0 +1,51 @@
+/* ChatTimeDivider: a wavy hairline either side of the time a transcript picked up again. */
+
+.tss-chat-time-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 0;
+    color: var(--tss-secondary-foreground-color);
+    user-select: none;
+}
+
+.tss-chat-time-divider-label {
+    flex-shrink: 0;
+    font-size: var(--tss-font-size-xsmall);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* The wave is a mask over a block of the border colour, so it follows every theme (and dark mode) with no SVG per palette. */
+.tss-chat-time-divider-line {
+    flex: 1 1 0;
+    min-width: 16px;
+    height: 6px;
+    background-color: var(--tss-default-border-color);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='6' viewBox='0 0 16 6'%3E%3Cpath d='M0 3 Q4 0 8 3 T16 3' fill='none' stroke='black' stroke-width='1.2'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='6' viewBox='0 0 16 6'%3E%3Cpath d='M0 3 Q4 0 8 3 T16 3' fill='none' stroke='black' stroke-width='1.2'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: repeat-x;
+            mask-repeat: repeat-x;
+    -webkit-mask-position: left center;
+            mask-position: left center;
+    -webkit-mask-size: 16px 6px;
+            mask-size: 16px 6px;
+}
+
+/* The right-hand wave starts where the left one would continue, so the two read as one line broken by the label. */
+.tss-chat-time-divider-line:last-child {
+    -webkit-mask-position: right center;
+            mask-position: right center;
+}
+
+/* Forced colours drop backgrounds, and with them a masked block: a plain rule there instead. */
+@media (forced-colors: active) {
+    .tss-chat-time-divider-line {
+        -webkit-mask-image: none;
+                mask-image: none;
+        height: 0;
+        border-top: 1px solid CanvasText;
+    }
+}
