@@ -15,7 +15,7 @@ namespace Tesserae
     /// The time is formatted in the browser's locale (12- or 24-hour as the user's system has it), relative to today.
     /// </remarks>
     [Transpose.Name("tss.ChatTimeDivider")]
-    public sealed class ChatTimeDivider : IComponent, IHasMarginPadding
+    public sealed class ChatTimeDivider : IComponentWithID, IHasMarginPadding
     {
         /// <summary>The pause after which a transcript usually draws a divider: one hour.</summary>
         public static readonly TimeSpan DefaultGap = TimeSpan.FromHours(1);
@@ -49,6 +49,12 @@ namespace Tesserae
 
         /// <summary>The moment the divider stands for.</summary>
         public DateTimeOffset Time => _time;
+
+        /// <summary>The divider's key in a <see cref="ChatArea"/>: one divider per moment.</summary>
+        public string Identifier => "tss-chat-time-divider-" + _time.ToUnixTimeMilliseconds();
+
+        /// <summary>Changes when the text does, so a <see cref="ChatArea"/> redraws a divider whose label moved.</summary>
+        public string ContentHash => _label.textContent;
 
         /// <summary>Changes the moment, and with it the text, of a divider already on screen.</summary>
         /// <param name="time">When the messages below the divider start.</param>

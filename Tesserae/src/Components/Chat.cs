@@ -218,6 +218,19 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds a <see cref="ChatTimeDivider"/> to the end of the transcript, between the message before it and the next
+        /// one. It is not a turn: it never anchors the scroll or releases a reserved turn.
+        /// </summary>
+        public ChatArea Add(ChatTimeDivider divider)
+        {
+            ReengageFollowIfNearBottom();
+
+            _messages.Add(divider);
+
+            return this;
+        }
+
+        /// <summary>
         /// Inserts a batch of older messages at the top of the transcript while preserving the reader's current
         /// scroll position (so loading history above the fold does not move what they are reading).
         /// </summary>

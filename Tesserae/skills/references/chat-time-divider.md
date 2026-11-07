@@ -33,6 +33,9 @@ for (int i = 0; i < messages.Length; i++)
 
 A gap of `TimeSpan.Zero` (or less) never draws one.
 
+In a [`ChatArea`](chat.md), add it like a message - `chatArea.Add(ChatTimeDivider(time))`. It is an
+`IComponentWithID` (keyed by its time), and it never anchors the scroll or releases a reserved turn.
+
 ## The text
 
 Formatted in the browser's locale (12- or 24-hour as the user's system has it), relative to today:

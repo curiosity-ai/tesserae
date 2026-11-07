@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                 new Message { Time = today.AddHours(18).AddMinutes(7),               FromUser = true,  Text = "Perfect! New PR for this work?" },
             };
 
-            var transcript = VStack().WS().Class("tss-sample-chat-time-divider");
+            var transcript = ChatArea().DefaultScrollPosition(ChatArea.StartPosition.Start);
+            transcript.Render().classList.add("tss-sample-chat-time-divider");
 
             void Render(TimeSpan? gap)
             {
@@ -76,7 +77,7 @@ namespace Tesserae.Tests.Samples
                     )).SetTitle("Overview"),
                     Card(VStack().WS().Children(
                         HStack().WS().AlignItemsCenter().Children(TextBlock("Divider after a pause of").SemiBold().PaddingRight(12.px()), gapPicker),
-                        transcript.MaxWidth(720.px()).PaddingTop(8.px())
+                        VStack().WS().MaxWidth(720.px()).H(640).PaddingTop(8.px()).Children(transcript.S())
                     )).SetTitle("In a transcript"),
                     Card(VStack().WS().Children(
                         ChatTimeDivider(today.AddHours(18).AddMinutes(7)),
