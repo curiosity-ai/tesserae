@@ -26,6 +26,8 @@ namespace Tesserae
         private readonly HTMLElement _chartContainer;
 
         private IconTile _iconTile;
+        private bool     _changeInHeader;
+        private bool     _large;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -183,18 +185,38 @@ namespace Tesserae
         /// </summary>
         public Metric ChangeInHeader(bool value = true)
         {
-            if (value)
-            {
-                _headerContainer.appendChild(_changeContainer);
-            }
-            else if (_changeContainer.parentElement != _bodyContainer)
-            {
-                _bodyContainer.appendChild(_changeContainer);
-            }
-
+            _changeInHeader = value;
             _container.UpdateClassIf(value, "tss-metric-change-in-header");
 
+            PlaceChange();
+
             return this;
+        }
+
+        /// <summary>
+        /// The large variation, for a dashboard's headline tile: a bigger value with the change indicator on the
+        /// same line, right after it ("63 ms ↗ 43.2%"), and the chart - typically a <see cref="Sparkline"/> -
+        /// given more room under them. Combine it with <see cref="Chart"/> and <see cref="Change"/>; the chart
+        /// takes the width of the tile, so a card that wants it edge to edge gives the tile no padding.
+        /// <see cref="ChangeInHeader"/> still wins when both are set.
+        /// </summary>
+        public Metric Large(bool value = true)
+        {
+            _large = value;
+            _container.UpdateClassIf(value, "tss-metric-large");
+
+            PlaceChange();
+
+            return this;
+        }
+
+        // The change lives in one of three places: the title's line (ChangeInHeader), the value's line (Large) or
+        // under everything else. Which one is a function of the two switches, so neither has to know about the other.
+        private void PlaceChange()
+        {
+            var parent = _changeInHeader ? _headerContainer : _large ? _valueContainer : _bodyContainer;
+
+            if (_changeContainer.parentElement != parent) parent.appendChild(_changeContainer);
         }
 
         /// <summary>

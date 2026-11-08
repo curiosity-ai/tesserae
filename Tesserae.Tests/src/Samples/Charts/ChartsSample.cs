@@ -45,6 +45,17 @@ namespace Tesserae.Tests.Samples
                .Legend(ChartLegendPosition.Bottom)
                .Rounded(1);
 
+            var barList = BarList()
+               .Add("/api/v1/channels",                                 104.08 * 1e9)
+               .Add("/paddleocr-vl/model.safetensors",                    4.16 * 1e9)
+               .Add("/embeddinggemma-2/embeddinggemma-2-text-270m-onnx/model.onnx", 1.81 * 1e9)
+               .Add("/windows",                                           1.62 * 1e9)
+               .Add("/workspace/windows",                                 1.27 * 1e9)
+               .Add("/florence-2/decoder_model_merged.onnx",            388.42 * 1e6)
+               .Add("/florence-2/vision_encoder.onnx",                  366.55 * 1e6)
+               .Add("/florence-2/encoder_model.onnx",                   173.38 * 1e6)
+               .FormatValues(FormatBytes);
+
             var areaChart = AreaChart()
                .Series(liveData, "Sessions")
                .XAxis(months);
@@ -65,7 +76,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(ChartsSample), UIcons.ChartHistogram, "Lightweight, dependency-free SVG charts")
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("LineChart, BarChart, AreaChart, PieChart and HeatMap render as responsive, dependency-free SVG that scales to its container, adapts to the light/dark theme, and exposes hover tooltips plus a role=\"img\" accessibility summary. Data can be supplied as plain values, as an observable that re-renders the chart on change, or as (x, y) pairs on a continuous scale that supports zoom, pan and a spikeline readout."))).SetTitle("Overview")))
+                        TextBlock("LineChart, BarChart, AreaChart, PieChart and HeatMap (and the BarList of ranked bars) render as responsive, dependency-free SVG that scales to its container, adapts to the light/dark theme, and exposes hover tooltips plus a role=\"img\" accessibility summary. Data can be supplied as plain values, as an observable that re-renders the chart on change, or as (x, y) pairs on a continuous scale that supports zoom, pan and a spikeline readout."))).SetTitle("Overview")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Line chart"),
@@ -78,6 +89,10 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                         SampleSubTitle("Stacked bars with the legend below"),
                         stackedChart.H(300).WS())).SetTitle("BarChart (stacked)")))
+               .Section(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Ranked horizontal bars: the label is cut with an ellipsis (hover it for the whole text), the values line up"),
+                        barList.WS())).SetTitle("BarList")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Area chart bound to an observable"),
@@ -271,6 +286,14 @@ namespace Tesserae.Tests.Samples
                 ramChart.H(200).WS().PT(8),
                 SampleSubTitle("A range the data does not cover still draws its axis, and still zooms and pans").PT(16),
                 emptyChart.H(140).WS());
+        }
+
+        private static string FormatBytes(double bytes)
+        {
+            if (bytes >= 1e9) return (bytes / 1e9).ToString("0.00") + " GB";
+            if (bytes >= 1e6) return (bytes / 1e6).ToString("0.00") + " MB";
+
+            return (bytes / 1e3).ToString("0.00") + " kB";
         }
 
         public HTMLElement Render() => _content.Render();

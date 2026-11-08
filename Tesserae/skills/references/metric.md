@@ -25,6 +25,7 @@ Bring the factory into scope with `using static Tesserae.UI;`.
 - `.OnClick(Action)` / `.OnClick((metric, mouseEvent) => ...)` — make the tile clickable, to drill into what it counts. It shows the pointer and a hover state, and becomes keyboard reachable (`role="button"`, `tabindex="0"`, Enter or Space while the tile has focus). The hover wash is drawn outside the tile with a spread shadow, so making it clickable does not move its contents.
 - `.ValueFirst(bool = true)` — draw the value above the title, so the number reads first and the words under it only say what was counted ("5 / In my scope").
 - `.Compact(bool = true)` — put the title and the value on one line, sharing a baseline ("Requests 1.1k"). Combine with `.ValueFirst()` for the number first ("42 open tickets"). The change stays on the same line; a chart wraps under both; the leading icon tile shrinks to 32px (`.IconSize()` still wins).
+- `.Large(bool = true)` — the headline-tile variation: a bigger value with the `Change` indicator on the same line right after it ("63 ms ↗ 43.2%"), and more room above the `Chart` under them. Pair it with a `Sparkline` (give it a height, e.g. `Sparkline(data, width: 400, height: 56)`, a viewBox about as wide as the tile, since the chart keeps its aspect ratio).
 - `.ValueBackground(string background, string foreground = null)` — put the value on a filled badge that hugs the number. Any CSS colour or theme variable; `foreground` recolours the number, and is left alone when null. A null background removes the fill. The badge takes the theme's `--tss-border-radius-md` (square under Curiosity and RetroOS; RetroOS draws it as reverse video whatever colours are given).
 
 ## Example
@@ -61,6 +62,18 @@ Card(Metric(TextBlock("Rejection by DOV").Tiny().SemiBold().Foreground(Theme.Sec
         .Add("38 validated", 38, Theme.Colors.Green600)
         .Add("5 rej.",        5, Theme.Colors.Red500)
         .Add("4 deleg.",      4, Theme.Colors.Blue500))).W(360.px());
+```
+
+## Large
+
+```csharp
+using static Tesserae.UI;
+
+Card(Metric("Origin response (p50)", "63 ms").Large()
+    .Change(HStack().AlignItemsCenter().Gap(4.px()).Children(
+        Icon(UIcons.ArrowUpRight, size: TextSize.Small).Foreground(Theme.Colors.Red600),
+        TextBlock("43.2%").Foreground(Theme.Colors.Red600)))
+    .Chart(Sparkline(new double[] { 8, 14, 9, 22, 11, 30, 12 }, width: 400, height: 56))).W(420.px());
 ```
 
 ## Compact and filled
