@@ -1,0 +1,50 @@
+/* BarList — a ranked list of horizontal bars: label, thin bar on a grey track, value. The rows are
+   `display: contents` inside one grid, so the three columns line up across every row. */
+
+.tss-barlist {
+    --tss-barlist-thickness: 6px;
+    --tss-barlist-label-width: minmax(0, 1fr);
+    --tss-barlist-track: var(--tss-colors-neutral-200);
+
+    display: grid;
+    grid-template-columns: var(--tss-barlist-label-width) minmax(60px, 0.6fr) max-content;
+    align-items: center;
+    column-gap: 16px;
+    row-gap: 14px;
+    width: 100%;
+    min-width: 0;
+}
+
+.tss-barlist-row {
+    display: contents;
+}
+
+.tss-barlist-label {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: var(--tss-font-size-medium);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-barlist-track {
+    height: var(--tss-barlist-thickness);
+    border-radius: 999px;
+    background: var(--tss-barlist-track);
+    overflow: hidden;
+}
+
+.tss-barlist-fill {
+    height: 100%;
+    min-width: 2px;
+    border-radius: 999px;
+}
+
+.tss-barlist-value {
+    text-align: right;
+    white-space: nowrap;
+    font-size: var(--tss-font-size-medium);
+    font-variant-numeric: tabular-nums;
+    color: var(--tss-default-foreground-color);
+}

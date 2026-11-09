@@ -131,6 +131,32 @@
     --tss-icontile-radius: 8px;
 }
 
+/* Large(): a headline tile - a bigger number with the change beside it on the same baseline, and a chart that
+   gets room under them. The value's own text size is a class on its TextBlock, so the rule has to outrank it. */
+.tss-metric-large .tss-metric-value .tss-textblock,
+.tss-metric-large .tss-metric-value > * {
+    font-size: var(--tss-font-size-xxlarge);
+    line-height: 1.15;
+}
+
+.tss-metric-large .tss-metric-title {
+    margin-bottom: 4px;
+}
+
+.tss-metric-large .tss-metric-value > .tss-metric-change {
+    margin-left: 10px;
+    font-size: var(--tss-font-size-medium);
+    line-height: normal;
+}
+
+.tss-metric-large .tss-metric-value > .tss-metric-change * {
+    font-size: inherit;
+}
+
+.tss-metric-large .tss-metric-chart:not(:empty) {
+    margin-top: 16px;
+}
+
 /* ValueBackground(): the number on a filled badge. The fill hugs the value rather than spanning the column
    the value sits in, and the value is recoloured only when a foreground was asked for. */
 .tss-metric-value-filled .tss-metric-value {

@@ -48,10 +48,38 @@ namespace Tesserae.Tests.Samples
                     )
                )).SetTitle("Usage")))
                .FlatSection(Stack().Children(Icons()))
+               .FlatSection(Stack().Children(LargeMetrics()))
                .FlatSection(Stack().Children(CompactAndFilled()))
                .FlatSection(Stack().Children(WithContributionBar()))
                .FlatSection(Stack().Children(Clickable()))
                .SeeAlso(typeof(DeltaComponentSample), typeof(SparklineSample), typeof(ChartsSample), typeof(ContributionBarSample));
+        }
+
+        // ---------- Large ----------
+
+        private static IComponent LargeMetrics()
+        {
+            return Card(VStack().WS().Children(
+                TextBlock("Large() is the headline tile of a dashboard: a bigger number with the change indicator beside it on the same line, and a Sparkline that gets room under them."),
+                SampleSubTitle("Origin response, with a trend"),
+                HStack().WS().Wrap().Gap(16.px()).Children(
+                    Card(LargeMetric("Origin response (p50)", "63 ms", "43.2%", true,
+                        new double[] { 8, 14, 9, 22, 11, 10, 30, 12, 9, 26, 13, 11, 35, 15, 10, 28, 12, 9, 31, 14 })).W(420.px()),
+                    Card(LargeMetric("Origin response (p95)", "509 ms", "1.5%", false,
+                        new double[] { 40, 44, 41, 46, 42, 43, 47, 41, 44, 45, 42, 46, 43, 44, 41, 45, 42, 43, 46, 40 })).W(420.px()))))
+               .SetTitle("Large", UIcons.ChartLineUp, Theme.Colors.Blue600);
+        }
+
+        // Worse is red and better is green, whichever way the arrow points: for a latency, up is bad.
+        private static Metric LargeMetric(string title, string value, string change, bool worse, double[] trend)
+        {
+            var color = worse ? Theme.Colors.Red600 : Theme.Colors.Green600;
+
+            return Metric(title, value).Large()
+               .Change(HStack().AlignItemsCenter().Gap(4.px()).Children(
+                    Icon(worse ? UIcons.ArrowUp : UIcons.ArrowDown, size: TextSize.Small).Foreground(color),
+                    TextBlock(change).Foreground(color)))
+               .Chart(Sparkline(trend, width: 400, height: 56));
         }
 
         // ---------- Compact, and a filled value ----------

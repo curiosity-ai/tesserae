@@ -1201,6 +1201,11 @@ namespace Tesserae
         public static ContributionBar ContributionBar() => new ContributionBar();
 
         /// <summary>
+        /// Creates a new <see cref="Tesserae.BarList"/>: a ranked list of horizontal bars, each with a label and a value.
+        /// </summary>
+        public static BarList BarList() => new BarList();
+
+        /// <summary>
         /// Creates a new <see cref="Tesserae.GanttChart"/>: labelled rows of bars on a shared timeline.
         /// </summary>
         public static GanttChart GanttChart() => new GanttChart();
