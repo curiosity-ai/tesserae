@@ -38,6 +38,7 @@
    Glass (background values)
      --tss-gl-pane                        a top-level pane: card, section, sidebar (tint + frost)
      --tss-gl-pane-thick                  an overlay: menu, modal, popover (more tint, for text)
+     --tss-gl-pane-menu                   a context menu: pane-thick, denser in dark (rows stay legible over a light area)
      --tss-gl-pane-inner                  glass inside glass: a flat tint, no blur of its own
      --tss-gl-well                        the fill of a field (input, track)
      --tss-gl-frost                       the fine grain alone, to layer over any tint
@@ -93,6 +94,7 @@ body.tss-theme-glas {
     --tss-gl-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.08) 38%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.16) 100%);
     --tss-gl-pane: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(255, 255, 255, 0.4);
     --tss-gl-pane-thick: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(250, 250, 255, 0.58);
+    --tss-gl-pane-menu: var(--tss-gl-pane-thick);
     --tss-gl-pane-inner: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.22) 100%);
     --tss-gl-well: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.72) 100%);
 
@@ -246,6 +248,8 @@ body.tss-theme-glas.tss-dark-mode {
     --tss-gl-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 38%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.04) 100%);
     --tss-gl-pane: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(20, 20, 46, 0.5);
     --tss-gl-pane-thick: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(22, 22, 48, 0.6);
+    /* Dark glass over a light area turns mid-grey: at 0.6 the menu text falls to 3.9:1 over white, at 0.85 it is 9.5:1. */
+    --tss-gl-pane-menu: var(--tss-gl-sheen), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") 0 0 / 180px 180px, rgba(22, 22, 48, 0.85);
     --tss-gl-pane-inner: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%);
     --tss-gl-well: linear-gradient(180deg, rgba(4, 4, 20, 0.42) 0%, rgba(10, 10, 30, 0.3) 100%);
 
