@@ -37,6 +37,7 @@ into scope with `using static Tesserae.UI;`.
 
 - The close button is named "Close". The modal box takes the focus when it opens (`tabindex=-1`:
   focusable from code, not a Tab stop), and Tab / Shift+Tab cycle through its controls only.
+- Escape is left to a menu, popover or layer open above the modal: it closes that, not the modal.
 - On close (Escape, the close button, light dismiss, `Hide()`) the focus returns to the element
   that had it when the modal opened - usually the button that opened it - unless an `OnHide`
   handler moved it elsewhere. `Dialog` and `ModalStack` behave the same (the stack restores once
