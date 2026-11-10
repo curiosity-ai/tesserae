@@ -17,6 +17,7 @@ body.tss-theme-kontrast .tss-gantt-header-track {
     font-weight: 750;
 }
 
+body.tss-theme-kontrast .tss-gantt-band-label,
 body.tss-theme-kontrast .tss-gantt-column-label,
 body.tss-theme-kontrast .tss-gantt-tick-label {
     color: var(--tss-kt-ink);

@@ -1226,6 +1226,11 @@ namespace Tesserae
         public static GanttBar GanttBar(double start, double end) => new GanttBar(start, end);
 
         /// <summary>
+        /// Creates a new <see cref="Tesserae.GanttBand"/> named <paramref name="label"/>, spanning <paramref name="start"/> to <paramref name="end"/> on the chart's axis.
+        /// </summary>
+        public static GanttBand GanttBand(double start, double end, string label) => new GanttBand(start, end, label);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.PivotSelector"/> component.
         /// </summary>
         public static PivotSelector PivotSelector() => new PivotSelector();

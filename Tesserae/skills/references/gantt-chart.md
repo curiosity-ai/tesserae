@@ -15,6 +15,7 @@ is narrower than its minimum width.
 `UI.GanttChart()` — empty chart; add rows with `.Add(GanttRow(...))`.
 `UI.GanttRow(string label, params GanttBar[] bars)` / `UI.GanttRow(IComponent label, params GanttBar[] bars)` — one row.
 `UI.GanttBar(double start, double end)` — one bar, in the axis's unit.
+`UI.GanttBand(double start, double end, string label)` — one span of the band row, in the axis's unit.
 Bring factories into scope with `using static Tesserae.UI;`.
 
 ## The axis
@@ -22,7 +23,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Columns(params string[] names)` — named, equal-width columns (days, sprints, phases). Column `i` spans `i` to `i + 1`, so `GanttBar(0, 2)` covers the first two.
 - Otherwise numeric: spans the bars, or `.Range(double start, double end)`.
   - `.Ticks(int approximateCount)` — roughly how many ticks (step rounded to 1/2/5 × 10ⁿ; default 6).
+  - `.TickStep(double step)` — a tick at every multiple of `step`, for steps that are not 1/2/5 × 10ⁿ (3, 6 or 12 hours, 7 days). Overrides `.Ticks(...)`; `0` goes back to it.
   - `.TickFormat(Func<double, string>)` — how a tick is written (e.g. `s => s.ToString("0.0") + " s"`).
+  - `.Bands(params GanttBand[] bands)` — a second header row above the ticks for the coarser unit they fall in (the day of hour ticks, the month of day ticks), with a solid line through the chart at each band boundary. Bands are clipped to the axis; none removes the row. Use it instead of writing two units into one tick ("19 Nov 06:00"): each row then holds one unit.
 
 ## Chart configuration
 
@@ -59,6 +62,14 @@ var trace = GanttChart()
     .Add(GanttRow("Request",  GanttBar(0,   9.4).Color(GanttBarColor.Neutral).Text("9.4 s")))
     .Add(GanttRow("Thinking", GanttBar(0.8, 2.1).Color(GanttBarColor.Purple).Text("1.3 s")).Indent())
     .Add(GanttRow("Search",   GanttBar(2.1, 4.6).Color(GanttBarColor.Green).Text("2.5 s")).Indent());
+
+// Hours since midnight of the first day; the days go in the band row, the hours in the ticks.
+var shifts = GanttChart()
+    .Range(18, 42)
+    .TickStep(3)
+    .TickFormat(h => (((int)h) % 24).ToString("00") + ":00")
+    .Bands(GanttBand(0, 24, "Monday 25 May"), GanttBand(24, 48, "Tuesday 26 May"))
+    .Add(GanttRow("Night shift", GanttBar(22, 30).Color(GanttBarColor.Purple)));
 ```
 
 ## Related

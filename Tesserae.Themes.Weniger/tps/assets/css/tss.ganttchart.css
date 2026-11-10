@@ -33,6 +33,7 @@ body.tss-theme-weniger .tss-gantt-header-label {
     color: rgb(var(--tss-secondary-foreground-color-root));
 }
 
+body.tss-theme-weniger .tss-gantt-band-label,
 body.tss-theme-weniger .tss-gantt-column-label,
 body.tss-theme-weniger .tss-gantt-tick-label {
     font-size: 12px;
