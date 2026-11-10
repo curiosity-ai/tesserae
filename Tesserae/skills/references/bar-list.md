@@ -31,11 +31,11 @@ lines up across rows. It is plain HTML (not SVG) and fills the width it is given
 using static Tesserae.UI;
 
 Card(BarList()
-    .Add("/api/v1/channels", 104.08e9)
-    .Add("/windows",           1.62e9)
-    .Add("/florence-2/encoder_model.onnx", 173.38e6)
+    .Add("/downloads/installer.zip", 104.08e9)
+    .Add("/pricing",           1.62e9)
+    .Add("/contact", 173.38e6)
     .FormatValues(b => b >= 1e9 ? (b / 1e9).ToString("0.00") + " GB" : (b / 1e6).ToString("0.00") + " MB"))
-  .SetTitle("Top paths by data transfer");
+  .SetTitle("Top pages by data transfer");
 ```
 
 ## Related

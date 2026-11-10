@@ -69,7 +69,7 @@ Card(Metric(TextBlock("Rejection by DOV").Tiny().SemiBold().Foreground(Theme.Sec
 ```csharp
 using static Tesserae.UI;
 
-Card(Metric("Origin response (p50)", "63 ms").Large()
+Card(Metric("Response time (median)", "63 ms").Large()
     .Change(HStack().AlignItemsCenter().Gap(4.px()).Children(
         Icon(UIcons.ArrowUpRight, size: TextSize.Small).Foreground(Theme.Colors.Red600),
         TextBlock("43.2%").Foreground(Theme.Colors.Red600)))
