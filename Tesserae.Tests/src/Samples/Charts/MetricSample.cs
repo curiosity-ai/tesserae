@@ -61,11 +61,11 @@ namespace Tesserae.Tests.Samples
         {
             return Card(VStack().WS().Children(
                 TextBlock("Large() is the headline tile of a dashboard: a bigger number with the change indicator beside it on the same line, and a Sparkline that gets room under them."),
-                SampleSubTitle("Origin response, with a trend"),
+                SampleSubTitle("Response time, with a trend"),
                 HStack().WS().Wrap().Gap(16.px()).Children(
-                    Card(LargeMetric("Origin response (p50)", "63 ms", "43.2%", true,
+                    Card(LargeMetric("Response time (median)", "63 ms", "43.2%", true,
                         new double[] { 8, 14, 9, 22, 11, 10, 30, 12, 9, 26, 13, 11, 35, 15, 10, 28, 12, 9, 31, 14 })).W(420.px()),
-                    Card(LargeMetric("Origin response (p95)", "509 ms", "1.5%", false,
+                    Card(LargeMetric("Response time (95th percentile)", "509 ms", "1.5%", false,
                         new double[] { 40, 44, 41, 46, 42, 43, 47, 41, 44, 45, 42, 46, 43, 44, 41, 45, 42, 43, 46, 40 })).W(420.px()))))
                .SetTitle("Large", UIcons.ChartLineUp, Theme.Colors.Blue600);
         }

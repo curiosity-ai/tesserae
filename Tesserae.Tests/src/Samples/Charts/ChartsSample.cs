@@ -45,15 +45,16 @@ namespace Tesserae.Tests.Samples
                .Legend(ChartLegendPosition.Bottom)
                .Rounded(1);
 
+            // Page paths and byte counts, as a traffic report would list them; the longest path is cut to show the ellipsis.
             var barList = BarList()
-               .Add("/api/v1/channels",                                 104.08 * 1e9)
-               .Add("/paddleocr-vl/model.safetensors",                    4.16 * 1e9)
-               .Add("/embeddinggemma-2/embeddinggemma-2-text-270m-onnx/model.onnx", 1.81 * 1e9)
-               .Add("/windows",                                           1.62 * 1e9)
-               .Add("/workspace/windows",                                 1.27 * 1e9)
-               .Add("/florence-2/decoder_model_merged.onnx",            388.42 * 1e6)
-               .Add("/florence-2/vision_encoder.onnx",                  366.55 * 1e6)
-               .Add("/florence-2/encoder_model.onnx",                   173.38 * 1e6)
+               .Add("/downloads/installer.zip",                         104.08 * 1e9)
+               .Add("/docs/getting-started",                              4.16 * 1e9)
+               .Add("/assets/images/hero-banner-high-resolution-2x.png",  1.81 * 1e9)
+               .Add("/pricing",                                           1.62 * 1e9)
+               .Add("/blog/release-notes",                                1.27 * 1e9)
+               .Add("/docs/api-reference",                              388.42 * 1e6)
+               .Add("/about",                                           366.55 * 1e6)
+               .Add("/contact",                                         173.38 * 1e6)
                .FormatValues(FormatBytes);
 
             var areaChart = AreaChart()
@@ -91,7 +92,7 @@ namespace Tesserae.Tests.Samples
                         stackedChart.H(300).WS())).SetTitle("BarChart (stacked)")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
-                        SampleSubTitle("Ranked horizontal bars: the label is cut with an ellipsis (hover it for the whole text), the values line up"),
+                        SampleSubTitle("Top pages by data transfer: the longest label is cut with an ellipsis (hover it for the whole text), the values line up"),
                         barList.WS())).SetTitle("BarList")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
