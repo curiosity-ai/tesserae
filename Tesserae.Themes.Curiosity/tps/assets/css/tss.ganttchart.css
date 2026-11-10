@@ -16,6 +16,7 @@ body.tss-theme-curiosity .tss-gantt-bar {
     --tss-gantt-bar-height: 12px;
 }
 
+body.tss-theme-curiosity .tss-gantt-band-label,
 body.tss-theme-curiosity .tss-gantt-tick-label,
 body.tss-theme-curiosity .tss-gantt-bar-text {
     font-family: var(--tss-monospace-font-family);

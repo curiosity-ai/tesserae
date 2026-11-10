@@ -108,6 +108,32 @@ namespace Tesserae
     }
 
     /// <summary>
+    /// One span of the band row a <see cref="GanttChart"/> draws above its ticks: a coarser unit of the same
+    /// axis, such as the day the hour ticks belong to or the month of the day ticks. It goes from
+    /// <see cref="Start"/> to <see cref="End"/>, in the axis unit, and is named <see cref="Label"/>.
+    /// </summary>
+    [Transpose.Name("tss.GanttBand")]
+    public sealed class GanttBand
+    {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
+        public GanttBand(double start, double end, string label)
+        {
+            Start = start;
+            End   = end < start ? start : end;
+            Label = label ?? "";
+        }
+
+        /// <summary>Where the band starts, on the chart's axis.</summary>
+        public double Start { get; }
+        /// <summary>Where the band ends, on the chart's axis. Never before <see cref="Start"/>.</summary>
+        public double End   { get; }
+        /// <summary>The text drawn in the band.</summary>
+        public string Label { get; }
+    }
+
+    /// <summary>
     /// One row of a <see cref="GanttChart"/>: a label in the first column and any number of bars on the timeline.
     /// </summary>
     [Transpose.Name("tss.GanttRow")]
@@ -160,6 +186,8 @@ namespace Tesserae
     /// <remarks>
     /// The label column stays put while the timeline scrolls sideways once it is narrower than
     /// <see cref="TrackMinWidth(UnitSize)"/>. Without an explicit range the axis spans the bars.
+    /// <see cref="Bands(GanttBand[])"/> adds a second header row above the ticks, for the coarser unit
+    /// they belong to (the days of hour ticks), so a tick never has to carry two units.
     /// </remarks>
     [Transpose.Name("tss.GanttChart")]
     public sealed class GanttChart : ComponentBase<GanttChart, HTMLElement>
@@ -169,9 +197,11 @@ namespace Tesserae
 
         private string               _title          = "Task";
         private string[]             _columns;
+        private GanttBand[]          _bands;
         private double               _rangeStart     = double.NaN;
         private double               _rangeEnd       = double.NaN;
         private int                  _tickCount      = 6;
+        private double               _tickStep       = double.NaN;
         private Func<double, string> _tickFormat;
         private string               _emptyMessage   = "Nothing to show";
         private Action<GanttBar>     _onBarClick;
@@ -205,6 +235,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Draws a row of named spans above the ticks - the days that hour ticks fall in, the months of day
+        /// ticks - with a solid line through the chart where one band ends and the next begins. Bands are in
+        /// the axis unit and are clipped to the axis; pass none to remove the row.
+        /// </summary>
+        public GanttChart Bands(params GanttBand[] bands)
+        {
+            _bands = bands is object && bands.Length > 0 ? bands : null;
+            Refresh();
+            return this;
+        }
+
         /// <summary>Pins the numeric axis to <paramref name="start"/>..<paramref name="end"/>. Defaults to the span of the bars.</summary>
         public GanttChart Range(double start, double end)
         {
@@ -218,6 +260,18 @@ namespace Tesserae
         public GanttChart Ticks(int approximateCount)
         {
             _tickCount = approximateCount < 2 ? 2 : approximateCount;
+            Refresh();
+            return this;
+        }
+
+        /// <summary>
+        /// Puts a tick at every multiple of <paramref name="step"/> on the numeric axis, instead of the rounded
+        /// step <see cref="Ticks(int)"/> picks - for units that do not divide by ten, such as 3, 6 or 12 hours
+        /// or 7 days. Pass <c>0</c> or less to go back to <see cref="Ticks(int)"/>.
+        /// </summary>
+        public GanttChart TickStep(double step)
+        {
+            _tickStep = step > 0 ? step : double.NaN;
             Refresh();
             return this;
         }
@@ -365,6 +419,10 @@ namespace Tesserae
 
             var lines = Div(Att("tss-gantt-lines"));
 
+            InnerElement.classList.toggle("tss-gantt-with-bands", _bands is object);
+
+            if (_bands is object) RenderBands(headerTrack, lines, Position);
+
             if (_columns is object)
             {
                 for (int i = 0; i < _columns.Length; i++)
@@ -388,7 +446,8 @@ namespace Tesserae
             }
             else
             {
-                var step  = NiceStep(span, _tickCount);
+                // An explicit step that would draw more ticks than the track can hold falls back to the rounded one.
+                var step  = !double.IsNaN(_tickStep) && span / _tickStep <= 200 ? _tickStep : NiceStep(span, _tickCount);
                 var first = Math.Ceiling(start / step) * step;
 
                 for (int i = 0; first + i * step <= end + step * 1e-9; i++)
@@ -439,6 +498,38 @@ namespace Tesserae
 
                 _grid.appendChild(label);
                 _grid.appendChild(track);
+            }
+        }
+
+        private void RenderBands(HTMLElement headerTrack, HTMLElement lines, Func<double, double> position)
+        {
+            var row = Div(Att("tss-gantt-bands"));
+            headerTrack.appendChild(row);
+
+            foreach (var band in _bands)
+            {
+                if (band is null) continue;
+
+                var left  = Math.Max(position(band.Start), 0);
+                var right = Math.Min(position(band.End),   100);
+                if (right <= left) continue;
+
+                var label = Div(Att("tss-gantt-band-label", text: band.Label, title: band.Label));
+                label.style.left  = Percent(left);
+                label.style.width = Percent(right - left);
+                row.appendChild(label);
+
+                if (left > 0.01 && left < 99.99)
+                {
+                    // Only through the band row: the tick at the boundary is written on the row below.
+                    var separator = Div(Att("tss-gantt-header-separator"));
+                    separator.style.left = Percent(left);
+                    row.appendChild(separator);
+
+                    var line = Div(Att("tss-gantt-band-line"));
+                    line.style.left = Percent(left);
+                    lines.appendChild(line);
+                }
             }
         }
 

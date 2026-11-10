@@ -47,6 +47,11 @@ namespace Tesserae.Tests.Samples
                            .Add(GanttRow("Build agent 3", GanttBar(20, 24).Color(Theme.Colors.Neutral500).Striped().Text("maintenance"))))).SetTitle("Shifts")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
+                        SampleSubTitle("Two header rows"),
+                        TextBlock("Bands(...) adds a row above the ticks for the coarser unit they belong to - here the day of each hour tick - and draws a solid line where one band ends. Each header row then holds one unit, so the ticks stay short. TickStep(3) puts a tick every three hours, a step Ticks(...) cannot pick."),
+                        BuildShiftsOverTwoDays())).SetTitle("Hours over days")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                         SampleSubTitle("Empty"),
                         GanttChart().Columns("Q1", "Q2", "Q3", "Q4").EmptyMessage("No milestones planned yet."))).SetTitle("Empty state")))
                .SeeAlso(typeof(ChartsSample), typeof(ContributionBarSample), typeof(ActivityCalendarSample), typeof(TimelineSample));
@@ -71,6 +76,24 @@ namespace Tesserae.Tests.Samples
                .Add(GanttRow("Rank results",      Step(5.1, 6.2, GanttBarColor.Green)).Indent(2))
                .Add(GanttRow("Failed lookup",     Step(6.3, 6.5, GanttBarColor.Red)).Indent(2))
                .Add(GanttRow("Answer",            Step(7.9, 9.4, GanttBarColor.Blue)).Indent());
+        }
+
+        private static IComponent BuildShiftsOverTwoDays()
+        {
+            var first  = SampleDate.Today;
+            var second = first.AddDays(1);
+
+            return GanttChart()
+               .Title("Shift")
+               .Range(18, 42)
+               .TickStep(3)
+               .TickFormat(h => (((int)h) % 24).ToString("00") + ":00")
+               .Bands(GanttBand(0,  24, first.ToString("dddd d MMMM")),
+                      GanttBand(24, 48, second.ToString("dddd d MMMM")))
+               .LabelWidth(160.px())
+               .Add(GanttRow("Late shift",  GanttBar(18, 22).Color(GanttBarColor.Orange).Tooltip("18:00 → 22:00")))
+               .Add(GanttRow("Night shift", GanttBar(22, 30).Color(GanttBarColor.Purple).Tooltip("22:00 → 06:00 the next day")))
+               .Add(GanttRow("Early shift", GanttBar(30, 38).Color(GanttBarColor.Blue).Tooltip("06:00 → 14:00")));
         }
 
         public HTMLElement Render() => _content.Render();

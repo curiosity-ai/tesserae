@@ -35,6 +35,7 @@ body.tss-theme-rechenwerk .tss-gantt-header-label {
     border-right-color: var(--tss-rw-bar-foreground);
 }
 
+body.tss-theme-rechenwerk .tss-gantt-band-label,
 body.tss-theme-rechenwerk .tss-gantt-column-label,
 body.tss-theme-rechenwerk .tss-gantt-tick-label {
     color: var(--tss-rw-bar-foreground);

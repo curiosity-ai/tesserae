@@ -19,6 +19,7 @@ body.tss-theme-phosphor .tss-gantt-header-track {
 }
 
 body.tss-theme-phosphor .tss-gantt-header-label,
+body.tss-theme-phosphor .tss-gantt-band-label,
 body.tss-theme-phosphor .tss-gantt-column-label {
     font-size: 11px;
     letter-spacing: var(--tss-ph-tracking);
