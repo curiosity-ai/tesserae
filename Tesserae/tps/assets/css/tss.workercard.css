@@ -136,7 +136,7 @@
     font-size: 13px;
 }
 
-.tss-workercard-row-state-running { color: var(--tss-workercard-accent); }
+.tss-workercard-row-state-running { color: var(--tss-default-foreground-color); }
 .tss-workercard-row-state-success { color: var(--tss-success-background-color); }
 .tss-workercard-row-state-attention { color: var(--tss-warning-background-color); }
 .tss-workercard-row-state-danger  { color: var(--tss-danger-background-color); }
