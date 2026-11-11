@@ -43,6 +43,14 @@ body.tss-theme-zeitung .tss-contextmenu-item i {
     color: var(--tss-zt-muted);
 }
 
+/* Disabled is grey type (rule 8). Restated here because the ink above beats the base stylesheet's disabled colour. */
+body.tss-theme-zeitung .tss-contextmenu-item.tss-disabled,
+body.tss-theme-zeitung .tss-contextmenu-item.tss-disabled i,
+body.tss-theme-zeitung .tss-contextmenu-item.tss-disabled .tss-fontcolor-default {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    cursor: default;
+}
+
 body.tss-theme-zeitung .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover {
     background: var(--tss-zt-tint-strong);
     color: var(--tss-zt-ink);

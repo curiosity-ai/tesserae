@@ -59,6 +59,11 @@ namespace Tesserae
 
                 if (ke.key == "Escape" && _onEscape != null)
                 {
+                    // A menu or popover opened over this surface answers Escape first, as ModalStack lets it. One
+                    // opened with the mouse leaves the focus in here, so the key reaches this listener before
+                    // the menu's own (on document), and closing the surface would close both.
+                    if (Layers.IsCovered(_root.closest(".tss-layer").As<HTMLElement>())) return;
+
                     _onEscape();
                     ke.preventDefault();
                     return;
