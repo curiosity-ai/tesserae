@@ -42,6 +42,40 @@ new ConversationListItem
 | `HasMore(bool)` + `OnLoadMore(Action)` | Paging: a sensor at the end fires once per `HasMore(true)`. |
 | `Select(id)` | Marks the open conversation and scrolls it into view. |
 
+## Children: agents working inside a conversation
+
+Give an item a `Children` list and its row expands like a sidebar group: the arrow replaces the dot
+while the row is hovered (ArrowRight / ArrowLeft on the focused row too), and a count before the time
+says how many children there are, with a pulsing dot while one is running (red if one failed). A
+null or empty list leaves a plain row.
+
+```csharp
+new ConversationListItem
+{
+    Id = "c0", Title = "Checkout flow", Time = DateTimeOffset.Now,
+    Children = new[]
+    {
+        new ConversationListChild
+        {
+            Id = "run-1",                       // shares the id space of the conversations
+            Title = "Tighten address validation",
+            Meta = "opus-5.5",                  // optional: a quiet monospace detail after the name
+            Time = DateTimeOffset.Now.AddMinutes(-49),
+            Tone = ConversationStateTone.Running, StateLabel = "Running",   // spinner / check / warning / cross / ring
+            Icon = UIcons.Sparkles,             // or Leading = a small component (a provider logo)
+            Data = myRun,
+        },
+    },
+};
+
+list.OnChildSelect((child, parent) => OpenRun(child.Data))
+    .ExpandItem("c0");                          // CollapseItem(id), IsExpanded(id)
+```
+
+`Select(childId)` marks the child and opens its conversation. A search matches child titles and
+`Meta` too, and opens the conversation it found them in. Selecting a child does not select the
+conversation, and updating an item with `UpdateItem` redraws only the child rows that changed.
+
 ## States and filters
 
 ```csharp
@@ -52,7 +86,7 @@ list.AddState("working",  "Working",     UIcons.Spinner,         ConversationSta
 ```
 
 - Tones: `Idle` (hollow ring, the default), `Running` (pulsing primary dot), `Attention`
-  (warning dot), `Success` (success dot), `Muted` (faded dashed ring).
+  (warning dot), `Success` (success dot), `Muted` (faded dashed ring), `Danger` (danger dot).
 - `includedInAll: false` keeps that state out of "All" - it shows only when picked (an archive).
 - Time filter: `ConversationTimeRange.AnyTime / Today / Past7Days / Past30Days / Older`.
 - `FilterByState(key)`, `FilterByTime(range)`, `ClearFilters()`, `OpenSearch()`, `CloseSearch()`,

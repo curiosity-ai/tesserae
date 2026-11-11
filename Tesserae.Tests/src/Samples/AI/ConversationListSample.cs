@@ -33,13 +33,16 @@ namespace Tesserae.Tests.Samples
             var controls = HStack().WS().Wrap().Children(
                 Button("Toggle sidebar").SetIcon(UIcons.Sidebar).OnClick(() => sidebar.Toggle()),
                 Button("New conversation").SetIcon(UIcons.Plus).OnClick(() => AddConversation(sidebarList)),
-                Button("Reload (2s)").SetIcon(UIcons.Refresh).OnClick(() => Reload(sidebarList)));
+                Button("Reload (2s)").SetIcon(UIcons.Refresh).OnClick(() => Reload(sidebarList)),
+                Button("Start an agent").SetIcon(UIcons.UserRobot).OnClick(() => StartAgent(sidebarList)),
+                Button("Finish running agents").SetIcon(UIcons.Check).OnClick(() => FinishAgents(sidebarList)));
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(ConversationListSample), UIcons.CommentClock, "A chat history with pins, search and filters")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("A ConversationList is the history of a chat surface. Pinned conversations lead in their own collapsible section; every row has a dot saying what the conversation is doing, its name, an optional second line and the time it last changed. The search icon opens a search box over the list, and the filter icon narrows it by state and by time. The states are the host's own (AddState): each brings a label and icon for the filter menu and a tone for the dot. A state added with includedInAll: false - an archive - is left out of \"All\" and shown only when picked."),
+                        TextBlock("A conversation can have children: the agents working inside it. Give the item a Children list and its row can be expanded like a sidebar group - the arrow replaces the dot while the row is hovered, and the count before the time says how many are in there and whether one is still running. Each child is a compact row with a status glyph (a spinner while it works), an icon or a Leading component such as a provider's logo, its name and the time. Meta, a quiet monospace detail after the name, is optional and left off here. OnChildSelect runs when one is picked. Open \"Conversation list component\" below, or use the buttons to start an agent and finish the running ones.").PaddingTop(8.px()),
                         TextBlock("It is also an ISidebarItem. Collapse the sidebar below: the list leaves a single glyph on the rail, and hovering it opens the same list - same filter, same search, same scroll - in a flyout beside the rail.").PaddingTop(8.px())
                     )).SetTitle("Overview"),
                     Card(VStack().WS().Children(
@@ -99,6 +102,7 @@ namespace Tesserae.Tests.Samples
                 IsPinned = item.IsPinned,
                 State    = item.State,
                 Icon     = item.Icon,
+                Children = item.Children,
             };
 
             change(copy);
@@ -122,6 +126,51 @@ namespace Tesserae.Tests.Samples
 
             //The reply arrives a few seconds later, and the dot settles.
             window.setTimeout(_ => list.UpdateItem(With(item, i => i.State = null)), 4000);
+        }
+
+        private int _agents;
+
+        private static ConversationListChild Agent(string id, string title, int minutesAgo, ConversationStateTone tone, string label, UIcons icon)
+        {
+            return new ConversationListChild
+            {
+                Id         = id,
+                Title      = title,
+                Time       = DateTimeOffset.Now.AddMinutes(-minutesAgo),
+                Tone       = tone,
+                StateLabel = label,
+                Icon       = icon,
+            };
+        }
+
+        private void StartAgent(ConversationList list)
+        {
+            var parent = list.Items.FirstOrDefault(i => i.Id == "c1");
+
+            if (parent is null) return;
+
+            _agents++;
+
+            var children = parent.Children?.ToList() ?? new List<ConversationListChild>();
+
+            children.Insert(0, Agent("new-agent-" + _agents, "Extra agent " + _agents, 0, ConversationStateTone.Running, "Running", UIcons.Sparkles));
+
+            list.UpdateItem(With(parent, i => i.Children = children)).ExpandItem(parent.Id);
+        }
+
+        private static void FinishAgents(ConversationList list)
+        {
+            foreach (var parent in list.Items.ToArray())
+            {
+                if (parent.Children is null || !parent.Children.Any(c => c.Tone == ConversationStateTone.Running)) continue;
+
+                var done = parent.Children.Select(c => c.Tone != ConversationStateTone.Running ? c : new ConversationListChild
+                {
+                    Id = c.Id, Title = c.Title, Meta = c.Meta, Time = DateTimeOffset.Now, Tone = ConversationStateTone.Success, StateLabel = "Done", Icon = c.Icon, IconColor = c.IconColor,
+                }).ToList();
+
+                list.UpdateItem(With(parent, i => i.Children = done));
+            }
         }
 
         private static void Reload(ConversationList list)
@@ -185,7 +234,33 @@ namespace Tesserae.Tests.Samples
                     Time     = now.AddMinutes(-ages[i]),
                     IsPinned = i == 2 || i == 7 || i == 13,
                     State    = i == 0 ? WORKING : i == 1 ? NEEDS_INPUT : states[random.Next(0, states.Length)],
+                    Children = ChildrenOf(i),
                 };
+            }
+        }
+
+        //A few conversations have agents working inside them; the rest have none and stay plain rows.
+        private static IReadOnlyList<ConversationListChild> ChildrenOf(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return new[]
+                    {
+                        Agent("c0-a", "Tighten address validation", 49, ConversationStateTone.Running, "Running", UIcons.Sparkles),
+                        Agent("c0-b", "Validating EU promo codes", 3 * 60, ConversationStateTone.Success, "Done",    UIcons.Bolt),
+                    };
+                case 1:
+                    return new[]
+                    {
+                        Agent("c1-a", "Draft the conversation list API", 12, ConversationStateTone.Running,   "Running",     UIcons.Sparkles),
+                        Agent("c1-b", "Review focus handling", 95, ConversationStateTone.Attention, "Needs input", UIcons.Bolt),
+                        Agent("c1-c", "Write the sample page", 4 * 60, ConversationStateTone.Danger,    "Failed",      UIcons.Sparkles),
+                    };
+                case 4:
+                    return new[] { Agent("c4-a", "Measure flyout latency", 2 * 1440, ConversationStateTone.Success, "Done", UIcons.Bolt) };
+                default:
+                    return null;
             }
         }
 
