@@ -147,6 +147,30 @@ body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sideba
     background: var(--tss-default-background-active-color);
 }
 
+/* A hairline between the scrolling middle and the footer. The middle stops where the footer starts, so a row
+   scrolled half out of view is cut off right on top of the footer's first row and reads as hidden behind it.
+   The rule runs out to the rail's edges, like the one over the account row (the sidebar's padding: 12px open,
+   4px closed). An empty footer draws nothing. */
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-footer:not(:empty) {
+    position: relative;
+    padding-top: 8px;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-footer:not(:empty)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -12px;
+    right: -12px;
+    border-top: var(--tss-str-hair);
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-sidebar.tss-sidebar-closed:not(#_) .tss-sidebar-footer:not(:empty)::before {
+    left: -4px;
+    right: -4px;
+}
+
 /* A nav group is a section: it takes the neutral hover, never the selected wash or bar. */
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
