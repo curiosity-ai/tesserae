@@ -3,8 +3,8 @@
    --------------------------------------------------------------------------
    Small 3px corners and 700-weight labels. Primary is filled navy (mid blue
    in dark) and steps through hover and pressed shades; the default button is
-   the secondary of the language, an outline in the accent with a tinted wash
-   on hover; the borderless and link variants are its ghost. Disabled is the
+   the ghost of the language, an accent label with a tinted wash on hover and
+   no outline, like Tesserae's own default. Disabled is the
    same control at 40% opacity, not a different grey. Focus is the 2px ring,
    drawn as an outline so it never changes the button's size.
    ========================================================================== */
@@ -22,7 +22,7 @@ body.tss-theme-stratus .tss-btn:not(.tss-sidebar-btn):not(.tss-sidebar-command) 
     font-weight: var(--tss-font-weight-bold);
 }
 
-/* Size: 40px tall with a 2px edge (transparent on a filled button, the accent on the outline), 6px by 16px of
+/* Size: 40px tall with a 2px edge (the fill's colour on a filled button, transparent on the ghost), 6px by 16px of
    padding around a 24px line. The small button is 32px, the large one 48px. Buttons a component builds out of
    its own row (the sidebar) keep that component's size. */
 body.tss-theme-stratus .tss-btn:where(:not(.tss-sidebar-btn):not(.tss-sidebar-command):not(.tss-btn-link)) {
@@ -78,11 +78,14 @@ body.tss-theme-stratus .tss-btn.tss-disabled {
     background-color: transparent;
 }
 
-/* Default = secondary: an accent outline on the page, a soft wash on hover, the selected tint when pressed. */
-body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-noborder):not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-sidebar-btn):not(.tss-sidebar-command) {
-    border-color: var(--tss-str-navy);
+/* Default = ghost, as in Tesserae itself: no outline, the accent label, a soft wash on hover and the
+   selected tint when pressed. Applications build header, toolbar and icon buttons out of the default
+   button, so an outline here boxes every one of them. The 2px edge stays, transparent, so the size
+   matches the filled buttons. */
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-sidebar-btn):not(.tss-sidebar-command) {
+    border-color: transparent;
+    background: transparent;
     color: var(--tss-str-navy);
-    background: var(--tss-default-background-color);
 }
 
 body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
@@ -90,6 +93,7 @@ body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled) .tss-fontcolo
 }
 
 body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    border-color: transparent;
     background-color: var(--tss-default-background-hover-color);
     color: var(--tss-str-navy);
 }
@@ -100,28 +104,9 @@ body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-f
 }
 
 body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):active {
-    background-color: var(--tss-default-background-active-color);
-    color: var(--tss-str-navy);
-}
-
-/* The ghost: no outline, accent label. */
-body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled),
-body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-nobg:not(.tss-disabled) {
-    border-color: transparent;
-    background: transparent;
-    color: var(--tss-str-navy);
-}
-
-body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled):hover,
-body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-nobg:not(.tss-disabled):hover {
-    border-color: transparent;
-    background-color: var(--tss-default-background-hover-color);
-}
-
-body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-noborder:not(.tss-disabled):active,
-body.tss-theme-stratus .tss-btn.tss-btn-default.tss-btn-nobg:not(.tss-disabled):active {
     border-color: transparent;
     background-color: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
 }
 
 /* Primary / success / danger: filled, three shades. The border follows the fill so the size never changes. */
