@@ -1,0 +1,187 @@
+/* WorkerCard: the card an assistant leaves in a chat when it hands work to other agents. */
+
+.tss-workercard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+    overflow: hidden;
+    /* A theme may paint its primary the same colour as the surface (RetroOS is white on white), so the running accent is mixed toward the text. */
+    --tss-workercard-accent: color-mix(in srgb, var(--tss-primary-background-color) 45%, var(--tss-default-foreground-color));
+}
+
+.tss-workercard-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    min-height: 20px;
+}
+
+.tss-workercard-icon {
+    display: flex;
+    align-items: center;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 14px;
+}
+
+.tss-workercard-title {
+    font-size: var(--tss-font-size-small-plus, var(--tss-font-size-small));
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-workercard-hint {
+    margin-left: auto;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+    opacity: 0.8;
+    white-space: nowrap;
+}
+
+.tss-workercard-empty .tss-workercard-rows {
+    display: none;
+}
+
+.tss-workercard-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--tss-default-border-color);
+    outline: none;
+}
+
+.tss-workercard-row-clickable {
+    cursor: pointer;
+}
+
+.tss-workercard-row-clickable:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-workercard-row:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-primary-background-color);
+}
+
+.tss-workercard-row-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    font-size: 18px;
+}
+
+.tss-workercard-row-icon > img,
+.tss-workercard-row-icon > svg {
+    width: 20px;
+    height: 20px;
+}
+
+.tss-workercard-row-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 2px;
+}
+
+.tss-workercard-row-title {
+    font-size: var(--tss-font-size-small-plus, var(--tss-font-size-small));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-workercard-row-subtitle {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-workercard-row-agent {
+    flex-shrink: 0;
+    min-width: 72px;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+}
+
+.tss-workercard-row-state {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    flex-shrink: 0;
+    min-width: 92px;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+}
+
+.tss-workercard-row-glyph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+.tss-workercard-row-state-running { color: var(--tss-workercard-accent); }
+.tss-workercard-row-state-success { color: var(--tss-success-background-color); }
+.tss-workercard-row-state-attention { color: var(--tss-warning-background-color); }
+.tss-workercard-row-state-danger  { color: var(--tss-danger-background-color); }
+
+.tss-workercard-row-state-running .tss-workercard-row-glyph {
+    border: 1.5px solid rgba(var(--tss-secondary-foreground-color-root), 0.35);
+    border-top-color: var(--tss-workercard-accent);
+    border-radius: 50%;
+    animation: tss-workercard-spin 0.9s linear infinite;
+}
+
+.tss-workercard-row-state-idle .tss-workercard-row-glyph,
+.tss-workercard-row-state-muted .tss-workercard-row-glyph {
+    border: 1.5px solid var(--tss-secondary-foreground-color);
+    border-radius: 50%;
+    opacity: 0.7;
+}
+
+.tss-workercard-row-state-muted .tss-workercard-row-glyph {
+    border-style: dashed;
+}
+
+@keyframes tss-workercard-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-workercard-row-state-running .tss-workercard-row-glyph {
+        animation: none;
+    }
+}
+
+.tss-workercard-row-trailing {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* In a narrow chat the agent column goes and the status keeps its place. */
+@media (max-width: 520px) {
+    .tss-workercard-row-agent {
+        display: none;
+    }
+
+    .tss-workercard-hint {
+        display: none;
+    }
+}

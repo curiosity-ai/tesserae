@@ -18,6 +18,8 @@
     color: var(--tss-default-foreground-color);
     --tss-convlist-row-hover: var(--tss-default-background-hover-color);
     --tss-convlist-row-selected: var(--tss-primary-background-color-transparent, rgba(var(--tss-primary-background-color-root), 0.12));
+    /* A theme may paint its primary the same colour as the surface (RetroOS is white on white), so the running accent is mixed toward the text. */
+    --tss-convlist-accent: color-mix(in srgb, var(--tss-primary-background-color) 45%, var(--tss-default-foreground-color));
 }
 
 /* ---------- Header ---------- */
@@ -276,6 +278,10 @@
     background: var(--tss-success-background-color);
 }
 
+.tss-convlist-dot-danger {
+    background: var(--tss-danger-background-color);
+}
+
 @keyframes tss-convlist-pulse {
     0%, 100% { box-shadow: 0 0 0 0 rgba(var(--tss-primary-background-color-root), 0.45); }
     50%      { box-shadow: 0 0 0 4px rgba(var(--tss-primary-background-color-root), 0); }
@@ -477,4 +483,248 @@
     max-width: calc(100vw - 80px);
     height: min(560px, 70vh);
     padding: 4px 0;
+}
+
+
+/* ---------- Children: the agents working inside a conversation ---------- */
+
+/* The arrow takes the dot's place while the row is hovered, as a sidebar group's does. A row with nothing
+   under it has no toggle at all. */
+.tss-convlist-toggle {
+    display: none;
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--tss-border-radius-sm);
+    color: var(--tss-secondary-foreground-color);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.tss-convlist-toggle:hover {
+    color: var(--tss-default-foreground-color);
+    background: var(--tss-convlist-row-hover);
+}
+
+.tss-convlist-toggle-icon {
+    font-size: 12px;
+    transition: transform 120ms ease;
+}
+
+.tss-convlist-group-open > .tss-convlist-row .tss-convlist-toggle-icon {
+    transform: rotate(90deg);
+}
+
+.tss-convlist-group-has-children > .tss-convlist-row .tss-convlist-toggle {
+    display: flex;
+    visibility: hidden;
+}
+
+.tss-convlist-group-has-children > .tss-convlist-row:hover .tss-convlist-toggle,
+.tss-convlist-group-has-children > .tss-convlist-row:focus-within .tss-convlist-toggle {
+    visibility: visible;
+}
+
+.tss-convlist-group-has-children > .tss-convlist-row:hover .tss-convlist-dot,
+.tss-convlist-group-has-children > .tss-convlist-row:focus-within .tss-convlist-dot {
+    visibility: hidden;
+}
+
+/* How many are inside, and how they are doing. It is part of the row's line, before the time. */
+.tss-convlist-count {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    padding: 0 6px;
+    height: 16px;
+    border-radius: 8px;
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-tiny);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+}
+
+.tss-convlist-group-has-children > .tss-convlist-row .tss-convlist-count {
+    display: flex;
+}
+
+.tss-convlist-count:hover {
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-convlist-count-dot {
+    display: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.tss-convlist-count-running .tss-convlist-count-dot {
+    display: block;
+    background: var(--tss-convlist-accent);
+    animation: tss-convlist-pulse 1.4s ease-in-out infinite;
+}
+
+.tss-convlist-count-failed .tss-convlist-count-dot {
+    display: block;
+    background: var(--tss-danger-background-color);
+}
+
+.tss-convlist-children {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 1px 0 3px 26px;
+}
+
+.tss-convlist-child {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    height: 26px;
+    padding: 0 6px 0 4px;
+    border-radius: var(--tss-border-radius-md);
+    cursor: pointer;
+    outline: none;
+}
+
+.tss-convlist-child:hover {
+    background: var(--tss-convlist-row-hover);
+}
+
+.tss-convlist-child:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-primary-background-color);
+}
+
+.tss-convlist-child-selected,
+.tss-convlist-child-selected:hover {
+    background: var(--tss-convlist-row-selected);
+}
+
+.tss-convlist-child-selected .tss-convlist-child-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-convlist-child-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+/* Running is a ring with a gap that turns. Done, failed and waiting are the glyphs of what they are. */
+.tss-convlist-child-status-running {
+    border: 1.5px solid rgba(var(--tss-secondary-foreground-color-root), 0.35);
+    border-top-color: var(--tss-convlist-accent);
+    border-radius: 50%;
+    animation: tss-convlist-spin 0.9s linear infinite;
+}
+
+.tss-convlist-child-status-idle {
+    border: 1.5px solid var(--tss-secondary-foreground-color);
+    border-radius: 50%;
+    opacity: 0.7;
+    width: 10px;
+    height: 10px;
+    margin: 2px;
+}
+
+.tss-convlist-child-status-muted {
+    border: 1.5px dashed var(--tss-secondary-foreground-color);
+    border-radius: 50%;
+    opacity: 0.5;
+    width: 10px;
+    height: 10px;
+    margin: 2px;
+}
+
+.tss-convlist-child-status-success   { color: var(--tss-success-background-color); }
+.tss-convlist-child-status-attention { color: var(--tss-warning-background-color); }
+.tss-convlist-child-status-danger    { color: var(--tss-danger-background-color); }
+
+@keyframes tss-convlist-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-convlist-child-status-running {
+        animation: none;
+    }
+
+    .tss-convlist-count-running .tss-convlist-count-dot {
+        animation: none;
+    }
+}
+
+.tss-convlist-child-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.tss-convlist-child-icon > img,
+.tss-convlist-child-icon > svg {
+    width: 14px;
+    height: 14px;
+}
+
+.tss-convlist-child-title {
+    flex: 1 1 auto;
+    min-width: 48px;
+    font-size: var(--tss-font-size-small);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-convlist-child-meta {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 40%;
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-convlist-child-time {
+    flex-shrink: 0;
+    min-width: 22px;
+    text-align: right;
+    font-size: var(--tss-font-size-xsmall);
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    color: var(--tss-secondary-foreground-color);
+    font-variant-numeric: tabular-nums;
+}
+
+/* A touch screen has no hover to reveal the arrow with: the count is the toggle there, and the dot stays. */
+@media (hover: none) {
+    .tss-convlist-group-has-children > .tss-convlist-row:hover .tss-convlist-toggle,
+    .tss-convlist-group-has-children > .tss-convlist-row:focus-within .tss-convlist-toggle {
+        visibility: hidden;
+    }
+
+    .tss-convlist-group-has-children > .tss-convlist-row:hover .tss-convlist-dot,
+    .tss-convlist-group-has-children > .tss-convlist-row:focus-within .tss-convlist-dot {
+        visibility: visible;
+    }
+
+    .tss-convlist-child {
+        height: 32px;
+    }
 }

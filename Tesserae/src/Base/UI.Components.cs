@@ -1736,6 +1736,13 @@ namespace Tesserae
         public static ConversationList ConversationList(string title = null) => new ConversationList(title);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.WorkerCard"/>: the card an assistant leaves in a chat when it hands work to other
+        /// agents - a header ("Started 3 workers") and a row per worker with who does it and a live status.
+        /// </summary>
+        /// <param name="title">The header, e.g. "Started 3 workers".</param>
+        public static WorkerCard WorkerCard(string title = null) => new WorkerCard(title);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Conversation"/>: an issue-style discussion thread of comments and events on a rail.
         /// </summary>
         public static Conversation Conversation() => new Conversation();

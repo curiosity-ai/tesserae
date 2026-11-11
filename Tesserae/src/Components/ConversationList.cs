@@ -23,6 +23,8 @@ namespace Tesserae
         Success,
         /// <summary>A faded ring: it is put away.</summary>
         Muted,
+        /// <summary>A filled dot in the danger colour: it failed.</summary>
+        Danger,
     }
 
     /// <summary>The time filter of a <see cref="ConversationList"/>, measured on <see cref="ConversationListItem.Time"/>.</summary>
@@ -64,7 +66,55 @@ namespace Tesserae
         /// <summary>Whatever the host wants to find again when the row is clicked.</summary>
         public object          Data     { get; set; }
 
-        internal string Signature() => Title + "\u0001" + Subtitle + "\u0001" + Time.ToUnixTimeMilliseconds() + "\u0001" + IsPinned + "\u0001" + State + "\u0001" + (Icon.HasValue ? Icon.Value.ToString() : "") + "\u0001" + IconColor;
+        /// <summary>
+        /// The work running inside this conversation - the agents it delegated to, say. A conversation with
+        /// children can be expanded like a sidebar group, and its children are listed under it. None, or an
+        /// empty list, leaves a plain row.
+        /// </summary>
+        public IReadOnlyList<ConversationListChild> Children { get; set; }
+
+        internal string Signature()
+        {
+            var children = "";
+
+            if (Children is object)
+            {
+                foreach (var child in Children) children += child.Signature() + "\u0002";
+            }
+
+            return Title + "\u0001" + Subtitle + "\u0001" + Time.ToUnixTimeMilliseconds() + "\u0001" + IsPinned + "\u0001" + State + "\u0001" + (Icon.HasValue ? Icon.Value.ToString() : "") + "\u0001" + IconColor + "\u0001" + children;
+        }
+    }
+
+    /// <summary>
+    /// One piece of work running inside a conversation - an agent the conversation delegated to - drawn as a
+    /// compact row under it: a status glyph, an optional leading icon, its name, a quiet monospace detail
+    /// (the model it runs on) and the time it last changed. See <see cref="ConversationListItem.Children"/>.
+    /// </summary>
+    public sealed class ConversationListChild
+    {
+        /// <summary>The stable key of the child. It shares the id space of the conversations, so it must not repeat any of theirs.</summary>
+        public string                Id         { get; set; }
+        /// <summary>What it is called.</summary>
+        public string                Title      { get; set; }
+        /// <summary>A short detail in a monospace face after the name - the model it runs on, say.</summary>
+        public string                Meta       { get; set; }
+        /// <summary>When it last changed. Drawn as a relative time, like the conversation's own.</summary>
+        public DateTimeOffset        Time       { get; set; }
+        /// <summary>What it is doing, drawn as the status glyph at the start of its row: a spinner while running, a check once done.</summary>
+        public ConversationStateTone Tone       { get; set; }
+        /// <summary>What the status glyph says, as its tooltip and accessible name ("Running", "Failed").</summary>
+        public string                StateLabel { get; set; }
+        /// <summary>An icon drawn between the status glyph and the name. None draws none.</summary>
+        public UIcons?               Icon       { get; set; }
+        /// <summary>The icon's colour, as any CSS colour. None uses the row's text colour.</summary>
+        public string                IconColor  { get; set; }
+        /// <summary>A small component drawn where the icon goes - a provider's logo. Wins over <see cref="Icon"/>. Rendered once per update of the child.</summary>
+        public IComponent            Leading    { get; set; }
+        /// <summary>Whatever the host wants to find again when the row is clicked.</summary>
+        public object                Data       { get; set; }
+
+        internal string Signature() => Id + "\u0003" + Title + "\u0003" + Meta + "\u0003" + Time.ToUnixTimeMilliseconds() + "\u0003" + Tone + "\u0003" + StateLabel + "\u0003" + (Icon.HasValue ? Icon.Value.ToString() : "") + "\u0003" + IconColor;
     }
 
     /// <summary>What a <see cref="ConversationList"/> is filtered by at the moment.</summary>
@@ -117,10 +167,31 @@ namespace Tesserae
             public bool                  IncludedInAll;
         }
 
+        private sealed class ChildRow
+        {
+            public ConversationListChild Child;
+            public string                Signature;
+            public HTMLElement           Element;
+            public HTMLElement           Status;
+            public HTMLElement           IconHost;
+            public HTMLElement           Title;
+            public HTMLElement           Meta;
+            public HTMLElement           Time;
+        }
+
         private sealed class Row
         {
             public ConversationListItem Item;
             public string               Signature;
+            //What goes in the list: the row, and under it the children it can expand to.
+            public HTMLElement          Group;
+            public HTMLElement          ChildrenHost;
+            public HTMLElement          Toggle;
+            public HTMLElement          ToggleIcon;
+            public HTMLElement          Count;
+            public HTMLElement          CountDot;
+            public HTMLElement          CountText;
+            public Dictionary<string, ChildRow> Children = new Dictionary<string, ChildRow>();
             public HTMLElement          Element;
             public HTMLElement          Dot;
             public HTMLElement          IconHost;
@@ -154,11 +225,13 @@ namespace Tesserae
         private readonly List<StateDefinition>      _states  = new List<StateDefinition>();
         private readonly List<ConversationListItem> _items   = new List<ConversationListItem>();
         private readonly Dictionary<string, Row>    _rows    = new Dictionary<string, Row>();
+        private readonly HashSet<string>            _expanded = new HashSet<string>();
 
         private ConversationListItem[]                                   _searchResults;
         private Func<string, Task<IEnumerable<ConversationListItem>>>    _searchProvider;
         private int                                                      _searchGeneration;
         private Action<ConversationListItem>                             _onSelect;
+        private Action<ConversationListChild, ConversationListItem>      _onChildSelect;
         private Func<ConversationListItem, ContextMenu.Item[]>           _itemMenu;
         private Action<ConversationListFilter>                           _onFilterChanged;
         private Action                                                   _onLoadMore;
@@ -347,6 +420,16 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Runs when a child of a conversation (see <see cref="ConversationListItem.Children"/>) is clicked or picked
+        /// with Enter, with the conversation it belongs to. Selecting one does not select the conversation.
+        /// </summary>
+        public ConversationList OnChildSelect(Action<ConversationListChild, ConversationListItem> onChildSelect)
+        {
+            _onChildSelect = onChildSelect;
+            return this;
+        }
+
+        /// <summary>
         /// Gives every row a "more" button, and a right-click menu, listing the items this returns for it.
         /// Returning none leaves that row without a menu.
         /// </summary>
@@ -471,21 +554,96 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>Marks the conversation with this id as the one open, scrolling it into view when it is off screen.</summary>
+        /// <summary>Opens a conversation's children. Does nothing for one that has none.</summary>
+        public ConversationList ExpandItem(string id)
+        {
+            SetExpanded(id, true);
+            return this;
+        }
+
+        /// <summary>Folds a conversation's children away.</summary>
+        public ConversationList CollapseItem(string id)
+        {
+            SetExpanded(id, false);
+            return this;
+        }
+
+        /// <summary>Whether the conversation with this id shows its children.</summary>
+        public bool IsExpanded(string id) => id is object && _expanded.Contains(id);
+
+        private static bool HasChildren(ConversationListItem item) => item.Children is object && item.Children.Count > 0;
+
+        private void SetExpanded(string id, bool expanded)
+        {
+            if (id is null) return;
+
+            var changed = expanded ? _expanded.Add(id) : _expanded.Remove(id);
+
+            if (changed && _rows.TryGetValue(id, out var row)) ApplyExpanded(row);
+        }
+
+        private void ApplyExpanded(Row row)
+        {
+            var hasChildren = HasChildren(row.Item);
+            var expanded    = hasChildren && (_expanded.Contains(row.Item.Id) || ForcedOpenBySearch(row.Item));
+
+            row.Group.classList.toggle("tss-convlist-group-open", expanded);
+            row.ChildrenHost.style.display = expanded ? "" : "none";
+
+            if (hasChildren) row.Element.setAttribute("aria-expanded", expanded ? "true" : "false");
+            else             row.Element.removeAttribute("aria-expanded");
+
+            var label = expanded ? "Collapse agents".t() : "Expand agents".t();
+            row.Toggle.setAttribute("aria-label", label);
+            row.Toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+            row.Count.setAttribute("aria-label", label);
+        }
+
+        /// <summary>Marks the conversation (or the child of one) with this id as the one open, scrolling it into view when it is off screen. A child opens its conversation.</summary>
         public ConversationList Select(string id)
         {
             _selectedId = id;
 
-            foreach (var row in _rows.Values) ApplySelected(row);
-
-            if (id is object && _rows.TryGetValue(id, out var selected) && selected.Element.IsMounted())
+            if (id is object && !_rows.ContainsKey(id))
             {
-                var rowRect  = selected.Element.getBoundingClientRect().As<DOMRect>();
+                foreach (var candidate in _rows.Values)
+                {
+                    if (!candidate.Children.ContainsKey(id)) continue;
+
+                    //The child is only on screen while its conversation is open.
+                    SetExpanded(candidate.Item.Id, true);
+                    break;
+                }
+            }
+
+            foreach (var row in _rows.Values)
+            {
+                ApplySelected(row);
+                foreach (var child in row.Children.Values) ApplyChildSelected(child);
+            }
+
+            HTMLElement target = null;
+
+            if (id is object)
+            {
+                if (_rows.TryGetValue(id, out var selectedRow)) target = selectedRow.Element;
+                else
+                {
+                    foreach (var candidate in _rows.Values)
+                    {
+                        if (candidate.Children.TryGetValue(id, out var selectedChild)) target = selectedChild.Element;
+                    }
+                }
+            }
+
+            if (target is object && target.IsMounted())
+            {
+                var rowRect  = target.getBoundingClientRect().As<DOMRect>();
                 var bodyRect = _body.getBoundingClientRect().As<DOMRect>();
 
                 if (rowRect.top < bodyRect.top || rowRect.bottom > bodyRect.bottom)
                 {
-                    selected.Element.scrollIntoView(new ScrollIntoViewOptions { block = ScrollLogicalPosition.nearest });
+                    target.scrollIntoView(new ScrollIntoViewOptions { block = ScrollLogicalPosition.nearest });
                 }
             }
 
@@ -755,10 +913,32 @@ namespace Tesserae
                 var inTitle    = (item.Title    ?? "").ToLowerInvariant().Contains(needle);
                 var inSubtitle = (item.Subtitle ?? "").ToLowerInvariant().Contains(needle);
 
-                if (!inTitle && !inSubtitle) return false;
+                if (!inTitle && !inSubtitle && !AnyChildMatches(item, needle)) return false;
             }
 
             return true;
+        }
+
+        private static bool AnyChildMatches(ConversationListItem item, string lowerNeedle)
+        {
+            if (item.Children is null) return false;
+
+            foreach (var child in item.Children)
+            {
+                if ((child.Title ?? "").ToLowerInvariant().Contains(lowerNeedle) || (child.Meta ?? "").ToLowerInvariant().Contains(lowerNeedle)) return true;
+            }
+
+            return false;
+        }
+
+        //A search that only found the conversation through one of its children has to show that child, or the hit reads as a mistake.
+        private bool ForcedOpenBySearch(ConversationListItem item)
+        {
+            if (_search.Length == 0 || _searchProvider is object || !HasChildren(item)) return false;
+
+            var needle = _search.ToLowerInvariant();
+
+            return !(item.Title ?? "").ToLowerInvariant().Contains(needle) && !(item.Subtitle ?? "").ToLowerInvariant().Contains(needle) && AnyChildMatches(item, needle);
         }
 
         // ------------------------------------------------------------------------------------------
@@ -794,9 +974,12 @@ namespace Tesserae
             {
                 if (keep.Contains(id)) continue;
 
-                _rows[id].Element.remove();
+                _rows[id].Group.remove();
                 _rows.Remove(id);
             }
+
+            //What opens a conversation can be the search itself, so a search that moved on re-decides every row.
+            foreach (var row in _rows.Values) ApplyExpanded(row);
 
             _pinnedSection.style.display = pinned.Length > 0 ? "" : "none";
             _pinnedCount.textContent     = pinned.Length.ToString();
@@ -895,9 +1078,9 @@ namespace Tesserae
                     row.Item = item;
                 }
 
-                if (expected != row.Element)
+                if (expected != row.Group)
                 {
-                    container.insertBefore(row.Element, expected);
+                    container.insertBefore(row.Group, expected);
                 }
                 else
                 {
@@ -928,9 +1111,42 @@ namespace Tesserae
                            Div(Att("tss-convlist-row-line"), row.IconHost, row.Title, row.TrailingHost, row.Time),
                            row.Subtitle);
 
-            row.Element = Div(Att("tss-convlist-row"), Div(Att("tss-convlist-dot-host"), row.Dot), main, menuButton.Render());
+            //Both open the children, as a sidebar group's arrow does: the arrow takes the dot's place while the row
+            //is hovered, and the count is there all the time, which is also what a touch screen has to tap.
+            row.ToggleIcon = I(UIcons.AngleSmallRight, cssClass: "tss-convlist-toggle-icon");
+            row.Toggle     = Div(Att("tss-convlist-toggle"), row.ToggleIcon);
+            row.Toggle.setAttribute("role", "button");
+            row.Toggle.setAttribute("tabindex", "-1");
+
+            row.CountDot  = Div(Att("tss-convlist-count-dot"));
+            row.CountText = Div(Att("tss-convlist-count-text"));
+            row.Count     = Div(Att("tss-convlist-count"), row.CountDot, row.CountText);
+            row.Count.setAttribute("role", "button");
+            row.Count.setAttribute("tabindex", "-1");
+
+            main.firstElementChild.insertBefore(row.Count, row.Time);
+
+            row.Element = Div(Att("tss-convlist-row"), Div(Att("tss-convlist-dot-host"), row.Dot), row.Toggle, main, menuButton.Render());
             row.Element.setAttribute("role", "listitem");
             row.Element.setAttribute("tabindex", "0");
+
+            row.ChildrenHost = Div(Att("tss-convlist-children"));
+            row.ChildrenHost.setAttribute("role", "list");
+            row.ChildrenHost.style.display = "none";
+
+            row.Group = Div(Att("tss-convlist-group"), row.Element, row.ChildrenHost);
+
+            row.Toggle.addEventListener("click", (Event e) =>
+            {
+                e.stopPropagation();
+                SetExpanded(row.Item.Id, !_expanded.Contains(row.Item.Id));
+            });
+
+            row.Count.addEventListener("click", (Event e) =>
+            {
+                e.stopPropagation();
+                SetExpanded(row.Item.Id, !_expanded.Contains(row.Item.Id));
+            });
 
             row.Element.addEventListener("click", (Event e) =>
             {
@@ -951,6 +1167,16 @@ namespace Tesserae
                 {
                     e.preventDefault();
                     MoveFocus(row.Element, ke.key == "ArrowDown");
+                }
+                else if (HasChildren(row.Item) && ke.key == "ArrowRight")
+                {
+                    e.preventDefault();
+                    SetExpanded(row.Item.Id, true);
+                }
+                else if (HasChildren(row.Item) && ke.key == "ArrowLeft")
+                {
+                    e.preventDefault();
+                    SetExpanded(row.Item.Id, false);
                 }
             });
 
@@ -1018,15 +1244,198 @@ namespace Tesserae
             row.Dot.title = state?.Label ?? "";
 
             row.Element.classList.toggle("tss-convlist-row-has-menu", _itemMenu is object);
+            row.Group.classList.toggle("tss-convlist-group-has-children", HasChildren(item));
+
+            UpdateChildren(row, item);
 
             UpdateTime(row);
             ApplySelected(row);
+        }
+
+        private void UpdateChildren(Row row, ConversationListItem item)
+        {
+            var children = item.Children ?? Array.Empty<ConversationListChild>();
+            var keep     = new HashSet<string>();
+
+            HTMLElement expected = row.ChildrenHost.firstElementChild.As<HTMLElement>();
+
+            foreach (var child in children)
+            {
+                if (child?.Id is null || !keep.Add(child.Id)) continue;
+
+                if (!row.Children.TryGetValue(child.Id, out var childRow))
+                {
+                    childRow = CreateChildRow(row, child);
+                    row.Children[child.Id] = childRow;
+                }
+                else if (childRow.Signature != child.Signature() || !ReferenceEquals(childRow.Child.Leading, child.Leading))
+                {
+                    UpdateChildRow(childRow, child);
+                }
+                else
+                {
+                    childRow.Child = child;
+                }
+
+                if (expected != childRow.Element)
+                {
+                    row.ChildrenHost.insertBefore(childRow.Element, expected);
+                }
+                else
+                {
+                    expected = expected.nextElementSibling.As<HTMLElement>();
+                }
+            }
+
+            foreach (var id in row.Children.Keys.ToArray())
+            {
+                if (keep.Contains(id)) continue;
+
+                row.Children[id].Element.remove();
+                row.Children.Remove(id);
+            }
+
+            //The count says how many are there, and how they are doing: a conversation folded shut still shows an agent at work.
+            var running = 0;
+            var failed  = 0;
+
+            foreach (var id in keep)
+            {
+                var tone = row.Children[id].Child.Tone;
+                if (tone == ConversationStateTone.Running) running++;
+                else if (tone == ConversationStateTone.Danger) failed++;
+            }
+
+            row.CountText.textContent = keep.Count.ToString();
+            row.Count.style.display   = keep.Count > 0 ? "" : "none";
+            row.Count.className       = "tss-convlist-count" + (running > 0 ? " tss-convlist-count-running" : failed > 0 ? " tss-convlist-count-failed" : "");
+            row.Count.title           = running > 0 ? string.Format("{0} running".t(), running) : keep.Count.ToString();
+
+            ApplyExpanded(row);
+        }
+
+        private ChildRow CreateChildRow(Row parent, ConversationListChild child)
+        {
+            var row = new ChildRow
+            {
+                Status   = Div(Att("tss-convlist-child-status")),
+                IconHost = Div(Att("tss-convlist-child-icon")),
+                Title    = Div(Att("tss-convlist-child-title")),
+                Meta     = Div(Att("tss-convlist-child-meta")),
+                Time     = Div(Att("tss-convlist-child-time")),
+            };
+
+            row.Element = Div(Att("tss-convlist-child"), row.Status, row.IconHost, row.Title, row.Meta, row.Time);
+            row.Element.setAttribute("role", "listitem");
+            row.Element.setAttribute("tabindex", "0");
+
+            row.Element.addEventListener("click", (Event e) => ActivateChild(row.Child, parent.Item));
+
+            row.Element.addEventListener("keydown", (Event e) =>
+            {
+                var ke = e.As<KeyboardEvent>();
+
+                if (ke.key == "Enter" || ke.key == " ")
+                {
+                    e.preventDefault();
+                    ActivateChild(row.Child, parent.Item);
+                }
+                else if (ke.key == "ArrowDown" || ke.key == "ArrowUp")
+                {
+                    e.preventDefault();
+                    MoveFocus(row.Element, ke.key == "ArrowDown");
+                }
+                else if (ke.key == "ArrowLeft")
+                {
+                    //Back to the conversation the child belongs to, folding it as a tree does.
+                    e.preventDefault();
+                    SetExpanded(parent.Item.Id, false);
+                    parent.Element.focus();
+                }
+            });
+
+            UpdateChildRow(row, child);
+
+            return row;
+        }
+
+        private void UpdateChildRow(ChildRow row, ConversationListChild child)
+        {
+            row.Child     = child;
+            row.Signature = child.Signature();
+
+            row.Element.dataset["convChildId"] = child.Id;
+            row.Element.title                  = child.Title ?? "";
+
+            row.Title.textContent       = child.Title ?? "";
+            row.Meta.textContent        = child.Meta ?? "";
+            row.Meta.style.display      = string.IsNullOrEmpty(child.Meta) ? "none" : "";
+
+            ClearChildren(row.Status);
+
+            row.Status.className = "tss-convlist-child-status tss-convlist-child-status-" + child.Tone.ToString().ToLowerInvariant();
+            row.Status.title     = child.StateLabel ?? "";
+            row.Status.setAttribute("aria-label", child.StateLabel ?? "");
+
+            switch (child.Tone)
+            {
+                case ConversationStateTone.Success:   row.Status.appendChild(I(UIcons.CheckCircle));   break;
+                case ConversationStateTone.Attention: row.Status.appendChild(I(UIcons.TriangleWarning)); break;
+                case ConversationStateTone.Danger:    row.Status.appendChild(I(UIcons.CrossCircle));   break;
+            }
+
+            ClearChildren(row.IconHost);
+
+            if (child.Leading is object)
+            {
+                row.IconHost.appendChild(child.Leading.Render());
+                row.IconHost.style.display = "";
+            }
+            else if (child.Icon.HasValue)
+            {
+                var icon = I(child.Icon.Value);
+                if (!string.IsNullOrEmpty(child.IconColor)) icon.style.color = child.IconColor;
+                row.IconHost.appendChild(icon);
+                row.IconHost.style.display = "";
+            }
+            else
+            {
+                row.IconHost.style.display = "none";
+            }
+
+            row.Time.textContent = Relative(child.Time);
+            row.Time.title       = child.Time.LocalDateTime.ToString("yyyy-MM-dd HH:mm");
+
+            ApplyChildSelected(row);
+        }
+
+        private void ApplyChildSelected(ChildRow row)
+        {
+            var selected = _selectedId is object && row.Child.Id == _selectedId;
+
+            row.Element.classList.toggle("tss-convlist-child-selected", selected);
+
+            if (selected) row.Element.setAttribute("aria-current", "true");
+            else          row.Element.removeAttribute("aria-current");
+        }
+
+        private void ActivateChild(ConversationListChild child, ConversationListItem parent)
+        {
+            Select(child.Id);
+            _hideFlyout?.Invoke();
+            _onChildSelect?.Invoke(child, parent);
         }
 
         private void UpdateTime(Row row)
         {
             row.Time.textContent = Relative(row.Item.Time);
             row.Time.title       = row.Item.Time.LocalDateTime.ToString("yyyy-MM-dd HH:mm");
+
+            foreach (var child in row.Children.Values)
+            {
+                child.Time.textContent = Relative(child.Child.Time);
+                child.Time.title       = child.Child.Time.LocalDateTime.ToString("yyyy-MM-dd HH:mm");
+            }
         }
 
         private void ApplySelected(Row row)
@@ -1057,7 +1466,7 @@ namespace Tesserae
 
         private void MoveFocus(HTMLElement from, bool down)
         {
-            var rows  = _body.querySelectorAll(".tss-convlist-row").As<NodeList>();
+            var rows  = _body.querySelectorAll(".tss-convlist-row, .tss-convlist-group-open .tss-convlist-child").As<NodeList>();
             var index = -1;
 
             for (uint i = 0; i < rows.length; i++)
