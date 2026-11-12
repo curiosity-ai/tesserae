@@ -21,9 +21,10 @@
         large one, and weight 500 / 700 do the emphasising.
      3. Corners are small and exact: 3px on controls, 6px on cards, 8px on
         floating surfaces, full on avatars and tags.
-     4. Depth is a tiered shadow scale (levels 1 to 6). A card rests at level 1,
-        lifts to level 2 under the pointer; a dialog sits at level 6.
-     5. A text field is a filled slab with a 1px rule underneath, which thickens
+     4. Depth is a tiered shadow scale (levels 1 to 6). A card rests at level 3,
+        lifts to level 4 under the pointer; a dialog sits at level 6.
+     5. A text field is a filled slab, 3px at its top corners and square at the
+        bottom, with a 1px rule underneath, which thickens
         to 3px in the state colour on focus, error, success or information.
      6. Focus is a 2px mid-blue ring, 2px clear of the control, never a glow.
    ========================================================================== */
@@ -155,7 +156,7 @@ body.tss-theme-stratus {
     --tss-shadow-lg-hover: var(--tss-str-elev-4);
     --tss-shadow-xl: var(--tss-str-elev-6);
     --tss-shadow-xl-hover: var(--tss-str-elev-8);
-    --tss-overlay-light: rgba(20, 23, 29, 0.32);
+    --tss-overlay-light: rgba(20, 23, 29, 0.48);
     --tss-overlay-dark: rgba(0, 0, 0, 0.56);
 
     --tss-border-radius-sm: 3px;
@@ -263,7 +264,7 @@ body.tss-theme-stratus.tss-dark-mode {
     --tss-str-elev-6: 0 8px 32px 2px rgba(0, 0, 0, 0.55);
     --tss-str-elev-8: 0 8px 48px 2px rgba(0, 0, 0, 0.6);
 
-    --tss-default-background-color-root: 20, 23, 29;       /* dark.70 */
+    --tss-default-background-color-root: 17, 17, 17;       /* off-black: the dark page */
     --tss-default-foreground-color-root: 255, 255, 255;
     --tss-secondary-background-color-root: 24, 28, 33;     /* dark.60 */
     --tss-secondary-foreground-color-root: 206, 213, 221;  /* coolgrey.30 */
@@ -279,7 +280,7 @@ body.tss-theme-stratus.tss-dark-mode {
     --tss-default-background-active-color-root: 40, 46, 58;
     --tss-default-foreground-active-color-root: 255, 255, 255;
     --tss-progress-background-color-root: 60, 70, 87;
-    --tss-link-color-root: 134, 168, 233;
+    --tss-link-color-root: 99, 142, 224;                   /* primaryblue.50 */
     --tss-highlight-color-root: 134, 168, 233;
     --tss-tooltip-background-color-root: 224, 227, 233;
     --tss-tooltip-foreground-color-root: 20, 23, 29;
@@ -333,7 +334,7 @@ body.tss-theme-stratus.tss-dark-mode {
     --tss-shadow-lg-hover: var(--tss-str-elev-4);
     --tss-shadow-xl: var(--tss-str-elev-6);
     --tss-shadow-xl-hover: var(--tss-str-elev-8);
-    --tss-overlay-light: rgba(20, 23, 29, 0.6);
+    --tss-overlay-light: rgba(0, 0, 0, 0.64);
     --tss-overlay-dark: rgba(0, 0, 0, 0.7);
 
     --tss-scrollbar-thumb-color: #505d74;
