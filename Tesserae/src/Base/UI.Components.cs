@@ -965,6 +965,17 @@ namespace Tesserae
         public static HorizontalSeparator HorizontalSeparator(IComponent component) => new HorizontalSeparator(component);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.VerticalSeparator"/>: a thin vertical rule that divides the items of a horizontal row, optionally with a label.
+        /// </summary>
+        /// <param name="text">The label in the middle of the line.</param>
+        public static VerticalSeparator VerticalSeparator(string text = "") => new VerticalSeparator(text);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.VerticalSeparator"/> carrying a component in the middle of the line.
+        /// </summary>
+        public static VerticalSeparator VerticalSeparator(IComponent component) => new VerticalSeparator(component);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Label"/> component.
         /// </summary>
         public static Label Label(string text = string.Empty) => new Label(text);
