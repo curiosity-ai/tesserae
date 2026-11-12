@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Transpose;
 using static Transpose.Core.dom;
@@ -417,6 +417,18 @@ namespace Tesserae
             Attr(text, "text-anchor", "middle");
             Attr(text, "font-size", LabelFontSize.ToString("0"));
             Attr(text, "fill", _valueColor ?? (intensity >= 0.55 ? "#ffffff" : Theme.Default.Foreground));
+
+            //The fill is the scale colour at partial opacity, so around the switch neither dark nor white text has
+            //enough contrast on it. A halo in the opposite tone, drawn under the glyphs, keeps any value readable
+            //on any cell, in either theme. Not when the caller chose the text colour.
+            if (_valueColor is null)
+            {
+                Attr(text, "stroke", intensity >= 0.55 ? (_colorScale is object ? "rgba(0, 0, 0, 0.55)" : _scaleColor) : Theme.Default.Background);
+                Attr(text, "stroke-width", "3");
+                Attr(text, "stroke-linejoin", "round");
+                Attr(text, "paint-order", "stroke");
+            }
+
             Attr(text, "pointer-events", "none");
             text.textContent = _valueFormatter(value);
             into.appendChild(text);
