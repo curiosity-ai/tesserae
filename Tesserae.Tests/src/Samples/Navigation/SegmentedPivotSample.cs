@@ -34,7 +34,19 @@ namespace Tesserae.Tests.Samples
                             .SegmentedPivot("s5", SegmentTitle("Alerts"),     () => CenteredWithBackground(Message("Alerts Content")))
                             .SegmentedPivot("s6", SegmentTitle("Reports"),    () => CenteredWithBackground(Message("Reports Content")))
                             .SegmentedPivot("s7", SegmentTitle("Settings"),   () => CenteredWithBackground(Message("Settings Content"))))
-                    .Right(TextBlock("👈 resize this area to squeeze the segmented control — use the chevrons or the mouse wheel to scroll the tab strip, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces())
+                    .Right(TextBlock("👈 resize this area to squeeze the segmented control — use the chevrons or the mouse wheel to scroll the tab strip, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
+                    SampleSubTitle("A later tab selected before the strip is drawn"),
+                    TextBlock("Select(...) before the pivot is on the page, as a page drawn again after a layout change does: the strip opens scrolled to the selected tab.").Small().Secondary().PB(8),
+                    VStack().W(320.px()).H(160.px()).Children(
+                        SegmentedPivot().S()
+                            .SegmentedPivot("p1", SegmentTitle("Overview"),  () => CenteredWithBackground(Message("Overview Content")))
+                            .SegmentedPivot("p2", SegmentTitle("Logs"),      () => CenteredWithBackground(Message("Logs Content")))
+                            .SegmentedPivot("p3", SegmentTitle("Analytics"), () => CenteredWithBackground(Message("Analytics Content")))
+                            .SegmentedPivot("p4", SegmentTitle("Firewall"),  () => CenteredWithBackground(Message("Firewall Content")))
+                            .SegmentedPivot("p5", SegmentTitle("Alerts"),    () => CenteredWithBackground(Message("Alerts Content")))
+                            .SegmentedPivot("p6", SegmentTitle("Reports"),   () => CenteredWithBackground(Message("Reports Content")))
+                            .SegmentedPivot("p7", SegmentTitle("Settings"),  () => CenteredWithBackground(Message("Settings Content")))
+                            .Select("p6"))
                )).SetTitle("Usage")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
