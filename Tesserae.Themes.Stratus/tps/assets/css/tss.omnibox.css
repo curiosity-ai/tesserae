@@ -44,6 +44,13 @@ body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-mode-chat:focus-within
     box-shadow: var(--tss-str-elev-1), 0 0 0 2px var(--tss-str-focus);
 }
 
+/* The box draws the ring for its fields (:focus-within above); without this the global :focus-visible
+   outline draws a second box around the focused input or chat textarea. */
+body.tss-theme-stratus .tss-omnibox-container input:focus-visible,
+body.tss-theme-stratus .tss-omnibox-container textarea:focus-visible {
+    outline: none;
+}
+
 body.tss-theme-stratus .tss-omnibox-container .tss-omnibox-search-container {
     border-color: transparent;
     box-shadow: none;

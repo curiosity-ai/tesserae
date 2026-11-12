@@ -1,0 +1,42 @@
+/* VideoPlayer and AudioPlayer */
+.tss-videoplayer {
+    display: block;
+    max-width: 100%;
+    background: #000;
+    border-radius: var(--tss-border-radius-md);
+    object-fit: contain;
+}
+
+.tss-audioplayer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.tss-audioplayer-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tss-audioplayer-time {
+    font-family: var(--tss-monospace-font-family, monospace);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.tss-audioplayer-wave {
+    width: 100%;
+    min-height: 40px;
+    cursor: pointer;
+}
+
+/* The native controls take over when the waveform cannot be drawn (a script that did not load, audio the page may not decode) */
+.tss-audioplayer-native {
+    width: 100%;
+}
+
+.tss-audioplayer-native > audio {
+    width: 100%;
+}

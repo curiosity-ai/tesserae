@@ -41,3 +41,4 @@ var avatar = Image("/avatars/jane.jpg", fallback: "/avatars/default.png")
 - Icon — `icon.md`
 - Avatar — `/tesserae/media/avatar`
 - Full docs & API: `/tesserae/media/image`
+- VideoPlayer, AudioPlayer — `video-player.md`, `audio-player.md`
