@@ -416,19 +416,22 @@ namespace Tesserae
             Attr(text, "y", cy + 3);
             Attr(text, "text-anchor", "middle");
             Attr(text, "font-size", LabelFontSize.ToString("0"));
-            Attr(text, "fill", _valueColor ?? (intensity >= 0.55 ? "#ffffff" : Theme.Default.Foreground));
+            //The colour is an inline style, not the fill attribute: a theme's rule for chart text
+            //(".tss-chart text { fill: ... }", in eleven of the theme packages) beats an attribute, and repainted every
+            //value in one grey whatever the cell behind it.
+            var fill = _valueColor ?? (intensity >= 0.55 ? "#ffffff" : Theme.Default.Foreground);
+            var style = "fill: " + fill + ";";
 
             //The fill is the scale colour at partial opacity, so around the switch neither dark nor white text has
-            //enough contrast on it. A halo in the opposite tone, drawn under the glyphs, keeps any value readable
-            //on any cell, in either theme. Not when the caller chose the text colour.
+            //enough contrast on it. A halo in the opposite tone, drawn under the glyphs, keeps any value readable on
+            //any cell, in either theme: a neutral shade behind white text (a theme can recolour the cells), the page
+            //background behind dark text. Not when the caller chose the text colour.
             if (_valueColor is null)
             {
-                Attr(text, "stroke", intensity >= 0.55 ? (_colorScale is object ? "rgba(0, 0, 0, 0.55)" : _scaleColor) : Theme.Default.Background);
-                Attr(text, "stroke-width", "3");
-                Attr(text, "stroke-linejoin", "round");
-                Attr(text, "paint-order", "stroke");
+                style += " stroke: " + (intensity >= 0.55 ? "rgba(0, 0, 0, 0.45)" : Theme.Default.Background) + "; stroke-width: 3px; stroke-linejoin: round; paint-order: stroke;";
             }
 
+            Attr(text, "style", style);
             Attr(text, "pointer-events", "none");
             text.textContent = _valueFormatter(value);
             into.appendChild(text);
