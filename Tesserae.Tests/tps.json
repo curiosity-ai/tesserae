@@ -22,6 +22,11 @@
             "output": "assets/img/providers"
         },
         {
+            "name": "sample-media",
+            "files": [ "tps/assets/media/*" ],
+            "output": "assets/media"
+        },
+        {
             "name": "tss-samples.css",
             "files": [ "tps/assets/css/tss-samples.css" ]
         }

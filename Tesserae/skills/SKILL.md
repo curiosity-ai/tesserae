@@ -182,7 +182,7 @@ references. Open the reference for whatever you are working with. The full set:
 
 **Layout** — containers you build a page out of
 accordion · background-area · card · dock-panel · expander · grid · horizontal-separator ·
-horizontal-split-view · masonry · section-stack · split-view · stack
+horizontal-split-view · masonry · section-stack · split-view · stack · vertical-separator
 
 **Text & Content** — text, labels and rich content blocks
 badge · code-diff · icon-tile · inline-label · keyboard-shortcut · label ·
@@ -238,7 +238,7 @@ ai-variants · chat · chat-time-divider · context-card · context-cards · con
 resource-card · tool-agent-selector · tool-call
 
 **Media & Graphics** — images, avatars and embedded content
-avatar · carousel · image · pages-stack · pixel-avatar · sandbox
+audio-player · avatar · carousel · image · pages-stack · pixel-avatar · sandbox · video-player
 
 **Theming & Icons** — colours, gradients, icons and emoji
 color-palette · custom-themes · emoji · gradients · icon · theme-builder · uicons

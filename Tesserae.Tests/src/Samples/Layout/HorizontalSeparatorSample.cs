@@ -39,6 +39,21 @@ namespace Tesserae.Tests.Samples
                     TextBlock("A simple line without any label:"),
                     HorizontalSeparator("")
                 )).SetTitle("Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("VerticalSeparator is the same rule turned on its side, for the items of a row: it stretches to the row's height and can carry a short label or any component, such as the \"or\" between two halves of a form."),
+                    SampleSubTitle("In a row"),
+                    HStack().Gap(8.px()).AlignItemsCenter().Children(TextBlock("Home"), VerticalSeparator(), TextBlock("Docs"), VerticalSeparator(), TextBlock("Blog")),
+                    SampleSubTitle("With a label"),
+                    HStack().H(120).Children(
+                        VStack().Grow().Children(TextBlock("Sign in with a password").SemiBold(), TextBox().SetPlaceholder("Email"), TextBox().Password()),
+                        VerticalSeparator("or"),
+                        VStack().Grow().Children(TextBlock("Sign in with a link").SemiBold(), Button("Email me a link").Primary())),
+                    SampleSubTitle("Label position and tone"),
+                    HStack().H(100).Gap(32.px()).Children(
+                        VerticalSeparator("top").Top(), VerticalSeparator("center"), VerticalSeparator("bottom").Bottom(),
+                        VerticalSeparator("tone").Primary(), VerticalSeparator(Icon(UIcons.Info)))
+                )).SetTitle("Vertical")))
                .SeeAlso(typeof(StackSample), typeof(SectionStackSample), typeof(SidebarSeparatorSample), typeof(CardSample));
         }
 
