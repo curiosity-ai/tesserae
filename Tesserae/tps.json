@@ -36,6 +36,7 @@
                 "tps/assets/css/tss.badge.css",
                 "tps/assets/css/tss.icontile.css",
                 "tps/assets/css/tss.avatar.css",
+                "tps/assets/css/tss.mediaplayer.css",
                 "tps/assets/css/tss.pixelavatar.css",
                 "tps/assets/css/tss.breadcrumb.css",
                 "tps/assets/css/tss.textbreadcrumb.css",
@@ -191,6 +192,14 @@
             "load": false,
             "files": [
                 "tps/assets/js/pele.min.js"
+            ],
+            "output": "assets/js"
+        },
+        {
+            "name": "tss-wavesurfer.min.js",
+            "load": false,
+            "files": [
+                "tps/assets/js/wavesurfer.min.js"
             ],
             "output": "assets/js"
         },

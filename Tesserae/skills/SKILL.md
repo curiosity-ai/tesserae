@@ -238,7 +238,7 @@ ai-variants · chat · chat-time-divider · context-card · context-cards · con
 resource-card · tool-agent-selector · tool-call
 
 **Media & Graphics** — images, avatars and embedded content
-avatar · carousel · image · pages-stack · pixel-avatar · sandbox
+audio-player · avatar · carousel · image · pages-stack · pixel-avatar · sandbox · video-player
 
 **Theming & Icons** — colours, gradients, icons and emoji
 color-palette · custom-themes · emoji · gradients · icon · theme-builder · uicons

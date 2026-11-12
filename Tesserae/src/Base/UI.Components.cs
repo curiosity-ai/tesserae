@@ -272,6 +272,20 @@ namespace Tesserae
         public static Image Image(string source, string fallback = null) => new Image(source, fallback);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.VideoPlayer"/>: the browser's video player with its native controls, whose playback can be read and driven from C#.
+        /// </summary>
+        /// <param name="source">The URL of the video.</param>
+        /// <param name="contentType">Its media type, such as <c>video/mp4</c>.</param>
+        public static VideoPlayer VideoPlayer(string source, string contentType = null) => new VideoPlayer(source, contentType);
+
+        /// <summary>
+        /// Creates an <see cref="Tesserae.AudioPlayer"/>: a play button, the position and a waveform that is also the seek bar.
+        /// </summary>
+        /// <param name="source">The URL of the audio.</param>
+        /// <param name="contentType">Its media type, such as <c>audio/mpeg</c>.</param>
+        public static AudioPlayer AudioPlayer(string source, string contentType = null) => new AudioPlayer(source, contentType);
+
+        /// <summary>
         /// Creates a fully-sandboxed <see cref="Tesserae.Sandbox"/> frame for rendering untrusted HTML / apps,
         /// optionally seeded with HTML content (loaded through <c>srcdoc</c> under a strict Content-Security-Policy).
         /// </summary>
