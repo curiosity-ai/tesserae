@@ -42,4 +42,5 @@ so the theme makes no request to a third-party font host.
 - **Fields**: a filled slab, 3px at its top corners, with a 1px rule under it. Hover shifts the fill, focus tints it and thickens the rule
   to a 3px ring, and error / success / information colour the rule.
 - **Focus**: a 2px blue ring set 2px clear of the control.
-- **Scrollbars**: a slim rounded thumb, CSS only (no script touches a scroller).
+- **Scrollbars**: a 1px rail and a square 6px thumb: a ghost at rest, grey while the pointer is over the scroller,
+  solid and 8px under the pointer, blue while dragged. CSS only (no script touches a scroller).
