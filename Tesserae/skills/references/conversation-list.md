@@ -88,6 +88,8 @@ list.AddState("working",  "Working",     UIcons.Spinner,         ConversationSta
 - Tones: `Idle` (hollow ring, the default), `Running` (pulsing primary dot), `Attention`
   (warning dot), `Success` (success dot), `Muted` (faded dashed ring), `Danger` (danger dot).
 - `includedInAll: false` keeps that state out of "All" - it shows only when picked (an archive).
+- `inFilterMenu: false` keeps the state off the filter menu: rows in it still get its dot and
+  label, but the list cannot be narrowed to it (a host that does not offer that filter).
 - Time filter: `ConversationTimeRange.AnyTime / Today / Past7Days / Past30Days / Older`.
 - `FilterByState(key)`, `FilterByTime(range)`, `ClearFilters()`, `OpenSearch()`, `CloseSearch()`,
   `CurrentFilter` (a `ConversationListFilter` with `State`, `TimeRange`, `Search`, `IsDefault`).

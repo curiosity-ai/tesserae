@@ -165,6 +165,7 @@ namespace Tesserae
             public UIcons                Icon;
             public ConversationStateTone Tone;
             public bool                  IncludedInAll;
+            public bool                  InFilterMenu;
         }
 
         private sealed class ChildRow
@@ -378,10 +379,11 @@ namespace Tesserae
         /// <param name="icon">The icon beside the name in the filter menu.</param>
         /// <param name="tone">How the row's dot is drawn for a conversation in this state.</param>
         /// <param name="includedInAll">False leaves conversations in this state out of "All", for an archive that is only shown when asked for.</param>
-        public ConversationList AddState(string key, string label, UIcons icon, ConversationStateTone tone = ConversationStateTone.Idle, bool includedInAll = true)
+        /// <param name="inFilterMenu">False keeps the state off the filter menu: its rows still get the dot and its label, but the list cannot be narrowed to it.</param>
+        public ConversationList AddState(string key, string label, UIcons icon, ConversationStateTone tone = ConversationStateTone.Idle, bool includedInAll = true, bool inFilterMenu = true)
         {
             _states.RemoveAll(s => s.Key == key);
-            _states.Add(new StateDefinition { Key = key, Label = label, Icon = icon, Tone = tone, IncludedInAll = includedInAll });
+            _states.Add(new StateDefinition { Key = key, Label = label, Icon = icon, Tone = tone, IncludedInAll = includedInAll, InFilterMenu = inFilterMenu });
             Refresh(forceRows: true);
             return this;
         }
@@ -796,6 +798,8 @@ namespace Tesserae
 
             foreach (var state in _states)
             {
+                if (!state.InFilterMenu) continue;
+
                 var key = state.Key;
                 items.Add(FilterMenuItem(state.Label, state.Icon, _stateFilter == key, () => FilterByState(key)));
             }
