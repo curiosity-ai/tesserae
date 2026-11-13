@@ -4,6 +4,9 @@
    The segmented control of the language: a cool-grey track with 3px corners,
    the selected segment navy (soft blue in dark) with an on-accent label, no
    shadow. Geometry is Tesserae's.
+   The segments are default buttons, so tss.button.css's ghost-button rule
+   (0,7,1) reaches them too and, before :not(#_), made the selected segment
+   transparent. :not(#_) lifts every segment rule above any button rule.
    ========================================================================== */
 
 body.tss-theme-stratus .tss-icon-toggle {
@@ -12,40 +15,40 @@ body.tss-theme-stratus .tss-icon-toggle {
     box-shadow: none;
 }
 
-body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item {
     font-weight: var(--tss-font-weight-bold);
     color: var(--tss-default-foreground-color);
     border-radius: var(--tss-border-radius-sm);
 }
 
-body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
     background: var(--tss-str-fill-3);
     color: var(--tss-default-foreground-color);
 }
 
-body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
     background: var(--tss-str-on-fill-2);
 }
 
-body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
-body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
-body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
-body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
     background: var(--tss-primary-background-color);
     color: var(--tss-primary-foreground-color);
     box-shadow: none;
 }
 
-body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
     color: var(--tss-default-foreground-color);
 }
 
-body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item:focus-visible {
     outline: 2px solid var(--tss-str-focus);
     outline-offset: 1px;
 }
 
-body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {
+body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item.tss-disabled {
     opacity: .4;
     color: var(--tss-default-foreground-color);
 }
