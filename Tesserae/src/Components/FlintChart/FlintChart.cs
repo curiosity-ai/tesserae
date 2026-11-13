@@ -29,6 +29,12 @@ namespace Tesserae
     /// <see cref="OnElementClick"/> reports a click on a mark, a series, a key entry or a category's axis label, with
     /// the rows of the data it stands for.
     /// </para>
+    /// <para>
+    /// <see cref="LegendBinding(bool)"/> and <see cref="ScaleBinding(bool)"/> turn on Vega-Lite's
+    /// <see href="https://vega.github.io/vega-lite/docs/bind.html">selection bindings</see>: choosing a series from the
+    /// key, and panning and zooming the continuous axes. They are written into the spec's <c>bind</c>, which a
+    /// <c>```flint</c> fence can carry too.
+    /// </para>
     /// </remarks>
     [Transpose.Name("tss.FlintChart")]
     public class FlintChart : ComponentBase<FlintChart, HTMLElement>
@@ -273,6 +279,39 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Binds the chart's key to a selection (Vega-Lite
+        /// <see href="https://vega.github.io/vega-lite/docs/bind.html#legend-binding">legend binding</see>): clicking a key
+        /// entry chooses that series and fades the others, shift-click adds or removes one, and a double click clears the
+        /// choice. <c>false</c> removes the binding. Written into the spec as <c>bind.legend</c>.
+        /// </summary>
+        /// <remarks>
+        /// Only a key drawn with symbols can be bound: a colour key for a measure is a gradient, and a chart that labels
+        /// its series directly draws no key. Not meant to be combined with <see cref="FlintInteraction.LegendToggle"/> or
+        /// <see cref="FlintInteraction.ClickHighlight"/>, which emphasise from the same key clicks in their own way.
+        /// </remarks>
+        public FlintChart LegendBinding(bool bind = true) => LegendBinding(bind ? new FlintLegendBinding() : null);
+
+        /// <summary>Binds the chart's key to a selection, the way <paramref name="binding"/> says; <c>null</c> removes the binding. See <see cref="LegendBinding(bool)"/>.</summary>
+        public FlintChart LegendBinding(FlintLegendBinding binding) => SetBinding("legend", binding?.ToSpec());
+
+        /// <summary>
+        /// Binds the chart's x and y scales to an interval selection (Vega-Lite
+        /// <see href="https://vega.github.io/vega-lite/docs/bind.html#scale-binding">scale binding</see>): dragging pans the
+        /// chart, the mouse wheel zooms it, and a double click puts it back. Small multiples pan and zoom together.
+        /// <c>false</c> removes the binding. Written into the spec as <c>bind.scales</c>.
+        /// </summary>
+        /// <remarks>
+        /// Only a continuous axis (numbers, dates) pans and zooms. By default the wheel zooms whenever the pointer is over
+        /// the chart, so the page does not scroll there; <see cref="FlintScaleBinding.ZoomEvents"/> changes that. Not meant
+        /// to be combined with <see cref="FlintInteraction.Navigate"/> or <see cref="FlintInteraction.BrushZoom"/>, which
+        /// move the same scales their own way.
+        /// </remarks>
+        public FlintChart ScaleBinding(bool bind = true) => ScaleBinding(bind ? new FlintScaleBinding() : null);
+
+        /// <summary>Binds the chart's scales to an interval selection, the way <paramref name="binding"/> says; <c>null</c> removes the binding. See <see cref="ScaleBinding(bool)"/>.</summary>
+        public FlintChart ScaleBinding(FlintScaleBinding binding) => SetBinding("scales", binding?.ToSpec());
+
+        /// <summary>
         /// The theme the chart is drawn in when its spec names none (<see cref="FlintThemes.Tesserae"/> by default), or
         /// in any case when <paramref name="overrideSpecTheme"/> is set.
         /// </summary>
@@ -420,6 +459,13 @@ namespace Tesserae
         {
             if (value is null) Script.Write("delete {0}[{1}];", ChartSpec(), key);
             else Script.Write("{0}[{1}] = {2};", ChartSpec(), key, value);
+            return Redraw();
+        }
+
+        //The spec's bind object (read by the bundle, not by Flint), dropped once it binds nothing.
+        private FlintChart SetBinding(string key, object value)
+        {
+            Script.Write("var s = {0}; if (!s.bind || typeof s.bind !== 'object' || Array.isArray(s.bind)) { s.bind = {}; } if ({2} === null || {2} === undefined) { delete s.bind[{1}]; } else { s.bind[{1}] = {2}; } if (Object.keys(s.bind).length === 0) { delete s.bind; }", Input(), key, value);
             return Redraw();
         }
 

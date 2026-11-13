@@ -36,7 +36,8 @@ Markdown.RenderMarkdownSanitized(text, MarkdownSanitization.Default, FlintThemes
 ## The fence
 
 The body is a Flint `ChartAssemblyInput` in JSON: `data`, `semantic_types`,
-`chart_spec`, and optionally `theme_spec` and `interaction_spec`.
+`chart_spec`, and optionally `theme_spec`, `interaction_spec` and `bind` (Vega-Lite
+legend and scale binding, below).
 
 ````markdown
 ```flint
@@ -56,6 +57,32 @@ The body is a Flint `ChartAssemblyInput` in JSON: `data`, `semantic_types`,
 Flint's authoring guide lists the chart types, semantic types and interaction presets:
 <https://github.com/microsoft/flint-chart/blob/main/agent-skills/flint-chart-author/SKILL.md>
 (hand it to a model that writes these fences).
+
+### Legend and scale binding
+
+A top-level `bind` turns on Vega-Lite's
+[selection bindings](https://vega.github.io/vega-lite/docs/bind.html). It is a Tesserae
+key, applied by the bundle where Flint compiles to Vega (Flint itself does not read it):
+
+```json
+"bind": { "legend": true, "scales": true }
+```
+
+- `"legend"` — `true`, or `{ "channel": "color", "events": "click", "marks": false,
+  "opacity": 0.2 }`. Clicking a key entry chooses that series and fades the rest to
+  `opacity`; shift-click adds or removes one; a double click clears. `channel` picks the
+  key (`color`, `fill`, `stroke`, `shape`, `strokeDash`, `size`, `opacity`; by default the
+  first key drawn with symbols), `events` is the Vega event stream that chooses an entry,
+  and `marks: true` lets a click on a mark choose its series too. A gradient key or a
+  chart that labels its series directly has nothing to bind.
+- `"scales"` — `true` (x and y), `"x"`, `"y"`, or `{ "encodings": ["x", "y"], "zoom": true,
+  "translate": true }`. Dragging pans and the wheel zooms the continuous axes; a double
+  click resets. `zoom` / `translate` take `false` or a Vega event stream (Vega-Lite's are
+  `"wheel!"`, which keeps the page from scrolling over the chart, and a drag;
+  `"wheel![event.shiftKey]"` zooms only with Shift). Small multiples share their scales, so
+  their panels move together. A band axis (a bar chart's categories) is left alone.
+
+A malformed `bind` fails the fence like any other spec error.
 
 ## Behaviour
 

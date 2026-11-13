@@ -29,6 +29,7 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(Card(ClickDemo()).SetTitle("Clicks")))
                .Section(Stack().Children(Card(SpecDemo()).SetTitle("From a Flint spec (JSON)")))
                .Section(Stack().Children(Card(InteractionsDemo()).SetTitle("Interactions")))
+               .Section(Stack().Children(Card(BindingsDemo()).SetTitle("Legend and scale binding")))
                .Section(Stack().Children(Card(SizingDemo()).SetTitle("Fitting the space it is given")))
                .Section(Stack().Children(Card(ErrorDemo()).SetTitle("A spec that cannot be drawn")))
                .Section(Stack().Children(Card(Gallery(
@@ -225,6 +226,33 @@ namespace Tesserae.Tests.Samples
             return VStack().WS().Children(
                 TextBlock("Interactions(...) mounts Flint's interaction presets: reading values along the x axis and hiding a series from the key on the left, zooming to a dragged rectangle on the right (double-click to reset)."),
                 Grid(new UnitSize("repeat(auto-fill, minmax(340px, 1fr))")).WS().Gap(16.px()).PT(16).Children(brush, zoom));
+        }
+
+        // Vega-Lite's selection bindings (https://vega.github.io/vega-lite/docs/bind.html), written into the spec's bind.
+        private static IComponent BindingsDemo()
+        {
+            var legend = ScatterOf(new SampleRandom(15_017))
+               .Title("Click a key entry")
+               .LegendBinding()
+               .Id("flint-bind-legend");
+
+            var scales = ScatterOf(new SampleRandom(15_018))
+               .Title("Drag to pan, wheel to zoom")
+               .ScaleBinding()
+               .Id("flint-bind-scales");
+
+            var facets = ScatterOf(new SampleRandom(15_019))
+               .Encode(FlintChannel.Column, "Origin")
+               .Title("Panels pan and zoom together")
+               .Subtitle("Along x only; Shift + wheel zooms")
+               .ScaleBinding(new FlintScaleBinding { Y = false, ZoomEvents = "wheel![event.shiftKey]" })
+               .LegendBinding(new FlintLegendBinding { ClickMarks = true })
+               .Id("flint-bind-facets");
+
+            return VStack().WS().Children(
+                TextBlock("Vega-Lite's selection bindings. LegendBinding() binds the key to a point selection: click an entry to choose that series and fade the rest, shift-click to add one, double-click to clear. ScaleBinding() binds the x and y scales to an interval selection: drag to pan, wheel to zoom, double-click to reset; small multiples share their scales, so their panels move together. The last chart binds x only, zooms only with Shift held (so the page still scrolls under the wheel), and lets a click on a point choose its series too. The same bindings are the spec's \"bind\": { \"legend\": true, \"scales\": true }, in a ```flint fence as well."),
+                Grid(new UnitSize("repeat(auto-fill, minmax(340px, 1fr))")).WS().Gap(16.px()).PT(16).Children(legend, scales),
+                facets.WS().PT(16));
         }
 
         private static IComponent ErrorDemo()

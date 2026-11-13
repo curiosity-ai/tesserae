@@ -42,6 +42,23 @@ const onlyVegaLite = {
     },
 };
 
+// Vega-Lite's selection bindings (bind.js): the spec's `bind` is written into the Vega-Lite spec Flint compiles to Vega,
+// at the one place it does, so a mount and every re-plan get it. A Flint update that moves that call fails the build here.
+const COMPILE_CALL = 'compile(shapedSpec)';
+const withBindings = {
+    name: 'vega-lite-bindings',
+    setup(b) {
+        b.onLoad({ filter: /[\\/]flint-chart[\\/]src[\\/]vegalite[\\/]interactive\.ts$/ }, (args) => {
+            const source = readFileSync(args.path, 'utf8');
+            if (source.split(COMPILE_CALL).length !== 2) {
+                throw new Error(`Expected one ${COMPILE_CALL} in ${args.path}; bind.js has to be called where Flint compiles its Vega-Lite spec.`);
+            }
+            const imported = `import { applyBindings as __tssApplyBindings } from ${JSON.stringify(resolve(here, 'bind.js'))};\n`;
+            return { contents: imported + source.replace(COMPILE_CALL, 'compile(__tssApplyBindings(shapedSpec, interactiveInput))'), loader: 'ts' };
+        });
+    },
+};
+
 const result = await build({
     entryPoints: [resolve(here, 'entry.js')],
     outfile: outFile,
@@ -53,7 +70,7 @@ const result = await build({
     minify: true,
     legalComments: 'none',
     metafile: true,
-    plugins: [onlyVegaLite],
+    plugins: [onlyVegaLite, withBindings],
     banner: { js: '/* Flint ' + JSON.parse(readFileSync(resolve(here, 'node_modules/flint-chart/package.json'))).version + ' (https://github.com/microsoft/flint-chart) with Vega, Vega-Lite and vega-tooltip, bundled for Tesserae. Licences: flint.LICENSE.txt */' },
 });
 
