@@ -393,6 +393,11 @@
 
 .tss-dropdown-popup > .tss-dropdown-searchbox {
     flex: 0 0 auto;
+    /* Above the rows: a theme that draws its focus ring outside the box (a box-shadow ring, an offset
+       shadow) draws part of it over the top of the list, and the rows are positioned and scroll into
+       that band, so they painted over the ring's lower edge. */
+    position: relative;
+    z-index: 1;
 }
 
 /* min-height: 0 is what lets this shrink below its content and scroll - a flex item's automatic
