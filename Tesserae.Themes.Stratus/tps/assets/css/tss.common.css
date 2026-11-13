@@ -23,8 +23,7 @@
         floating surfaces, full on avatars and tags.
      4. Depth is a tiered shadow scale (levels 1 to 6). A card rests at level 3,
         lifts to level 4 under the pointer; a dialog sits at level 6.
-     5. A text field is a filled slab, 3px at its top corners and square at the
-        bottom, with a 1px rule underneath, which thickens
+     5. A text field is a filled slab with a 1px rule underneath, which thickens
         to 3px in the state colour on focus, error, success or information.
      6. Focus is a 2px mid-blue ring, 2px clear of the control, never a glow.
    ========================================================================== */
