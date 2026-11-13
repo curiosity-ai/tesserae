@@ -114,7 +114,9 @@ Appearance:
 - `.CellGap(double)`, `.Rounded(double radius = 2)`,
   `.ShowValues(bool show = true, string color = null)` — printed in the cells with the
   room for them; the colour defaults to the theme foreground on pale cells and white on
-  saturated ones.
+  saturated ones, each with a halo in the opposite tone so a mid-range cell stays readable.
+  The colour is set inline, so a theme's rule for chart text does not repaint the values. A
+  `color` you pass gets no halo.
 - `.Legend()` draws the colour scale as a gradient bar with its end values
   (`ChartLegendPosition.Right` by default).
 

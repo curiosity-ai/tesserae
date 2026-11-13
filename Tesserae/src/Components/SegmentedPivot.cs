@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Transpose.Core.dom;
@@ -321,6 +321,21 @@ namespace Tesserae
             ContextMenu().Items(items).ShowFor(_moreBtn);
         }
 
+        // Select scrolls the chosen title into view only while the strip is mounted, so a pivot built with a
+        // later tab already selected (a page drawn again after a layout change) opened scrolled to its first tab,
+        // with the selected one out of sight.
+        private void ScrollSelectedIntoView()
+        {
+            foreach (var kvp in _renderedTitles)
+            {
+                if (kvp.Key.Id == _currentSelectedID)
+                {
+                    ScrollIntoView(kvp.Value);
+                    return;
+                }
+            }
+        }
+
         private void ScrollIntoView(HTMLElement target)
         {
             if (!_scroller.IsMounted()) return;
@@ -374,9 +389,14 @@ namespace Tesserae
                 DomObserver.WhenMounted(StylingContainer, () =>
                 {
                     UpdateScrollState();
+                    ScrollSelectedIntoView();
 
                     // Also do on a timeout to account for animations on modals.
-                    window.setTimeout((_) => UpdateScrollState(), 1000);
+                    window.setTimeout((_) =>
+                    {
+                        UpdateScrollState();
+                        ScrollSelectedIntoView();
+                    }, 1000);
                 });
 
                 DomObserver.WhenRemoved(StylingContainer, () => _ro.unobserve(StylingContainer));
