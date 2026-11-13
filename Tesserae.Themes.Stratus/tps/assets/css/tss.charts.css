@@ -3,32 +3,32 @@
    --------------------------------------------------------------------------
    Tesserae's charts have no stylesheet of their own: a series without an
    explicit colour reads --tss-chart-series-N, so the theme sets the eight
-   from the language's saturated hues (blue, green, orange, purple, pink,
-   sky blue, lime, red; the lighter dark-mode steps on a dark page). Axis
+   from the language's data categories (navy, sky blue, turquoise, green,
+   orange, yellow, purple, red; the lighter steps on a dark page). Axis
    labels take the secondary text colour and the grid the separator tone;
    a series an app coloured itself keeps its colour.
    ========================================================================== */
 
 body.tss-theme-stratus {
-    --tss-chart-series-1: #255fcc;
-    --tss-chart-series-2: #18a272;
-    --tss-chart-series-3: #ff8f2e;
-    --tss-chart-series-4: #bb35a7;
-    --tss-chart-series-5: #219ae1;
-    --tss-chart-series-6: #f0369e;
-    --tss-chart-series-7: #a3da22;
-    --tss-chart-series-8: #f23346;
+    --tss-chart-series-1: #00205b;
+    --tss-chart-series-2: #3cb7ff;
+    --tss-chart-series-3: #00aec7;
+    --tss-chart-series-4: #08875b;
+    --tss-chart-series-5: #d56401;
+    --tss-chart-series-6: #bb8e09;
+    --tss-chart-series-7: #bb35a7;
+    --tss-chart-series-8: #e4002b;
 }
 
 body.tss-theme-stratus.tss-dark-mode {
     --tss-chart-series-1: #86a8e9;
-    --tss-chart-series-2: #27e7a7;
-    --tss-chart-series-3: #ffc38f;
-    --tss-chart-series-4: #f489e4;
-    --tss-chart-series-5: #5fc3ff;
-    --tss-chart-series-6: #ff8bcb;
-    --tss-chart-series-7: #beef4f;
-    --tss-chart-series-8: #ff8998;
+    --tss-chart-series-2: #82d1ff;
+    --tss-chart-series-3: #16d4f0;
+    --tss-chart-series-4: #27e7a7;
+    --tss-chart-series-5: #d56401;
+    --tss-chart-series-6: #ffd557;
+    --tss-chart-series-7: #f489e4;
+    --tss-chart-series-8: #f86471;
 }
 
 body.tss-theme-stratus .tss-chart text,
