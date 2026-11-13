@@ -22,6 +22,13 @@
     border-radius: 0;
 }
 
+/* A popover's content draws the page's surface, not the tooltip's, so its text takes the page's foreground.
+   tss.tooltip.css hands every .tss-fontcolor-default inside a Tippy box the tooltip foreground (light in the
+   default theme), which inside a popover is a Label or TextBlock drawn light on the page's light surface. */
+.tippy-box[data-theme~='tss-popover'] .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
 .tippy-box[data-theme~='tss-popover'] > .tippy-content {
     padding: 0;
     background-color: transparent;

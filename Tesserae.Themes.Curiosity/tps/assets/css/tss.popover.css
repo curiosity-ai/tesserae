@@ -8,16 +8,9 @@
    the frame's tone, so it reads as a pointer joined to the frame instead of
    a paper notch lost on a paper page.
 
-   The tooltip is the theme's one inverted surface, and Tesserae hands every
-   .tss-fontcolor-default inside any Tippy the tooltip's foreground. A
-   popover is not inverted: its surface is the page's paper, so its text
-   takes the page's ink again, or a text block in a popover is paper on
-   paper and reads as empty.
+   Text in a popover takes the page's ink from Tesserae's tss.popover.css,
+   not the inverted tooltip's foreground.
    ========================================================================== */
-
-body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] .tss-fontcolor-default {
-    color: var(--tss-default-foreground-color);
-}
 
 body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] > .tippy-content > .tss-popover > .tss-card-container > .tss-card {
     box-shadow: var(--tss-cur-surface-ring);
