@@ -305,9 +305,11 @@ namespace Tesserae
                 sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorLight.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-active-color-root: ").Append(backgroundActiveLight.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-shadow-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-foreground-color-root: ").Append(ReadableOn(primaryLightColor)).AppendLine(";");
 
                 //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
                 sb.Append(@"
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root ));
     --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
     --tss-link-color: rgb(var(--tss-link-color-root ));
     --tss-highlight-color: rgb(var(--tss-highlight-color-root ));
@@ -327,9 +329,11 @@ namespace Tesserae
                 sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-active-color-root: ").Append(backgroundActiveDark.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-shadow-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-foreground-color-root: ").Append(ReadableOn(primaryDarkColor)).AppendLine(";");
 
                 //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
                 sb.Append(@"
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root ));
     --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
     --tss-link-color: rgb(var(--tss-link-color-root ));
     --tss-highlight-color: rgb(var(--tss-highlight-color-root ));
@@ -354,6 +358,24 @@ namespace Tesserae
                 {
                     head.appendChild(_highlightStyleElement);
                 }
+            }
+
+            //The text on a primary button follows the color it sits on, not the theme: a theme picks its own primary
+            //foreground for its own primary, and a SetPrimary color on a dark theme kept that theme's dark text
+            //(Stratus: near-black on a saturated blue). White or the theme's near-black, whichever contrasts more.
+            private static string ReadableOn(Color background)
+            {
+                double Channel(byte v)
+                {
+                    var c = v / 255.0;
+                    return c <= 0.03928 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
+                }
+
+                var luminance = 0.2126 * Channel(background.R) + 0.7152 * Channel(background.G) + 0.0722 * Channel(background.B);
+                var darkText  = 0.2126 * Channel(20) + 0.7152 * Channel(23) + 0.0722 * Channel(29);
+                var onWhite   = 1.05 / (luminance + 0.05);
+                var onDark    = (luminance + 0.05) / (darkText + 0.05);
+                return onWhite >= onDark ? "255, 255, 255" : "20, 23, 29";
             }
 
             /// <summary>
