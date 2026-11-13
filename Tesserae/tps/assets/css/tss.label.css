@@ -24,6 +24,12 @@
     margin-top: 0px;
 }
 
+/* In a row every label is a sibling on the same line, so the first-child rule above would lift only the first one
+   by the component margin and leave its neighbours lower. None of them gets a top margin. */
+.tss-stack-horizontal > .tss-label.tss-stack-item {
+    margin-top: 0px;
+}
+
 .tss-label > label {
     margin: 4px;
     margin-right:8px;
