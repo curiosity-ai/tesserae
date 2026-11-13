@@ -6,6 +6,9 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    /* The pane below reaches --tss-focus-ring-room beyond this box (its negative margin): let that much show. */
+    overflow: clip;
+    overflow-clip-margin: var(--tss-focus-ring-room);
     position: relative;
 }
 
@@ -18,6 +21,9 @@
     align-items: stretch;
     width: 100%;
     background: var(--tss-secondary-background-color);
+    /* Above the content pane, which overlaps the bottom edge of the strip by its focus ring room. */
+    position: relative;
+    z-index: 1;
 }
 
 .tss-pivot-titlebar-scroller {
@@ -99,8 +105,10 @@
 }
 
 .tss-pivot-content {
-    margin: 0;
-    padding: 0;
+    /* The pane scrolls, so it clips whatever a flush child draws outside its box (a focus ring, a shadow). Room to
+       draw it: padded by --tss-focus-ring-room and pulled back by as much, so the content does not move. */
+    margin: calc(-1 * var(--tss-focus-ring-room));
+    padding: var(--tss-focus-ring-room);
     flex-grow: 1;
     flex-shrink: 1;
     overflow-y: auto;

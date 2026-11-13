@@ -135,6 +135,10 @@
 .tss-segmentedpivot-content {
     flex-grow: 1;
     overflow: auto;
+    /* The pane scrolls, so it clips whatever a flush child draws outside its box (a focus ring, a shadow). Room to
+       draw it: padded by --tss-focus-ring-room and pulled back by as much, so the content does not move. */
+    padding: var(--tss-focus-ring-room);
+    margin: calc(-1 * var(--tss-focus-ring-room));
     /* Lay the active tab's content out like a Stack with a single child, so
        panel-filling content expands to the available height whether it fills
        via .S()/.HS(), .Grow(), or its own height:100%. */
