@@ -175,8 +175,8 @@ references. Open the reference for whatever you are working with. The full set:
 - `references/creating-a-component.md` — build your own `IComponent`.
 - `references/flint-charts.md` — `flint` fences in Markdown drawn as charts
   (`MarkdownBlock.Flint()`), themed through `IFlintTheme` / `FlintThemes`.
-  The same specs as a component, with click events: `references/flint-chart.md`
-  (`UI.FlintChart(...)`).
+  The same specs as a component, with click events and Vega-Lite legend / scale binding:
+  `references/flint-chart.md` (`UI.FlintChart(...)`).
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 

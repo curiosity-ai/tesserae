@@ -30,7 +30,8 @@ namespace Tesserae
     /// Draws the <c>```flint</c> (or <c>```flint-chart</c>, the name Flint's own documentation uses) fences of rendered
     /// Markdown as charts, with <see href="https://github.com/microsoft/flint-chart">Flint</see> (see <see cref="Flint"/>
     /// for how it is loaded). The fence body is a Flint chart spec: <c>data</c>, <c>semantic_types</c> and
-    /// <c>chart_spec</c>, with optional <c>theme_spec</c> and <c>interaction_spec</c>.
+    /// <c>chart_spec</c>, with optional <c>theme_spec</c>, <c>interaction_spec</c> and <c>bind</c> (Vega-Lite legend
+    /// and scale binding, applied by the bundle: see <see cref="FlintChart.LegendBinding(bool)"/>).
     /// </summary>
     /// <remarks>
     /// <para>

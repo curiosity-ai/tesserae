@@ -6,6 +6,10 @@ export { mountChart } from './node_modules/flint-chart/src/interactive/index.ts'
 export { validateChartInput } from './node_modules/flint-chart/src/validate/index.ts';
 export { THEME_PRESETS, listThemePresets, resolveThemeSpec } from './node_modules/flint-chart/src/core/theme/presets.ts';
 
+// The spec's `bind` (legend and scale binding, bind.js): build.mjs applies it where Flint compiles to Vega; this reads
+// it up front, so a malformed one fails the chart with its reason before anything is mounted.
+export { readBindings as validateBindings } from './bind.js';
+
 import { assistedElementTrigger, clickTrigger } from './node_modules/flint-chart/src/interactive/triggers.ts';
 import { resolveInteractionSpec } from './node_modules/flint-chart/src/interactive/spec/resolve.ts';
 
