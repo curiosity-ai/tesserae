@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -1154,7 +1154,7 @@ namespace Tesserae
                 // Size the input to its content once it's in the DOM (and whenever it's re-shown).
                 DomObserver.WhenMounted(_chatInput, ResizeChatInput);
 
-                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(TriggerChat);
+                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").AriaLabel("Send".t()).OnClick(TriggerChat);
 
                 _chatCounter = TextBlock("").Small().Class("tss-omnibox-chat-counter").Foreground(Theme.Secondary.Foreground).Collapse();
 
@@ -1360,7 +1360,7 @@ namespace Tesserae
             _searchClearBtn?.Class(MOBILE_KEEP_CLASS);
             _searchTriggerBtn?.Class(MOBILE_KEEP_CLASS);
 
-            _mobileOptionsBtn = Button().SetIcon(UIcons.Plus).Class("tss-omnibox-mobile-options").Class(MOBILE_KEEP_CLASS);
+            _mobileOptionsBtn = Button().SetIcon(UIcons.Plus).Class("tss-omnibox-mobile-options").Class(MOBILE_KEEP_CLASS).AriaLabel("More options".t());
 
             _mobileOptionsBtn.OnClick((_, e) =>
             {

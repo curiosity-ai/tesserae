@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using TNT;
 using Transpose;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -32,7 +33,8 @@ namespace Tesserae
         {
             _sidebar = sidebar;
 
-            var back = Button().SetIcon(UIcons.AngleLeft).Class("tss-sidebar-page-bar-back").OnClick(() => _sidebar.ShowSidebar());
+            // Icon-only: the name is what a screen reader announces and what a test finds it by.
+            var back = Button().SetIcon(UIcons.AngleLeft).Class("tss-sidebar-page-bar-back").AriaLabel("Back to the menu".t()).OnClick(() => _sidebar.ShowSidebar());
 
             _brand    = HStack().Class("tss-sidebar-page-bar-brand").AlignItemsCenter().NoShrink();
             _title    = TextBlock().Class("tss-sidebar-page-bar-title").SemiBold().NoWrap();
