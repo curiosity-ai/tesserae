@@ -104,7 +104,7 @@ body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn
 body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible {
     outline: none;
     box-shadow: var(--tss-btn-focus-shadow) !important;
-    --tss-btn-focus-color: var(--tss-gs-0);
+    /* The line is the key's own type colour (Tesserae's tone default), inside its fill: ink would not show. */
     --tss-btn-focus-width: 3px;
 }
 

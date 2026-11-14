@@ -117,7 +117,8 @@ body.tss-theme-phosphor.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled
 body.tss-theme-phosphor .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):focus-visible {
     outline: none;
     box-shadow: var(--tss-btn-focus-shadow) !important;
-    --tss-btn-focus-color: var(--tss-ph-cursor);
+    /* A frame one cell in, in the block's knocked-out type colour (Tesserae's tone default): the cursor
+       colour would vanish into a block filled with it. */
     --tss-btn-focus-width: 1px;
 }
 

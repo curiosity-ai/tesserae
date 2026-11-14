@@ -24,6 +24,5 @@ body.tss-theme-kristall.tss-dark-mode .tss-tree-item-content.tss-selected {
 }
 
 body.tss-theme-kristall .tss-tree-item:focus-visible > .tss-tree-item-content {
-    outline: 3px solid var(--tss-kr-focus-ring);
-    outline-offset: -3px;
+    box-shadow: inset 0 0 0 3px var(--tss-kr-focus-ring);
 }
