@@ -182,7 +182,7 @@ references. Open the reference for whatever you are working with. The full set:
 
 **Layout** — containers you build a page out of
 accordion · background-area · card · dock-panel · expander · grid · horizontal-separator ·
-horizontal-split-view · masonry · section-stack · split-view · stack · vertical-separator
+horizontal-split-view · hub · masonry · section-stack · split-view · stack · vertical-separator
 
 **Text & Content** — text, labels and rich content blocks
 badge · code-diff · icon-tile · inline-label · keyboard-shortcut · label ·

@@ -736,6 +736,43 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.SectionStack"/> component.
         /// </summary>
         public static SectionStack SectionStack() => new SectionStack();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Hub"/>: a top-level page with a breadcrumb header (the hub's name first, linking to
+        /// <paramref name="href"/> when one is given) and commands, above its sections.
+        /// </summary>
+        public static Hub Hub(string title, string href = null) => new Hub(title, href);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Hub"/> whose name follows <paramref name="title"/>.
+        /// </summary>
+        public static Hub Hub(IObservable<string> title, string href = null) => new Hub(title, href);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Hub"/> whose name runs <paramref name="onClick"/> when clicked.
+        /// </summary>
+        public static Hub Hub(string title, Action onClick) => new Hub(new HubHeader(title, onClick));
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Hub"/> with a header you built.
+        /// </summary>
+        public static Hub Hub(HubHeader header) => new Hub(header);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.HubHeader"/> on its own: the breadcrumb trail and commands row a <see cref="Tesserae.Hub"/>
+        /// puts above its sections, for a <see cref="Tesserae.SectionStack"/> you manage yourself.
+        /// </summary>
+        public static HubHeader HubHeader(string title, string href = null) => new HubHeader(title, href);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.HubHeader"/> whose first crumb runs <paramref name="onClick"/>.
+        /// </summary>
+        public static HubHeader HubHeader(string title, Action onClick) => new HubHeader(title, onClick);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.HubHeader"/> whose first crumb follows <paramref name="title"/>.
+        /// </summary>
+        public static HubHeader HubHeader(IObservable<string> title, string href = null) => new HubHeader(title, href);
         /// <summary>
         /// Creates a new <see cref="SectionTitle"/>.
         /// </summary>
