@@ -1,0 +1,141 @@
+/* Hub: a top-level page. A SectionStack that fills the area it is put in, on the page background, whose first
+   title is a HubHeader. */
+.tss-hub {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: var(--tss-default-background-color);
+}
+
+/* HubHeader: the breadcrumb trail, then the commands. The trail takes what the commands leave (a zero basis, so it
+   never pushes them) and clips; the commands keep their own width. */
+.tss-hub-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    min-height: 36px;
+    box-sizing: border-box;
+    gap: 8px;
+}
+
+.tss-hub-trail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tss-hub-commands {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 4px;
+}
+
+    .tss-hub-commands:empty {
+        display: none;
+    }
+
+    .tss-hub-commands > .tss-hub-command {
+        flex-shrink: 0;
+    }
+
+/* A crumb is a wrapper the header owns; its separator is the wrapper's ::before, so a crumb whose content is
+   collapsed hides with its separator. A text crumb shrinks to an ellipsis before the one after it does. */
+.tss-hub-crumb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 0 1 auto;
+    min-width: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+    .tss-hub-crumb:has(> .tss-collapse) {
+        display: none;
+    }
+
+    .tss-hub-crumb + .tss-hub-crumb::before {
+        font-family: uicons-regular-rounded !important;
+        font-style: normal;
+        font-weight: normal !important;
+        content: var(--uicon-var-angle-right);
+        font-size: var(--tss-font-size-xsmall);
+        line-height: 1;
+        padding: 0 4px;
+        flex: 0 0 auto;
+        color: var(--tss-secondary-foreground-color);
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* The first crumb on show draws no separator when the root before it is hidden */
+    .tss-hub-crumb:first-child:is(.tss-collapse, :has(> .tss-collapse)) + .tss-hub-crumb::before {
+        display: none;
+    }
+
+.tss-hub-crumb-text {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    height: 28px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+    .tss-hub-crumb .tss-hub-crumb-label {
+        color: inherit;
+        font-size: var(--tss-font-size-xsmall);
+        font-weight: var(--tss-font-weight-semibold);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+    }
+
+.tss-hub-crumb-link {
+    cursor: pointer;
+}
+
+    .tss-hub-crumb-link:hover {
+        color: var(--tss-default-foreground-hover-color);
+        background: var(--tss-default-background-hover-color);
+    }
+
+    .tss-hub-crumb-link:focus {
+        outline: none;
+    }
+
+    /* Drawn inside the crumb's own edge, like a button's: an outer ring is clipped by the trail */
+    .tss-hub-crumb-link:focus-visible {
+        box-shadow: inset 0 0 0 2px var(--tss-primary-border-color);
+    }
+
+/* Crumbs between the root and the page give up their room first, but keep enough of it to read as a crumb */
+.tss-hub-crumb:not(.tss-hub-crumb-root):not(:last-child) {
+    flex-shrink: 1000;
+}
+
+.tss-hub-crumb:not(.tss-hub-crumb-root):has(> .tss-hub-crumb-text) {
+    min-width: 84px;
+}
+
+.tss-hub-crumb-text {
+    overflow: hidden;
+}
+
+/* The root crumb is the hub's name: it stays readable, the crumbs after it ellipsize first */
+.tss-hub-crumb-root {
+    flex-shrink: 0;
+    max-width: 50%;
+}
