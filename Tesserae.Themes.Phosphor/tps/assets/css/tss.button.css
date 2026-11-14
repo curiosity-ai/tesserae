@@ -82,6 +82,11 @@ body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visibl
     color: var(--tss-ph-on-cursor);
 }
 
+/* Keyboard focus on a ghost is the inverse-video block above, as the pointer's is; it needs no line as well. */
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visible {
+    box-shadow: none;
+}
+
 body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):active {
     background-color: rgba(var(--tss-ph-cursor-root), 0.78);
 }
@@ -110,8 +115,11 @@ body.tss-theme-phosphor.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled
 
 /* Keyboard focus on a solid block: a second frame, one cell out, in the block's own colour. */
 body.tss-theme-phosphor .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):focus-visible {
-    outline: 1px solid var(--tss-ph-cursor);
-    outline-offset: 3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    /* A frame one cell in, in the block's knocked-out type colour (Tesserae's tone default): the cursor
+       colour would vanish into a block filled with it. */
+    --tss-btn-focus-width: 1px;
 }
 
 body.tss-theme-phosphor .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),

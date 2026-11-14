@@ -73,8 +73,9 @@ body.tss-theme-weniger .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-b
 }
 
 body.tss-theme-weniger .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus-visible {
-    outline: 2px solid rgba(236, 88, 26, 0.85);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgba(236, 88, 26, 0.85);
 }
 
 /* The dot is an LED. */

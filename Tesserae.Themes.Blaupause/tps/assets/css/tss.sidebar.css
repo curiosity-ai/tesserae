@@ -137,8 +137,9 @@ body.tss-theme-blaupause .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-
 }
 
 body.tss-theme-blaupause .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 2px solid var(--tss-bp-red);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-bp-red);
 }
 
 /* .Rounded() rows and boxes stay square: drawn corners are square. */

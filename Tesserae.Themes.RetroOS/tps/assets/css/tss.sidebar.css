@@ -39,8 +39,9 @@ body.tss-theme-retroos :where(.tss-sidebar) .tss-sidebar-btn.tss-btn:where(.tss-
 }
 
 body.tss-theme-retroos .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgb(var(--tss-default-foreground-color-root));
 }
 
 /* Pill rows (.Rounded()) are the push button: rounded rect with an ink edge. */

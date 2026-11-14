@@ -44,8 +44,9 @@ body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle:not(#_) > .tss-btn.tss-ico
 }
 
 body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 2px solid var(--tss-str-focus);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-str-focus);
 }
 
 body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item.tss-disabled {

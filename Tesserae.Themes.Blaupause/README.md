@@ -84,7 +84,8 @@ the worked examples.
     box and a wash under the pointer and is hatched when pressed. Link keys and anything that names content
     (sidebar entries, dropdown options, breadcrumbs, menu rows, table cells) keep their own case.
 11. **Red pencil and highlighter.** `--tss-bp-red` is for danger (danger keys, invalid fields, errors, the
-    current-time line) and for focus: a 2px red outline, or on a text field a 2px red rule along its foot.
+    current-time line) and for focus: a 2px red line inside the edge of a button, tab or sidebar row, or on a text field a 2px red
+    rule along its foot.
     `--tss-bp-yellow` / `--tss-bp-yellow-wash` mark the current item (sidebar entry, chosen option, tree row,
     unread notification) and selected text. On the blueprint the highlighter becomes a yellow stripe at the
     item's edge over a chalk wash, because yellow over Prussian blue reads as olive.

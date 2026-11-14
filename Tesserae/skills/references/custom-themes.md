@@ -95,10 +95,16 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
    MarkHighlighter matches (`--tss-mark-color` / `--tss-mark-text-color`, the system Mark
    colours when unset) and the focused one (`--tss-mark-focus-color`), and an initials-only
    Avatar, which is drawn by `.tss-avatar.tss-avatar-generated` from `--tss-avatar-hue`.
-   The focus ring that text boxes, search boxes and buttons draw is
-   `var(--tss-ring-offset-shadow), var(--tss-ring-shadow)`, built on `body` from
-   `--tss-ring-color`, `--tss-ring-offset-color` and `--tss-ring-offset-width`: setting
-   those under the root class recolours it, or set the two shadows themselves.
+   Focus is a per-component state drawn on the component's own edge, inside the box, never
+   as an outline or an outer ring (a container that clips its content would cut those off).
+   Text boxes, search boxes, the annotated text editor and the OmniBox turn their border to
+   `--tss-primary-border-color` and double it with a 1px inset line (the OmniBox draws that
+   line on a `::after` overlay that inherits the box's border, so restyling the focused box's
+   border restyles it; `content: none` on the overlay drops it). Buttons draw an inset line of
+   `--tss-btn-focus-width` (2px) in `--tss-btn-focus-color` (the primary edge colour, or the
+   tone's text colour on a filled tone): set those two on `body.tss-theme-mine .tss-btn:focus-visible`
+   to recolour every button's focus, including pivot tabs, sidebar rows and IconToggle segments.
+   The old `--tss-ring-*` variables are still defined but no component reads them.
    A surface filled with a quiet neutral (an empty rating star, an empty calendar day,
    a drawer handle, a hovered icon button) reads `--tss-subtle-fill-color`, not the border colour.
    `AI(strongEffect: true)` adds `tss-ai-strong` beside `tss-ai`: redefine the `--tss-ai-*`

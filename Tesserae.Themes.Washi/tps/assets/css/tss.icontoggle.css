@@ -35,5 +35,8 @@ body.tss-theme-washi.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-
 }
 
 body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 1.5px solid var(--tss-wa-thread);
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-wa-thread);
+    --tss-btn-focus-width: 1.5px;
 }

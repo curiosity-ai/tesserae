@@ -34,12 +34,11 @@ body.tss-theme-rechenwerk .tss-tree-selection-multiple .tss-tree-item-content.ts
 }
 
 body.tss-theme-rechenwerk .tss-tree-item:focus-visible > .tss-tree-item-content {
-    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
-    outline-offset: -2px;
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-rechenwerk .tss-tree-item:focus-visible > .tss-tree-item-content.tss-selected {
-    outline-color: rgb(10, 10, 10);
+    box-shadow: inset 0 0 0 2px rgb(10, 10, 10);
 }
 
 /* A half-picked folder: the signal colour on its checkbox only, so it never reads as selected. */

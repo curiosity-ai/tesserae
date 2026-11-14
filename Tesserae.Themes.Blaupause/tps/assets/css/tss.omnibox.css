@@ -35,8 +35,15 @@ body.tss-theme-blaupause .tss-omnibox-container:not(.tss-omnibox-chat-and-search
     box-shadow: none;
 }
 
-body.tss-theme-blaupause .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+/* Focused, the box is underlined in red pencil. The line is drawn on Tesserae's focus overlay, the box's last
+   positioned child, so the buttons at the ends of the row cannot cover it the way they covered a shadow on the
+   row; the overlay's own second edge goes, since a drawing has one line weight. */
+body.tss-theme-blaupause .tss-omnibox-container:focus-within {
     border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-omnibox-container:focus-within::after {
+    border-width: 0;
     box-shadow: inset 0 -2px 0 var(--tss-bp-red);
 }
 

@@ -166,21 +166,21 @@
     --tss-shadow-lg-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
     --tss-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --tss-shadow-xl-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.14);
-    /* Focus Rings */
+    /* Focus rings: deprecated, see the note on body below. */
     --tss-ring-offset-width: 2px;
     --tss-ring-offset-color: #fff;
     --tss-ring-color: rgba(var(--tss-primary-background-color-root), 0.5);
     --tss-ring-opacity: 0.5;
 }
 
-/* Focus ring. Text boxes, search boxes, the omnibox, the annotated text editor and buttons draw focus as
-   `box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow)`, and nothing defined these two, so
-   that declaration was invalid and dropped: none of them showed a ring. They are composed here from the
-   ring tokens above - a gap in the page colour, then the ring.
-   Declared on body rather than :root, with --tss-ring-color and --tss-ring-offset-color: a variable
-   built from another is resolved where it is declared, and dark mode, a custom theme and SetPrimary all
-   change the primary and background roots below :root, which would leave a :root ring in the light
-   theme's default blue on any of them. A theme that wants its own ring sets these two under its root class. */
+/* The ring tokens are deprecated: no component reads them. Focus used to be one shared ring for text boxes,
+   search boxes, the omnibox, the annotated text editor and buttons (`box-shadow: var(--tss-ring-offset-shadow),
+   var(--tss-ring-shadow)`, a gap painted in the page colour and then a ring outside the box). Each component
+   now draws its own focus state on its own edge, inside the box, in its stylesheet: an outer ring is cut off by
+   any container that clips its content, and its gap was the wrong colour on every surface but the page.
+   They stay defined, on body (a variable built from another is resolved where it is declared, and dark mode, a
+   custom theme and SetPrimary change the roots below :root), so an application's own CSS that uses them keeps
+   working. */
 body {
     --tss-ring-color: rgba(var(--tss-primary-background-color-root), 0.5);
     --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));

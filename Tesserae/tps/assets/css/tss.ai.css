@@ -416,7 +416,7 @@ i.tss-icon.tss-ai {
 }
 
 .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline-color: var(--tss-ai-accent);
+    --tss-btn-focus-color: var(--tss-ai-accent);
 }
 
 /* SegmentedPivot ------------------------------------------------------------------------------------ */
