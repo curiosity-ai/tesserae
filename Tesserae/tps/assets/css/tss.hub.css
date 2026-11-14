@@ -44,6 +44,14 @@
         flex-shrink: 0;
     }
 
+    /* These inputs declare width: 100% to fill a wrapper that no longer exists; in a row that is the whole row
+       (see the same reset under .tss-stack-horizontal in tss.stack.css) */
+    .tss-hub-commands > .tss-searchbox-container,
+    .tss-hub-commands > .tss-textbox,
+    .tss-hub-commands > .tss-picker-container {
+        width: auto;
+    }
+
 /* A crumb is a wrapper the header owns; its separator is the wrapper's ::before, so a crumb whose content is
    collapsed hides with its separator. A text crumb shrinks to an ellipsis before the one after it does. */
 .tss-hub-crumb {
@@ -78,7 +86,8 @@
         display: none;
     }
 
-.tss-hub-crumb-text {
+/* Two classes, so a stylesheet's a:link / a:visited colour does not reach a crumb that is a link */
+.tss-hub-crumb > .tss-hub-crumb-text {
     display: inline-flex;
     align-items: center;
     min-width: 0;
@@ -103,21 +112,21 @@
         letter-spacing: 0.02em;
     }
 
-.tss-hub-crumb-link {
+.tss-hub-crumb > .tss-hub-crumb-link {
     cursor: pointer;
 }
 
-    .tss-hub-crumb-link:hover {
+    .tss-hub-crumb > .tss-hub-crumb-link:hover {
         color: var(--tss-default-foreground-hover-color);
         background: var(--tss-default-background-hover-color);
     }
 
-    .tss-hub-crumb-link:focus {
+    .tss-hub-crumb > .tss-hub-crumb-link:focus {
         outline: none;
     }
 
     /* Drawn inside the crumb's own edge, like a button's: an outer ring is clipped by the trail */
-    .tss-hub-crumb-link:focus-visible {
+    .tss-hub-crumb > .tss-hub-crumb-link:focus-visible {
         box-shadow: inset 0 0 0 2px var(--tss-primary-border-color);
     }
 
@@ -130,7 +139,7 @@
     min-width: 84px;
 }
 
-.tss-hub-crumb-text {
+.tss-hub-crumb > .tss-hub-crumb-text {
     overflow: hidden;
 }
 
