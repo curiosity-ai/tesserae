@@ -155,6 +155,9 @@
     --tss-border-radius-lg: 8px;
     --tss-border-radius-xl: 12px;
     --tss-border-radius-full: 9999px;
+    /* How far a focus ring or shadow may reach outside a control that sits flush against the edge of a scrolling
+       pane (tab content): the pane is padded by this much and pulled back by the same negative margin. */
+    --tss-focus-ring-room: 6px;
     /* Shadows */
     --tss-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --tss-shadow-sm-hover: 0 1px 2px 0 rgba(0, 0, 0, 0.15);

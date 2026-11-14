@@ -54,6 +54,8 @@ namespace Tesserae.Tests.Samples
                     .Right(TextBlock("👈 resize this area to scroll the tab strip — use the chevrons, the mouse wheel, or arrow / Home / End keys, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
                     SampleSubTitle("Many Tabs with Long Titles"),
                     GetManyTabsPivot(),
+                    SampleSubTitle("Focus rings are not clipped by the pane"),
+                    Pivot().Pivot("focus1", PivotTitle("Controls"), () => FocusRingProbe()).Pivot("focus2", PivotTitle("Other"), () => TextBlock("Other content")),
                     SampleSubTitle("Drag to Reorder"),
                     GetReorderablePivot()
                 )).SetTitle("Usage")))
