@@ -34,8 +34,10 @@ body.tss-theme-kristall .tss-btn:focus {
 }
 
 body.tss-theme-kristall .tss-btn:focus-visible {
-    outline: 3.5px solid var(--tss-kr-focus-ring);
-    outline-offset: 0;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-kr-focus-ring);
+    --tss-btn-focus-width: 3.5px;
 }
 
 /* --------------------------------------------------------------------------

@@ -28,8 +28,9 @@ body.tss-theme-retroos .tss-btn:focus {
 }
 
 body.tss-theme-retroos .tss-btn:focus-visible {
-    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgb(var(--tss-default-foreground-color-root));
 }
 
 /* A pressed button, and the one under the pointer for a ghost, are reverse video. */

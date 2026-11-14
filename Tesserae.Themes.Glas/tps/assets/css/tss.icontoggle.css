@@ -29,5 +29,7 @@ body.tss-theme-glas.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-it
 }
 
 body.tss-theme-glas .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.8);
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgba(var(--tss-gl-accent-rgb), 0.8);
 }

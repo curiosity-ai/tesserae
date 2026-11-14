@@ -131,8 +131,9 @@ body.tss-theme-rechenwerk .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disable
 }
 
 body.tss-theme-rechenwerk .tss-sidebar .tss-btn:focus-visible {
-    outline: 2px solid rgb(244, 194, 13);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgb(244, 194, 13);
 }
 
 /* The current entry: the terminal's cursor, a solid yellow block. */

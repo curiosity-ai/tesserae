@@ -151,7 +151,7 @@ body.tss-theme-curiosity.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-ic
 
 /* Focus is tone, never the accent. */
 body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline-color: var(--tss-default-foreground-color);
+    --tss-btn-focus-color: var(--tss-default-foreground-color);
 }
 
 /* SegmentedPivot: the same, one level up. */

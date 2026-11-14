@@ -43,9 +43,13 @@
         box-shadow: var(--tss-shadow-sm-hover);
     }
 
+    /* Focus thickens the field's own edge to 2px in the primary colour: the border, and a 1px line just inside
+       it (an inset shadow, so the text does not move the way a wider border would move it). Everything stays
+       inside the box: a ring or outline drawn outside it is cut off by any scroller or card that clips its
+       content, and its gap had to be painted in the page colour, which is wrong on every other surface. */
     .tss-textbox:focus {
         border-color: var(--tss-primary-border-color);
-        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+        box-shadow: inset 0 0 0 1px var(--tss-primary-border-color);
     }
 
 .tss-textbox-container {

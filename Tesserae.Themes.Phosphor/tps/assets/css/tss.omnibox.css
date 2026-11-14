@@ -26,3 +26,9 @@ body.tss-theme-phosphor .tss-omnibox-container input {
 body.tss-theme-phosphor .tss-omnibox-search-trigger-btn {
     border-radius: 0;
 }
+
+/* The box's focus is the one drawn above, as the theme's fields draw theirs; Tesserae's second line inside the
+   focused box (an overlay that takes the box's border) is not part of it. */
+body.tss-theme-phosphor .tss-omnibox-container:focus-within::after {
+    content: none;
+}

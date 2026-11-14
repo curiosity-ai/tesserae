@@ -29,8 +29,10 @@ body.tss-theme-graustufe .tss-btn:focus {
 }
 
 body.tss-theme-graustufe .tss-btn:focus-visible {
-    outline: var(--tss-gs-focus);
-    outline-offset: var(--tss-gs-focus-offset);
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-gs-0);
+    --tss-btn-focus-width: 3px;
 }
 
 /* --------------------------------------------------------------------------
@@ -100,8 +102,10 @@ body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn
 }
 
 body.tss-theme-graustufe .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible {
-    outline: var(--tss-gs-focus);
-    outline-offset: 3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-gs-0);
+    --tss-btn-focus-width: 3px;
 }
 
 /* --------------------------------------------------------------------------
@@ -161,8 +165,10 @@ body.tss-theme-graustufe .tss-btn.tss-btn-link:hover > span {
 }
 
 body.tss-theme-graustufe .tss-btn.tss-btn-link:focus-visible {
-    outline: var(--tss-gs-focus);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-gs-0);
+    --tss-btn-focus-width: 3px;
 }
 
 /* --------------------------------------------------------------------------

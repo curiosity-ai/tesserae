@@ -150,8 +150,9 @@ body.tss-theme-glas.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > a > .t
 }
 
 body.tss-theme-glas .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.8);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgba(var(--tss-gl-accent-rgb), 0.8);
 }
 
 /* --------------------------------------------------------------------------

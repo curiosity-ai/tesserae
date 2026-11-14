@@ -131,8 +131,10 @@ body.tss-theme-kristall .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not
 }
 
 body.tss-theme-kristall .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 3px solid var(--tss-kr-focus-ring);
-    outline-offset: -3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-kr-focus-ring);
+    --tss-btn-focus-width: 3px;
 }
 
 /* Row commands: small borderless glyphs that get a frosted capsule under the pointer. */

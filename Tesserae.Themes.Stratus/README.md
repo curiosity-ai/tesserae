@@ -41,5 +41,6 @@ so the theme makes no request to a third-party font host.
 - **Elevation**: levels 1 to 6. A card rests at level 1 and lifts under the pointer; a dialog sits at level 6.
 - **Fields**: a filled slab with a 1px rule under it. Hover shifts the fill, focus tints it and thickens the rule
   to a 3px ring, and error / success / information colour the rule.
-- **Focus**: a 2px blue ring set 2px clear of the control.
+- **Focus**: a 2px blue ring set 2px clear of the control; a button, tab or segment draws the 2px blue line inside
+  its own edge instead, so a clipping container never cuts it.
 - **Scrollbars**: a slim rounded thumb, CSS only (no script touches a scroller).

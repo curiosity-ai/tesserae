@@ -410,3 +410,9 @@ body.tss-theme-weniger .tss-omnibox-help-example {
         transform: none;
     }
 }
+
+/* The box's focus is the one drawn above, as the theme's fields draw theirs; Tesserae's second line inside the
+   focused box (an overlay that takes the box's border) is not part of it. */
+body.tss-theme-weniger .tss-omnibox-container:focus-within::after {
+    content: none;
+}

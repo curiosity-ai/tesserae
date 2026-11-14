@@ -33,6 +33,8 @@ body.tss-theme-phosphor.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggl
 }
 
 body.tss-theme-phosphor .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 1px solid var(--tss-ph-cursor);
-    outline-offset: -3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-ph-cursor);
+    --tss-btn-focus-width: 1px;
 }

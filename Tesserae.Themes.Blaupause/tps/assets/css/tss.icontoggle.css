@@ -35,5 +35,5 @@ body.tss-theme-blaupause.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-togg
 }
 
 body.tss-theme-blaupause .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline-color: var(--tss-bp-red);
+    --tss-btn-focus-color: var(--tss-bp-red);
 }
