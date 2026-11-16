@@ -1038,10 +1038,21 @@ namespace Tesserae
         /// <summary>
         /// Replaces the text in the component.
         /// </summary>
+        /// <remarks>
+        /// The button is icon-only (<c>tss-btn-only-icon</c>) exactly when the new span is empty, as with
+        /// <see cref="Text"/>: a button made without text, given an icon and then a text span would otherwise keep
+        /// the icon-only class and draw the new text 0px wide.
+        /// </remarks>
         public Button ReplaceText(HTMLSpanElement textSpan)
         {
             InnerElement.replaceChild(textSpan, _textSpan);
             _textSpan = textSpan;
+
+            bool isEmpty = textSpan.childElementCount == 0 && string.IsNullOrEmpty(textSpan.textContent);
+            InnerElement.style.minWidth = isEmpty ? "unset" : string.Empty;
+            InnerElement.UpdateClassIf(isEmpty, "tss-btn-only-icon");
+
+            if (InnerElement.classList.contains(HIDE_TEXT_ON_MOBILE_CLASS)) UpdateMobileLabel();
             return this;
         }
 

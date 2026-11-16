@@ -26,6 +26,10 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.OnBeforeHide(Func<bool>)` — return `false` to cancel a hide.
 - `.DelayShow(ms)` / `.DelayHide(ms)`, `.Animation(TooltipAnimation)`, `.Theme(string)`.
 
+Text in a popover (theme `tss-popover`, also `Tippy.ShowFor(..., theme: "tss-popover")`) takes the page's
+foreground (`--tss-default-foreground-color`), because the content draws the page's surface. Text in a
+tooltip takes the tooltip's foreground. So a `Label` or `TextBlock` in a popover needs no colour of its own.
+
 ## Example
 
 ```csharp
