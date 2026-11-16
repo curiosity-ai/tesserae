@@ -23,6 +23,7 @@ returns a `TextArea`. Bring factories into scope with `using static Tesserae.UI;
 - `.Disabled(bool = true)` / `.ReadOnly()` — input state.
 - `.Required()` / `.IsInvalid` / `.Error(msg)` — validation display. With `.Validation(...)` the message line is reserved from the start, so a message appearing never moves the fields below.
 - `.MaxLength` — character cap.
+- `.AI(bool value = true, bool strongEffect = false, bool badge = false, string editedText = null)` / `.IsAI` — AI tint and accent edge; with `badge: true` an `AI` badge in the top corner that becomes `editedText` (default `Edited`) once the user edits the text. `Text = …` / `SetText` re-baselines (the new text is the model's again). See `ai-variants.md`.
 - `.NoSpellCheck()` — disable browser spellcheck.
 - `.AutoResize(bool allowShrink = true, int? minHeight = null, int? maxHeight = null)`
 - `.WithDictation(DictationProvider provider = null)` — adds a microphone button in the corner, the same as the OmniBox's (`Config.DictationButton`): press to dictate after the text already in the field, press again to stop, the words stay. Words come from `provider`, else `Dictation.Provider`, else the browser's speech recognition; hidden when none exists. `.StartDictation()` / `.StopDictation()` / `.IsDictating` drive it from code. See `omni-box.md` ("Dictation"). Every TextArea is also an `IDictationTarget`, found by `DictationTargets` and dictated into with `BeginDictation()` with or without the button (`.DictationSource(provider)` sets its source without adding one): see `dictation-targets.md`.

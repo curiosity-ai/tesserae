@@ -29,6 +29,8 @@ states, same size. Dropping one into a laid-out page moves nothing.
 | `Spinner` | `.AI()` | The gradient on the ring (a masked conic gradient rather than a border), and on its label. The determinate form runs it across the filled sweep. |
 | `ProgressIndicator` | `.AI()` | Bar painted with the gradient, determinate or indeterminate. |
 | `TextBox` | `.AI()` | Tint over the field and an accent edge in every state - a value a model wrote. `SpinWhileAsync` shows a spinner inside it, in the AI arc while the field is AI. |
+| `TextArea` | `.AI()` | The same tint and accent edge for a multi-line value. |
+| `TextBox` / `TextArea` | `.AI(badge: true, editedText: "Edited")` | Adds an `AI` badge inside the field. It tracks the text the model wrote (the text at the call and after each `Text = …` / `SetText`): once the user edits it, the badge stays and says `editedText`; restoring the text brings `AI` back. |
 | `IconToggle<T>` | `.AI()` | Tinted track, accent-coloured items, the selected pill filled with the gradient. |
 | `SegmentedPivot` | `.AI()` | The same, one level up: tinted segmented track, accent tabs, gradient fill on the selected tab. |
 

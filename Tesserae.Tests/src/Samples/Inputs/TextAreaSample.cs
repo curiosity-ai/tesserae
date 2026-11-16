@@ -12,6 +12,12 @@ namespace Tesserae.Tests.Samples
 
         public TextAreaSample()
         {
+            var badged     = TextArea("Brake sensor calibration failed on line 3 in eleven of the last fourteen runs.").AI(badge: true).Id("sample-ai-badge-textarea");
+            var regenerate = Button("Regenerate").AISubtle().Id("sample-ai-badge-textarea-regenerate");
+
+            //SetText hands the field a new value from the model, so it counts as AI-generated again: the badge goes back to "AI".
+            regenerate.OnClick(() => badged.SetText("Line 3's brake sensor calibration failed in 11 of the last 14 runs, always after a tool change."));
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(TextAreaSample), UIcons.AlignLeft, "A control to input multiple lines of text")
                .FlatSection(Stack().Children(
@@ -32,6 +38,12 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Dictation"),
                     VStack().Children(
                         Label("With a microphone button").SetContent(TextArea().SetPlaceholder("Press the microphone and speak...").WithDictation())
+                    ),
+                    SampleSubTitle("AI"),
+                    VStack().Children(
+                        Label("Generated").SetContent(TextArea("Brake sensor calibration failed on line 3 in eleven of the last fourteen runs.").AI()),
+                        Label("With a badge (edit it to see the badge change)").SetContent(VStack().WS().Children(badged.WS(), regenerate.AlignStart())),
+                        Label("Custom edited text, with a microphone button").SetContent(TextArea("Brake sensor calibration failed on line 3 in eleven of the last fourteen runs.").WithDictation().AI(badge: true, editedText: "Modified").Id("sample-ai-badge-textarea-custom"))
                     ),
                     SampleSubTitle("Auto Resize"),
                     VStack().Children(

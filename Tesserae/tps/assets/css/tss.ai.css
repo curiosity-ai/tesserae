@@ -500,3 +500,43 @@ i.tss-icon.tss-ai {
 .tss-dark-mode .tss-textbox.tss-ai:focus {
     box-shadow: 0 0 0 3px rgba(var(--tss-colors-purple-400-root), 0.28);
 }
+
+/* TextBox / TextArea badge: AI(badge: true) -------------------------------------------------------------- */
+
+/* The "AI" / "Edited" badge sits inside the field, at its end, over the input's own box (the container also holds the
+   message line below), in the same 28px slot the dictation button and the spinner use. --tss-ai-trail is how much of the
+   end of the field those two already take, so the badge sits beside them rather than under them, and the input makes room
+   for all of it so text never runs below the badge. A text area has it in the top corner, as it has the dictation button. */
+.tss-textbox-container.tss-textbox-ai-badged {
+    --tss-ai-trail: 0px;
+}
+
+.tss-textbox-container.tss-textbox-ai-badged.tss-textbox-has-dictation {
+    --tss-ai-trail: 32px;
+}
+
+.tss-textbox-container.tss-textbox-ai-badged.tss-textbox-spinning {
+    --tss-ai-trail: 28px;
+}
+
+.tss-textbox-container.tss-textbox-ai-badged.tss-textbox-has-dictation.tss-textbox-spinning {
+    --tss-ai-trail: 60px;
+}
+
+.tss-textbox-ai-badge {
+    position: absolute;
+    top: 4px;
+    right: calc(8px + var(--tss-ai-trail, 0px));
+    height: 28px;
+    max-width: 96px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 1;
+    /* The badge is a mark, not a control: a click on it is a click on the field. */
+    pointer-events: none;
+}
+
+.tss-textbox-container.tss-textbox-ai-badged > .tss-textbox.tss-ai {
+    padding-right: calc(var(--tss-ai-trail, 0px) + 84px);
+}
