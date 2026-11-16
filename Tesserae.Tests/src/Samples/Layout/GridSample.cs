@@ -15,16 +15,16 @@ namespace Tesserae.Tests.Samples
             var grid = Grid(columns: new[] { 1.fr(), 1.fr(), 200.px() });
             grid.Gap(8.px());
             grid.Add(Button().SetText("Stretched Item").WS().Primary().GridColumnStretch().GridRow(1, 2));
-            Enumerable.Range(1, 10).ForEach(v => grid.Add(Button().SetText($"Item {v}")));
+            foreach (var v in Enumerable.Range(1, 10)) { grid.Add(Button().SetText($"Item {v}")); }
 
             var gridAutoSize = Grid(new UnitSize("repeat(auto-fit, minmax(min(200px, 100%), 1fr))"));
             gridAutoSize.Gap(8.px());
-            Enumerable.Range(1, 10).ForEach(v => gridAutoSize.Add(Card(TextBlock($"Responsive Item {v}").TextCenter())));
+            foreach (var v in Enumerable.Range(1, 10)) { gridAutoSize.Add(Card(TextBlock($"Responsive Item {v}").TextCenter())); }
 
             Grid section(int group)
             {
                 var s = Grid(new UnitSize("repeat(auto-fit, minmax(min(160px, 100%), 1fr))")).Gap(8.px()).WS();
-                Enumerable.Range(1, 12).ForEach(v => s.Add(Button().SetText($"Filter {group}.{v}").WS()));
+                foreach (var v in Enumerable.Range(1, 12)) { s.Add(Button().SetText($"Filter {group}.{v}").WS()); }
                 return s;
             }
 
