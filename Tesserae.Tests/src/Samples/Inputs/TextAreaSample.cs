@@ -39,6 +39,11 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("With a microphone button").SetContent(TextArea().SetPlaceholder("Press the microphone and speak...").WithDictation())
                     ),
+                    SampleSubTitle("Formatted initial value"),
+                    VStack().Children(
+                        TextBlock("InitialValue draws bold, italic and coloured text in the empty field. It is not the field's Text, and it disappears as soon as the user edits."),
+                        Label("Template").SetContent(TextArea().InitialValue("<b>Summary</b><br><i>What happened?</i><br><span style=\"color:#e5484d\">Impact</span> and <font color=\"#3b9be8\"><b>next steps</b></font>...").H(120).Id("sample-initial-textarea"))
+                    ),
                     SampleSubTitle("AI"),
                     VStack().Children(
                         Label("Generated").SetContent(TextArea("Brake sensor calibration failed on line 3 in eleven of the last fourteen runs.").AI()),

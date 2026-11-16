@@ -244,3 +244,22 @@
     .tss-textbox-dictate-btn.tss-btn { transition: none; }
     .tss-textbox-dictate-btn.tss-btn.tss-textbox-dictating-btn > i { animation: none; }
 }
+
+/* InitialValue(html): a formatted initial value drawn over the empty field (see InitialRichText). The script copies the field's
+   box, padding and font onto it; it takes no clicks, so the field underneath is used as usual, and it goes on the first edit. */
+.tss-initial-value {
+    position: absolute;
+    box-sizing: border-box;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    color: var(--tss-default-foreground-color);
+    opacity: 0.85;
+}
+
+.tss-initial-value.tss-initial-value-multiline {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}

@@ -18,6 +18,7 @@ returns a `TextArea`. Bring factories into scope with `using static Tesserae.UI;
 
 - `.SetText(text)` / `.Text` / `.ClearText()` — content.
 - `.SetPlaceholder(text)` / `.Placeholder` — placeholder.
+- `.InitialValue(string html)` — a formatted initial value drawn in the empty field until the user first edits it (typing, paste, or `Text = …` from code). Supports `<b>`/`<strong>`, `<i>`/`<em>`, `<br>` and colour (`<span style="color:crimson">`, `<font color="#0a7">`); other markup is reduced to its text. It is not the field's `Text`.
 - `.OnInput((s, e) => ...)` / `.OnChange((s, e) => ...)` — change handlers.
 - `.AsObservable()` — `IObservable<string>` of the text.
 - `.Disabled(bool = true)` / `.ReadOnly()` — input state.
