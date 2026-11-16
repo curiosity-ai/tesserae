@@ -35,6 +35,10 @@ namespace Tesserae.Tests.Samples
                             .SegmentedPivot("s6", SegmentTitle("Reports"),    () => CenteredWithBackground(Message("Reports Content")))
                             .SegmentedPivot("s7", SegmentTitle("Settings"),   () => CenteredWithBackground(Message("Settings Content"))))
                     .Right(TextBlock("👈 resize this area to squeeze the segmented control — use the chevrons or the mouse wheel to scroll the tab strip, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
+                    SampleSubTitle("Focus rings are not clipped by the pane"),
+                    SegmentedPivot()
+                        .SegmentedPivot("f1", SegmentTitle("Controls"), () => FocusRingProbe())
+                        .SegmentedPivot("f2", SegmentTitle("Other"),    () => TextBlock("Other content")),
                     SampleSubTitle("A later tab selected before the strip is drawn"),
                     TextBlock("Select(...) before the pivot is on the page, as a page drawn again after a layout change does: the strip opens scrolled to the selected tab.").Small().Secondary().PB(8),
                     VStack().W(320.px()).H(160.px()).Children(

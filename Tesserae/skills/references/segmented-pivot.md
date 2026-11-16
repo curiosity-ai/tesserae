@@ -29,6 +29,14 @@ mechanics as `Pivot`.
 - `.SelectedTab` — id of the current segment.
 - `.AI(bool value = true, bool strongEffect = false)` — marks the pivot as an AI one: the segmented track takes the purple-to-blue tint, the tabs the accent, and the selected tab is filled with the gradient. See `ai-variants.md`.
 
+## Focus rings at the edge of the pane
+
+The content pane scrolls, so it would clip a focus ring (or any shadow) that a control drawn flush
+against its edge puts outside its own box. The pane is therefore padded by `--tss-focus-ring-room`
+(6px, defined in `tss.common.css`) and pulled back by the same negative margin: content sits where
+it always did, and a ring up to that wide shows on every side. A theme whose ring is wider than
+6px sets the variable on its own root class. The pane overlaps the gap under the tab strip, not the strip itself.
+
 ## Example
 
 ```csharp

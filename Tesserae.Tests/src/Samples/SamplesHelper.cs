@@ -63,6 +63,16 @@ namespace Tesserae.Tests.Samples
                .Show();
         }
 
+        // Controls with no margin of their own, flush with the edges of a tab pane: the ring they draw outside their box must not be clipped by it.
+        public static IComponent FocusRingProbe() => VStack().Gap(8.px()).Children(
+            TextBox().M(0).WS().SetPlaceholder("Focus me: the ring is drawn on every side"),
+            Button("A button at the edge of the pane").M(0),
+            OmniBox(new OmniBox.Config(OmniBox.Mode.SearchAndChat, initialMode: OmniBox.Mode.Chat)
+            {
+                PlaceholderSearch = "Focus me: the ring is drawn on every side",
+                PlaceholderChat   = "Focus me: the ring is drawn on every side"
+            }).WS());
+
         public static IComponent SampleSubTitle(string text) => TextBlock(text).SemiBold().PT(16).PB(8);
         public static IComponent SampleDo(string       text) => Label(Icon(UIcons.Check, color: "#107c10").PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
         public static IComponent SampleDont(string     text) => Label(Icon(UIcons.Cross, color: "#e81123").PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
