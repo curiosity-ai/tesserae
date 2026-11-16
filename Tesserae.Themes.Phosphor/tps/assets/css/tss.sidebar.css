@@ -137,8 +137,10 @@ body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled)
 }
 
 body.tss-theme-phosphor .tss-sidebar .tss-btn:focus-visible {
-    outline: 1px solid var(--tss-ph-cursor);
-    outline-offset: -1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-ph-cursor);
+    --tss-btn-focus-width: 1px;
 }
 
 /* The current entry: the cursor. */

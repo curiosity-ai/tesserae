@@ -99,3 +99,9 @@ body.tss-theme-glas .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:no
 body.tss-theme-glas .tss-omnibox-model-selector-divider {
     background: var(--tss-gl-edge);
 }
+
+/* The box's focus is the one drawn above, as the theme's fields draw theirs; Tesserae's second line inside the
+   focused box (an overlay that takes the box's border) is not part of it. */
+body.tss-theme-glas .tss-omnibox-container:focus-within::after {
+    content: none;
+}

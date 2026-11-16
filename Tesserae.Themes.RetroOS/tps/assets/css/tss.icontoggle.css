@@ -66,8 +66,9 @@ body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item > i {
 }
 
 body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
-    outline-offset: -4px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {

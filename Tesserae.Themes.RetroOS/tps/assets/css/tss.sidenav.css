@@ -57,8 +57,9 @@ body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss
 }
 
 body.tss-theme-retroos .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus-visible {
-    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
-    outline-offset: -3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgb(var(--tss-default-foreground-color-root));
 }
 
 /* The brand is a push button: a rounded ink-edged box. */

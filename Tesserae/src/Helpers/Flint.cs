@@ -52,10 +52,11 @@ namespace Tesserae
         /// <summary>
         /// Throws, with Flint's reason, when <paramref name="input"/> cannot make a chart: no data, a chart type Flint
         /// does not know, a channel the chart type does not have or lacks, a field that is not in the data. Flint
-        /// would otherwise draw most of those, with an axis named <c>undefined</c>.
+        /// would otherwise draw most of those, with an axis named <c>undefined</c>. Also throws for a <c>bind</c> (legend
+        /// and scale binding, which the bundle applies and Flint does not read) that is not well-formed.
         /// </summary>
         internal static void Validate(object input)
-            => Script.Write("globalThis.flint.validateChartInput({0}, 'vegalite');", input);
+            => Script.Write("globalThis.flint.validateChartInput({0}, 'vegalite'); globalThis.flint.validateBindings({0});", input);
 
         /// <summary>
         /// Mounts the chart <paramref name="input"/> (a parsed <c>ChartAssemblyInput</c>) into <paramref name="host"/>,

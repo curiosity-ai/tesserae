@@ -88,7 +88,7 @@ The rules every file in `tps/assets/css/` follows. The tokens are listed, with w
    nothing lifts.
 7. **The spot red is for marks, not decoration.** The primary action (a solid red block), the current item (a 6px red
    square before it in the sidebar, a dropdown or a tree; a 3px red rule under the open tab or down the leading edge of
-   a selected row), focus (a 2px red outline, or a red underline in a field), the drop cap's quote mark, a required
+   a selected row), focus (a 2px red line inside a button's or tab's edge, or a red underline in a field), the drop cap's quote mark, a required
    asterisk, a link's underline. Selection itself (text, the keyboard's row in a menu, the chosen segment, the current
    page) is **reversed out**: paper type on ink.
 8. **Fields are coupons.** A text field, dropdown, search box or tags input is a pale `--tss-zt-surface` panel framed in

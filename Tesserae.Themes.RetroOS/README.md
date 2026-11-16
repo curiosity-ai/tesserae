@@ -47,7 +47,8 @@ black-and-white version of something else.
    inherits the body's Geneva. Code and numbers use `var(--tss-monospace-font-family)`.
    Never set `font-variant-ligatures` back on: the fonts are drawn without them.
 7. **No motion that is not a snap.** `transition: none`. A state changes in one frame. Spinners may step.
-8. **Focus is a thicker line, not a glow.** 2px ink outline with a 1px offset.
+8. **Focus is a thicker line, not a glow.** 2px ink outline with a 1px offset; on a button, a tab or a sidebar row
+   the 2px ink line is drawn inside the control's own edge instead, where a clipping container cannot cut it.
 9. **Colour has no meaning to spend.** Danger, success, warning and info are told apart by words, icons and
    shape (a dashed or double border, an inverted block), never by hue.
 10. **Charts read in patterns.** Series use black, white with a black outline, and dithers; series colours come

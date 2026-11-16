@@ -43,8 +43,10 @@ body.tss-theme-memphis .tss-btn:focus {
 }
 
 body.tss-theme-memphis .tss-btn:focus-visible {
-    outline: 3px solid var(--tss-mp-focus);
-    outline-offset: 3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-mp-focus);
+    --tss-btn-focus-width: 3px;
 }
 
 /* --------------------------------------------------------------------------

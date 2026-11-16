@@ -103,8 +103,10 @@ body.tss-theme-memphis .tss-pivot-tab-fallback {
 
 body.tss-theme-memphis .tss-pivot-titlebar:focus-visible,
 body.tss-theme-memphis .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:focus-visible {
-    outline: 3px solid var(--tss-mp-focus);
-    outline-offset: -3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-mp-focus);
+    --tss-btn-focus-width: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {

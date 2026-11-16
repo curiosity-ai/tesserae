@@ -41,14 +41,12 @@ body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content.tss-p
 }
 
 body.tss-theme-retroos .tss-tree-item:focus-visible > .tss-tree-item-content {
-    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
-    outline-offset: -2px;
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
 }
 
-/* A focused row that is also inverted keeps a paper outline inside it so the focus is still a line. */
+/* A focused row that is also inverted keeps a paper line inside it so the focus is still a line. */
 body.tss-theme-retroos .tss-tree-item:focus-visible > .tss-tree-item-content.tss-selected {
-    outline-color: rgb(var(--tss-default-background-color-root));
-    outline-offset: -3px;
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root)), inset 0 0 0 3px rgb(var(--tss-default-background-color-root));
 }
 
 /* The disclosure triangle: the icon-font glyph is dropped and a solid triangle is clipped from a square. */

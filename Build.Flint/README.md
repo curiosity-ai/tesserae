@@ -26,9 +26,18 @@ labels a spec's own interaction clicks to that interaction). `build.mjs` replace
 backends (and their compilers) out of the bundle. Vega-Lite is the only backend Flint's
 themes and interactions apply to.
 
+`bind.js` is Vega-Lite's [legend and scale binding](https://vega.github.io/vega-lite/docs/bind.html)
+for a spec's top-level `bind` (a Tesserae key Flint does not read): it adds `tss_legend` /
+`tss_scales` selection params to the Vega-Lite spec Flint builds, the opacity condition that
+fades the series not chosen, clipping, and free ticks on a bound axis. Flint has no hook
+between building its Vega-Lite spec and compiling it to Vega, so `build.mjs` rewrites the one
+`compile(shapedSpec)` call in Flint's `vegalite/interactive.ts` to pass through it (and fails
+the build if that call moves). `window.flint.validateBindings` checks a `bind` up front.
+
 The output is one classic script (an IIFE defining `window.flint`), shipped by
 `Tesserae/tps.json` as the unlinked `tss-flint.min.js` resource (`"load": false`).
 
 To update Flint: bump the versions in `package.json`, `npm install`, `npm run build`,
-check the gallery's MarkdownBlock and DeltaComponent samples, and commit the two
+check the gallery's MarkdownBlock, DeltaComponent and FlintChart samples (the "Legend and
+scale binding" section exercises `bind.js`), and commit the two
 generated files with the lock file.

@@ -67,8 +67,9 @@ body.tss-theme-stratus .tss-btn:focus {
 }
 
 body.tss-theme-stratus .tss-btn:focus-visible {
-    outline: 2px solid var(--tss-str-focus);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-str-focus);
 }
 
 /* Disabled: the control as it was, at 40%. */

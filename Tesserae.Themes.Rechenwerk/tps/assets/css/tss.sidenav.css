@@ -88,8 +88,9 @@ body.tss-theme-rechenwerk .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(.
 }
 
 body.tss-theme-rechenwerk .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus-visible {
-    outline: 2px solid rgb(244, 194, 13);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgb(244, 194, 13);
 }
 
 /* Labels in tiny capitals, tracked only a little: the rail is 72px and "Configure" has to fit. */

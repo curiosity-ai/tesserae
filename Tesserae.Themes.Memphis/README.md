@@ -72,7 +72,9 @@ of `tss.common.css`; `tss.button.css`, `tss.card.css`, `tss.contextcard.css`, `t
    cobalt shadow (sunflower at night); invalid is a red line and red shadow with the message in bold red; disabled
    is a dashed line on a flat, faded slab.
 10. **Focus is always visible.** `:focus-visible` is a 3px `--tss-mp-focus` outline (cobalt by day, sunflower at
-    night) offset from the part, so it never merges with the black line. Rows that mark focus with their own fill
+    night) offset from the part, so it never merges with the black line. A button, a tab or a sidebar row draws its
+    3px band inside its own edge instead (`--tss-btn-focus-color` / `--tss-btn-focus-width`), where a clipping
+    container cannot cut it. Rows that mark focus with their own fill
     (menu, dropdown) drop the ring.
 11. **Status keeps its colour and its sign.** Danger is tomato (the red root for text), success mint, warning
     sunflower with ink type, info cobalt. Banners and toasts carry a dotted band of the tone down their leading edge

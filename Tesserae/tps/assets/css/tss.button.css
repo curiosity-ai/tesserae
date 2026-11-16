@@ -88,7 +88,7 @@ a {
             padding:0px 8px;
         }
 
-/* The focus ring is at the end of this file. */
+/* Keyboard focus is at the end of this file. */
 .tss-btn:focus {
     outline: none;
 }
@@ -672,8 +672,7 @@ a {
    restated here for every state: before, a Primary/Danger/Warning/Success NoBackground() button was
    drawn in its fill colour with its label in that same colour, and could not be read at rest or on hover.
    The edge goes too, as on the default NoBackground() button: a tone's border is the rim of its fill. The
-   box-shadow is cleared only under the pointer (the filled tone lifts there), so the focus ring at the end
-   of this file still shows at rest. */
+   box-shadow is cleared only under the pointer (the filled tone lifts there). */
 .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled),
 .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled),
 .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
@@ -1131,13 +1130,55 @@ a {
         animation: none !important;
     }
 
-/* Keyboard focus. The ring shows on :focus-visible only - a click focuses a button too, and a ring left on
-   whatever was clicked last reads as a selected state. It sits last so that it wins over the rules that
-   clear the box-shadow at the same weight (the default tone, NoBackground, NoBorder, Link), and stays
-   below a theme's own `body.tss-theme-x .tss-btn:focus`, which still replaces it. A toned Link() button
-   clears it at a higher weight and keeps no ring. */
+/* Keyboard focus, on :focus-visible only - a click focuses a button too, and a mark left on whatever was clicked
+   last reads as a selected state. It is a 2px line drawn on the inside of the button's own edge (an inset
+   shadow, so nothing in the button moves), never outside it: an outline or an outer ring is cut off by any
+   container that clips its content (a toolbar, a card, a scroller), and the old ring's gap was painted in the
+   page colour, a white stripe on every other surface.
+   On a filled tone (primary, danger, success, warning) the line is the tone's text colour and sits 2px in,
+   behind a band of the tone's own fill: a light line on the edge itself read as the button shrinking, not as
+   focus, wherever the page is light too.
+   The pieces are variables, so a theme recolours the mark without restating its shape:
+   --tss-btn-focus-color and --tss-btn-focus-width (the line), --tss-btn-focus-gap and
+   --tss-btn-focus-gap-color (the band outside it), composed into --tss-btn-focus-shadow, which is what a rule
+   that has to restate the box-shadow at a higher weight uses.
+   It takes the box-shadow slot the old focus ring had, at the same weight, so a component built on a button that
+   draws its own focus (a pivot tab, a sidebar row, a segment of an IconToggle) and clears the box-shadow keeps
+   doing so. It sits last so it wins the ties with the tones' resting rules. */
+.tss-btn {
+    --tss-btn-focus-color: var(--tss-primary-border-color);
+    --tss-btn-focus-width: 2px;
+    --tss-btn-focus-gap: 0px;
+    --tss-btn-focus-gap-color: transparent;
+    --tss-btn-focus-shadow: inset 0 0 0 var(--tss-btn-focus-gap) var(--tss-btn-focus-gap-color), inset 0 0 0 calc(var(--tss-btn-focus-gap) + var(--tss-btn-focus-width)) var(--tss-btn-focus-color);
+}
+
+.tss-btn.tss-btn-primary:not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-btn-focus-color: var(--tss-primary-foreground-color);
+    --tss-btn-focus-gap: 2px;
+    --tss-btn-focus-gap-color: var(--tss-primary-background-color);
+}
+
+.tss-btn.tss-btn-danger:not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-btn-focus-color: var(--tss-danger-foreground-color);
+    --tss-btn-focus-gap: 2px;
+    --tss-btn-focus-gap-color: var(--tss-danger-background-color);
+}
+
+.tss-btn.tss-btn-success:not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-btn-focus-color: var(--tss-success-foreground-color);
+    --tss-btn-focus-gap: 2px;
+    --tss-btn-focus-gap-color: var(--tss-success-background-color);
+}
+
+.tss-btn.tss-btn-warning:not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-btn-focus-color: var(--tss-warning-foreground-color);
+    --tss-btn-focus-gap: 2px;
+    --tss-btn-focus-gap-color: var(--tss-warning-background-color);
+}
+
 .tss-btn:not(.tss-disabled):focus-visible {
-    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+    box-shadow: var(--tss-btn-focus-shadow);
 }
 
 /* AnimateOnClick: the glyph a clicked button has swapped to pops in; the text, when swapped, fades in. */

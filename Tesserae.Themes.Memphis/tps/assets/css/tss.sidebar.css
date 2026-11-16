@@ -131,8 +131,10 @@ body.tss-theme-memphis .tss-sidebar .tss-sidebar-command.tss-btn {
 }
 
 body.tss-theme-memphis .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 3px solid var(--tss-mp-focus);
-    outline-offset: -3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-mp-focus);
+    --tss-btn-focus-width: 3px;
 }
 
 /* The search field at the top: a white field with a black line, like every field. */

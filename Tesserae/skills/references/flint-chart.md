@@ -1,6 +1,6 @@
 ---
 name: flint-chart
-description: The FlintChart component draws a chart with Microsoft's Flint from a Flint chart spec (data, semantic types, chart type and encodings), given as JSON or built fluently, covering 39 Vega-Lite chart types, with click events on marks, series, key entries and axis labels. Use when a Tesserae (C#/Transpose) app needs a declarative, themed chart beyond the toolkit's own SVG charts, or needs to react to a click on a chart element.
+description: The FlintChart component draws a chart with Microsoft's Flint from a Flint chart spec (data, semantic types, chart type and encodings), given as JSON or built fluently, covering 39 Vega-Lite chart types, with click events on marks, series, key entries and axis labels, and Vega-Lite legend and scale binding (highlight a series from the key, pan and zoom). Use when a Tesserae (C#/Transpose) app needs a declarative, themed chart beyond the toolkit's own SVG charts, or needs to react to a click on a chart element.
 ---
 
 # FlintChart
@@ -100,6 +100,46 @@ chart with Flint's reason.
 
 `Map` and `Choropleth` fetch their base map from `vega.github.io` (US states, world
 countries); a page that cannot reach it shows no map.
+
+## Legend and scale binding
+
+Vega-Lite's [selection bindings](https://vega.github.io/vega-lite/docs/bind.html),
+written into the spec's `bind` (the same key a `flint` fence takes, `flint-charts.md`):
+
+```csharp
+var cars = FlintChart(FlintChartType.ScatterPlot)
+   .DataJson(carsJson)                       // rows with Name, Origin, Weight, MPG
+   .X("Weight").Y("MPG").ColorBy("Origin");
+
+// Click a key entry to choose that series and fade the rest; shift-click adds one, double-click clears.
+cars.LegendBinding();
+
+// Drag to pan, wheel to zoom, double-click to reset.
+cars.ScaleBinding();
+
+// Small multiples share their scales, so the panels move together.
+cars.Encode(FlintChannel.Column, "Origin")
+    .ScaleBinding(new FlintScaleBinding { Y = false, ZoomEvents = "wheel![event.shiftKey]" })
+    .LegendBinding(new FlintLegendBinding { ClickMarks = true, MutedOpacity = 0.15 });
+```
+
+- `.LegendBinding(bool bind = true)` / `.LegendBinding(FlintLegendBinding)` — `null` or
+  `false` removes it. `FlintLegendBinding { Channel, Events, ClickMarks, MutedOpacity }`:
+  `Channel` picks the key (`Color`, `Shape`, `StrokeDash`, `Size`, `Opacity`; default the
+  first key drawn with symbols), `Events` the Vega event stream on an entry (default
+  `"click"`), `ClickMarks` lets a mark click choose its series, `MutedOpacity` (0.2) is the
+  opacity of the rest. Only a key drawn with symbols can be bound: a gradient key for a
+  measure, or a chart that labels its series directly, draws the chart without it.
+- `.ScaleBinding(bool bind = true)` / `.ScaleBinding(FlintScaleBinding)` —
+  `FlintScaleBinding { X, Y, Zoom, Pan, ZoomEvents, PanEvents }`. Only continuous axes
+  (numbers, dates) move: a bar chart's values pan and zoom, its categories stay. A bound
+  axis gets ticks for the range in view, in Flint's format. By default the wheel zooms
+  whenever the pointer is over the chart (the page does not scroll there);
+  `ZoomEvents = "wheel![event.shiftKey]"` leaves the wheel to the page unless Shift is held.
+
+Don't combine them with the Flint interactions that drive the same gestures their own
+way: `LegendToggle` / `ClickHighlight` with a legend binding, `Navigate` / `BrushZoom` with
+a scale binding. `OnElementClick` still reports key-entry clicks.
 
 ## Clicks
 

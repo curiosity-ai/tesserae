@@ -38,6 +38,7 @@ for (int i = 1; i <= 3; i++)
 
 ## Related
 
+- Hub (a SectionStack with a breadcrumb + commands header, for a top-level page) — `hub.md`
 - Panel — `panel.md`
 - Dialog — `dialog.md`
 - Full docs & API: `/tesserae/layout/section-stack`

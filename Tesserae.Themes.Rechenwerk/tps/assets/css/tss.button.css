@@ -33,12 +33,13 @@ body.tss-theme-rechenwerk .tss-btn:focus {
 }
 
 body.tss-theme-rechenwerk .tss-btn:focus-visible {
-    outline: 2px solid var(--tss-rw-ink);
-    outline-offset: 3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-rw-ink);
 }
 
 body.tss-theme-rechenwerk.tss-dark-mode .tss-btn:focus-visible {
-    outline-color: var(--tss-rw-yellow);
+    --tss-btn-focus-color: var(--tss-rw-yellow);
 }
 
 body.tss-theme-rechenwerk .tss-btn > i + span:not(:empty) {

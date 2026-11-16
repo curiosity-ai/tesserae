@@ -66,6 +66,8 @@ body.tss-theme-kristall.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggl
 }
 
 body.tss-theme-kristall .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 3px solid var(--tss-kr-focus-ring);
-    outline-offset: -1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-kr-focus-ring);
+    --tss-btn-focus-width: 3px;
 }

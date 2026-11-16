@@ -33,8 +33,9 @@ body.tss-theme-glas .tss-btn:focus {
 }
 
 body.tss-theme-glas .tss-btn:focus-visible {
-    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.8);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgba(var(--tss-gl-accent-rgb), 0.8);
 }
 
 /* --------------------------------------------------------------------------

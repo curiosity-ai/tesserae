@@ -42,8 +42,9 @@ body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-
 }
 
 body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:focus-visible {
-    outline: 2px solid var(--tss-zt-red);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-zt-red);
 }
 
 /* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */

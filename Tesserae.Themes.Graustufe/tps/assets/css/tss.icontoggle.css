@@ -36,6 +36,8 @@ body.tss-theme-graustufe.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-togg
 }
 
 body.tss-theme-graustufe .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: var(--tss-gs-focus);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-gs-0);
+    --tss-btn-focus-width: 3px;
 }

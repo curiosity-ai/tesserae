@@ -98,3 +98,9 @@ body.tss-theme-stratus .tss-omnibox-search-input::placeholder {
     color: var(--tss-secondary-foreground-color);
     opacity: 1;
 }
+
+/* The box's focus is the one drawn above, as the theme's fields draw theirs; Tesserae's second line inside the
+   focused box (an overlay that takes the box's border) is not part of it. */
+body.tss-theme-stratus .tss-omnibox-container:focus-within::after {
+    content: none;
+}

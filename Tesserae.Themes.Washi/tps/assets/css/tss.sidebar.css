@@ -186,8 +186,10 @@ body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-ico
 }
 
 body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 1.5px solid var(--tss-wa-thread);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-wa-thread);
+    --tss-btn-focus-width: 1.5px;
 }
 
 /* .Rounded() rows and boxes: cut paper, not a pill. */

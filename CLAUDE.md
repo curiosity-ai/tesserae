@@ -292,6 +292,12 @@ spec draws as a component, `UI.FlintChart(json)` / `UI.FlintChart(FlintChartType
   leaves the page (a `Text` re-render, a swap while the closing ``` arrives a backtick at a time) is
   **parked** for ten seconds and **adopted** by the next host of the same key, even mid-draw; one nobody
   adopts is destroyed. Keep both if you touch it: without them a streamed chart is drawn on every chunk.
+- **Legend and scale binding** (Vega-Lite's [`bind`](https://vega.github.io/vega-lite/docs/bind.html)) come from
+  the spec's top-level `bind` (`{ "legend": …, "scales": … }`), a Tesserae key Flint never reads, which
+  `FlintChart.LegendBinding` / `ScaleBinding` write and a fence can carry. [`Build.Flint/bind.js`](Build.Flint/bind.js)
+  turns it into selection params on the Vega-Lite spec Flint built (plus the fade, clipping and free ticks on a bound
+  axis); Flint has no hook there, so `build.mjs` rewrites its one `compile(shapedSpec)` call to go through it, and
+  fails the build when a Flint update moves that call. `Flint.Validate` rejects a malformed `bind` up front.
 - **[FlintThemes.cs](Tesserae/src/Helpers/FlintThemes.cs)** / **[IFlintTheme](Tesserae/src/Interfaces/IFlintTheme.cs)**:
   an `IFlintTheme` returns Flint's `theme_spec` as JSON for the element the chart is drawn in.
   `FlintThemes.Tesserae` (the default) reads the tokens there and resolves them to hex through a 1px

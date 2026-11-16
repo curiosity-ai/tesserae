@@ -41,8 +41,9 @@ body.tss-theme-rechenwerk .tss-breadcrumb > .tss-btn:last-child .tss-fontcolor-d
 }
 
 body.tss-theme-rechenwerk .tss-breadcrumb .tss-btn:focus-visible {
-    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgb(var(--tss-default-foreground-color-root));
 }
 
 /* The separator: a square block in the signal colour, in place of the default chevron. */

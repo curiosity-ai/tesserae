@@ -90,11 +90,12 @@
         color: color-mix(in srgb, var(--tss-default-foreground-color) 70%, var(--tss-secondary-background-color));
     }
 
-    /* The segment styling above always wins over .tss-btn:focus's ring (it sets box-shadow), so the
-       keyboard affordance is an outline instead. */
-    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-        outline: 2px solid var(--tss-primary-background-color);
-        outline-offset: -1px;
+    /* A segment's keyboard mark is the button's own (see the end of tss.button.css): a line on the inside of
+       its edge, where the strip's clipping cannot reach it. Restated at the segment's weight, because the
+       segment and selection rules above set box-shadow at more than the button's. */
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-disabled):focus-visible,
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:not(.tss-disabled):focus-visible {
+        box-shadow: var(--tss-btn-focus-shadow);
     }
 
     .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {

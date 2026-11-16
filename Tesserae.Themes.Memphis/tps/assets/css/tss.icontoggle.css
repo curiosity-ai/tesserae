@@ -54,8 +54,10 @@ body.tss-theme-memphis.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle
 }
 
 body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 3px solid var(--tss-mp-focus);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-mp-focus);
+    --tss-btn-focus-width: 3px;
 }
 
 body.tss-theme-memphis .tss-icon-toggle.tss-rounded-sm,

@@ -313,14 +313,34 @@
     color: var(--tss-disabled-foreground-color);
 }
 
-.tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+/* Hover and focus belong to the box, which is the element with the border. They used to be set on the search
+   row inside it, which has no border of its own: the border colour did nothing, and the focus shadow drew a
+   second outline around the row, just inside the box's own - over its border on the one-line search box, and
+   as a box within the box round the search half of SearchAndChat. A box in chat mode showed no focus at all.
+   Focus is the TextBox's: a 2px primary edge inside the box, the border and a second line of the same width
+   and colour inside it. The second line is an overlay rather than an inset shadow on the box, because a shadow
+   paints under the box's children and the buttons that fill the ends of the row would cover it. The overlay is
+   the box's last positioned child with no z-index, so it paints above those buttons, under the (transparent)
+   inputs, and never outside the box. It inherits the box's border, so a theme that recolours or removes the
+   focused box's border recolours or removes the second line with it. */
+.tss-omnibox-container:not(.tss-disabled):hover {
     border-color: var(--tss-default-foreground-color);
     box-shadow: var(--tss-shadow-sm-hover);
 }
 
-.tss-omnibox-container:focus-within .tss-omnibox-search-container {
+.tss-omnibox-container:not(.tss-disabled):focus-within {
     border-color: var(--tss-primary-border-color);
-    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+}
+
+.tss-omnibox-container:not(.tss-disabled):focus-within::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-style: solid;
+    border-width: inherit;
+    border-color: inherit;
+    border-radius: max(0px, calc(var(--tss-omnibox-radius) - 1px));
+    pointer-events: none;
 }
 
 .tss-omnibox-search-input-container {
@@ -964,4 +984,13 @@
     height: 18px;
     min-width: 18px;
     font-size: 10px;
+}
+
+/* The box carries the focus, so the inputs inside it draw none of their own. Without this a theme's (or an
+   application's) global `:focus-visible` outline framed the bare input inside the framed box - a second border
+   just inside the first, around the search line of SearchAndChat and the chat text area. Three classes, so it
+   outweighs a theme's `body.tss-theme-x :focus-visible`. */
+.tss-omnibox-container .tss-omnibox-search-input:focus-visible,
+.tss-omnibox-container .tss-omnibox-chat-input:focus-visible {
+    outline: none;
 }

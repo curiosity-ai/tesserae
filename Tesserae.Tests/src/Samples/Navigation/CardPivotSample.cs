@@ -24,7 +24,11 @@ namespace Tesserae.Tests.Samples
                         .CardPivot("tab2", () => Metric("Tokens", "196.97k"), () => Card(TextBlock("Content for Tokens").P(32)))
                         .CardPivot("tab3", () => Metric("Cost", "$0.09"), () => Card(TextBlock("Content for Cost").P(32)))
                         .CardPivot("tab4", () => Metric("Errors", "194"), () => Card(TextBlock("Content for Errors").P(32)))
-                        .CardPivot("tab5", () => Metric("Cached", "408"), () => Card(TextBlock("Content for Cached").P(32)))
+                        .CardPivot("tab5", () => Metric("Cached", "408"), () => Card(TextBlock("Content for Cached").P(32))),
+                    SampleSubTitle("Focus rings are not clipped by the pane"),
+                    CardPivot()
+                        .CardPivot("f1", () => Metric("Controls", "3"), () => FocusRingProbe())
+                        .CardPivot("f2", () => Metric("Other", "0"),    () => TextBlock("Other content"))
                )).SetTitle("Usage")))
                .SeeAlso(typeof(PivotSample), typeof(SegmentedPivotSample), typeof(PivotSelectorSample), typeof(CardSample), typeof(TabbedModalSample));
         }

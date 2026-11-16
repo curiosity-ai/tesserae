@@ -32,8 +32,9 @@ body.tss-theme-zeitung .tss-btn:focus {
 }
 
 body.tss-theme-zeitung .tss-btn:focus-visible {
-    outline: 2px solid var(--tss-zt-red);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-zt-red);
 }
 
 /* Ghost buttons: bare type; a hairline frame under the pointer, a wash of ink when pressed. */

@@ -41,6 +41,14 @@ var pivot = Pivot()
     .Centered();
 ```
 
+## Focus rings at the edge of the pane
+
+The content pane scrolls, so it would clip a focus ring (or any shadow) that a control drawn flush
+against its edge puts outside its own box. The pane is therefore padded by `--tss-focus-ring-room`
+(6px, defined in `tss.common.css`) and pulled back by the same negative margin: content sits where
+it always did, and a ring up to that wide shows on every side. A theme whose ring is wider than
+6px sets the variable on its own root class. The pivot's own box lets that margin show (`overflow: clip` with `overflow-clip-margin`; a browser without `overflow-clip-margin` still clips to the box), and the tab strip sits above the pane so the pane never takes its clicks.
+
 ## Overflow buttons
 
 The scroll arrows and the "All tabs" button beside the strip are named (`Scroll tabs left`,

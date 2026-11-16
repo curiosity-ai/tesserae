@@ -72,6 +72,7 @@ body.tss-theme-weniger .tss-breadcrumb-overflow .tss-btn:hover {
 }
 
 body.tss-theme-weniger .tss-breadcrumb .tss-btn:focus-visible {
-    outline: 2px solid rgba(236, 88, 26, 0.85);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgba(236, 88, 26, 0.85);
 }

@@ -49,8 +49,9 @@ body.tss-theme-curiosity.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.
 }
 
 body.tss-theme-curiosity .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
-    outline: 2px solid var(--tss-default-foreground-color);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-default-foreground-color);
 }
 
 body.tss-theme-curiosity .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {

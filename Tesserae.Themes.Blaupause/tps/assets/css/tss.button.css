@@ -34,8 +34,9 @@ body.tss-theme-blaupause .tss-btn:focus {
 }
 
 body.tss-theme-blaupause .tss-btn:focus-visible {
-    outline: 2px solid var(--tss-bp-red);
-    outline-offset: 3px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-bp-red);
 }
 
 /* --------------------------------------------------------------------------
@@ -91,8 +92,9 @@ body.tss-theme-blaupause .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-bt
 body.tss-theme-blaupause .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible,
 body.tss-theme-blaupause .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible,
 body.tss-theme-blaupause .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible {
-    outline: 2px solid var(--tss-bp-red);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-bp-red);
 }
 
 /* --------------------------------------------------------------------------

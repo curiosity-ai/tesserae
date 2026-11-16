@@ -17,9 +17,11 @@
     box-shadow: var(--tss-shadow-sm-hover);
 }
 
+/* Focus is the TextBox's: a 2px primary edge inside the box (the border and a 1px inset line). The textarea
+   and the highlights layer over it are transparent, so the line shows through them. */
 .tss-annotated-text-container:focus-within {
     border-color: var(--tss-primary-border-color);
-    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+    box-shadow: inset 0 0 0 1px var(--tss-primary-border-color);
 }
 
 .tss-annotated-text-container.tss-disabled {
@@ -191,4 +193,10 @@
     color: inherit;
     white-space: pre-line;
     letter-spacing: 0.02em;
+}
+
+/* The container carries the focus (its 2px edge above), so the textarea inside it draws none of its own: a
+   theme's or an application's global `:focus-visible` outline would frame it a second time, inside the box. */
+.tss-annotated-text-container > .tss-annotated-text-input:focus-visible {
+    outline: none;
 }

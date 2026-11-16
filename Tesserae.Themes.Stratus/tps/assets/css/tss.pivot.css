@@ -64,8 +64,9 @@ body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:active
 }
 
 body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:focus-visible {
-    outline: 2px solid var(--tss-str-focus);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-str-focus);
 }
 
 body.tss-theme-stratus .tss-pivot-titlebar:not(#_) > .tss-btn.tss-pivot-tab.tss-pivot-selected-title,

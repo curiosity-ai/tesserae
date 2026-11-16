@@ -68,6 +68,9 @@ Content:
 
 - `.SetText(string)` / `.SetTitle(string)` (hover title) / `.Tooltip(string)`.
 - `.SetIcon(UIcons icon, string color = "", ..., bool afterText = false)`.
+- `.ReplaceText(HTMLSpanElement)` — swap the label span for one you built. Like `Text`, it sets the icon-only
+  look (`tss-btn-only-icon`) from the new span: an empty span makes the button icon-only, a span with content
+  takes it off. `.ReplaceContent(IComponent)` replaces the icon and the label and is never icon-only.
 - `.Wrap()` / `.NoWrap()` / `.Ellipsis()`.
 - `.HideTextOnMobile(bool = true)` — while `Theme.IsMobileMode` is on, show only the
   icon (a button with no icon keeps its text). The text stays the `aria-label`.

@@ -196,8 +196,9 @@ body.tss-theme-weniger .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-i
 }
 
 body.tss-theme-weniger .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 2px solid rgba(236, 88, 26, 0.85);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgba(236, 88, 26, 0.85);
 }
 
 /* .Rounded() rows and boxes: a key's 8px, not a pill (the theme keeps pills for knobs and lamps). */

@@ -293,6 +293,7 @@ body.tss-theme-zeitung .tss-sidebar-status-card {
 }
 
 body.tss-theme-zeitung .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
-    outline: 2px solid var(--tss-zt-red);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-zt-red);
 }

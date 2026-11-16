@@ -28,8 +28,10 @@ body.tss-theme-washi .tss-btn:focus {
 }
 
 body.tss-theme-washi .tss-btn:focus-visible {
-    outline: 1.5px solid var(--tss-wa-thread);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: var(--tss-wa-thread);
+    --tss-btn-focus-width: 1.5px;
 }
 
 /* --------------------------------------------------------------------------

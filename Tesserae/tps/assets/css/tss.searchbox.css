@@ -91,7 +91,7 @@
             border-color: var(--tss-primary-border-color);
             border-width: 0px 0px 2px;
             padding-bottom: 0px;
-            /* Its focus is the thicker rule: the focus ring below would draw a box round a field that has none. */
+            /* Its focus is the thicker rule: the boxed field's focus edge below would draw a box round a field that has none. */
             box-shadow: none;
         }
 
@@ -100,9 +100,10 @@
         box-shadow: var(--tss-shadow-sm-hover);
     }
 
+    /* Focus is the TextBox's: a 2px primary edge inside the box (the border and a 1px inset line). */
     .tss-searchbox-container:focus-within {
         border-color: var(--tss-primary-border-color);
-        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+        box-shadow: inset 0 0 0 1px var(--tss-primary-border-color);
     }
 
 .tss-searchbox-icon {
@@ -378,4 +379,10 @@
 .tss-searchable-list-no-match {
     opacity:0.4;
     filter:saturate(0);
+}
+
+/* The container carries the focus (its 2px edge above), so the input inside it draws none of its own: a
+   theme's or an application's global `:focus-visible` outline would frame it a second time, inside the box. */
+.tss-searchbox-container .tss-searchbox.tss-searchbox:focus-visible {
+    outline: none;
 }

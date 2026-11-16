@@ -63,8 +63,10 @@ of `tss.common.css`; `tss.sidebar.css`, `tss.button.css`, `tss.textbox.css`, `ts
    the slider fill, the selection pill (`--tss-kr-selection`, a wash with the text in the accent), the menu
    highlight (solid, white type) and focus. The rest of the system palette (`--tss-kr-red` to `--tss-kr-gray`) is for
    meaning: danger, success, warning, and the chart series.
-7. **Focus is a halo.** `outline: 3.5px solid var(--tss-kr-focus-ring)` with no offset, which follows the
-   control's own radius; a text field draws the same as `box-shadow: inset 0 0 0 1px accent, var(--tss-kr-focus)`.
+7. **Focus is a halo.** A text field draws it as `box-shadow: inset 0 0 0 1px accent, var(--tss-kr-focus)`. A button
+   (and a tab, a sidebar row, a segment) draws it inside its own edge, a 3.5px band in `--tss-kr-focus-ring` that
+   follows the control's radius, through Tesserae's `--tss-btn-focus-color` / `--tss-btn-focus-width`, so a
+   container that clips never cuts it off.
    Invalid is the same halo in red.
 8. **Segmented controls.** A Pivot, a SegmentedPivot and an IconToggle are one control: a 9px track in the system
    fill, and the chosen segment a white pill (a lighter glass pill in dark) with a hairline and a small shadow. The

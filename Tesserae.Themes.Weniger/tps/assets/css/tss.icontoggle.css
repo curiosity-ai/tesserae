@@ -208,8 +208,9 @@ body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle
 
 body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:focus-visible {
     z-index: 1;
-    outline: 2px solid rgba(236, 88, 26, 0.85);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--tss-btn-focus-shadow) !important;
+    --tss-btn-focus-color: rgba(236, 88, 26, 0.85);
 }
 
 /* Disabled: the key stays in the strip but is down to its last hair of wall, its legend faded. */
