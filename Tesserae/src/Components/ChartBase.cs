@@ -476,6 +476,23 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Attaches the full text of a shortened label as its hover tooltip, whatever <see cref="Tooltips"/> says:
+        /// the tooltip is the only place the cut text can be read.
+        /// </summary>
+        protected void AttachLabelTooltip(Element el, string text)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+
+            var title = El("title");
+            title.textContent = text;
+            el.appendChild(title);
+
+            //Tippy is created with allowHTML, and a label is data, not markup.
+            el[TooltipContentProperty] = text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+            EnsureTooltipDelegate();
+        }
+
         private const string TooltipContentProperty = "_tssChartTooltip";
 
         private bool _tooltipDelegateAttached;
@@ -1390,9 +1407,7 @@ namespace Tesserae
 
             if (keep == 0) label.textContent = "…";
 
-            var title = El("title");
-            title.textContent = text;
-            label.appendChild(title);
+            AttachLabelTooltip(label, text);
         }
 
         private static double TextLength(Element text) => Script.Write<double>("{0}.getComputedTextLength()", text);
