@@ -14,6 +14,7 @@ A single-line text input with placeholder, read-only, password, and validation s
 ## Key configuration
 
 - `.SetPlaceholder(string)` — placeholder text (or set the `Placeholder` property).
+- `.InitialValue(string html)` — a formatted initial value drawn in the empty field until the user first edits it (typing, paste, or `Text = …` from code). Supports `<b>`/`<strong>`, `<i>`/`<em>`, `<br>` and colour (`<span style="color:crimson">`, `<font color="#0a7">`); other markup is reduced to its text. It is not the field's `Text`.
 - `.ReadOnly()` — make the field read-only.
 - `.Password()` — switch to password (masked) mode.
 - `.Disabled()` — disable the input (from `Input`).

@@ -133,6 +133,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows <paramref name="html"/> in the empty field as its initial value, until the user first edits it. A minimal subset of
+        /// HTML is drawn: <c>&lt;b&gt;</c>/<c>&lt;strong&gt;</c>, <c>&lt;i&gt;</c>/<c>&lt;em&gt;</c>, <c>&lt;br&gt;</c> and colour (<c>&lt;span style="color:crimson"&gt;</c> or
+        /// <c>&lt;font color="#0a7"&gt;</c>); anything else is reduced to its text. It is not the field's <c>Text</c> (which stays empty),
+        /// and typing, pasting, or setting <c>Text</c> from code removes it for good.
+        /// </summary>
+        /// <param name="html">The formatted initial value.</param>
+        public TextBox InitialValue(string html)
+        {
+            if (_initialValue is null)
+            {
+                _initialValue = new InitialRichText(Render(), InnerElement, false);
+                InitialValueAssigned = () => _initialValue.Remove();
+            }
+
+            _initialValue.Set(html);
+            return this;
+        }
+
+        private InitialRichText _initialValue;
+
         /// <summary>Sets the text box as read-only.</summary>
         public TextBox ReadOnly()
         {

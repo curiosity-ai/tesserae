@@ -80,6 +80,13 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("With a microphone button").SetContent(TextBox().SetPlaceholder("Press the microphone and speak...").WithDictation())
                     ),
+                    SampleSubTitle("Formatted initial value"),
+                    VStack().Children(
+                        TextBlock("InitialValue draws bold, italic and coloured text in the empty field. It is not the field's Text, and it disappears as soon as the user edits."),
+                        Label("Bold and italic").SetContent(TextBox().InitialValue("Dear <b>customer</b>, thank you for your <i>patience</i>").Id("sample-initial-textbox")),
+                        Label("Colour").SetContent(TextBox().InitialValue("Status: <span style=\"color:#e5484d\">failing</span>, was <font color=\"#2fa84f\"><b>passing</b></font>").Id("sample-initial-textbox-color")),
+                        Label("Anything else is dropped").SetContent(TextBox().InitialValue("<b>Safe</b> <img src=x onerror=alert(1)><script>alert(1)</script>").Id("sample-initial-textbox-safe"))
+                    ),
                     SampleSubTitle("AI and Loading"),
                     VStack().Children(
                         Label("Generated").SetContent(TextBox("Quarterly revenue summary for the EMEA region").AI()),
