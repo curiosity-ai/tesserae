@@ -1353,6 +1353,11 @@ namespace Tesserae
             var count = Math.Min(_categories.Length, _pointCount);
             var step  = Math.Max(1, (int)Math.Ceiling(count / (double)EffectiveMaxXTicks()));
 
+            // A label is centred on its slot, so it may take the slots of the labels skipped by the step.
+            var room  = count > 1
+                ? (CategoryCenterX(1) - CategoryCenterX(0)) * step - CATEGORY_LABEL_GAP
+                : _plotWidth;
+
             for (int i = 0; i < count; i += step)
             {
                 var label = El("text");
@@ -1363,8 +1368,34 @@ namespace Tesserae
                 Attr(label, "fill", textColor);
                 label.textContent = _categories[i];
                 _svg.appendChild(label);
+                FitCategoryLabel(label, _categories[i], room);
             }
         }
+
+        private const double CATEGORY_LABEL_GAP = 4;
+
+        // Cuts a label wider than its slot with "…" and names the full text on hover, so neighbouring labels never overlap.
+        private void FitCategoryLabel(Element label, string text, double room)
+        {
+            if (string.IsNullOrEmpty(text) || TextLength(label) <= room) return;
+
+            var keep = text.Length - 1;
+
+            while (keep > 0)
+            {
+                label.textContent = text.Substring(0, keep).TrimEnd() + "…";
+                if (TextLength(label) <= room) break;
+                keep--;
+            }
+
+            if (keep == 0) label.textContent = "…";
+
+            var title = El("title");
+            title.textContent = text;
+            label.appendChild(title);
+        }
+
+        private static double TextLength(Element text) => Script.Write<double>("{0}.getComputedTextLength()", text);
 
         private void DrawContinuousXLabels(string textColor)
         {
