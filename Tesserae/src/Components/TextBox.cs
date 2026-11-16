@@ -206,18 +206,47 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Marks the text box as holding what a model wrote - a generated title, a suggested value: the field takes the AI
-        /// tint and an accent edge, and a spinner shown by <see cref="SpinWhileAsync(Func{Task})"/> takes the AI arc. Turn it
-        /// off again (<c>AI(false)</c>) when the value stops being the model's, e.g. once the user types over it.
+        /// Marks the field as holding what a model wrote (the AI tint and an accent edge; a spinner shown by <see cref="SpinWhileAsync(Func{Task})"/> takes the AI arc), optionally with an <c>AI</c> badge inside the field. The text in the field when this is
+        /// called, and the text of every later <c>Text = …</c> / <c>SetText</c>, is taken as what the model wrote. While the field
+        /// still holds it the badge says <c>AI</c>; once the user edits it the badge stays and says <paramref name="editedText"/>
+        /// instead (and says <c>AI</c> again if they put the text back). The field keeps its AI look throughout; turn it off with
+        /// <c>AI(false)</c> if the value should stop being treated as the model's.
         /// </summary>
         /// <param name="value">Whether the AI look is on.</param>
-        /// <param name="strongEffect">Asks for the louder form of the AI styling (<c>tss-ai-strong</c>); see the ai-variants reference.</param>
-        public TextBox AI(bool value = true, bool strongEffect = false)
+        /// <param name="strongEffect">Asks for the louder form of the AI styling (<c>tss-ai-strong</c>).</param>
+        /// <param name="badge">Shows the badge inside the field.</param>
+        /// <param name="editedText">What the badge says once the text was edited; <c>Edited</c> (translated) when null.</param>
+        public TextBox AI(bool value = true, bool strongEffect = false, bool badge = false, string editedText = null)
         {
             InnerElement.UpdateClassIf(value, "tss-ai");
             InnerElement.UpdateClassIf(value && strongEffect, "tss-ai-strong");
+
+            if (value && badge)
+            {
+                if (_aiBadge is null)
+                {
+                    _aiBadge = new AIFieldBadge(Render(), () => Text);
+
+                    TextAssigned = () => _aiBadge?.Rebase();
+
+                    // Only the user's own input has an event; a change from code raises it with none, and has already rebased.
+                    SubscribeInputUpdated((_, e) =>
+                    {
+                        if (e is object) _aiBadge?.Refresh();
+                    });
+                }
+
+                _aiBadge.Enable(editedText, strongEffect);
+            }
+            else
+            {
+                _aiBadge?.Disable();
+            }
+
             return this;
         }
+
+        private AIFieldBadge _aiBadge;
 
         /// <summary>Whether <see cref="AI"/> is on.</summary>
         public bool IsAI => InnerElement.classList.contains("tss-ai");
@@ -270,7 +299,7 @@ namespace Tesserae
         /// <summary>The dictation of this field, made on first use so a field that never dictates carries none.</summary>
         private DictationController GetDictation()
         {
-            if (_dictation is null) _dictation = new DictationController(Render(), InnerElement, () => Text, text => Text = text, () => MaxLength, _dictationProvider);
+            if (_dictation is null) _dictation = new DictationController(Render(), InnerElement, () => Text, text => { if (_aiBadge is object) _aiBadge.AsUserEdit(() => Text = text); else Text = text; }, () => MaxLength, _dictationProvider);
 
             _dictation.Provider = _dictationProvider;
             return _dictation;

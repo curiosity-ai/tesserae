@@ -13,6 +13,14 @@ namespace Tesserae.Tests.Samples
 
         public TextBoxSample()
         {
+            var badged     = TextBox("Quarterly revenue summary for the EMEA region").AI(badge: true).Id("sample-ai-badge-textbox");
+            var regenerate = Button("Regenerate").AISubtle().Id("sample-ai-badge-textbox-regenerate");
+            var versions   = new[] { "Quarterly revenue summary for the EMEA region", "EMEA revenue, quarter on quarter", "Where EMEA revenue moved this quarter" };
+            var next       = 0;
+
+            //SetText hands the field a new value from the model, so it counts as AI-generated again: the badge goes back to "AI".
+            regenerate.OnClick(() => badged.SetText(versions[++next % versions.Length]));
+
             //SpinWhileAsync shows a spinner inside the field while the call runs; the value it fills in is the model's, so
             //it is marked AI() until the user types over it.
             var suggested = TextBox().SetPlaceholder("Click Suggest, or type your own");
@@ -75,7 +83,11 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("AI and Loading"),
                     VStack().Children(
                         Label("Generated").SetContent(TextBox("Quarterly revenue summary for the EMEA region").AI()),
-                        Label("Suggested title").SetContent(HStack().WS().AlignItemsCenter().Children(suggested.W(10).Grow(), suggest.ML(8)))
+                        Label("Suggested title").SetContent(HStack().WS().AlignItemsCenter().Children(suggested.W(10).Grow(), suggest.ML(8))),
+                        //The badge stays once the text is edited and says so; SetText hands the field a new model value.
+                        Label("With a badge (edit it to see the badge change)").SetContent(HStack().WS().AlignItemsCenter().Children(badged.W(10).Grow(), regenerate.ML(8))),
+                        Label("Custom edited text").SetContent(TextBox("Weekly digest of open support tickets").AI(badge: true, editedText: "Modified").Id("sample-ai-badge-textbox-custom")),
+                        Label("With a microphone button").SetContent(TextBox("Release notes for 4.2").WithDictation().AI(badge: true).Id("sample-ai-badge-textbox-dictation"))
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(TextAreaSample), typeof(AutoCompleteBoxSample), typeof(SearchBoxSample), typeof(NumberPickerSample), typeof(ValidatorSample), typeof(LabelSample));

@@ -48,6 +48,9 @@ namespace Tesserae
             SubscribeInputUpdated((_, __) => _observable.Value = Text);
         }
 
+        /// <summary>Raised when the text is assigned from code (<see cref="Text"/>, <c>SetText</c>) - not when the user types - for the AI badge to rebase on.</summary>
+        internal Action TextAssigned;
+
         /// <summary>
         /// This will reset the input to a blank state but it will NOT trigger the InputUpdated event because this should be used when a form is being programmatically reset, as opposed to when the User has set the field to blank - the important difference is
         /// that if a form is reset then it should not immediately be covered in validation warnings until the User starts to interact with the reset form (and firing InputUpdated will cause any validator that this component is registered with to revalidate)
@@ -68,6 +71,7 @@ namespace Tesserae
             {
                 InnerElement.value = value;
                 _observable.Value  = value;
+                TextAssigned?.Invoke();
                 RaiseOnInput(null);
             }
         }
