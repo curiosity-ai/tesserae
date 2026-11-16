@@ -36,14 +36,6 @@ namespace Tesserae.Tests.Samples
                .Legend()
                .Rounded(3);
 
-            // Names wider than their bar: each is cut with an ellipsis to its slot, the full name on hover.
-            var longLabelsChart = BarChart()
-               .Series(new ChartSeries("Median", new double[] { 12, 7, 15, 9, 11 }), new ChartSeries("P80", new double[] { 24, 18, 26, 20, 21 }))
-               .XAxis("Final assembly line", "Cabin installation", "Systems test bench", "Paint shop", "Delivery centre")
-               .MaxXTicks(5)
-               .Legend()
-               .Rounded(3);
-
             var stackedChart = BarChart()
                .Series(new ChartSeries("Chat", new double[] { 120, 180, 150, 260, 240, 310 }),
                        new ChartSeries("Search", new double[] { 80, 95, 130, 140, 175, 205 }),
@@ -100,8 +92,12 @@ namespace Tesserae.Tests.Samples
                         stackedChart.H(300).WS())).SetTitle("BarChart (stacked)")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
-                        SampleSubTitle("Long category names in a narrow chart: every bar is named, a name wider than its bar is cut with an ellipsis (hover it for the whole text)"),
-                        longLabelsChart.H(200).W(320))).SetTitle("BarChart (long names)")))
+                        SampleSubTitle("Long category names in a narrow chart: every bar is named. A name longer than its room is cut with an ellipsis (hover it for the whole text)"),
+                        HStack().Gap(16.px()).Children(
+                            LabelsOption("Horizontal (default)", ChartCategoryLabels.Horizontal),
+                            LabelsOption("Angled",               ChartCategoryLabels.Angled),
+                            LabelsOption("Vertical",             ChartCategoryLabels.Vertical),
+                            LabelsOption("Auto",                 ChartCategoryLabels.Auto)))).SetTitle("BarChart (long names)")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Top pages by data transfer: the longest label is cut with an ellipsis (hover it for the whole text), the values line up"),
@@ -310,5 +306,19 @@ namespace Tesserae.Tests.Samples
         }
 
         public HTMLElement Render() => _content.Render();
+    
+        // Names wider than their bar, drawn with each CategoryLabels option.
+        private static IComponent LabelsOption(string title, ChartCategoryLabels labels)
+            => VStack().Children(
+                TextBlock(title).Small().SemiBold().PB(4),
+                BarChart()
+                   .Series(new ChartSeries("Median", new double[] { 12, 7, 15, 9, 11 }), new ChartSeries("P80", new double[] { 24, 18, 26, 20, 21 }))
+                   .XAxis("Final assembly line", "Cabin installation", "Systems test bench", "Paint shop", "Delivery centre")
+                   .MaxXTicks(5)
+                   .CategoryLabels(labels)
+                   .Legend()
+                   .Rounded(3)
+                   .W(280.px())
+                   .H(220.px()));
     }
 }

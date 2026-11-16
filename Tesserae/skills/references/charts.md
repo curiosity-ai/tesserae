@@ -54,6 +54,7 @@ Cartesian (`Line`/`Bar`/`Area`):
 - `.XAxis(params string[])` — evenly spaced categories.
 - `.XAxisTitle(string)`, `.YAxisTitle(string)`, `.Grid(bool)`, `.Axes(bool)`.
 - `.MaxXTicks(int)` — cap the tick labels; 0 (default) derives the cap from the width. A category label wider than its slot is cut with "…" and shows its full text in a tooltip (even with `.Tooltips(false)`), so `.MaxXTicks(n)` can name every bar without overlap.
+- `.CategoryLabels(ChartCategoryLabels)` — how category X labels are drawn: `Horizontal` (default), `Angled` (-45°), `Vertical` (90°) or `Auto` (angled only when a level label does not fit its slot). Turned labels get a label area up to 40% of the chart height; a label longer than its room is cut with "…" in every mode.
 - `.ZeroBaseline(bool)` — override whether the value axis includes zero. Bar and area
   default to including it, line to fitting the data; a metric that hovers far from zero
   reads better fitted (`.ZeroBaseline(false)`) with the fill still running to the bottom.
