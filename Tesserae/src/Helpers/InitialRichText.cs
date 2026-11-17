@@ -22,6 +22,9 @@ namespace Tesserae
         private readonly HTMLElement _overlay;
 
         private bool _gone;
+        private bool _focused;
+        private bool _hooked;
+        private bool _hasValue;
 
         /// <param name="host">The field's root, which is positioned and holds the overlay.</param>
         /// <param name="input">The field's input or textarea, whose box and font the overlay takes.</param>
@@ -42,66 +45,91 @@ namespace Tesserae
             if (_gone) return;
 
             _overlay.innerHTML = "";
+            _hasValue          = !string.IsNullOrEmpty(html);
 
-            if (string.IsNullOrEmpty(html))
+            if (_hasValue) AppendSanitized(_overlay, html);
+
+            if (_hasValue && !_hooked)
             {
-                Hide();
-                return;
-            }
+                _hooked = true;
 
-            AppendSanitized(_overlay, html);
-
-            if (_overlay.parentElement != _host)
-            {
-                _host.appendChild(_overlay);
-
-                // The overlay copies the field's box and font, which are only known once it is laid out and change with it.
+                // The overlay copies the field's box and font, which are only known once it is laid out, and change with it.
                 Action sync = Sync;
 
                 Script.Write("if (typeof ResizeObserver === 'function') { new ResizeObserver(function () { {1}(); }).observe({0}); }", _input, sync);
-                _input.addEventListener("focus", _ => Sync());
+
                 _input.addEventListener("mouseenter", _ => Sync());
+                _input.addEventListener("focus", _ => { _focused = true;  Update(); });
+                _input.addEventListener("blur",  _ => { _focused = false; Update(); });
                 _input.addEventListener("input", _ => Remove());
                 _input.addEventListener("paste", _ => Remove());
-                _input.addEventListener("cut", _ => Remove());
+                _input.addEventListener("cut",   _ => Remove());
             }
 
-            _host.classList.add("tss-has-initial-value");
-            Sync();
+            Update();
         }
 
-        /// <summary>The application took the field over (<c>Text = …</c>): the initial value has nothing left to say.</summary>
+        /// <summary>The application took the field over (<c>Text = …</c>), or the user edited it: the initial value has nothing left to say.</summary>
         public void Remove()
         {
             _gone = true;
-            Hide();
+            Update();
         }
 
-        private void Hide()
+        /// <summary>
+        /// Shows or hides the overlay. It is drawn while the value is set and unedited, with one exception: a field that also holds text
+        /// of its own (a plain version of the value, say) gives the overlay up while it has focus, because the caret and a selection live in
+        /// that text and bold or italic glyphs are not the same width as the plain ones, so the two cannot be made to line up. While the overlay
+        /// is drawn the field's own glyphs (and its placeholder) are invisible, so the two never show over each other.
+        /// </summary>
+        private void Update()
         {
-            _overlay.remove();
-            _host.classList.remove("tss-has-initial-value");
+            var show = _hasValue && !_gone && !(_focused && !string.IsNullOrEmpty(Script.Write<string>("{0}.value", _input)));
+
+            if (show)
+            {
+                if (_overlay.parentElement != _host) _host.appendChild(_overlay);
+
+                _host.classList.add("tss-has-initial-value");
+                Sync();
+            }
+            else
+            {
+                _overlay.remove();
+                _host.classList.remove("tss-has-initial-value");
+            }
         }
 
         private void Sync()
         {
             if (_overlay.parentElement != _host) return;
 
+            // Fractional rects, not offsetLeft/clientWidth (which round): the overlay has to wrap at the same width as the field, or a
+            // long line breaks at a different word. Its border is the field's, made transparent, so the content box is the same too.
             Script.Write(@"
-                var input = {0}, o = {1}, cs = getComputedStyle(input);
-                o.style.left          = (input.offsetLeft + input.clientLeft) + 'px';
-                o.style.top           = (input.offsetTop  + input.clientTop)  + 'px';
-                o.style.width         = input.clientWidth  + 'px';
-                o.style.height        = input.clientHeight + 'px';
-                o.style.paddingTop    = cs.paddingTop;
-                o.style.paddingRight  = cs.paddingRight;
-                o.style.paddingBottom = cs.paddingBottom;
-                o.style.paddingLeft   = cs.paddingLeft;
-                o.style.font          = cs.font;
-                o.style.letterSpacing = cs.letterSpacing;
-                o.style.textAlign     = cs.textAlign;
-                o.style.borderRadius  = cs.borderRadius;
-                if (!{2}) { o.style.lineHeight = input.clientHeight + 'px'; }", _input, _overlay, _multiline);
+                var input = {0}, o = {1}, host = {2}, cs = getComputedStyle(input);
+                var ir = input.getBoundingClientRect(), hr = host.getBoundingClientRect();
+                var hcs = getComputedStyle(host);
+                o.style.left   = (ir.left - hr.left - parseFloat(hcs.borderLeftWidth)) + 'px';
+                o.style.top    = (ir.top  - hr.top  - parseFloat(hcs.borderTopWidth))  + 'px';
+                o.style.width  = ir.width  + 'px';
+                o.style.height = ir.height + 'px';
+                o.style.borderStyle = 'solid';
+                o.style.borderColor = 'transparent';
+                var props = ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth',
+                             'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderRadius',
+                             'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'fontStretch', 'fontKerning', 'fontFeatureSettings',
+                             'fontVariationSettings', 'fontVariantLigatures', 'fontOpticalSizing', 'letterSpacing', 'wordSpacing',
+                             'textAlign', 'textIndent', 'textTransform', 'textRendering', 'tabSize'];
+                for (var i = 0; i < props.length; i++) { o.style[props[i]] = cs[props[i]]; }
+                if ({3}) {
+                    o.style.lineHeight = cs.lineHeight;
+                    o.style.whiteSpace = cs.whiteSpace;
+                    o.style.overflowWrap = cs.overflowWrap;
+                    o.style.wordBreak = cs.wordBreak;
+                } else {
+                    o.style.lineHeight = (ir.height - parseFloat(cs.borderTopWidth) - parseFloat(cs.borderBottomWidth)) + 'px';
+                }", _input, _overlay, _host, _multiline);
         }
 
         // ---- sanitising -------------------------------------------------------------------------------------------------------
