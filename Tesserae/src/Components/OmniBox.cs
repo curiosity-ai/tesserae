@@ -3835,8 +3835,6 @@ namespace Tesserae
         /// returned - and forgets it wherever the history is kept; the entry leaves the list once it has completed,
         /// and stays when it throws.
         /// </summary>
-        //Named, so the overload that was here before keeps the JavaScript name packages compiled against an earlier Tesserae call it by
-        [Transpose.Name("WithRemovableHistory")]
         public OmniBox WithHistory(Func<Task<SearchQuery[]>> historyFetcher, Func<SearchQuery, Task> removeFromHistory)
         {
             _historyRemover = removeFromHistory;
