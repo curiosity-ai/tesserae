@@ -81,7 +81,7 @@ namespace Tesserae.Tests.Samples
                                    .WithPaginatedItems(async () =>
                                     {
                                         page++;
-                                        Router.ReplaceQueryParameters(p => p.With("page", page.ToString()));
+                                        RouteQuery.Set("page", page.ToString(), QueryHistory.Replace);
                                         return await GetDetailsListItemsAsync(page, 5);
                                     })
                             )).Right(
