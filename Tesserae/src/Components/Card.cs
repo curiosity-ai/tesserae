@@ -16,6 +16,8 @@ namespace Tesserae
         private HTMLElement _contentContainer;
         private HTMLElement _footerContainer;
         private bool _noPadding = false;
+        private bool _headerClickAttached;
+        private ComponentEventHandler<Card, MouseEvent> _onHeaderClick;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -142,6 +144,53 @@ namespace Tesserae
         /// Registers a callback invoked when the click event fires.
         /// </summary>
         public Card OnClick(Action action) => OnClick((_, __) => action.Invoke());
+
+        /// <summary>
+        /// Registers a callback invoked when the card's header (the title row) is clicked. The click does not
+        /// also reach the card's own <see cref="OnClick(Action)"/>. The header becomes keyboard reachable and is
+        /// activated with Enter or Space while it has focus. Creates the header if none exists yet.
+        /// </summary>
+        public Card OnHeaderClick(ComponentEventHandler<Card, MouseEvent> onClick, bool clearPrevious = true)
+        {
+            EnsureHeader();
+
+            if (clearPrevious) _onHeaderClick = null;
+            _onHeaderClick += onClick;
+
+            if (!_headerClickAttached)
+            {
+                _headerClickAttached = true;
+                _headerContainer.style.cursor = "pointer";
+                _headerContainer.setAttribute("role",     "button");
+                _headerContainer.setAttribute("tabindex", "0");
+
+                _headerContainer.addEventListener("click", e =>
+                {
+                    var ev = e.As<MouseEvent>();
+                    StopEvent(ev); // a header click is not a card click
+                    _onHeaderClick?.Invoke(this, ev);
+                });
+
+                // Only the header's own keystrokes: a button inside it keeps Enter and Space for itself.
+                _headerContainer.addEventListener("keydown", e =>
+                {
+                    var ev = e.As<KeyboardEvent>();
+
+                    if (ev.target == _headerContainer && (ev.key == "Enter" || ev.key == " "))
+                    {
+                        StopEvent(ev);
+                        _headerContainer.click();
+                    }
+                });
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a callback invoked when the card's header is clicked.
+        /// </summary>
+        public Card OnHeaderClick(Action action) => OnHeaderClick((_, __) => action.Invoke());
 
         /// <summary>
         /// Sets the title of the component, optionally with an icon drawn just before it - what the card is
