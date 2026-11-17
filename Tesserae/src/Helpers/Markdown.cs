@@ -62,14 +62,31 @@ namespace Tesserae
         /// <param name="text">The Markdown source.</param>
         /// <param name="sanitization">How strictly to sanitize the parsed HTML. See <see cref="MarkdownSanitization"/>.</param>
         public static string ConvertMarkdownSanitized(string text, MarkdownSanitization sanitization = MarkdownSanitization.Default)
+            => ConvertMarkdownSanitized(text, null, sanitization);
+
+        /// <summary>
+        /// Parses the given markdown <paramref name="text"/> and runs the resulting HTML through DOMPurify, keeping
+        /// only the embedded content <paramref name="sources"/> allows: an image, a <c>srcset</c>, a poster, a CSS
+        /// <c>url(...)</c> from anywhere else loses the attribute that would have fetched it. Links stay.
+        /// </summary>
+        /// <param name="text">The Markdown source.</param>
+        /// <param name="sources">Where the Markdown may load content from. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        /// <param name="sanitization">How strictly to sanitize the parsed HTML. See <see cref="MarkdownSanitization"/>.</param>
+        [Transpose.Name("ConvertMarkdownFromSources")]
+        public static string ConvertMarkdownSanitized(string text, MarkdownContentSources sources, MarkdownSanitization sanitization = MarkdownSanitization.Default)
         {
             var marked = GetShared();
             var parsedAsMarkdown = Script.Write<string>("{0}.parse({1})", marked, text);
             var cleaned = RemoveExcessiveNewLines(parsedAsMarkdown);
 
-            if (sanitization == MarkdownSanitization.NoLinksOrEmbeddedContent)
+            var config  = sanitization == MarkdownSanitization.NoLinksOrEmbeddedContent ? GetNoLinksOrEmbeddedContentConfig() : null;
+
+            //The filter is part of the DOMPurify pass itself, so it runs before any element exists that could fetch.
+            if (MarkdownContentSources.Restricts(sources)) return sources.Sanitize(cleaned, config);
+
+            if (config != null)
             {
-                return Script.Write<string>("DOMPurify.sanitize({0}, {1})", cleaned, GetNoLinksOrEmbeddedContentConfig());
+                return Script.Write<string>("DOMPurify.sanitize({0}, {1})", cleaned, config);
             }
 
             var sanitized = Script.Write<string>("DOMPurify.sanitize({0})", cleaned);
@@ -86,7 +103,21 @@ namespace Tesserae
         /// <c>tss-markdown</c> class so it picks up the default Tesserae markdown styling.
         /// </summary>
         public static HTMLElement RenderMarkdownSanitized(string text, MarkdownSanitization sanitization = MarkdownSanitization.Default)
-            => Render(text, sanitization, charts: null);
+            => Render(text, sanitization, null, charts: null);
+
+        /// <summary>
+        /// Parses and sanitizes the markdown like <see cref="RenderMarkdownSanitized(string, MarkdownSanitization)"/>,
+        /// loading embedded content only from <paramref name="sources"/>: in the prose, and in the pictures of a
+        /// <c>```mermaid</c> diagram, whenever it is drawn.
+        /// </summary>
+        /// <param name="text">The Markdown source.</param>
+        /// <param name="sources">Where the Markdown may load content from. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        /// <param name="sanitization">How strictly to sanitize the parsed HTML.</param>
+        //Named, so the overloads that were here before keep the JavaScript names packages compiled against an
+        //earlier Tesserae call them by: the compiler numbers unnamed overloads by signature, and a new one renumbers them.
+        [Transpose.Name("RenderMarkdownFromSources")]
+        public static HTMLElement RenderMarkdownSanitized(string text, MarkdownContentSources sources, MarkdownSanitization sanitization = MarkdownSanitization.Default)
+            => Render(text, sanitization, sources, charts: null);
 
         /// <summary>
         /// Parses and sanitizes the markdown like <see cref="RenderMarkdownSanitized(string, MarkdownSanitization)"/>, and
@@ -98,16 +129,31 @@ namespace Tesserae
         /// <param name="flintTheme">The theme for a chart whose fence names none. <c>null</c> is <see cref="FlintThemes.Tesserae"/>.</param>
         /// <param name="overrideFenceTheme">Whether <paramref name="flintTheme"/> also replaces a <c>theme_spec</c> the fence states.</param>
         public static HTMLElement RenderMarkdownSanitized(string text, MarkdownSanitization sanitization, IFlintTheme flintTheme, bool overrideFenceTheme = false)
-            => Render(text, sanitization, new MarkdownChartOptions(flintTheme, overrideFenceTheme));
+            => Render(text, sanitization, null, new MarkdownChartOptions(flintTheme, overrideFenceTheme));
 
-        private static HTMLElement Render(string text, MarkdownSanitization sanitization, MarkdownChartOptions charts)
+        /// <summary>
+        /// Parses and sanitizes the markdown and draws its <c>```flint</c> fences like
+        /// <see cref="RenderMarkdownSanitized(string, MarkdownSanitization, IFlintTheme, bool)"/>, loading embedded
+        /// content only from <paramref name="sources"/>: in the prose, in a diagram's pictures, and in a chart, which
+        /// stays a code block when its spec would load from somewhere else (a <c>data.url</c>, a map's outlines).
+        /// </summary>
+        /// <param name="text">The Markdown source.</param>
+        /// <param name="sources">Where the Markdown may load content from. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        /// <param name="sanitization">How strictly to sanitize the parsed HTML.</param>
+        /// <param name="flintTheme">The theme for a chart whose fence names none. <c>null</c> is <see cref="FlintThemes.Tesserae"/>.</param>
+        /// <param name="overrideFenceTheme">Whether <paramref name="flintTheme"/> also replaces a <c>theme_spec</c> the fence states.</param>
+        [Transpose.Name("RenderMarkdownAndChartsFromSources")]
+        public static HTMLElement RenderMarkdownSanitized(string text, MarkdownContentSources sources, MarkdownSanitization sanitization, IFlintTheme flintTheme, bool overrideFenceTheme = false)
+            => Render(text, sanitization, sources, new MarkdownChartOptions(flintTheme, overrideFenceTheme));
+
+        private static HTMLElement Render(string text, MarkdownSanitization sanitization, MarkdownContentSources sources, MarkdownChartOptions charts)
         {
-            var convertedText = ConvertMarkdownSanitized(text, sanitization);
+            var convertedText = ConvertMarkdownSanitized(text, sources, sanitization);
             var el            = Raw(convertedText, forceParseAsHTML: true);
             el.classList.add("tss-markdown");
             el.style.whiteSpace = "break-spaces";
-            MarkdownDiagrams.Render(el, sanitization);
-            MarkdownCharts.Render(el, sanitization, charts);
+            MarkdownDiagrams.Render(el, sanitization, sources);
+            MarkdownCharts.Render(el, sanitization, sources, charts);
             return el;
         }
     }

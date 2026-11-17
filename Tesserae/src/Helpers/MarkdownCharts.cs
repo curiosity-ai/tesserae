@@ -57,7 +57,7 @@ namespace Tesserae
         private static readonly Dictionary<string, FlintChartInMarkdown> _parked = new Dictionary<string, FlintChartInMarkdown>();
 
         /// <summary>Turns every <c>flint</c> code block under <paramref name="root"/> into a chart.</summary>
-        internal static void Render(HTMLElement root, MarkdownSanitization sanitization, MarkdownChartOptions options)
+        internal static void Render(HTMLElement root, MarkdownSanitization sanitization, MarkdownContentSources sources, MarkdownChartOptions options)
         {
             if (options is null) return;
 
@@ -68,11 +68,11 @@ namespace Tesserae
                 var text = code.textContent ?? string.Empty;
                 var host = Div(Att("tss-flint"));
 
-                host.setAttribute(DeltaComponent.KeyAttribute, KeyOf(text, sanitization, options));
+                host.setAttribute(DeltaComponent.KeyAttribute, KeyOf(text, sanitization, sources, options));
                 pre.parentElement.insertBefore(host, pre);
                 host.appendChild(pre);
 
-                var chart = new FlintChartInMarkdown(host, pre, text, host.getAttribute(DeltaComponent.KeyAttribute), sanitization, options);
+                var chart = new FlintChartInMarkdown(host, pre, text, host.getAttribute(DeltaComponent.KeyAttribute), sanitization, sources, options);
                 Script.Write("{0}._tssFlint = {1};", host, chart);
 
                 //A chart is laid out for the room it has and coloured from the tokens around it, so it waits for the page.
@@ -96,14 +96,15 @@ namespace Tesserae
             => Script.Write<FlintChartInMarkdown>("{0}._tssFlint || null", host);
 
         //Same spec, same options: the same chart. The theme is told apart by instance, which is why FlintThemes
-        //hands out one instance per preset.
-        private static string KeyOf(string source, MarkdownSanitization sanitization, MarkdownChartOptions options)
+        //hands out one instance per preset. Where it may load from is part of it: a chart drawn under one policy
+        //must not be adopted by a fence rendered under another.
+        private static string KeyOf(string source, MarkdownSanitization sanitization, MarkdownContentSources sources, MarkdownChartOptions options)
         {
             //Trimmed: a streamed fence reads with a trailing line break until its closing ``` arrives.
             source = source.Trim();
 
             var hash = Script.Write<string>("(function (s) { var h = 5381; for (var i = 0; i < s.length; i++) { h = ((h << 5) + h + s.charCodeAt(i)) | 0; } return (h >>> 0).toString(36); })({0})", source);
-            return "flint:" + hash + ":" + source.Length + ":" + ThemeIds.Of(options.Theme) + ":" + (options.OverrideFenceTheme ? "o" : "f") + ":" + (int)sanitization;
+            return "flint:" + hash + ":" + source.Length + ":" + ThemeIds.Of(options.Theme) + ":" + (options.OverrideFenceTheme ? "o" : "f") + ":" + (int)sanitization + ":" + MarkdownContentSources.KeyOf(sources);
         }
 
         //A stamp on the theme object rather than a list of them, so a page that makes themes as it goes holds none.
@@ -139,7 +140,7 @@ namespace Tesserae
             private          bool                 _awaitingRemount;
             private          bool                 _disposed;
 
-            public FlintChartInMarkdown(HTMLElement host, HTMLElement pre, string source, string key, MarkdownSanitization sanitization, MarkdownChartOptions options)
+            public FlintChartInMarkdown(HTMLElement host, HTMLElement pre, string source, string key, MarkdownSanitization sanitization, MarkdownContentSources sources, MarkdownChartOptions options)
             {
                 _host         = host;
                 _pre          = pre;
@@ -151,6 +152,7 @@ namespace Tesserae
                 {
                     Theme             = options.Theme,
                     OverrideSpecTheme = options.OverrideFenceTheme,
+                    ContentSources    = sources,
                     Input             = Parse,
                 };
 

@@ -356,6 +356,19 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets where the chart may load content from - a <see cref="DataUrl"/>, the outlines of a map, a picture its
+        /// tooltip shows - and redraws. A chart whose spec would load from somewhere else is not drawn, and says why
+        /// (<see cref="Error"/>). Unrestricted by default, since the spec is the application's own; set it for a spec
+        /// that comes from somewhere you do not trust to choose a host, a model for instance.
+        /// </summary>
+        /// <param name="sources">The policy. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        public FlintChart ContentSources(MarkdownContentSources sources)
+        {
+            _drawing.ContentSources = sources;
+            return Redraw();
+        }
+
         /// <summary>Draws the chart again now, rather than once the current change settles.</summary>
         public FlintChart Refresh()
         {

@@ -25,6 +25,7 @@ namespace Tesserae
         private bool            _zoom   = true;
         private object          _mounted;
         private string          _error;
+        private MarkdownContentSources _sources;
         private Action<string>  _onError;
 
         /// <summary>
@@ -111,7 +112,20 @@ namespace Tesserae
             return this;
         }
 
-        private object Options() => Pele.Options(_sanitize, _links, _images, _zoom);
+        /// <summary>
+        /// Sets where the diagram's pictures may load from and redraws. Unrestricted by default; a restricting policy
+        /// also sanitizes the SVG whatever <see cref="Sanitize"/> says, since the sanitizer is where it is applied.
+        /// The diagram's hyperlinks are not content, and stay governed by <see cref="Links"/>.
+        /// </summary>
+        /// <param name="sources">The policy. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        public Mermaid ContentSources(MarkdownContentSources sources)
+        {
+            _sources = sources;
+            Refresh();
+            return this;
+        }
+
+        private object Options() => Pele.Options(_sanitize, _links, _images, _zoom, _sources);
 
         private void Refresh()
         {

@@ -51,6 +51,10 @@ The fluent methods write into the spec, so they also adjust a chart made from JS
 - `.Data<T>(IEnumerable<T> items, Func<T, object[]> values)` — a row per item.
 - `.DataJson(string rowsJson)` — rows as a JSON array of objects.
 - `.DataUrl(string url)` — a JSON/CSV file, fetched by the browser.
+- `.ContentSources(MarkdownContentSources)` — where the chart may load content from (data,
+  map outlines, a tooltip picture); unrestricted by default. Set it for a spec you did not
+  write (a model's): a chart that would load from elsewhere is not drawn and `.Error` says
+  why. Same rules as in Markdown, see [flint-charts](flint-charts.md).
 - `.ClearData()`.
 
 ## What fields mean, and where they go

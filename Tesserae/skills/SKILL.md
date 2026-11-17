@@ -173,6 +173,9 @@ references. Open the reference for whatever you are working with. The full set:
   the one element in place; `DeferSync(obs, v => TextBlock(...))` rebuilds it and
   flickers (`references/text-block.md`).
 - `references/creating-a-component.md` — build your own `IComponent`.
+- `references/markdown-block.md` ("Content sources") — `MarkdownContentSources`: which
+  hosts rendered Markdown may load images, diagram pictures and chart data from
+  (`Any`, `SameOrigin`, `SameOriginAnd(hosts)`), for Markdown a model wrote.
 - `references/flint-charts.md` — `flint` fences in Markdown drawn as charts
   (`MarkdownBlock.Flint()`), themed through `IFlintTheme` / `FlintThemes`.
   The same specs as a component, with click events and Vega-Lite legend / scale binding:

@@ -253,6 +253,32 @@ already follow; each theme package also has a small `tss.mermaid.css` that match
 and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
 ink lines and the Signal accent, Rechenwerk: the code-block frame with its hard signal-colour shadow).
 
+## Where Markdown may load content from (`MarkdownContentSources`)
+
+`MarkdownContentSources` ([MarkdownContentSources.cs](Tesserae/src/Helpers/MarkdownContentSources.cs)) is the policy for
+what rendered Markdown may make the browser fetch with no click: `Any` (default, nothing filtered and nothing looked at),
+`SameOrigin`, `SameOriginAnd(hosts)`. It is separate from `MarkdownSanitization` and composes with it. `MarkdownBlock`
+holds it (`.ContentSources(...)`, constructor parameter) and passes it to every render. It is enforced in **three**
+places, and a new way for Markdown to reach the network has to join one of them:
+
+- **Prose**: `Markdown.ConvertMarkdownSanitized` sanitizes through `MarkdownContentSources.Sanitize`, a DOMPurify
+  `afterSanitizeAttributes` hook added for that one `sanitize` call and removed by reference in a `finally`. It never
+  touches `<a href>`.
+- **Diagrams**: the policy is inside the `sanitize` function `Pele.Options` hands Pele (`SvgSanitizer`), not around the
+  mount. Pele calls that function on every draw: the first one, which is asynchronous when the library is still
+  loading, and each relayout. A scope around `Pele.Mount` would miss both.
+- **Charts**: `FlintChartDrawing.MountAsync` calls `ContentSources.CheckChart(input)` on the spec of every draw, before
+  Flint sees it, and a spec that would load from elsewhere fails like any other that cannot be drawn. Flint exposes no
+  hook on Vega's loader, so it is a walk over the spec (the rules are in the XML doc of `CheckChart`): any `url`
+  property, the built-in basemap hosts of `Map` / `Choropleth`, and the tooltip, which vega-tooltip draws as
+  `<img src>` for a value keyed `image`. When `Build.Flint` is next rebuilt, passing a restricted Vega `loader`
+  and a tooltip handler from `entry.js` would replace the walk with something that cannot miss a case. The policy's
+  `Key` is part of `MarkdownCharts.KeyOf`, so a parked chart is never adopted under another policy.
+
+New overloads of an existing public method carry `[Transpose.Name]` (see `Markdown.cs`): the compiler numbers unnamed
+overloads by signature, so an unnamed new one can take over the JavaScript name packages compiled against an earlier
+Tesserae call the old one by.
+
 ## Flint charts (Markdown and FlintChart)
 
 A `flint` (or `flint-chart`) fence in `MarkdownBlock` is drawn as a chart by Microsoft's

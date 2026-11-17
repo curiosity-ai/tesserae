@@ -41,6 +41,10 @@ Type some markdown below to see it rendered live.
 | Sanitize | yes       |
 ";
 
+            //Hosts under .invalid never resolve, so the sample asks nothing of a real third party.
+            const string sourcesSample =
+@"Local: <img src=""assets/img/box-img.svg"" width=""48"" alt=""a box""> - Remote: <img src=""https://images.example.invalid/picture.png"" width=""48"" alt=""remote picture""> - and a [link](https://example.invalid/page) that stays a link.";
+
             const string paranoidSample =
 @"A [link to somewhere](https://example.com/phishing) reads as its label only, an autolink like
 https://example.com/tracker is plain text, and this image never loads:
@@ -197,6 +201,11 @@ An `interaction_spec` makes a chart interactive - hover the line chart to read e
 
             var themePicker = Dropdown().W(280).Items(themeItems);
 
+            IComponent sourcesRow(string label, MarkdownContentSources sources)
+                => Label(label).SetContent(VStack().WS().Children(
+                    MarkdownBlock(sourcesSample, sources: sources),
+                    TextBlock(Tesserae.Markdown.ConvertMarkdownSanitized(sourcesSample, sources)).Small().Secondary()));
+
             var live   = MarkdownBlock(startingMarkdown);
             var editor = TextArea(startingMarkdown).WS().H(220).OnInput((ta, _) => live.Text = ta.Text);
 
@@ -238,7 +247,12 @@ An `interaction_spec` makes a chart interactive - hover the line chart to read e
                         MarkdownBlock("This `<script>alert('xss')</script>` will not run, and this <img src=x onerror=alert(1)> attribute is stripped too."),
                         SampleSubTitle("No links or embedded content"),
                         TextBlock("For Markdown you don't trust to link or to load a remote URL - an LLM reply, say - pass MarkdownSanitization.NoLinksOrEmbeddedContent. Anchors keep their label as plain text and images are dropped:"),
-                        MarkdownBlock(paranoidSample, MarkdownSanitization.NoLinksOrEmbeddedContent)
+                        MarkdownBlock(paranoidSample, MarkdownSanitization.NoLinksOrEmbeddedContent),
+                        SampleSubTitle("Content sources"),
+                        TextBlock("Between the two sits MarkdownContentSources: links stay clickable, and what the browser would fetch by itself - an image, a picture in a diagram, a chart's data file - loads only from the page's own origin and the hosts you list. The same Markdown three times, each followed by the HTML it became: the local picture always shows, the link is always a link, and the remote picture (on a host that does not exist, so it is a broken picture at best) keeps its src only where its host may be loaded from."),
+                        sourcesRow("MarkdownContentSources.Any (the default)", MarkdownContentSources.Any),
+                        sourcesRow("MarkdownContentSources.SameOrigin", MarkdownContentSources.SameOrigin),
+                        sourcesRow("MarkdownContentSources.SameOriginAnd(\"images.example.invalid\")", MarkdownContentSources.SameOriginAnd("images.example.invalid"))
                     )).SetTitle("Usage")))
                .SeeAlso(typeof(TextBlockSample), typeof(ChatSample), typeof(CodeDiffSample), typeof(SanitizeHTMLSample), typeof(AnnotatedTextEditorSample));
         }

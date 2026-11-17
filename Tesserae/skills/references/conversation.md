@@ -30,8 +30,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Edited(bool = true, string tooltip = null)` — the "· edited" marker.
 - `.Role(string)` / `.ClearRoles()` — outlined pill badges on the right: `"Author"`, `"Member"`, `"Contributor"`.
 - `.Menu(params ContextMenu.Item[])` — a "…" button opening a context menu.
-- `.Body(string markdown, MarkdownSanitization = Default)` / `.Body(IComponent)` — Markdown is rendered by a `MarkdownBlock`.
-  Use `MarkdownSanitization.NoLinksOrEmbeddedContent` for untrusted text.
+- `.Body(string markdown, MarkdownSanitization = Default, MarkdownContentSources sources = null)` / `.Body(IComponent)` — Markdown is rendered by a `MarkdownBlock`.
+  Use `MarkdownSanitization.NoLinksOrEmbeddedContent` for untrusted text, or `sources:` to keep links and load images only from hosts you list.
 - `.Attachment(IComponent)` — under the body, e.g. `Image(url).W(320)`.
 - `.Reaction(string emoji, int count, bool reacted = false)` — add/update a chip (count `<= 0` removes it).
   Clicking a chip toggles it. `.GetReaction(emoji)` returns `(count, reacted)`.
