@@ -70,6 +70,13 @@ namespace Tesserae
         public bool OverrideSpecTheme { get; set; }
 
         /// <summary>
+        /// Where the chart may load content from (a data file, a map's outlines, a picture in a tooltip). Every draw
+        /// checks the spec it is about to hand to Flint (<see cref="MarkdownContentSources.CheckChart"/>), and one
+        /// that would load from somewhere else fails with the reason. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.
+        /// </summary>
+        public MarkdownContentSources ContentSources { get; set; }
+
+        /// <summary>
         /// Whether the chart takes the host's width as the width it is drawn at, rather than as a ceiling over a width of
         /// its own (Flint's <c>baseSize</c>, 400px by default). A chart that does not fill is as wide as it chooses, up to
         /// the host's width.
@@ -231,6 +238,9 @@ namespace Tesserae
                 try
                 {
                     input = Input();
+
+                    //Before anything is mounted: Vega starts fetching as soon as it has the spec.
+                    ContentSources?.CheckChart(input);
                 }
                 catch (Exception e)
                 {

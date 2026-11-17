@@ -18,7 +18,7 @@ namespace Tesserae
     internal static class MarkdownDiagrams
     {
         /// <summary>Turns every <c>mermaid</c> code block under <paramref name="root"/> into a diagram.</summary>
-        internal static void Render(HTMLElement root, MarkdownSanitization sanitization)
+        internal static void Render(HTMLElement root, MarkdownSanitization sanitization, MarkdownContentSources sources)
         {
             foreach (var found in root.querySelectorAll("pre > code.language-mermaid"))
             {
@@ -29,11 +29,11 @@ namespace Tesserae
                 if (Pele.IsLoaded)
                 {
                     //Synchronous once loaded, so a source that is re-rendered as it streams in does not flash its code block.
-                    Draw(pre, text, sanitization);
+                    Draw(pre, text, sanitization, sources);
                 }
                 else
                 {
-                    DrawWhenLoaded(pre, text, sanitization).FireAndForget();
+                    DrawWhenLoaded(pre, text, sanitization, sources).FireAndForget();
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace Tesserae
             }
         }
 
-        private static async Task DrawWhenLoaded(HTMLElement pre, string text, MarkdownSanitization sanitization)
+        private static async Task DrawWhenLoaded(HTMLElement pre, string text, MarkdownSanitization sanitization, MarkdownContentSources sources)
         {
             try
             {
@@ -61,10 +61,10 @@ namespace Tesserae
             //The Markdown may have been re-rendered while the library was on its way.
             if (pre.parentElement is null) return;
 
-            Draw(pre, text, sanitization);
+            Draw(pre, text, sanitization, sources);
         }
 
-        private static void Draw(HTMLElement pre, string text, MarkdownSanitization sanitization)
+        private static void Draw(HTMLElement pre, string text, MarkdownSanitization sanitization, MarkdownContentSources sources)
         {
             var parent = pre.parentElement;
             if (parent is null) return;
@@ -76,7 +76,10 @@ namespace Tesserae
             //strict mode takes them out of the diagram too. The SVG goes through DOMPurify on top of Pele's own escaping.
             var allowRemote = sanitization != MarkdownSanitization.NoLinksOrEmbeddedContent;
 
-            var mounted = Pele.Mount(host, text, Pele.Options(sanitize: true, links: allowRemote, images: allowRemote, zoom: true));
+            //Where its pictures may come from is decided inside the sanitizer Pele is given, which Pele calls on every
+            //draw: this one, which can be long after the Markdown was rendered (the library was still loading), and
+            //each relayout after it.
+            var mounted = Pele.Mount(host, text, Pele.Options(sanitize: true, links: allowRemote, images: allowRemote, zoom: true, sources: sources));
             var error   = Pele.ErrorOf(mounted);
 
             if (error != null)

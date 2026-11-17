@@ -898,7 +898,10 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.MarkdownBlock"/> component that renders Markdown source as sanitized HTML.
         /// </summary>
-        public static MarkdownBlock MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default) => new MarkdownBlock(text, sanitization);
+        /// <param name="text">The Markdown source text to render.</param>
+        /// <param name="sanitization">How strictly to sanitize the rendered HTML.</param>
+        /// <param name="sources">Where the Markdown may load embedded content from (images, a diagram's pictures, a chart's data). <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        public static MarkdownBlock MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default, MarkdownContentSources sources = null) => new MarkdownBlock(text, sanitization, sources);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Mermaid"/> component that draws Mermaid diagram source as themed SVG, with Pele.

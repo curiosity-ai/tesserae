@@ -31,6 +31,9 @@ Mermaid(@"flowchart LR
 - `.IsSanitized` — whether it is on.
 - `.Links(bool = true)` / `.Images(bool = true)` — keep the diagram's own `click` hyperlinks /
   pictures. Turn both off for source you do not trust to link anywhere or call a remote server.
+- `.ContentSources(MarkdownContentSources)` — the middle ground for pictures: keep them, but
+  only from the page's own origin and the hosts listed (`MarkdownContentSources.SameOrigin`,
+  `.SameOriginAnd("images.example.com")`). A restricting policy always sanitizes.
 - `.Zoom(bool = true)` — a diagram that has been shrunk to fit its container can be zoomed and panned.
 - `.Error` — why the current source could not be drawn, or `null`.
 - `.OnError(Action<string>)` — called with the reason when a source cannot be drawn (a syntax

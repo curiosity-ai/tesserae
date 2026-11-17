@@ -15,11 +15,12 @@ namespace Tesserae
     [Transpose.Name("tss.mdb")]
     public class MarkdownBlock : ComponentBase<MarkdownBlock, HTMLElement>, ICanWrap
     {
-        private string                _text;
-        private Action<HTMLElement>   _onAfterRender;
-        private MarkdownSanitization  _sanitization;
-        private bool                  _tableCopyButtons = true;
-        private MarkdownChartOptions  _charts;
+        private string                 _text;
+        private Action<HTMLElement>    _onAfterRender;
+        private MarkdownSanitization   _sanitization;
+        private MarkdownContentSources _sources;
+        private bool                   _tableCopyButtons = true;
+        private MarkdownChartOptions   _charts;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownBlock"/> class.
@@ -30,11 +31,16 @@ namespace Tesserae
         /// <see cref="MarkdownSanitization.NoLinksOrEmbeddedContent"/> for Markdown from a source you
         /// don't trust to link or to load a remote URL.
         /// </param>
-        public MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default)
+        /// <param name="sources">
+        /// Where the Markdown may load content from, from its first render on. See <see cref="ContentSources"/>.
+        /// <c>null</c> is <see cref="MarkdownContentSources.Any"/>.
+        /// </param>
+        public MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default, MarkdownContentSources sources = null)
         {
             InnerElement                  = Div(Att("tss-markdown"));
             InnerElement.style.whiteSpace = "break-spaces";
             _sanitization                 = sanitization;
+            _sources                      = sources;
             Text                          = text ?? string.Empty;
         }
 
@@ -48,10 +54,10 @@ namespace Tesserae
                 DestroyTableActionTooltips();
                 MarkdownDiagrams.Dispose(InnerElement);
                 MarkdownCharts.Dispose(InnerElement);
-                InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text, _sanitization);
+                InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text, _sources, _sanitization);
                 if (_tableCopyButtons) AddTableCopyButtons(InnerElement);
-                MarkdownDiagrams.Render(InnerElement, _sanitization);
-                MarkdownCharts.Render(InnerElement, _sanitization, _charts);
+                MarkdownDiagrams.Render(InnerElement, _sanitization, _sources);
+                MarkdownCharts.Render(InnerElement, _sanitization, _sources, _charts);
                 _onAfterRender?.Invoke(InnerElement);
             }
         }
@@ -63,6 +69,26 @@ namespace Tesserae
         {
             _sanitization = sanitization;
             Text          = _text;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets where the Markdown may load content from and re-renders the current source with it: the images and
+        /// other URLs of the prose that the browser fetches without a click, the pictures of a <c>```mermaid</c>
+        /// diagram, and the data and map outlines of a <c>```flint</c> chart (one that would load from somewhere
+        /// else stays a code block, with the reason as its tooltip). Links stay clickable. Every later render -
+        /// <see cref="Text"/>, <see cref="Sanitization"/>, <see cref="Flint(bool)"/> - keeps the policy.
+        /// </summary>
+        /// <remarks>
+        /// The block renders in its constructor, so for Markdown that must never load from elsewhere pass the policy
+        /// there (<see cref="MarkdownBlock(string, MarkdownSanitization, MarkdownContentSources)"/>) or set it before
+        /// the text.
+        /// </remarks>
+        /// <param name="sources">The policy. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        public MarkdownBlock ContentSources(MarkdownContentSources sources)
+        {
+            _sources = sources;
+            Text     = _text;
             return this;
         }
 
