@@ -72,7 +72,6 @@ namespace Tesserae
         /// <param name="text">The Markdown source.</param>
         /// <param name="sources">Where the Markdown may load content from. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
         /// <param name="sanitization">How strictly to sanitize the parsed HTML. See <see cref="MarkdownSanitization"/>.</param>
-        [Transpose.Name("ConvertMarkdownFromSources")]
         public static string ConvertMarkdownSanitized(string text, MarkdownContentSources sources, MarkdownSanitization sanitization = MarkdownSanitization.Default)
         {
             var marked = GetShared();
@@ -113,9 +112,6 @@ namespace Tesserae
         /// <param name="text">The Markdown source.</param>
         /// <param name="sources">Where the Markdown may load content from. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
         /// <param name="sanitization">How strictly to sanitize the parsed HTML.</param>
-        //Named, so the overloads that were here before keep the JavaScript names packages compiled against an
-        //earlier Tesserae call them by: the compiler numbers unnamed overloads by signature, and a new one renumbers them.
-        [Transpose.Name("RenderMarkdownFromSources")]
         public static HTMLElement RenderMarkdownSanitized(string text, MarkdownContentSources sources, MarkdownSanitization sanitization = MarkdownSanitization.Default)
             => Render(text, sanitization, sources, charts: null);
 
@@ -142,7 +138,6 @@ namespace Tesserae
         /// <param name="sanitization">How strictly to sanitize the parsed HTML.</param>
         /// <param name="flintTheme">The theme for a chart whose fence names none. <c>null</c> is <see cref="FlintThemes.Tesserae"/>.</param>
         /// <param name="overrideFenceTheme">Whether <paramref name="flintTheme"/> also replaces a <c>theme_spec</c> the fence states.</param>
-        [Transpose.Name("RenderMarkdownAndChartsFromSources")]
         public static HTMLElement RenderMarkdownSanitized(string text, MarkdownContentSources sources, MarkdownSanitization sanitization, IFlintTheme flintTheme, bool overrideFenceTheme = false)
             => Render(text, sanitization, sources, new MarkdownChartOptions(flintTheme, overrideFenceTheme));
 

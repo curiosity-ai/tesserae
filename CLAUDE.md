@@ -275,10 +275,6 @@ places, and a new way for Markdown to reach the network has to join one of them:
   and a tooltip handler from `entry.js` would replace the walk with something that cannot miss a case. The policy's
   `Key` is part of `MarkdownCharts.KeyOf`, so a parked chart is never adopted under another policy.
 
-New overloads of an existing public method carry `[Transpose.Name]` (see `Markdown.cs`): the compiler numbers unnamed
-overloads by signature, so an unnamed new one can take over the JavaScript name packages compiled against an earlier
-Tesserae call the old one by.
-
 ## Flint charts (Markdown and FlintChart)
 
 A `flint` (or `flint-chart`) fence in `MarkdownBlock` is drawn as a chart by Microsoft's
