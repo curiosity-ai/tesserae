@@ -505,8 +505,7 @@ namespace Tesserae
             title.textContent = text;
             el.appendChild(title);
 
-            //Tippy is created with allowHTML, and a label is data, not markup.
-            el[TooltipContentProperty] = text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+            el[TooltipContentProperty] = text;
             EnsureTooltipDelegate();
         }
 
@@ -536,13 +535,15 @@ namespace Tesserae
 
                 _hasCreatedTooltip = true;
 
+                //A point's or a label's tooltip is built from series names, categories and formatted values: data, so
+                //tippy shows it as text (allowHTML: false) and never parses it.
                 var content = target[TooltipContentProperty].As<string>();
 
                 //Into the application z-index lane, like every other tippy here: a chart in a Modal would
                 //otherwise hand its tooltips tippy's fixed 9999 and draw them behind the Layer above it.
                 if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
-                Script.Write("tippy({0}, { content: {1}, allowHTML: true, delay: [100, 0], appendTo: document.body, zIndex: {2} });", target, content, zIndex);
+                Script.Write("tippy({0}, { content: {1}, allowHTML: false, delay: [100, 0], appendTo: document.body, zIndex: {2} });", target, content, zIndex);
 
                 //The mouseenter that would normally open it has already gone by, so replay it against the
                 //instance we just built — tippy then applies its own show delay, as it would on any hover.

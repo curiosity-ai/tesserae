@@ -116,10 +116,14 @@ For text-bearing components (`TextBlock`, `Button`, `Label`, …):
 ## Tooltips — `IComponentExtensions.cs`
 
 ```csharp
-.Tooltip("Plain or <b>HTML</b> text", placement: TooltipPlacement.Top)
-.Tooltip(componentTooltip, interactive: true)   // rich IComponent tooltip
+.Tooltip("Plain text", placement: TooltipPlacement.Top)   // shown as text, never parsed as HTML; "\n" starts a new line
+.Tooltip(componentTooltip, interactive: true)             // rich IComponent tooltip - the way to get markup
 .RemoveTooltip()
 ```
+
+`Tooltip(string)` shows the string as **text**: a label, a name or a file name is data, and markup in it is
+displayed, not interpreted. For bold text, a link or several styled lines, build components and pass them
+to `Tooltip(IComponent)`.
 
 A `Tooltip(string)` on an element with no text and no `aria-label` also becomes its `aria-label`,
 so an icon-only button is named after what its tooltip says (see `accessibility.md`).
