@@ -193,6 +193,8 @@ namespace Tesserae.Tests.Samples
 
         private IComponent History()
         {
+            var recent = new List<string> { "apple", "orange", "tomato", "banana", "potato AND ( tomato OR banana) AND NOT apple" };
+
             var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
             {
                 PlaceholderSearch = "Press Up, or click the clock button on the left, for recent searches"
@@ -202,19 +204,18 @@ namespace Tesserae.Tests.Samples
             {
                 await Task.Delay(100); // Simulate network
 
-                return new[]
-                {
-                    OmniBox.ParseQuery("apple"),
-                    OmniBox.ParseQuery("orange"),
-                    OmniBox.ParseQuery("tomato"),
-                    OmniBox.ParseQuery("banana"),
-                    OmniBox.ParseQuery("potato AND ( tomato OR banana) AND NOT apple")
-                };
+                return recent.Select(query => OmniBox.ParseQuery(query)).ToArray();
+            },
+            async removed =>
+            {
+                await Task.Delay(100); // Simulate network
+
+                recent.Remove(removed.RawQuery);
             })
             .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
 
             return FeatureCard("History", "Recent searches",
-                "WithHistory(Func<Task<SearchQuery[]>>) shows a history button on the left of the search input; clicking it opens the list the fetcher returns (most recent first), and picking an entry puts it back in the box. It also turns on Up/Down history: Up in the empty box brings back the most recent search, each further Up goes one further back and Down comes forward again, until something is typed. Searches made in the box are walked first even before the fetcher returns them. Build the entries with OmniBox.ParseQuery so they keep their operator highlighting.",
+                "WithHistory(Func<Task<SearchQuery[]>>) shows a history button on the left of the search input; clicking it opens the list the fetcher returns (most recent first), and picking an entry puts it back in the box. Pass a second callback, as here, and every entry gets a remove button that forgets it. It also turns on Up/Down history: Up in the empty box brings back the most recent search, each further Up goes one further back and Down comes forward again, until something is typed. Searches made in the box are walked first even before the fetcher returns them. Build the entries with OmniBox.ParseQuery so they keep their operator highlighting.",
                 box);
         }
 

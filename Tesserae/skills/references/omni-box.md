@@ -51,6 +51,7 @@ OmniBox:
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
 - `.AddSnap(SnapHandler)` / `.AddFilterSnap(FilterSnapHandler, value, trigger = null)` / `.ClearSnaps()` — add or drop active snap and filter chips in code, to open the box already filtered (`AddSnap` skips a snap that is already active).
 - `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button, listing what the fetcher returns
+- `.WithHistory(Func<Task<SearchQuery[]>>, Func<SearchQuery, Task> removeFromHistory)` — the same, with a remove button on every entry; the callback forgets the entry where the history is kept, and the entry leaves the list once it completes
   (most recent first), and Up/Down history in the search input: Up in the empty box fetches the list and
   puts the most recent search in the box, each further Up goes one further back, Down comes forward again
   to the empty box. Searches made in the box are walked first (and not repeated) even before the fetcher
