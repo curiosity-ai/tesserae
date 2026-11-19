@@ -1,0 +1,16 @@
+{
+  "name": "tesserae-yjs-bundle",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Bundles Yjs with y-protocols (sync, awareness) and the lib0 encoding helpers into Tesserae/tps/assets/js/yjs.min.js, the script Tesserae.Yjs loads the first time a shared document is used.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "lib0": "0.2.120",
+    "y-protocols": "1.0.7",
+    "yjs": "13.6.33"
+  }
+}
