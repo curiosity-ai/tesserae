@@ -333,6 +333,25 @@ spec draws as a component, `UI.FlintChart(json)` / `UI.FlintChart(FlintChartType
   surface restates the tokens on `.tss-flint-chart` (Weniger's terminal glass) and gives a gradient
   plate a `background-color` too, since a gradient has no colour to read contrast against.
 
+## Yjs (collaborative editing)
+
+`Tesserae/src/Yjs/` declares [Yjs](https://docs.yjs.dev) to the compiler and builds on it: `Y` (the `Y` global:
+`Y.Doc`, the shared types, `Y.UndoManager`, relative positions, updates, snapshots), `Awareness` and `YProtocols`
+(y-protocols' sync and awareness, lib0's encoders) are `[External]` declarations with no emitted code, and
+`YjsSyncProvider`, `YjsInputBinding`, `YjsUserColors` and `YjsBinary` are ordinary classes on top. The skill
+reference is `Tesserae/skills/references/yjs.md`; the gallery sample is **Yjs** (Utilities).
+
+- **The script is built, not downloaded**: [`Build.Yjs/`](Build.Yjs/README.md) bundles yjs, y-protocols and lib0
+  (pinned exactly) into one IIFE, `tps/assets/js/yjs.min.js`, shipped as the unlinked `tss-yjs.min.js` resource
+  (`"load": false`) and fetched by `Yjs.LoadAsync()` through `Transpose.Require.RequireAsync`. Its licences are in
+  `yjs.LICENSE.txt` beside it.
+- **Exactly one copy of yjs.** Yjs breaks with two instances on a page; `build.mjs` fails when any package was
+  bundled from two folders. A consumer must not load its own yjs beside this one.
+- **Events are one templated method per event** (`doc.onUpdate(f)` for `doc.on('update', f)`), and nothing on
+  those types is overloaded: two declarations of one JavaScript name get a `$1` suffix. A static member named
+  `length` is escaped by the compiler (`$length`), so `YProtocols.encoding.length` is a `[Template]`.
+- **Null checks on an external value are `!= null`**, never `is object` / `is null` on the external type.
+
 ## Installing Transpose
 
 Install or update the Transpose compiler and the dotnet serve tool globally before getting started:

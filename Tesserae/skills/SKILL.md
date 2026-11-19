@@ -180,6 +180,9 @@ references. Open the reference for whatever you are working with. The full set:
   (`MarkdownBlock.Flint()`), themed through `IFlintTheme` / `FlintThemes`.
   The same specs as a component, with click events and Vega-Lite legend / scale binding:
   `references/flint-chart.md` (`UI.FlintChart(...)`).
+- `references/yjs.md` — real-time collaborative editing: `Yjs.LoadAsync()`, the typed `Y` declarations
+  (`Y.Doc`, `Y.Text`, `Y.UndoManager`, …), `Awareness`, `YjsSyncProvider` over your own transport,
+  `YjsUserColors`, and `TextArea.BindYjs(text)`.
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 
@@ -247,7 +250,7 @@ audio-player · avatar · carousel · image · pages-stack · pixel-avatar · sa
 color-palette · custom-themes · emoji · gradients · icon · theme-builder · uicons
 
 **Utilities & Behaviors** — helpers that render little or nothing on their own
-defer · defer-with-progress · delta-component · gestures · visibility-sensor
+defer · defer-with-progress · delta-component · gestures · visibility-sensor · yjs
 
 To find the reference for a component, lowercase-kebab its name and open
 `references/<that>.md` (e.g. `DetailsList` → `references/details-list.md`). If you
