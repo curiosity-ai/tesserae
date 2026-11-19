@@ -47,11 +47,11 @@ typed method per event rather than `on(name, f)`:
 | Yjs | C# |
 |---|---|
 | `doc.on('update', f)` / `off` | `doc.onUpdate(f)` / `doc.offUpdate(f)` - `f(update, origin, doc, transaction)` |
-| `doc.on('updateV2' / 'beforeTransaction' / 'afterTransaction' / 'destroy', f)` | `onUpdateV2`, `onBeforeTransaction`, `onAfterTransaction`, `onDestroy` (+ `off…`) |
+| `doc.on('updateV2' / 'beforeTransaction' / 'afterTransaction' / 'beforeAllTransactions' / 'afterAllTransactions' / 'destroy', f)` | `onUpdateV2`, `onBeforeTransaction`, `onAfterTransaction`, `onBeforeAllTransactions`, `onAfterAllTransactions`, `onDestroy` (+ `off…`) |
 | `ytext.observe(f)` | `text.observe((Y.TextEvent e, Y.Transaction tr) => …)`; `e.delta` is `retain` / `insert` / `@delete` runs |
 | `type.observeDeep(f)` | `observeDeep((ReadOnlyArray<Y.YEvent> events, Y.Transaction tr) => …)` |
 | `awareness.on('change' / 'update', f)` | `awareness.onChange(f)` / `onUpdate(f)` - `f(AwarenessChanges changes, object origin)` |
-| `undoManager.on('stack-item-added', f)` | `onStackItemAdded(f)` / `onStackItemPopped(f)` |
+| `undoManager.on('stack-item-added', f)` | `onStackItemAdded(f)` / `onStackItemPopped(f)` - `e.stackItem.meta` is a `Map` for the host's own data (a selection to restore) |
 
 Keep a handler you will remove in a field: Yjs removes listeners by reference, and a lambda written twice is two
 functions.

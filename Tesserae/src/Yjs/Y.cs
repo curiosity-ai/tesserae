@@ -96,6 +96,20 @@ namespace Tesserae
             [Template("{this}.off('afterTransaction', {handler})")]
             public extern void offAfterTransaction(Action<Transaction, Doc> handler);
 
+            /// <summary><c>doc.on('beforeAllTransactions', …)</c>: before the first of a batch of nested transactions - the moment to save positions an edit is about to move.</summary>
+            [Template("{this}.on('beforeAllTransactions', {handler})")]
+            public extern void onBeforeAllTransactions(Action<Doc> handler);
+
+            [Template("{this}.off('beforeAllTransactions', {handler})")]
+            public extern void offBeforeAllTransactions(Action<Doc> handler);
+
+            /// <summary><c>doc.on('afterAllTransactions', …)</c>: after the last of a batch of nested transactions.</summary>
+            [Template("{this}.on('afterAllTransactions', {handler})")]
+            public extern void onAfterAllTransactions(Action<Doc, ReadOnlyArray<Transaction>> handler);
+
+            [Template("{this}.off('afterAllTransactions', {handler})")]
+            public extern void offAfterAllTransactions(Action<Doc, ReadOnlyArray<Transaction>> handler);
+
             [Template("{this}.on('destroy', {handler})")]
             public extern void onDestroy(Action<Doc> handler);
 
@@ -453,13 +467,22 @@ namespace Tesserae
         [Convention(Notation.None)]
         public interface UndoStackEvent
         {
-            /// <summary>The step. Its <c>meta</c> is a <c>Map</c> a host may keep a selection in.</summary>
-            object stackItem { get; }
+            /// <summary>The step that was added or popped.</summary>
+            StackItem stackItem { get; }
 
             object origin { get; }
 
             /// <summary><c>"undo"</c> or <c>"redo"</c>.</summary>
             string type { get; }
+        }
+
+        /// <summary>One undo or redo step of an <see cref="UndoManager"/>.</summary>
+        [External]
+        [Convention(Notation.None)]
+        public interface StackItem
+        {
+            /// <summary>A map the host may keep its own data in, such as the selection to restore when the step is undone.</summary>
+            Transpose.Core.es5.Map<string, object> meta { get; }
         }
 
         /// <summary>
