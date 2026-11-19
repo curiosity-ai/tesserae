@@ -37,6 +37,15 @@ namespace Tesserae.Tests.Samples
                         Avatar(initials: "AS").Size(AvatarSize.Medium).Presence(AvatarPresence.Away),
                         Avatar(initials: "KL").Size(AvatarSize.Large).Presence(AvatarPresence.Busy),
                         Avatar(initials: "MW").Size(AvatarSize.XLarge).Presence(AvatarPresence.Offline)),
+                    SampleSubTitle("Compact"),
+                    TextBlock("Compact() draws a 20px bubble with a presence dot in proportion, for an avatar inside a line of text, a list row or a chip. It wins over Size() while it is on. Avatar.InitialsFor(name) derives the initials from a name."),
+                    HStack().AlignItemsCenter().Children(
+                        Avatar(initials: Avatar.InitialsFor("Jordan Diaz")).Compact().Presence(AvatarPresence.Online),
+                        TextBlock("Jordan Diaz").Small().ML(6).MR(16),
+                        Avatar(initials: Avatar.InitialsFor("alex.smith@example.com")).Compact().Presence(AvatarPresence.Busy),
+                        TextBlock("alex.smith@example.com").Small().ML(6).MR(16),
+                        Avatar(initials: "KL", image: "https://cataas.com/cat").Size(AvatarSize.XLarge).Compact(),
+                        TextBlock("Kelly Lee (an XLarge avatar made compact)").Small().ML(6)),
                     SampleSubTitle("Persona Component"),
                     TextBlock("Personas combine an avatar with descriptive text."),
                     VStack().Children(

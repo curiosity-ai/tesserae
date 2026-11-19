@@ -1439,6 +1439,15 @@ namespace Tesserae
         public static ContextCard ContextCard(string label, IComponent iconOrImage) => new ContextCard(label, iconOrImage);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ContextCard"/> standing for a person: a compact <see cref="Tesserae.Avatar"/>
+        /// built from <paramref name="imageUrl"/>, or from <paramref name="initials"/> (derived from
+        /// <paramref name="name"/> when not given, see <see cref="Tesserae.Avatar.InitialsFor"/>), with the name as
+        /// the label. Add <c>.Compact()</c> for a one-line chip, <c>.SetSubLabel(...)</c> for a role or an e-mail.
+        /// </summary>
+        public static ContextCard AvatarContextCard(string name, string imageUrl = null, string initials = null, AvatarPresence presence = AvatarPresence.None)
+            => new ContextCard(name, new Avatar(imageUrl, string.IsNullOrWhiteSpace(initials) ? Tesserae.Avatar.InitialsFor(name) : initials).Compact().Presence(presence));
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.ActionCard{TData}"/>: a card offering actions about one
         /// object, its identity on the left and the actions on the right. Each action carries a
         /// <typeparamref name="TData"/> the handler reads back.

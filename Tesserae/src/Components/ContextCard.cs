@@ -60,6 +60,18 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Initializes a new instance of this class standing for a person: <paramref name="avatar"/> takes the
+        /// tile's place, round and in the avatar's own colors, so a list of people reads as people rather than as
+        /// files. See <see cref="SetAvatar(Tesserae.Avatar)"/>.
+        /// </summary>
+        public ContextCard(string label, Avatar avatar)
+            : this()
+        {
+            SetLabel(label);
+            SetAvatar(avatar);
+        }
+
+        /// <summary>
         /// Initializes a new instance of this class showing the given icon or image component - an
         /// <see cref="Icon"/>, an <see cref="Image"/>, an emoji, or anything else that renders small.
         /// </summary>
@@ -243,10 +255,45 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Gets the avatar the card shows in place of its tile, or null when it shows an icon or an image.
+        /// </summary>
+        public Avatar Avatar { get; private set; }
+
+        /// <summary>
+        /// Shows <paramref name="avatar"/> in place of the icon tile: the avatar keeps its own round shape and
+        /// colors (a theme's square, bordered tile is not drawn around it) and is sized to the card - the tile's
+        /// size in a regular card, the compact size in a <see cref="Compact(bool)"/> one. A null avatar brings back
+        /// an empty tile.
+        /// </summary>
+        public ContextCard SetAvatar(Avatar avatar)
+        {
+            ClearChildren(_iconContainer);
+            _iconContainer.classList.remove("tss-contextcard-icon-image");
+
+            Avatar = avatar;
+            UseAvatarSlot(avatar != null);
+
+            if (avatar != null) _iconContainer.appendChild(avatar.Render());
+
+            return this;
+        }
+
+        //The tile and the avatar slot are the same element; only its class says which it is, so every theme's tile
+        //rules (keyed on .tss-contextcard-icon) stay off an avatar.
+        private void UseAvatarSlot(bool avatar)
+        {
+            _iconContainer.UpdateClassIf(!avatar, "tss-contextcard-icon");
+            _iconContainer.UpdateClassIf(avatar,  "tss-contextcard-avatar");
+
+            if (!avatar) Avatar = null;
+        }
+
+        /// <summary>
         /// Sets the icon shown on the tile.
         /// </summary>
         public ContextCard SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular)
         {
+            UseAvatarSlot(false);
             ClearChildren(_iconContainer);
             _iconContainer.classList.remove("tss-contextcard-icon-image");
             _iconContainer.appendChild(I(icon, weight));
@@ -261,6 +308,7 @@ namespace Tesserae
         /// </summary>
         public ContextCard SetIcon(IComponent iconOrImage)
         {
+            UseAvatarSlot(false);
             ClearChildren(_iconContainer);
             _iconContainer.classList.remove("tss-contextcard-icon-image");
 
@@ -279,6 +327,7 @@ namespace Tesserae
         /// </summary>
         public ContextCard SetImage(string url)
         {
+            UseAvatarSlot(false);
             ClearChildren(_iconContainer);
 
             if (!string.IsNullOrEmpty(url))

@@ -49,6 +49,46 @@
     color: var(--tss-primary-foreground-color);
 }
 
+/* A card standing for a person shows its avatar in the tile's place: the same footprint, the avatar's own
+   round shape and colors, and none of the tile's background, radius or border (a theme's tile rules are keyed
+   on .tss-contextcard-icon, which this element does not carry). */
+.tss-contextcard-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+}
+
+.tss-contextcard-avatar > .tss-avatar,
+.tss-contextcard-avatar > .tss-avatar.tss-avatar-compact {
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+}
+
+.tss-contextcard-avatar > .tss-avatar > .tss-avatar-presence {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+}
+
+.tss-contextcard-compact .tss-contextcard-avatar {
+    width: 22px;
+    height: 22px;
+}
+
+.tss-contextcard-compact .tss-contextcard-avatar > .tss-avatar {
+    font-size: 9px;
+}
+
+.tss-contextcard-compact .tss-contextcard-avatar > .tss-avatar > .tss-avatar-presence {
+    width: 7px;
+    height: 7px;
+    border-width: 1px;
+}
+
 /* The glyph sits in its own 1em box. The icon font's ::before inherits the line height and sits on the
    baseline of the text font around it, so its height above centre depended on that font's ascent and
    descent: 1px high under Segoe UI, 2px under a theme with a taller text face. As a block with a line

@@ -120,3 +120,16 @@
     color: var(--tss-secondary-foreground-color);
     font-size: var(--tss-font-size-xsmall);
 }
+
+/* Compact: an avatar inside a line of text, a list row or a chip. After the sizes, so it wins over them. */
+.tss-avatar.tss-avatar-compact {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+}
+
+.tss-avatar.tss-avatar-compact > .tss-avatar-presence {
+    width: 7px;
+    height: 7px;
+    border-width: 1px;
+}

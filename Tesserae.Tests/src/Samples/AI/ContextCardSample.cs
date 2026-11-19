@@ -79,6 +79,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Tiles()))
                 .FlatSection(VStack().WS().Children(LabelOnly()))
                 .FlatSection(VStack().WS().Children(Compact()))
+                .FlatSection(VStack().WS().Children(People()))
                 .FlatSection(VStack().WS().Children(Badges()))
                 .FlatSection(VStack().WS().Children(Clickable()))
                 .FlatSection(VStack().WS().Children(RightClick()))
@@ -170,6 +171,22 @@ namespace Tesserae.Tests.Samples
                     ContextCard("report-2026.pdf", UIcons.FilePdf).SetSubLabel("PDF").IconBackground("#ef4444").Compact().OnRemove(() => { }),
                     ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("Spreadsheet").IconBackground("#16a34a").Compact().OnRemove(() => { }),
                     ContextCard("architecture.md", UIcons.FileCode).IconBackground("#6366f1").Compact().OnRemove(() => { })));
+        }
+
+        // ---------- People ----------
+
+        private IComponent People()
+        {
+            return FeatureCard("People", "A card for a person, built around a compact avatar",
+                "AvatarContextCard(name, imageUrl, initials, presence) builds a compact Avatar from an image, or from initials (derived from the name when none are given), and shows it in place of the tile: round, in the avatar's own colors, with none of the tile's square frame. new ContextCard(label, avatar) takes an Avatar you built yourself. Everything else a card does still applies - a second line, Compact(), a remove button, a click.",
+                HStack().Wrap().Gap(8.px()).Children(
+                    AvatarContextCard("Jordan Diaz", presence: AvatarPresence.Online).SetSubLabel("Product Designer"),
+                    AvatarContextCard("Alex Smith", presence: AvatarPresence.Busy).SetSubLabel("alex.smith@example.com").MonospaceSubLabel(),
+                    AvatarContextCard("Kelly Lee", imageUrl: "https://cataas.com/cat").SetSubLabel("Project Manager").OnRemove(() => { })),
+                HStack().Wrap().Gap(6.px()).PT(8).Children(
+                    AvatarContextCard("Jordan Diaz").Compact(),
+                    AvatarContextCard("Alex Smith", presence: AvatarPresence.Away).Compact().SetSubLabel("editing"),
+                    AvatarContextCard("Kelly Lee", imageUrl: "https://cataas.com/cat").Compact().OnClick((c, _) => Toast().Information($"Opening {c.Label}"))));
         }
 
         // ---------- Badge ----------

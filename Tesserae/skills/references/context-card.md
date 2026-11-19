@@ -25,6 +25,10 @@ name highlighted — `Selectable()` opts back in.
 `UI.ContextCard(string label, UIcons icon = UIcons.File, UIconsWeight weight = UIconsWeight.Regular)`
 `UI.ContextCard(string label, IComponent iconOrImage)` — any component on the tile: an `Icon` with
 its own color, an emoji (`Icon(Emoji.Sparkles)`), a small badge.
+`UI.AvatarContextCard(string name, string imageUrl = null, string initials = null, AvatarPresence presence = None)`
+— a card standing for a person: a compact `Avatar` built from the image, or from the initials (derived
+from the name with `Avatar.InitialsFor` when none are given), takes the tile's place.
+`new ContextCard(string label, Avatar avatar)` takes an avatar you built yourself.
 Bring factories into scope with `using static Tesserae.UI;`.
 
 ## Key configuration
@@ -39,6 +43,10 @@ Bring factories into scope with `using static Tesserae.UI;`.
   it takes whatever the app wants: a source, a count, a status. The `IComponent` overload drops the pill
   chrome so a `Badge`, a `Spinner` or a small button keeps its own styling.
 - `.SetIcon(UIcons, UIconsWeight = Regular)` / `.SetIcon(IComponent)` — what sits on the tile.
+- `.SetAvatar(Avatar)` — show an avatar in the tile's place: round, in the avatar's own colors, and
+  without the tile's background, radius or border (a theme's tile rules do not reach it). Sized to the
+  card: the tile's 36px, or 22px in a `Compact()` card. `.Avatar` reads it back; `SetIcon` / `SetImage`
+  bring the tile back.
 - `.SetImage(string url)` — fill the tile with a thumbnail (cropped to cover it) for context that
   has a preview of its own: an image, a screenshot, a favicon.
 - `.IconTint(string color, int percent = 14)` — a wash of the color behind the glyph with the glyph in
