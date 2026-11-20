@@ -132,6 +132,14 @@ namespace Tesserae
             return result;
         }
 
+        /// <summary>The HTML of <paramref name="markdown"/>, block by block as the editor renders it (a rule as <c>tss-squire-hr</c>).</summary>
+        internal static string RenderHtml(string markdown)
+        {
+            var html = new StringBuilder();
+            foreach (var block in Parse(markdown).Blocks) html.Append(block.Html);
+            return html.ToString();
+        }
+
         /// <summary>One block's HTML as exactly one sanitized element, wrapped in a <c>DIV</c> when it is not.</summary>
         private static HTMLElement CreateElement(ParsedBlock block)
         {

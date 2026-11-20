@@ -33,9 +33,10 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleDo("Use `Markdown` when the content is stored or shared as text, `HTML` when it is sent as is (an email)."),
+                        SampleDo("Turn on `MarkdownMode()` when the content is stored as Markdown: the toolbar then only offers what Markdown can say, and pasted HTML is converted on the way in. Binding to Yjs turns it on."),
                         SampleDo("Pass a `SquireEditorText` to `Texts(...)` to translate the toolbar."),
                         SampleDo("Bind to a `Y.Text` for collaboration: the shared text is Markdown, so any Markdown editor can be on the other end."),
-                        SampleDont("Expect fonts, sizes, colours or alignment to survive Markdown: it has no spelling for them.")
+                        SampleDont("Leave the full toolbar on for Markdown content: fonts, sizes, colours, underline and alignment have no Markdown spelling and are dropped.")
                     )).SetTitle("Best Practices")))
                .FlatSection(Stack().Children(
                     Card(new MarkdownOut().Content).SetTitle("Rich text and its Markdown"),
@@ -66,7 +67,12 @@ namespace Tesserae.Tests.Samples
 
                 Content = VStack().WS().Gap(8.px()).Children(
                     HStack().WS().Gap(16.px()).Children(editor.W(10).Grow(), output.W(10).Grow()),
-                    HStack().Gap(8.px()).Children(
+                    HStack().Gap(8.px()).AlignItemsCenter().Children(
+                        Toggle("Markdown mode").Class("sample-squire-markdown-mode").OnChange((t, _) =>
+                        {
+                            editor.MarkdownMode(t.IsChecked);
+                            output.Text = editor.Markdown;
+                        }),
                         Button("Reset").SetIcon(UIcons.Refresh).OnClick(() =>
                         {
                             editor.Markdown = SeedMarkdown;

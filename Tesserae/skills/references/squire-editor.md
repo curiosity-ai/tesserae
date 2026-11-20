@@ -34,6 +34,14 @@ Bold, italic, underline, heading, link, bullet and numbered lists, quote, code, 
 (strikethrough, font, size and colour submenus, insert image, alignment, remove formatting) is under the `…` button, a
 `ContextMenu` built each time it opens.
 
+## Markdown mode
+
+`.MarkdownMode()` limits the editor to what Markdown can represent. The toolbar becomes bold, italic, strikethrough,
+heading, link, lists, quote, code, undo, redo and `…` (insert image, remove formatting); the underline / sub- / superscript
+shortcuts do nothing; and HTML that comes in (paste, `InsertHTML`, the `HTML` setter) is converted to Markdown and back
+(`SquireMarkdown.HtmlToMarkdown(html, strict: true)`), so the editor always holds exactly what `Markdown` returns.
+Turning it on converts the current content the same way. `BindYjs` turns it on.
+
 ## Configure
 
 - `.Texts(new SquireEditorText { Bold = "Fett", ... })` — toolbar labels, for translation.

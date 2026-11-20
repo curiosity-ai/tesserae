@@ -15,21 +15,39 @@ namespace Tesserae
     /// </summary>
     public static class SquireMarkdown
     {
-        /// <summary>The Markdown of the blocks inside <paramref name="root"/> (an editor's root, or any element).</summary>
-        public static string ToMarkdown(Element root)
+        // Set for the length of a strict conversion: underline, subscript and superscript are dropped instead of written as HTML.
+        private static bool _strict;
+
+        /// <summary>
+        /// The Markdown of the blocks inside <paramref name="root"/> (an editor's root, or any element). With
+        /// <paramref name="strict"/>, formatting Markdown has no syntax for (underline, subscript, superscript) is dropped
+        /// rather than written as inline HTML.
+        /// </summary>
+        public static string ToMarkdown(Element root, bool strict = false)
         {
             if (root == null) return "";
-            var writer = new MarkdownWriter(false);
-            SerializeChildrenAsBlocks(writer, root, "\n\n");
-            return writer.ToString().TrimEnd('\n') + "\n";
+
+            var wasStrict = _strict;
+            _strict = strict;
+
+            try
+            {
+                var writer = new MarkdownWriter(false);
+                SerializeChildrenAsBlocks(writer, root, "\n\n");
+                return writer.ToString().TrimEnd('\n') + "\n";
+            }
+            finally
+            {
+                _strict = wasStrict;
+            }
         }
 
-        /// <summary>The Markdown of an HTML string, as <see cref="ToMarkdown(Element)"/> writes it for an editor holding it.</summary>
-        public static string HtmlToMarkdown(string html)
+        /// <summary>The Markdown of an HTML string, as <see cref="ToMarkdown(Element, bool)"/> writes it for an editor holding it.</summary>
+        public static string HtmlToMarkdown(string html, bool strict = false)
         {
             var div = (HTMLElement)document.createElement("div");
             div.innerHTML = SanitizeHTML.Sanitize(html ?? "");
-            return ToMarkdown(div);
+            return ToMarkdown(div, strict);
         }
 
         /// <summary>The Markdown of one top-level block, and where each of its characters came from when <paramref name="track"/> is set.</summary>
@@ -535,11 +553,11 @@ namespace Tesserae
             {
                 case "B": case "STRONG":               list.Add(new Mark { Kind = MarkKind.Bold });      break;
                 case "I": case "EM": case "CITE":      list.Add(new Mark { Kind = MarkKind.Italic });    break;
-                case "U": case "INS":                  list.Add(new Mark { Kind = MarkKind.Underline }); break;
+                case "U": case "INS":                  if (!_strict) list.Add(new Mark { Kind = MarkKind.Underline }); break;
                 case "S": case "STRIKE": case "DEL":   list.Add(new Mark { Kind = MarkKind.Strike });    break;
                 case "CODE": case "KBD": case "SAMP": case "TT": list.Add(new Mark { Kind = MarkKind.Code }); break;
-                case "SUB":                            list.Add(new Mark { Kind = MarkKind.Sub });       break;
-                case "SUP":                            list.Add(new Mark { Kind = MarkKind.Sup });       break;
+                case "SUB":                            if (!_strict) list.Add(new Mark { Kind = MarkKind.Sub }); break;
+                case "SUP":                            if (!_strict) list.Add(new Mark { Kind = MarkKind.Sup }); break;
                 case "A":
                 {
                     var href = el.getAttribute("href");
@@ -556,7 +574,7 @@ namespace Tesserae
                 if (style.fontStyle == "italic") list.Add(new Mark { Kind = MarkKind.Italic });
                 var decoration = style.textDecoration ?? "";
                 if (decoration.Contains("line-through")) list.Add(new Mark { Kind = MarkKind.Strike });
-                if (decoration.Contains("underline") && el.nodeName != "A") list.Add(new Mark { Kind = MarkKind.Underline });
+                if (decoration.Contains("underline") && el.nodeName != "A" && !_strict) list.Add(new Mark { Kind = MarkKind.Underline });
             }
 
             return list;

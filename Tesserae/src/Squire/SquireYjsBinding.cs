@@ -25,6 +25,8 @@ namespace Tesserae
     /// and Tesserae.Monaco use - so a code editor on the same Markdown shows this user's caret where it is in the text,
     /// and this editor shows theirs. Remote carets and selections are drawn over the editor in the collaborator's
     /// colour (<c>user.color</c>, see <see cref="YjsUserColors"/>) with their name next to the caret while it moves.</para>
+    /// <para>Binding turns on the editor's <see cref="SquireEditor.MarkdownMode"/>: the toolbar offers only what the
+    /// shared Markdown can hold, and pasted HTML is converted to Markdown on the way in.</para>
     /// <para><b>Undo.</b> With <c>undo</c> on, the editor's undo and redo (the toolbar, Ctrl+Z, Ctrl+Y) go through a
     /// <see cref="Y.UndoManager"/> that only reverts this user's own edits, never a collaborator's.</para>
     /// </remarks>
@@ -72,6 +74,9 @@ namespace Tesserae
             _doc       = text.doc ?? throw new ArgumentException("The text has to be part of a Y.Doc.", nameof(text));
             _awareness = awareness;
             _withUndo  = undo;
+
+            // The shared text is Markdown: formatting it cannot hold would be lost on the other side, so do not offer it.
+            _editor.MarkdownMode();
 
             _onInput     = _ => OnLocalInput();
             _onSelection = _ => PublishSelection();

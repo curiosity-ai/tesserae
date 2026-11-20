@@ -44,8 +44,9 @@ namespace Tesserae
         private bool                _toolbarBuilt;
         private bool                _showToolbar = true;
         private bool                _disposed;
+        private bool                _markdownMode;
 
-        private Button _bold, _italic, _underline, _link, _orderedList, _unorderedList, _code, _quote;
+        private Button _bold, _italic, _underline, _strike, _link, _orderedList, _unorderedList, _code, _quote;
 
         /// <summary>Raised on every change of the content made through the editor, as it happens.</summary>
         public event Action<SquireEditor> InputChanged;
@@ -110,12 +111,15 @@ namespace Tesserae
             {
                 blockTag              = "DIV",
                 addLinks              = true,
-                sanitizeToDOMFragment = Sanitize,
+                sanitizeToDOMFragment = SanitizeToFragment,
                 didError              = error => console.error(error)
             });
 
             if (_initialMarkdown != null) _markdown.Render(_squire, _initialMarkdown);
+            else if (_markdownMode) _markdown.Render(_squire, SquireMarkdown.HtmlToMarkdown(_initialHtml ?? "", strict: true));
             else _squire.setHTML(_initialHtml ?? "");
+
+            ApplyMarkdownKeys();
 
             _initialMarkdown = null;
             _initialHtml     = null;
@@ -133,6 +137,19 @@ namespace Tesserae
             if (_focusOnReady) Focus();
 
             _ready.TrySetResult(true);
+        }
+
+        private DocumentFragment SanitizeToFragment(string html)
+        {
+            // In Markdown mode whatever comes in (a paste, an HTML value) is taken through Markdown and back, so only what
+            // Markdown can say survives: no fonts, colours, underline or alignment. The editor's own rendering of Markdown
+            // carries block ids and is already Markdown-shaped.
+            if (_markdownMode && !string.IsNullOrEmpty(html) && html.IndexOf(SquireMarkdownDocument.IdAttribute) < 0)
+            {
+                html = SquireMarkdownDocument.RenderHtml(SquireMarkdown.HtmlToMarkdown(html, strict: true));
+            }
+
+            return Sanitize(html);
         }
 
         private static DocumentFragment Sanitize(string html)
@@ -172,6 +189,10 @@ namespace Tesserae
                 {
                     _initialHtml     = value ?? "";
                     _initialMarkdown = null;
+                }
+                else if (_markdownMode)
+                {
+                    _markdown.Render(_squire, SquireMarkdown.HtmlToMarkdown(value ?? "", strict: true));
                 }
                 else
                 {
@@ -226,6 +247,64 @@ namespace Tesserae
             _text = text ?? new SquireEditorText();
             if (_toolbarBuilt) BuildToolbar();
             return this;
+        }
+
+        /// <summary>
+        /// Restricts the editor to what Markdown can represent: the toolbar offers bold, italic, strikethrough, headings,
+        /// links, lists, quotes, code, images and clearing the formatting, and nothing else (no fonts, sizes, colours,
+        /// underline or alignment); the shortcuts for underline, subscript and superscript do nothing; and HTML that
+        /// comes in - pasted, inserted or set through <see cref="HTML"/> - is converted to Markdown and back, so what
+        /// the editor holds is always exactly what <see cref="Markdown"/> returns. Turning it on converts the current
+        /// content the same way. <see cref="SquireYjsBinding"/> turns it on, since the shared text is Markdown.
+        /// </summary>
+        public SquireEditor MarkdownMode(bool markdownOnly = true)
+        {
+            if (_markdownMode == markdownOnly) return this;
+
+            _markdownMode = markdownOnly;
+            _container.classList.toggle("tss-squire-markdown-mode", markdownOnly);
+
+            if (_squire != null)
+            {
+                if (markdownOnly) _markdown.Render(_squire, SquireMarkdown.ToMarkdown(_root, strict: true));
+                ApplyMarkdownKeys();
+            }
+
+            if (_toolbarBuilt) BuildToolbar();
+            return this;
+        }
+
+        /// <summary>Whether the editor only offers what Markdown can represent (<see cref="MarkdownMode"/>).</summary>
+        public bool IsMarkdownMode => _markdownMode;
+
+        private static readonly string[] NonMarkdownKeys = { "u", "Shift-5", "Shift-6" };
+
+        private readonly Dictionary<string, object> _savedKeyHandlers = new Dictionary<string, object>();
+
+        // Squire's own shortcuts for underline, subscript and superscript: in Markdown mode they are swallowed (a handler
+        // that only prevents the default, or the browser would underline through beforeinput), and put back after.
+        private void ApplyMarkdownKeys()
+        {
+            if (_squire == null) return;
+
+            foreach (var modifier in new[] { "Ctrl-", "Meta-" })
+            {
+                foreach (var key in NonMarkdownKeys)
+                {
+                    var name = modifier + key;
+
+                    if (_markdownMode)
+                    {
+                        if (!_savedKeyHandlers.ContainsKey(name)) _savedKeyHandlers[name] = _squire.getKeyHandler(name);
+                        _squire.setKeyHandler(name, Script.Write<object>("function(self, event) { event.preventDefault(); }"));
+                    }
+                    else if (_savedKeyHandlers.TryGetValue(name, out var saved))
+                    {
+                        _squire.setKeyHandler(name, saved);
+                        _savedKeyHandlers.Remove(name);
+                    }
+                }
+            }
         }
 
         /// <summary>Hides (or shows) the formatting toolbar. Keyboard shortcuts keep working.</summary>
@@ -455,12 +534,49 @@ namespace Tesserae
             Button more = null;
             more = ToolButton(UIcons.MenuDots, _text.MoreOptions, () => BuildMoreMenu(fonts, fontSizes, colors).ShowFor(more));
 
-            _toolbar.Children(_toolbarStart,
-                _bold, _italic, _underline, heading,
-                _link, _unorderedList, _orderedList, _quote, _code,
-                undo, redo, more);
+            if (_markdownMode)
+            {
+                // Only what Markdown can say: strikethrough takes underline's place, and "…" keeps the two that are left.
+                _strike = ToolButton(UIcons.Strikethrough, _text.Strikethrough, () => Toggle("S", RemoveStrikethrough, Strikethrough));
+
+                Button markdownMore = null;
+                markdownMore = ToolButton(UIcons.MenuDots, _text.MoreOptions, () => BuildMarkdownMoreMenu().ShowFor(markdownMore));
+
+                _toolbar.Children(_toolbarStart,
+                    _bold, _italic, _strike, heading,
+                    _link, _unorderedList, _orderedList, _quote, _code,
+                    undo, redo, markdownMore);
+            }
+            else
+            {
+                _strike = null;
+
+                _toolbar.Children(_toolbarStart,
+                    _bold, _italic, _underline, heading,
+                    _link, _unorderedList, _orderedList, _quote, _code,
+                    undo, redo, more);
+            }
 
             if (!_showToolbar) _toolbar.Collapse();
+        }
+
+        private ContextMenu BuildMarkdownMoreMenu()
+        {
+            var menu = ContextMenu();
+
+            ContextMenu.Item Row(UIcons icon, string label, Action onClick) => ContextMenuItem(HStack().AlignItemsCenter().Gap(8.px()).Children(
+                    Icon(icon).W(16),
+                    TextBlock(label).Grow()))
+               .OnClick(() =>
+                {
+                    menu.Hide();
+                    onClick();
+                    _squire?.focus();
+                });
+
+            return menu.Items(
+                Row(UIcons.PhotoVideo, _text.InsertImage,      AskForImage),
+                Row(UIcons.TextSlash,  _text.RemoveFormatting, RemoveAllFormatting));
         }
 
         private ContextMenu BuildMoreMenu(string[] fonts, int[] fontSizes, string[] colors)
@@ -536,6 +652,7 @@ namespace Tesserae
             _bold.IsPrimary          = HasFormat("B");
             _italic.IsPrimary        = HasFormat("I");
             _underline.IsPrimary     = HasFormat("U");
+            if (_strike != null) _strike.IsPrimary = HasFormat("S");
                         _link.IsPrimary          = HasFormat("A");
             _orderedList.IsPrimary   = HasFormat("OL");
             _unorderedList.IsPrimary = HasFormat("UL");

@@ -156,6 +156,13 @@ namespace Tesserae
         /// <summary>A new empty block of the configured block tag (a <c>DIV</c>), with the cursor fix-up Squire gives empty blocks.</summary>
         public extern HTMLElement createDefaultBlock();
 
+        /// <summary>Sets the handler of a key combination (<c>Ctrl-u</c>, <c>Meta-Shift-5</c>, …); null removes it.</summary>
+        public extern Squire setKeyHandler(string key, object handler);
+
+        /// <summary>The handler of a key combination, or undefined.</summary>
+        [Template("{this}._keyHandlers[{key}]")]
+        public extern object getKeyHandler(string key);
+
         /// <summary><c>addEventListener('input', …)</c>: the document changed through an edit.</summary>
         [Template("{this}.addEventListener('input', {handler})")]
         public extern void onInput(Action<Event> handler);
