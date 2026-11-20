@@ -911,6 +911,13 @@ namespace Tesserae
         public static Mermaid Mermaid(string source = "", bool sanitize = true) => new Mermaid(source, sanitize);
 
         /// <summary>
+        /// Creates a rich text (WYSIWYG) editor with a formatting toolbar, built on Squire. It reads and writes HTML and
+        /// Markdown, and binds to a shared <see cref="Y.Text"/> of Markdown for collaborative editing
+        /// (<see cref="SquireYjsBindingExtensions.BindYjs"/>).
+        /// </summary>
+        public static SquireEditor SquireEditor() => new SquireEditor();
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.JsonViewer"/>: a JSON document as a collapsible, syntax-coloured tree whose
         /// containers build their children when opened and show them a batch at a time.
         /// </summary>

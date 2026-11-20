@@ -1,0 +1,169 @@
+/* SquireEditor: a rich text editor. The editable area is a contenteditable element in the page, so its content is styled
+   here with the theme's tokens rather than inside an iframe. */
+
+.tss-squire {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-squire.tss-squire-borderless {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.tss-squire-scroller {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 60px;
+    overflow: auto;
+}
+
+.tss-squire-content {
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    outline: none;
+    cursor: text;
+    font-family: var(--tss-sansserif-font-family);
+    font-size: var(--tss-font-size-small);
+    line-height: 1.5;
+    word-wrap: break-word;
+    caret-color: var(--tss-default-foreground-color);
+}
+
+.tss-squire-content a {
+    color: var(--tss-link-color);
+    text-decoration: underline;
+}
+
+.tss-squire-content h1 { font-size: 1.6em; font-weight: 600; line-height: 1.3; margin: 0.6em 0 0.3em; }
+.tss-squire-content h2 { font-size: 1.35em; font-weight: 600; line-height: 1.3; margin: 0.6em 0 0.3em; }
+.tss-squire-content h3 { font-size: 1.15em; font-weight: 600; line-height: 1.3; margin: 0.5em 0 0.25em; }
+.tss-squire-content h4,
+.tss-squire-content h5,
+.tss-squire-content h6 { font-size: 1em; font-weight: 600; margin: 0.5em 0 0.25em; }
+
+.tss-squire-content p {
+    margin: 0 0 0.5em;
+}
+
+.tss-squire-content ul,
+.tss-squire-content ol {
+    margin: 0.25em 0;
+    padding-left: 1.6em;
+}
+
+.tss-squire-content blockquote {
+    margin: 0.25em 0;
+    padding: 0 0 0 10px;
+    border-left: 3px solid var(--tss-default-border-color);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-squire-content code,
+.tss-squire-content pre {
+    font-family: var(--tss-monospace-font-family, monospace);
+    font-size: 0.92em;
+    background: var(--tss-default-background-hover-color);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+.tss-squire-content code {
+    padding: 0.1em 0.3em;
+}
+
+.tss-squire-content pre {
+    margin: 0.4em 0;
+    padding: 8px 10px;
+    white-space: pre-wrap;
+}
+
+.tss-squire-content pre code {
+    padding: 0;
+    background: transparent;
+}
+
+.tss-squire-content img {
+    max-width: 100%;
+}
+
+.tss-squire-content table {
+    border-collapse: collapse;
+    margin: 0.4em 0;
+}
+
+.tss-squire-content th,
+.tss-squire-content td {
+    border: 1px solid var(--tss-default-border-color);
+    padding: 4px 8px;
+}
+
+/* A Markdown horizontal rule: Squire drops <hr>, so it is an empty block drawn as a line. */
+.tss-squire-content .tss-squire-hr {
+    height: 0;
+    margin: 0.8em 0;
+    border-top: 1px solid var(--tss-default-border-color);
+    overflow: hidden;
+}
+
+.tss-squire-toolbar {
+    flex: 0 0 auto;
+    padding: 2px 4px;
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+.tss-squire-borderless .tss-squire-toolbar {
+    border-top: none;
+}
+
+/* The text colours under the toolbar's "…" menu: six shades per row, each one outlined so white shows on white. */
+.tss-btn.tss-btn-default.tss-squire-swatch:not(.tss-disabled),
+.tss-btn.tss-btn-default.tss-squire-swatch:not(.tss-disabled):hover {
+    margin: 2px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid color-mix(in srgb, var(--tss-default-foreground-color) 25%, transparent);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+/* Collaborators' carets and selections, drawn over the content by SquireYjsBinding. */
+.tss-squire-cursors {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.tss-squire-remote-selection {
+    position: absolute;
+}
+
+.tss-squire-remote-caret {
+    position: absolute;
+    width: 0;
+    border-left: 2px solid;
+    margin-left: -1px;
+}
+
+.tss-squire-remote-name {
+    position: absolute;
+    left: -2px;
+    bottom: 100%;
+    padding: 1px 4px;
+    border-radius: 3px 3px 3px 0;
+    color: #fff;
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 11px;
+    line-height: 14px;
+    white-space: nowrap;
+}

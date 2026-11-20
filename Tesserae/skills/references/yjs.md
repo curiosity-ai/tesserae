@@ -154,8 +154,19 @@ binding.Dispose();                   // unbinds; both keep their content
 The binding diffs each input against the previous value (common prefix and suffix) and moves the caret through
 remote changes. It is for plain fields; a code editor binds its own model (Tesserae.Monaco's `CodeEditor.BindYjs`).
 
+## Binding a rich text editor
+
+```csharp
+var editor  = SquireEditor();
+var binding = editor.BindYjs(text, awareness);   // text holds Markdown; the editor takes its content
+```
+
+The shared text is **Markdown**, so a `SquireEditor` and a code editor bound to the same `Y.Text` edit one document,
+and their carets show in each other (both publish the awareness `selection` field y-monaco uses). Only the blocks a
+change touches are re-rendered, and undo reverts only this user's edits. See `squire-editor.md`.
+
 ## Related
 
 - `defer.md` - load Yjs inside `Defer(async () => { await Yjs.LoadAsync(); … })`.
 - `observables.md` - `provider.Synced` is an `IObservable<bool>`.
-- `text-area.md`, `text-box.md`.
+- `text-area.md`, `text-box.md`, `squire-editor.md`.
