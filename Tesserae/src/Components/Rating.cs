@@ -16,7 +16,6 @@ namespace Tesserae
         private          int                     _hoverValue;
         private          int                     _maxStars;
         private          bool                    _readOnly;
-        private          bool                    _allowHalf;
         private          string                  _color;
 
         private event Action<int> ValueChanged;

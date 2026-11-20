@@ -63,26 +63,6 @@ namespace Tesserae
             return component;
         }
 
-        // The WhenMountedOrRemoved method shouldn't be used, as it would leak the component memory on the DomObserver forever (because whenever it's mounted it's registered with WhenRemoved and whenever it's removed it's re-registered with WhenMounted)
-        // We left the code here as a reminder.
-        //     public static T WhenMountedOrRemoved<T>(T component, Action onMounted, Action onRemoved) where T : IComponent
-        //     {
-        //         void Mounted()
-        //         {
-        //             onMounted?.Invoke();
-        //             DomObserver.WhenRemoved(component.Render(), Removed);
-        //         }
-
-        //         void Removed()
-        //         {
-        //             onRemoved?.Invoke();
-        //             DomObserver.WhenMounted(component.Render(), Mounted);
-        //         }
-
-        //         DomObserver.WhenMounted(component.Render(), Mounted);
-        //         return component;
-        //     }
-
         /// <summary>Sets automatic alignment for the component.</summary>
         public static T AlignAuto<T>(this T component) where T : IComponent
         {
