@@ -93,7 +93,6 @@
     }
 
 .tss-omnibox-search-trigger-btn > .tss-omnibox-search-spinner .tss-spinner {
-    --tss-spinner-size: 2px;
     width: 14px;
     height: 14px;
 }

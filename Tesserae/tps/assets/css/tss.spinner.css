@@ -1,25 +1,61 @@
-﻿/* Spinner */
+﻿/* Spinner
+
+   The toolkit's one spinner (Spinner.Ring builds it): a ring r = 20 in a 48 box, 125.66 around. A
+   faint track and an arc a quarter of it long; it enters as a dot that stretches into the arc while the
+   track fades in, and it turns at .7s. The button's in-place spinner and SaveButton draw this same ring
+   (Button.CreateSpinRing) and add their check and x on top.
+
+   --tss-spinner-color is the arc and the track (at 16%). --tss-spinner-stroke is the ring's thickness
+   in the 48 box, so it scales with the spinner and every size is the same ring: 4 is 1.33px at 16px. --tss-spinner-arc is the arc's
+   dash pattern, for a theme that wants a longer one; the entry stretches to it. */
 .tss-spinner {
     --tss-spinner-color: var(--tss-primary-background-color);
-    --tss-spinner-size:1.5px;
-    border-radius: 50%;
-    border: var(--tss-spinner-size) solid;
-    border-color: var(--tss-spinner-color) var(--tss-progress-background-color) var(--tss-progress-background-color);
-    border-image: none 100% / 1 / 0 stretch;
-    animation-name: tss-spinner-animation;
-    animation-duration: 1.3s;
-    animation-iteration-count: infinite;
-    animation-timing-function: cubic-bezier(0.53, 0.21, 0.29, 0.67);
-    flex-shrink:0;
+    --tss-spinner-stroke: 4;
+    --tss-spinner-arc: 31.4 94.26;
+    --tss-spinner-ease: cubic-bezier(.22, 1, .36, 1);
+    /* The ring's band, for a form that paints the element's background instead of the svg (the AI
+       gradient, a theme's dithered track): r = 20 of 24, --tss-spinner-stroke wide. */
+    --tss-spinner-mask: radial-gradient(farthest-side, #0000 calc((20 - var(--tss-spinner-stroke) / 2) * 100% / 24), #000 0 calc((20 + var(--tss-spinner-stroke) / 2) * 100% / 24), #0000 0);
+    position: relative;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
     box-sizing: border-box;
 }
 
-.tss-spinner.tss-spinner-progress {
+    .tss-spinner > .tss-spinner-orbit {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        fill: none;
+        stroke-width: var(--tss-spinner-stroke);
+        stroke-linecap: round;
+        animation: tss-spinner-animation .7s linear infinite;
+    }
+
+    .tss-spinner .tss-spinner-track {
+        stroke: var(--tss-spinner-color);
+        stroke-opacity: .16;
+        animation: tss-spinner-track-in .36s var(--tss-spinner-ease) .3s backwards;
+    }
+
+    .tss-spinner .tss-spinner-arc {
+        stroke: var(--tss-spinner-color);
+        stroke-dasharray: var(--tss-spinner-arc);
+        animation: tss-spinner-stretch .6s var(--tss-spinner-ease) .12s backwards;
+    }
+
+/* Determinate: the arc stops turning and runs clockwise from the top to the progress mark. */
+.tss-spinner.tss-spinner-progress > .tss-spinner-orbit,
+.tss-spinner.tss-spinner-progress .tss-spinner-track,
+.tss-spinner.tss-spinner-progress .tss-spinner-arc {
     animation: none;
-    border: none;
-    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-progress-background-color) 0);
-    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
-    mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
+}
+
+.tss-spinner.tss-spinner-progress .tss-spinner-arc {
+    stroke-dasharray: calc(var(--tss-spinner-progress, 0) * 1.2566) 125.66;
+    transition: stroke-dasharray .3s var(--tss-spinner-ease);
 }
 
 .tss-spinner-success {
@@ -37,25 +73,21 @@
 .tss-spinner-size-xsmall .tss-spinner {
     width: 12px;
     height: 12px;
-    --tss-spinner-size: 3px;
 }
 
 .tss-spinner-size-small .tss-spinner {
     width: 16px;
     height: 16px;
-    --tss-spinner-size: 4.5px;
 }
 
 .tss-spinner-size-medium .tss-spinner {
     width: 20px;
     height: 20px;
-    --tss-spinner-size: 5px;
 }
 
 .tss-spinner-size-large .tss-spinner {
     width: 28px;
     height: 28px;
-    --tss-spinner-size: 6.5px;
 }
 
 .tss-spinner-container {
@@ -104,11 +136,35 @@
 }
 
 @keyframes tss-spinner-animation {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes tss-spinner-stretch {
     from {
-        transform: rotate(0deg);
+        stroke-dasharray: .01 125.65;
     }
 
     to {
-        transform: rotate(360deg);
+        stroke-dasharray: var(--tss-spinner-arc);
+    }
+}
+
+@keyframes tss-spinner-track-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Reduced motion: no stretching in. The arc still turns, since it is the only sign of work. */
+@media (prefers-reduced-motion: reduce) {
+    .tss-spinner .tss-spinner-track,
+    .tss-spinner .tss-spinner-arc {
+        animation: none;
     }
 }

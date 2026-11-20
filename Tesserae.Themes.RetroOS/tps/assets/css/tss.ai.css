@@ -122,6 +122,12 @@ body.tss-theme-retroos .tss-token.tss-token-ai.tss-token-outline .tss-token-remo
 }
 
 /* Waiting on a model: the same stepped ring and dither track as every other wait. */
+body.tss-theme-retroos .tss-spinner.tss-ai:not(.tss-spinner-progress) {
+    animation-name: tss-retroos-steps;
+    animation-duration: 0.8s;
+    animation-timing-function: steps(8, end);
+}
+
 body.tss-theme-retroos .tss-spinner.tss-ai.tss-spinner-progress {
     background: conic-gradient(rgb(var(--tss-default-foreground-color-root)) calc(var(--tss-spinner-progress, 0) * 1%), transparent 0), var(--tss-retro-dither);
 }

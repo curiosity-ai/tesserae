@@ -717,10 +717,8 @@ namespace Tesserae
 
         private void SetAsyncSearchBusy(bool isBusy)
         {
-            if (_searchBox is null) return;
-
-            if (isBusy) _searchBox.Render().classList.add("tss-dropdown-searchbox-busy");
-            else _searchBox.Render().classList.remove("tss-dropdown-searchbox-busy");
+            // The search box's own busy state: its spinner in the status slot, and aria-busy on the input.
+            if (_searchBox is object) _searchBox.IsBusy = isBusy;
         }
 
         /// <summary>
@@ -1281,7 +1279,7 @@ namespace Tesserae
             if (_spinner is object)
                 return;
 
-            _spinner = Div(Att("tss-spinner"));
+            _spinner = Spinner.Ring();
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
         }
