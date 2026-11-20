@@ -441,28 +441,28 @@ namespace Tesserae
                 fonts.Select(f => Button(f).WS().NoWrap().TextLeft().NoMinSize().MinHeight(32.px()).Style(s => s.fontFamily = f).OnClick(() =>
                 {
                     SetFontFace(f);
-                    Tippy.HideAll();
+                    CloseMenu();
                 }))), 230);
 
             var size = Menu(UIcons.TextHeight, _text.FontSize, VStack().AlignItemsCenter().H(200).W(71).ScrollY().Children(
                 fontSizes.Select(px => Button(px.ToString()).WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() =>
                 {
                     SetFontSize(px);
-                    Tippy.HideAll();
+                    CloseMenu();
                 }))), 80);
 
             var color = Menu(UIcons.Palette, _text.TextColor, HStack().Wrap().AlignItemsCenter().H(200).W(240).ScrollY().Children(
                 colors.Select(c => Button().SetIcon(UIcons.SquareSmall, weight: UIconsWeight.Solid, color: c).Background(c).NoMinSize().W(32).H(32).MinHeight(32.px()).AriaLabel(c).OnClick(() =>
                 {
                     SetTextColor(c);
-                    Tippy.HideAll();
+                    CloseMenu();
                 }))), 260);
 
             var heading = Menu(UIcons.Heading, _text.Heading, VStack().AlignItemsCenter().H(200).W(160).ScrollY().Children(
-                Button(_text.Heading1).LessPadding().Large().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(1); Tippy.HideAll(); }),
-                Button(_text.Heading2).LessPadding().MediumPlus().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(2); Tippy.HideAll(); }),
-                Button(_text.Heading3).LessPadding().Medium().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(3); Tippy.HideAll(); }),
-                Button(_text.Normal).LessPadding().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(0); Tippy.HideAll(); })), 220);
+                Button(_text.Heading1).LessPadding().Large().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(1); CloseMenu(); }),
+                Button(_text.Heading2).LessPadding().MediumPlus().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(2); CloseMenu(); }),
+                Button(_text.Heading3).LessPadding().Medium().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(3); CloseMenu(); }),
+                Button(_text.Normal).LessPadding().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(0); CloseMenu(); })), 220);
 
             _link          = ToolButton(UIcons.Link,           _text.InsertLink,    () => { if (HasFormat("A")) RemoveLink(); else AskForLink(); });
             _unorderedList = ToolButton(UIcons.List,           _text.BulletList,    () => Toggle("UL", RemoveList, MakeUnorderedList));
@@ -487,6 +487,13 @@ namespace Tesserae
                 undo, redo, clear);
 
             if (!_showToolbar) _toolbar.Collapse();
+        }
+
+        // A pick in a toolbar menu leaves the focus on the menu's button: give it back to the editor, at the selection it had.
+        private void CloseMenu()
+        {
+            Tippy.HideAll();
+            _squire?.focus();
         }
 
         private void Toggle(string tag, Action remove, Action add)
