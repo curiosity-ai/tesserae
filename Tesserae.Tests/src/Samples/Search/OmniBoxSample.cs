@@ -11,6 +11,9 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = SampleGroup.Search, Order = 40, Icon = UIcons.SearchBar, Description = "One input for both search and chat")]
     public class OmniBoxSample : IComponent, ISample
     {
+        //A service's logo, which no icon-font glyph stands for: inline, so the sample needs no asset.
+        private const string IssueTrackerLogo = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='7' fill='%235E6AD2'/><path d='M4 8.5l2.5 2.5L12 5.5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>";
+
         private readonly IComponent _content;
 
         // Every box on the page, so the "Disabled" toggle in the overview can switch all of them at once.
@@ -714,7 +717,8 @@ namespace Tesserae.Tests.Samples
                     ToolAgentSelectorItem("code-interpreter", "Code Interpreter", "Run Python in a sandbox", UIcons.Terminal).Selected(),
                     ToolAgentSelectorItem("image-generation", "Image Generation", "Create images from a prompt", UIcons.Picture),
                     ToolAgentSelectorItem("file-search", "File Search", "Search files in this workspace", UIcons.FolderOpen),
-                    ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator))
+                    ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator),
+                    ToolAgentSelectorItem("issue-tracker", "Issue Tracker", "A connected service, shown with its own logo").SetIcon(Image(IssueTrackerLogo).W(16).H(16)))
                 .OnChange(s => Toast().Information($"{s.SelectedCount} tool(s)/agent(s) enabled"));
 
             var chatBox = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)

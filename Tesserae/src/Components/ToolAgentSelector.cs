@@ -458,6 +458,7 @@ namespace Tesserae
             private readonly HTMLElement _root;
             private readonly HTMLInputElement _input;
             private readonly HTMLElement _description;
+            private readonly HTMLElement _iconContainer;
             private readonly string _searchText;
 
             /// <summary>
@@ -482,14 +483,14 @@ namespace Tesserae
                 _input = CheckBox(Att("tss-toolagent-item-input"));
                 var checkmark = Span(Att("tss-toolagent-item-checkmark"));
 
-                var iconContainer = Div(Att("tss-toolagent-item-icon"));
+                _iconContainer = Div(Att("tss-toolagent-item-icon"));
                 if (icon.HasValue)
                 {
-                    iconContainer.appendChild(I(icon.Value));
+                    _iconContainer.appendChild(I(icon.Value));
                 }
                 else
                 {
-                    iconContainer.style.display = "none";
+                    _iconContainer.style.display = "none";
                 }
 
                 var titleEl = Div(Att("tss-toolagent-item-title", text: title ?? string.Empty));
@@ -501,11 +502,44 @@ namespace Tesserae
 
                 var content = Div(Att("tss-toolagent-item-content"), titleEl, _description);
 
-                _root = Label(Att("tss-toolagent-item"), _input, checkmark, iconContainer, content);
+                _root = Label(Att("tss-toolagent-item"), _input, checkmark, _iconContainer, content);
 
                 _input.addEventListener("change", _ => SelectionChanged?.Invoke(this));
 
                 _searchText = ((title ?? string.Empty) + " " + (description ?? string.Empty)).ToLower();
+            }
+
+            /// <summary>
+            /// Shows <paramref name="icon"/> as the item's icon, in place of any glyph: for an image the icon font has
+            /// no character for, such as a service's logo. The icon box is 26px square; the component sizes itself
+            /// inside it (16px reads like the glyphs). An image does not take the theme's icon colour, so a dark logo
+            /// on a theme that inverts the box needs a backing of its own.
+            /// </summary>
+            public Item SetIcon(IComponent icon)
+            {
+                ClearChildren(_iconContainer);
+
+                if (icon is null)
+                {
+                    _iconContainer.style.display = "none";
+                    return this;
+                }
+
+                _iconContainer.appendChild(icon.Render());
+                _iconContainer.style.display = "";
+
+                return this;
+            }
+
+            /// <summary>Shows <paramref name="icon"/> as the item's icon, in place of the one it had.</summary>
+            public Item SetIcon(UIcons icon)
+            {
+                ClearChildren(_iconContainer);
+
+                _iconContainer.appendChild(I(icon));
+                _iconContainer.style.display = "";
+
+                return this;
             }
 
             /// <summary>

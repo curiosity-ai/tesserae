@@ -40,6 +40,11 @@ ToolAgentSelector.Item:
 
 - `.Selected(bool = true)` / `.IsSelected` — selection state.
 - `.Tag` — arbitrary payload.
+- `.SetIcon(IComponent icon)` — shows a component instead of a glyph, for an image the icon font
+  has no character for (a connected service's logo). The box is 26px square and the component sizes
+  itself (16px matches the glyphs); `null` hides the box. An image ignores the theme's icon colour, so
+  a dark logo on a theme that inverts the box needs its own backing.
+- `.SetIcon(UIcons icon)` — replaces the icon with a glyph.
 
 ## Example
 
@@ -52,7 +57,8 @@ var toolAgentSelector = ToolAgentSelector()
         ToolAgentSelectorItem("code-assistant", "Code Assistant", "Plans, writes and debugs code end to end", UIcons.FileCode))
     .Tools(
         ToolAgentSelectorItem("web-search", "Web Search", "Search the live web for fresh results", UIcons.Globe).Selected(),
-        ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator))
+        ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator),
+        ToolAgentSelectorItem("linear", "Linear", "Issues, projects and cycles").SetIcon(Image("./assets/img/linear.svg").W(16).H(16)))
     .OnChange(s => Toast().Information($"{s.SelectedCount} tool(s)/agent(s) enabled"));
 
 var chatSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
