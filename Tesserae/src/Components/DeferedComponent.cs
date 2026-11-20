@@ -212,6 +212,15 @@ namespace Tesserae
                .FireAndForget();
         }
 
+        // The Observe overloads below, and the matching ones in DeferedComponentWithProgress, repeat the same wiring once per arity on purpose.
+        // Moving it into a shared helper was tried (2026-10) and dropped:
+        // - A single helper taking the observables as a list needs a typed closure per observable to subscribe and unsubscribe (C# has no
+        //   variadic generics, and a non-generic observable interface would not cover consumers' own IObservable<T> implementations).
+        //   Measured on 2000 defers in Tesserae.Bench (Release): live heap +26% with one observable and +112% with ten, mount script time +30%.
+        // - A helper with one overload per arity matched this cost, but only moved the per-arity copies into another class: ~245 fewer lines,
+        //   a new type and interface, and still +22 to +55 bytes per defer, for code that rarely changes and sits under every Defer.
+        // What keeps this cheap: DoRefresh is one generic local function, so every conversion of it to ValueChanged<T> is the same handler
+        // (one per defer, however many observables), and StopObserving removes exactly what ObserveFutureChanges added.
         internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value), loadMessage);
@@ -225,7 +234,6 @@ namespace Tesserae
                     o1.StopObserving(DoRefresh);
                 });
             });
-
 
             void DoRefresh<T>(T val)
             {
