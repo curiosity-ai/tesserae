@@ -46,6 +46,10 @@ ToolAgentSelector.Item:
   a dark logo on a theme that inverts the box needs its own backing.
 - `.SetIcon(UIcons icon)` — replaces the icon with a glyph.
 
+The icon box centres whatever it holds - a glyph, an `<img>` (SVG or PNG), an inline `<svg>`, or a
+component whose root wraps one - by making its child a flex container, so nothing rests on a text
+baseline. No extra styling is needed on the icon you pass.
+
 ## Example
 
 ```csharp

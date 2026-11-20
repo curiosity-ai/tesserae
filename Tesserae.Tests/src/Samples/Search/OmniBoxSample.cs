@@ -11,8 +11,17 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = SampleGroup.Search, Order = 40, Icon = UIcons.SearchBar, Description = "One input for both search and chat")]
     public class OmniBoxSample : IComponent, ISample
     {
-        //A service's logo, which no icon-font glyph stands for: inline, so the sample needs no asset.
+        //Logos of services no icon-font glyph stands for, one per kind of image (SVG, PNG, inline svg), inline so the sample needs no asset.
         private const string IssueTrackerLogo = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='7' fill='%235E6AD2'/><path d='M4 8.5l2.5 2.5L12 5.5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>";
+        private const string StatusPageLogo   = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAZ0lEQVR42u3X0Q0AEAxF0W5kIPObgwGEoNo+8SS+7/miFXntlJzq7IZETTGncTVCG1ZBbse3EFbxZUQowDo+RXjFh4i/Ad7xDkEAAQSEA/gSQgDCv2NORDBDKcRYDrGYwKxmEMup5WkRF8wDf+yXxQAAAABJRU5ErkJggg==";
+        private const string ChatServiceLogo  = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><rect x='1' y='1' width='14' height='14' rx='4' fill='#2EB67D'/><path d='M5 6h6M5 9h4' stroke='white' stroke-width='1.6' stroke-linecap='round'/></svg>";
+
+        private static HTMLElement InlineSvg(string markup)
+        {
+            var host = Span(Att());
+            host.innerHTML = markup;
+            return host;
+        }
 
         private readonly IComponent _content;
 
@@ -718,7 +727,9 @@ namespace Tesserae.Tests.Samples
                     ToolAgentSelectorItem("image-generation", "Image Generation", "Create images from a prompt", UIcons.Picture),
                     ToolAgentSelectorItem("file-search", "File Search", "Search files in this workspace", UIcons.FolderOpen),
                     ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator),
-                    ToolAgentSelectorItem("issue-tracker", "Issue Tracker", "A connected service, shown with its own logo").SetIcon(Image(IssueTrackerLogo).W(16).H(16)))
+                    ToolAgentSelectorItem("issue-tracker", "Issue Tracker", "A connected service, its logo an SVG image").SetIcon(Image(IssueTrackerLogo).W(16).H(16)),
+                    ToolAgentSelectorItem("status-page", "Status Page", "A connected service, its logo a PNG image").SetIcon(Image(StatusPageLogo).W(16).H(16)),
+                    ToolAgentSelectorItem("chat-service", "Chat Service", "A connected service, its logo inline SVG").SetIcon(Raw(InlineSvg(ChatServiceLogo))))
                 .OnChange(s => Toast().Information($"{s.SelectedCount} tool(s)/agent(s) enabled"));
 
             var chatBox = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
