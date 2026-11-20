@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleDo("Use `Markdown` when the content is stored or shared as text, `HTML` when it is sent as is (an email)."),
-                        SampleDo("Turn on `MarkdownMode()` when the content is stored as Markdown: the toolbar then only offers what Markdown can say, and pasted HTML is converted on the way in. Binding to Yjs turns it on."),
+                        SampleDo("Set the content with `SetMarkdown(...)` (or the `Markdown` property) when it is stored as Markdown: that turns on `MarkdownMode()`, so the toolbar only offers what Markdown can say and pasted HTML is converted on the way in. Binding to Yjs turns it on too."),
                         SampleDo("Pass a `SquireEditorText` to `Texts(...)` to translate the toolbar."),
                         SampleDo("Bind to a `Y.Text` for collaboration: the shared text is Markdown, so any Markdown editor can be on the other end."),
                         SampleDont("Leave the full toolbar on for Markdown content: fonts, sizes, colours, underline and alignment have no Markdown spelling and are dropped.")
@@ -65,10 +65,14 @@ namespace Tesserae.Tests.Samples
 
                 editor.OnInput(e => output.Text = e.Markdown);
 
+                // Setting Markdown turned the mode on; the toggle starts where the editor is.
+                var markdownMode = Toggle("Markdown mode").Class("sample-squire-markdown-mode");
+                markdownMode.IsChecked = editor.IsMarkdownMode;
+
                 Content = VStack().WS().Gap(8.px()).Children(
                     HStack().WS().Gap(16.px()).Children(editor.W(10).Grow(), output.W(10).Grow()),
                     HStack().Gap(8.px()).AlignItemsCenter().Children(
-                        Toggle("Markdown mode").Class("sample-squire-markdown-mode").OnChange((t, _) =>
+                        markdownMode.OnChange((t, _) =>
                         {
                             editor.MarkdownMode(t.IsChecked);
                             output.Text = editor.Markdown;
@@ -77,6 +81,7 @@ namespace Tesserae.Tests.Samples
                         {
                             editor.Markdown = SeedMarkdown;
                             output.Text     = editor.Markdown;
+                            markdownMode.IsChecked = editor.IsMarkdownMode;
                         }),
                         Button("Show HTML").SetIcon(UIcons.CodeSimple).OnClick(() => Modal("HTML").Content(TextArea(editor.HTML).H(300).WS()).Show())));
             }

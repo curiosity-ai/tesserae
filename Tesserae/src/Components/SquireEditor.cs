@@ -203,8 +203,10 @@ namespace Tesserae
 
         /// <summary>
         /// The content as Markdown (see <see cref="SquireMarkdown"/> for what is written). Setting it renders the
-        /// Markdown into the editor; reading it back after edits returns the text as it was written for every block
-        /// that was not edited, and the edited blocks as <see cref="SquireMarkdown"/> writes them.
+        /// Markdown into the editor and turns on <see cref="MarkdownMode"/>, since content that is Markdown should only
+        /// be edited with what Markdown can say; reading it back after edits returns the text as it was written for
+        /// every block that was not edited, and the edited blocks as <see cref="SquireMarkdown"/> writes them. Reading
+        /// it works in either mode.
         /// </summary>
         public string Markdown
         {
@@ -215,6 +217,9 @@ namespace Tesserae
             }
             set
             {
+                // The content is replaced next, so there is nothing to convert: only the toolbar and keys change.
+                SetMarkdownMode(true, convertContent: false);
+
                 if (_squire == null)
                 {
                     _initialMarkdown = value ?? "";
@@ -225,6 +230,20 @@ namespace Tesserae
                     _markdown.Render(_squire, value ?? "");
                 }
             }
+        }
+
+        /// <summary>Sets the content as Markdown and turns on <see cref="MarkdownMode"/> (see <see cref="Markdown"/>).</summary>
+        public SquireEditor SetMarkdown(string markdown)
+        {
+            Markdown = markdown;
+            return this;
+        }
+
+        /// <summary>Sets the content as HTML (see <see cref="HTML"/>). The mode is left as it is.</summary>
+        public SquireEditor SetHTML(string html)
+        {
+            HTML = html;
+            return this;
         }
 
         /// <summary>The text of the content, without formatting.</summary>
@@ -255,9 +274,12 @@ namespace Tesserae
         /// underline or alignment); the shortcuts for underline, subscript and superscript do nothing; and HTML that
         /// comes in - pasted, inserted or set through <see cref="HTML"/> - is converted to Markdown and back, so what
         /// the editor holds is always exactly what <see cref="Markdown"/> returns. Turning it on converts the current
-        /// content the same way. <see cref="SquireYjsBinding"/> turns it on, since the shared text is Markdown.
+        /// content the same way. Setting <see cref="Markdown"/> (or <see cref="SetMarkdown"/>) and binding to Yjs
+        /// (<see cref="SquireYjsBinding"/>) turn it on; call <c>MarkdownMode(false)</c> afterwards for the full toolbar.
         /// </summary>
-        public SquireEditor MarkdownMode(bool markdownOnly = true)
+        public SquireEditor MarkdownMode(bool markdownOnly = true) => SetMarkdownMode(markdownOnly, convertContent: true);
+
+        private SquireEditor SetMarkdownMode(bool markdownOnly, bool convertContent)
         {
             if (_markdownMode == markdownOnly) return this;
 
@@ -266,7 +288,7 @@ namespace Tesserae
 
             if (_squire != null)
             {
-                if (markdownOnly) _markdown.Render(_squire, SquireMarkdown.ToMarkdown(_root, strict: true));
+                if (markdownOnly && convertContent) _markdown.Render(_squire, SquireMarkdown.ToMarkdown(_root, strict: true));
                 ApplyMarkdownKeys();
             }
 

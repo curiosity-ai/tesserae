@@ -20,7 +20,8 @@ var editor = SquireEditor()          // UI.SquireEditor()
 | Member | |
 |---|---|
 | `HTML` | get/set. Sanitized by DOMPurify; `<style>` elements are dropped (the editor is in the page, not an iframe). Setting it resets undo. |
-| `Markdown` | get/set. Blocks nobody edited come back exactly as written; edited blocks as `SquireMarkdown` writes them. |
+| `Markdown` | get/set. Blocks nobody edited come back exactly as written; edited blocks as `SquireMarkdown` writes them. Setting it turns on Markdown mode. |
+| `SetMarkdown(md)` / `SetHTML(html)` | chainable setters for the two properties. |
 | `PlainText` | the text without formatting. |
 | `InsertHTML(html)` | at the cursor. |
 
@@ -40,7 +41,8 @@ Bold, italic, underline, heading, link, bullet and numbered lists, quote, code, 
 heading, link, lists, quote, code, undo, redo and `…` (insert image, remove formatting); the underline / sub- / superscript
 shortcuts do nothing; and HTML that comes in (paste, `InsertHTML`, the `HTML` setter) is converted to Markdown and back
 (`SquireMarkdown.HtmlToMarkdown(html, strict: true)`), so the editor always holds exactly what `Markdown` returns.
-Turning it on converts the current content the same way. `BindYjs` turns it on.
+Turning it on converts the current content the same way. Setting `Markdown` / `SetMarkdown(...)` and `BindYjs` turn it on;
+call `.MarkdownMode(false)` afterwards for the full toolbar.
 
 ## Configure
 
