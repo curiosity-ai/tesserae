@@ -182,7 +182,8 @@ references. Open the reference for whatever you are working with. The full set:
   `references/flint-chart.md` (`UI.FlintChart(...)`).
 - `references/yjs.md` — real-time collaborative editing: `Yjs.LoadAsync()`, the typed `Y` declarations
   (`Y.Doc`, `Y.Text`, `Y.UndoManager`, …), `Awareness`, `YjsSyncProvider` over your own transport,
-  `YjsUserColors`, and `TextArea.BindYjs(text)`.
+  `YjsUserColors`, `TextArea.BindYjs(text)`, and `SquireEditor.BindYjs(text, awareness)` for rich text over
+  shared Markdown.
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 
@@ -201,7 +202,7 @@ icon-toggle · menu · overflow-set · toggle-button
 **Inputs** — form controls that capture a value
 annotated-text-editor · auto-complete-box · check-box · choice-group · color-picker · dictation-targets · dropdown ·
 editable-area · editable-label · file-selector-and-drop-area · grid-picker ·
-number-picker · option · picker · rating · slider · steps-slider · tags-input
+number-picker · option · picker · rating · slider · squire-editor · steps-slider · tags-input
 · text-area · text-box · toggle
 
 **Date & Time** — calendar, clock and schedule pickers
