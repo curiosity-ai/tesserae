@@ -28,6 +28,12 @@ var editor = SquireEditor()          // UI.SquireEditor()
 paragraphs, hard breaks, bold, italic, strikethrough, inline code, code blocks, links, images, quotes, nested lists,
 tables and rules; underline, sub- and superscript are written as HTML tags; fonts, sizes, colours and alignment are dropped.
 
+## Toolbar
+
+Bold, italic, underline, heading, link, bullet and numbered lists, quote, code, undo and redo are buttons; the rest
+(strikethrough, font, size and colour submenus, insert image, alignment, remove formatting) is under the `…` button, a
+`ContextMenu` built each time it opens.
+
 ## Configure
 
 - `.Texts(new SquireEditorText { Bold = "Fett", ... })` — toolbar labels, for translation.

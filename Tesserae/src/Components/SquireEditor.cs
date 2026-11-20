@@ -45,7 +45,7 @@ namespace Tesserae
         private bool                _showToolbar = true;
         private bool                _disposed;
 
-        private Button _bold, _italic, _underline, _strike, _link, _orderedList, _unorderedList, _code, _quote;
+        private Button _bold, _italic, _underline, _link, _orderedList, _unorderedList, _code, _quote;
 
         /// <summary>Raised on every change of the content made through the editor, as it happens.</summary>
         public event Action<SquireEditor> InputChanged;
@@ -432,31 +432,9 @@ namespace Tesserae
                 return b;
             }
 
-            _bold          = ToolButton(UIcons.Bold,          _text.Bold,          () => Toggle("B",  RemoveBold,          Bold));
-            _italic        = ToolButton(UIcons.Italic,        _text.Italic,        () => Toggle("I",  RemoveItalic,        Italic));
-            _underline     = ToolButton(UIcons.Underline,     _text.Underline,     () => Toggle("U",  RemoveUnderline,     Underline));
-            _strike        = ToolButton(UIcons.Strikethrough, _text.Strikethrough, () => Toggle("S",  RemoveStrikethrough, Strikethrough));
-
-            var font = Menu(UIcons.F, _text.Font, VStack().H(200).W(221).ScrollY().Children(
-                fonts.Select(f => Button(f).WS().NoWrap().TextLeft().NoMinSize().MinHeight(32.px()).Style(s => s.fontFamily = f).OnClick(() =>
-                {
-                    SetFontFace(f);
-                    CloseMenu();
-                }))), 230);
-
-            var size = Menu(UIcons.TextHeight, _text.FontSize, VStack().AlignItemsCenter().H(200).W(71).ScrollY().Children(
-                fontSizes.Select(px => Button(px.ToString()).WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() =>
-                {
-                    SetFontSize(px);
-                    CloseMenu();
-                }))), 80);
-
-            var color = Menu(UIcons.Palette, _text.TextColor, HStack().Wrap().AlignItemsCenter().H(200).W(240).ScrollY().Children(
-                colors.Select(c => Button().SetIcon(UIcons.SquareSmall, weight: UIconsWeight.Solid, color: c).Background(c).NoMinSize().W(32).H(32).MinHeight(32.px()).AriaLabel(c).OnClick(() =>
-                {
-                    SetTextColor(c);
-                    CloseMenu();
-                }))), 260);
+            _bold      = ToolButton(UIcons.Bold,      _text.Bold,      () => Toggle("B", RemoveBold,      Bold));
+            _italic    = ToolButton(UIcons.Italic,    _text.Italic,    () => Toggle("I", RemoveItalic,    Italic));
+            _underline = ToolButton(UIcons.Underline, _text.Underline, () => Toggle("U", RemoveUnderline, Underline));
 
             var heading = Menu(UIcons.Heading, _text.Heading, VStack().AlignItemsCenter().H(200).W(160).ScrollY().Children(
                 Button(_text.Heading1).LessPadding().Large().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(1); CloseMenu(); }),
@@ -464,29 +442,78 @@ namespace Tesserae
                 Button(_text.Heading3).LessPadding().Medium().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(3); CloseMenu(); }),
                 Button(_text.Normal).LessPadding().WS().TextCenter().NoMinSize().MinHeight(32.px()).OnClick(() => { SetHeading(0); CloseMenu(); })), 220);
 
-            _link          = ToolButton(UIcons.Link,           _text.InsertLink,    () => { if (HasFormat("A")) RemoveLink(); else AskForLink(); });
-            _unorderedList = ToolButton(UIcons.List,           _text.BulletList,    () => Toggle("UL", RemoveList, MakeUnorderedList));
-            _orderedList   = ToolButton(UIcons.Circle1,        _text.NumberedList,  () => Toggle("OL", RemoveList, MakeOrderedList));
-            var image      = ToolButton(UIcons.PhotoVideo,     _text.InsertImage,   AskForImage);
-            _quote         = ToolButton(UIcons.QuoteRight,     _text.Quote,         () => Toggle("BLOCKQUOTE", DecreaseQuoteLevel, IncreaseQuoteLevel));
-            _code          = ToolButton(UIcons.SquareTerminal, _text.Code,          () => { if (HasFormat("CODE") || HasFormat("PRE")) RemoveCode(); else Code(); });
+            _link          = ToolButton(UIcons.Link,           _text.InsertLink,   () => { if (HasFormat("A")) RemoveLink(); else AskForLink(); });
+            _unorderedList = ToolButton(UIcons.List,           _text.BulletList,   () => Toggle("UL", RemoveList, MakeUnorderedList));
+            _orderedList   = ToolButton(UIcons.Circle1,        _text.NumberedList, () => Toggle("OL", RemoveList, MakeOrderedList));
+            _quote         = ToolButton(UIcons.QuoteRight,     _text.Quote,        () => Toggle("BLOCKQUOTE", DecreaseQuoteLevel, IncreaseQuoteLevel));
+            _code          = ToolButton(UIcons.SquareTerminal, _text.Code,         () => { if (HasFormat("CODE") || HasFormat("PRE")) RemoveCode(); else Code(); });
 
-            var left    = ToolButton(UIcons.AlignLeft,    _text.AlignLeft,    () => SetTextAlignment("left"));
-            var center  = ToolButton(UIcons.AlignCenter,  _text.AlignCenter,  () => SetTextAlignment("center"));
-            var right   = ToolButton(UIcons.Symbol,       _text.AlignRight,   () => SetTextAlignment("right"));
-            var justify = ToolButton(UIcons.AlignJustify, _text.Justify,      () => SetTextAlignment("justify"));
+            var undo = ToolButton(UIcons.Undo, _text.Undo, Undo);
+            var redo = ToolButton(UIcons.Redo, _text.Redo, Redo);
 
-            var undo  = ToolButton(UIcons.Undo,      _text.Undo,              Undo);
-            var redo  = ToolButton(UIcons.Redo,      _text.Redo,              Redo);
-            var clear = ToolButton(UIcons.TextSlash, _text.RemoveFormatting,  RemoveAllFormatting);
+            // What is used less goes behind "…": built when it opens, so the strikethrough row shows the selection's state.
+            Button more = null;
+            more = ToolButton(UIcons.MenuDots, _text.MoreOptions, () => BuildMoreMenu(fonts, fontSizes, colors).ShowFor(more));
 
             _toolbar.Children(_toolbarStart,
-                _bold, _italic, _underline, _strike, font, size, color, heading,
-                _link, _unorderedList, _orderedList, image, _quote, _code,
-                left, center, right, justify,
-                undo, redo, clear);
+                _bold, _italic, _underline, heading,
+                _link, _unorderedList, _orderedList, _quote, _code,
+                undo, redo, more);
 
             if (!_showToolbar) _toolbar.Collapse();
+        }
+
+        private ContextMenu BuildMoreMenu(string[] fonts, int[] fontSizes, string[] colors)
+        {
+            var menu = ContextMenu();
+
+            ContextMenu.Item Row(UIcons icon, string label, Action onClick = null, bool active = false)
+            {
+                var item = ContextMenuItem(HStack().AlignItemsCenter().Gap(8.px()).Children(
+                    Icon(icon).W(16),
+                    TextBlock(label).Grow(),
+                    active ? (IComponent)Icon(UIcons.Check).Foreground(Theme.Primary.Background) : Empty()));
+
+                if (onClick != null) item.OnClick(() =>
+                {
+                    menu.Hide();
+                    onClick();
+                    _squire?.focus();
+                });
+
+                return item;
+            }
+
+            var fontMenu = ContextMenu().Items(fonts.Select(f =>
+                ContextMenuItem(TextBlock(f).Style(st => st.fontFamily = f)).OnClick(() => { menu.Hide(); SetFontFace(f); _squire?.focus(); })).ToArray());
+
+            var sizeMenu = ContextMenu().Items(fontSizes.Select(px =>
+                ContextMenuItem(px + " px").OnClick(() => { menu.Hide(); SetFontSize(px); _squire?.focus(); })).ToArray());
+
+            var colorMenu = ContextMenu().Items(ContextMenuItem(HStack().Wrap().W(192).Children(
+                colors.Select(c => Button().NoMinSize().W(28).H(28).MinHeight(28.px()).Background(c).AriaLabel(c).Class("tss-squire-swatch").OnClick(() =>
+                {
+                    menu.Hide();
+                    SetTextColor(c);
+                    _squire?.focus();
+                })))));
+
+            menu.Items(
+                Row(UIcons.Strikethrough, _text.Strikethrough, () => Toggle("S", RemoveStrikethrough, Strikethrough), HasFormat("S")),
+                Row(UIcons.F,             _text.Font).SubMenu(fontMenu),
+                Row(UIcons.TextHeight,    _text.FontSize).SubMenu(sizeMenu),
+                Row(UIcons.Palette,       _text.TextColor).SubMenu(colorMenu),
+                ContextMenuItem().Divider(),
+                Row(UIcons.PhotoVideo,    _text.InsertImage, AskForImage),
+                ContextMenuItem().Divider(),
+                Row(UIcons.AlignLeft,     _text.AlignLeft,   () => SetTextAlignment("left")),
+                Row(UIcons.AlignCenter,   _text.AlignCenter, () => SetTextAlignment("center")),
+                Row(UIcons.Symbol,        _text.AlignRight,  () => SetTextAlignment("right")),
+                Row(UIcons.AlignJustify,  _text.Justify,     () => SetTextAlignment("justify")),
+                ContextMenuItem().Divider(),
+                Row(UIcons.TextSlash,     _text.RemoveFormatting, RemoveAllFormatting));
+
+            return menu;
         }
 
         // A pick in a toolbar menu leaves the focus on the menu's button: give it back to the editor, at the selection it had.
@@ -509,8 +536,7 @@ namespace Tesserae
             _bold.IsPrimary          = HasFormat("B");
             _italic.IsPrimary        = HasFormat("I");
             _underline.IsPrimary     = HasFormat("U");
-            _strike.IsPrimary        = HasFormat("S");
-            _link.IsPrimary          = HasFormat("A");
+                        _link.IsPrimary          = HasFormat("A");
             _orderedList.IsPrimary   = HasFormat("OL");
             _unorderedList.IsPrimary = HasFormat("UL");
             _quote.IsPrimary         = HasFormat("BLOCKQUOTE");
@@ -599,6 +625,7 @@ namespace Tesserae
         public string Undo             { get; set; } = "Undo";
         public string Redo             { get; set; } = "Redo";
         public string RemoveFormatting { get; set; } = "Remove Formatting";
+        public string MoreOptions      { get; set; } = "More options";
         public string Ok               { get; set; } = "Ok";
         public string Cancel           { get; set; } = "Cancel";
     }

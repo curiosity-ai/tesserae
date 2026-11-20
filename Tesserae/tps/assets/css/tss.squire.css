@@ -123,6 +123,16 @@
     border-top: none;
 }
 
+/* The text colours under the toolbar's "…" menu: six shades per row, each one outlined so white shows on white. */
+.tss-btn.tss-btn-default.tss-squire-swatch:not(.tss-disabled),
+.tss-btn.tss-btn-default.tss-squire-swatch:not(.tss-disabled):hover {
+    margin: 2px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid color-mix(in srgb, var(--tss-default-foreground-color) 25%, transparent);
+    border-radius: var(--tss-border-radius-sm);
+}
+
 /* Collaborators' carets and selections, drawn over the content by SquireYjsBinding. */
 .tss-squire-cursors {
     position: absolute;
