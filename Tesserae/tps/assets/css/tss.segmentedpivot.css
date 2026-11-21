@@ -114,6 +114,14 @@
     font-size: var(--tss-font-size-smallplus);
     color: var(--tss-secondary-foreground-color);
     font-weight: 500;
+    white-space: nowrap;
+}
+
+/* A title is one line: when the segments do not fit, the strip scrolls (chevrons and the overflow menu) rather
+   than squeezing each tab until its title wraps. SidebarPivot's tabs are outside this wrapper and keep shrinking
+   to an ellipsis (tss.sidebar.css). */
+.tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-tab {
+    flex-shrink: 0;
 }
 
     .tss-segmentedpivot-tab:hover {
