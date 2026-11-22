@@ -294,9 +294,12 @@ namespace Tesserae
         }
 
         /// <summary>Sets the body to Markdown, rendered and sanitized by a <see cref="MarkdownBlock"/>.</summary>
-        public ConversationComment Body(string markdown, MarkdownSanitization sanitization = MarkdownSanitization.Default)
+        /// <param name="markdown">The Markdown source.</param>
+        /// <param name="sanitization">How strictly to sanitize the rendered HTML.</param>
+        /// <param name="sources">Where the Markdown may load embedded content (images and the like) from. <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        public ConversationComment Body(string markdown, MarkdownSanitization sanitization = MarkdownSanitization.Default, MarkdownContentSources sources = null)
         {
-            _markdown = new MarkdownBlock(markdown ?? string.Empty, sanitization).TableCopyButtons(false);
+            _markdown = new MarkdownBlock(markdown ?? string.Empty, sanitization, sources).TableCopyButtons(false);
             ClearChildren(_body);
             _body.appendChild(PlainWhitespace(_markdown.Render()));
             return this;

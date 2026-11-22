@@ -898,7 +898,10 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.MarkdownBlock"/> component that renders Markdown source as sanitized HTML.
         /// </summary>
-        public static MarkdownBlock MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default) => new MarkdownBlock(text, sanitization);
+        /// <param name="text">The Markdown source text to render.</param>
+        /// <param name="sanitization">How strictly to sanitize the rendered HTML.</param>
+        /// <param name="sources">Where the Markdown may load embedded content from (images, a diagram's pictures, a chart's data). <c>null</c> is <see cref="MarkdownContentSources.Any"/>.</param>
+        public static MarkdownBlock MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default, MarkdownContentSources sources = null) => new MarkdownBlock(text, sanitization, sources);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Mermaid"/> component that draws Mermaid diagram source as themed SVG, with Pele.
@@ -906,6 +909,13 @@ namespace Tesserae
         /// <param name="source">The Mermaid source.</param>
         /// <param name="sanitize">Whether the SVG is run through DOMPurify before it is inserted. On by default.</param>
         public static Mermaid Mermaid(string source = "", bool sanitize = true) => new Mermaid(source, sanitize);
+
+        /// <summary>
+        /// Creates a rich text (WYSIWYG) editor with a formatting toolbar, built on Squire. It reads and writes HTML and
+        /// Markdown, and binds to a shared <see cref="Y.Text"/> of Markdown for collaborative editing
+        /// (<see cref="SquireYjsBindingExtensions.BindYjs"/>).
+        /// </summary>
+        public static SquireEditor SquireEditor() => new SquireEditor();
 
         /// <summary>
         /// Creates a <see cref="Tesserae.JsonViewer"/>: a JSON document as a collapsible, syntax-coloured tree whose
@@ -1434,6 +1444,15 @@ namespace Tesserae
         /// component instead of a <see cref="UIcons"/> glyph.
         /// </summary>
         public static ContextCard ContextCard(string label, IComponent iconOrImage) => new ContextCard(label, iconOrImage);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ContextCard"/> standing for a person: a compact <see cref="Tesserae.Avatar"/>
+        /// built from <paramref name="imageUrl"/>, or from <paramref name="initials"/> (derived from
+        /// <paramref name="name"/> when not given, see <see cref="Tesserae.Avatar.InitialsFor"/>), with the name as
+        /// the label. Add <c>.Compact()</c> for a one-line chip, <c>.SetSubLabel(...)</c> for a role or an e-mail.
+        /// </summary>
+        public static ContextCard AvatarContextCard(string name, string imageUrl = null, string initials = null, AvatarPresence presence = AvatarPresence.None)
+            => new ContextCard(name, new Avatar(imageUrl, string.IsNullOrWhiteSpace(initials) ? Tesserae.Avatar.InitialsFor(name) : initials).Compact().Presence(presence));
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ActionCard{TData}"/>: a card offering actions about one

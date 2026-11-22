@@ -253,6 +253,28 @@ already follow; each theme package also has a small `tss.mermaid.css` that match
 and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
 ink lines and the Signal accent, Rechenwerk: the code-block frame with its hard signal-colour shadow).
 
+## Where Markdown may load content from (`MarkdownContentSources`)
+
+`MarkdownContentSources` ([MarkdownContentSources.cs](Tesserae/src/Helpers/MarkdownContentSources.cs)) is the policy for
+what rendered Markdown may make the browser fetch with no click: `Any` (default, nothing filtered and nothing looked at),
+`SameOrigin`, `SameOriginAnd(hosts)`. It is separate from `MarkdownSanitization` and composes with it. `MarkdownBlock`
+holds it (`.ContentSources(...)`, constructor parameter) and passes it to every render. It is enforced in **three**
+places, and a new way for Markdown to reach the network has to join one of them:
+
+- **Prose**: `Markdown.ConvertMarkdownSanitized` sanitizes through `MarkdownContentSources.Sanitize`, a DOMPurify
+  `afterSanitizeAttributes` hook added for that one `sanitize` call and removed by reference in a `finally`. It never
+  touches `<a href>`.
+- **Diagrams**: the policy is inside the `sanitize` function `Pele.Options` hands Pele (`SvgSanitizer`), not around the
+  mount. Pele calls that function on every draw: the first one, which is asynchronous when the library is still
+  loading, and each relayout. A scope around `Pele.Mount` would miss both.
+- **Charts**: `FlintChartDrawing.MountAsync` calls `ContentSources.CheckChart(input)` on the spec of every draw, before
+  Flint sees it, and a spec that would load from elsewhere fails like any other that cannot be drawn. Flint exposes no
+  hook on Vega's loader, so it is a walk over the spec (the rules are in the XML doc of `CheckChart`): any `url`
+  property, the built-in basemap hosts of `Map` / `Choropleth`, and the tooltip, which vega-tooltip draws as
+  `<img src>` for a value keyed `image`. When `Build.Flint` is next rebuilt, passing a restricted Vega `loader`
+  and a tooltip handler from `entry.js` would replace the walk with something that cannot miss a case. The policy's
+  `Key` is part of `MarkdownCharts.KeyOf`, so a parked chart is never adopted under another policy.
+
 ## Flint charts (Markdown and FlintChart)
 
 A `flint` (or `flint-chart`) fence in `MarkdownBlock` is drawn as a chart by Microsoft's
@@ -310,6 +332,25 @@ spec draws as a component, `UI.FlintChart(json)` / `UI.FlintChart(FlintChartType
   `tss.flint.css` that frames it like its own `tss.mermaid.css` does. A plate that is not the page's
   surface restates the tokens on `.tss-flint-chart` (Weniger's terminal glass) and gives a gradient
   plate a `background-color` too, since a gradient has no colour to read contrast against.
+
+## Yjs (collaborative editing)
+
+`Tesserae/src/Yjs/` declares [Yjs](https://docs.yjs.dev) to the compiler and builds on it: `Y` (the `Y` global:
+`Y.Doc`, the shared types, `Y.UndoManager`, relative positions, updates, snapshots), `Awareness` and `YProtocols`
+(y-protocols' sync and awareness, lib0's encoders) are `[External]` declarations with no emitted code, and
+`YjsSyncProvider`, `YjsInputBinding`, `YjsUserColors` and `YjsBinary` are ordinary classes on top. The skill
+reference is `Tesserae/skills/references/yjs.md`; the gallery sample is **Yjs** (Utilities).
+
+- **The script is built, not downloaded**: [`Build.Yjs/`](Build.Yjs/README.md) bundles yjs, y-protocols and lib0
+  (pinned exactly) into one IIFE, `tps/assets/js/yjs.min.js`, shipped as the unlinked `tss-yjs.min.js` resource
+  (`"load": false`) and fetched by `Yjs.LoadAsync()` through `Transpose.Require.RequireAsync`. Its licences are in
+  `yjs.LICENSE.txt` beside it.
+- **Exactly one copy of yjs.** Yjs breaks with two instances on a page; `build.mjs` fails when any package was
+  bundled from two folders. A consumer must not load its own yjs beside this one.
+- **Events are one templated method per event** (`doc.onUpdate(f)` for `doc.on('update', f)`), and nothing on
+  those types is overloaded: two declarations of one JavaScript name get a `$1` suffix. A static member named
+  `length` is escaped by the compiler (`$length`), so `YProtocols.encoding.length` is a `[Template]`.
+- **Null checks on an external value are `!= null`**, never `is object` / `is null` on the external type.
 
 ## Installing Transpose
 

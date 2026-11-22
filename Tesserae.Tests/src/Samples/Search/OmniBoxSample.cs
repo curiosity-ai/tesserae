@@ -11,6 +11,18 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = SampleGroup.Search, Order = 40, Icon = UIcons.SearchBar, Description = "One input for both search and chat")]
     public class OmniBoxSample : IComponent, ISample
     {
+        //Logos of services no icon-font glyph stands for, one per kind of image (SVG, PNG, inline svg), inline so the sample needs no asset.
+        private const string IssueTrackerLogo = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='7' fill='%235E6AD2'/><path d='M4 8.5l2.5 2.5L12 5.5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>";
+        private const string StatusPageLogo   = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAZ0lEQVR42u3X0Q0AEAxF0W5kIPObgwGEoNo+8SS+7/miFXntlJzq7IZETTGncTVCG1ZBbse3EFbxZUQowDo+RXjFh4i/Ad7xDkEAAQSEA/gSQgDCv2NORDBDKcRYDrGYwKxmEMup5WkRF8wDf+yXxQAAAABJRU5ErkJggg==";
+        private const string ChatServiceLogo  = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><rect x='1' y='1' width='14' height='14' rx='4' fill='#2EB67D'/><path d='M5 6h6M5 9h4' stroke='white' stroke-width='1.6' stroke-linecap='round'/></svg>";
+
+        private static HTMLElement InlineSvg(string markup)
+        {
+            var host = Span(Att());
+            host.innerHTML = markup;
+            return host;
+        }
+
         private readonly IComponent _content;
 
         // Every box on the page, so the "Disabled" toggle in the overview can switch all of them at once.
@@ -193,6 +205,8 @@ namespace Tesserae.Tests.Samples
 
         private IComponent History()
         {
+            var recent = new List<string> { "apple", "orange", "tomato", "banana", "potato AND ( tomato OR banana) AND NOT apple" };
+
             var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
             {
                 PlaceholderSearch = "Press Up, or click the clock button on the left, for recent searches"
@@ -202,19 +216,18 @@ namespace Tesserae.Tests.Samples
             {
                 await Task.Delay(100); // Simulate network
 
-                return new[]
-                {
-                    OmniBox.ParseQuery("apple"),
-                    OmniBox.ParseQuery("orange"),
-                    OmniBox.ParseQuery("tomato"),
-                    OmniBox.ParseQuery("banana"),
-                    OmniBox.ParseQuery("potato AND ( tomato OR banana) AND NOT apple")
-                };
+                return recent.Select(query => OmniBox.ParseQuery(query)).ToArray();
+            },
+            async removed =>
+            {
+                await Task.Delay(100); // Simulate network
+
+                recent.Remove(removed.RawQuery);
             })
             .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
 
             return FeatureCard("History", "Recent searches",
-                "WithHistory(Func<Task<SearchQuery[]>>) shows a history button on the left of the search input; clicking it opens the list the fetcher returns (most recent first), and picking an entry puts it back in the box. It also turns on Up/Down history: Up in the empty box brings back the most recent search, each further Up goes one further back and Down comes forward again, until something is typed. Searches made in the box are walked first even before the fetcher returns them. Build the entries with OmniBox.ParseQuery so they keep their operator highlighting.",
+                "WithHistory(Func<Task<SearchQuery[]>>) shows a history button on the left of the search input; clicking it opens the list the fetcher returns (most recent first), and picking an entry puts it back in the box. Pass a second callback, as here, and every entry gets a remove button that forgets it. It also turns on Up/Down history: Up in the empty box brings back the most recent search, each further Up goes one further back and Down comes forward again, until something is typed. Searches made in the box are walked first even before the fetcher returns them. Build the entries with OmniBox.ParseQuery so they keep their operator highlighting.",
                 box);
         }
 
@@ -713,7 +726,10 @@ namespace Tesserae.Tests.Samples
                     ToolAgentSelectorItem("code-interpreter", "Code Interpreter", "Run Python in a sandbox", UIcons.Terminal).Selected(),
                     ToolAgentSelectorItem("image-generation", "Image Generation", "Create images from a prompt", UIcons.Picture),
                     ToolAgentSelectorItem("file-search", "File Search", "Search files in this workspace", UIcons.FolderOpen),
-                    ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator))
+                    ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator),
+                    ToolAgentSelectorItem("issue-tracker", "Issue Tracker", "A connected service, its logo an SVG image").SetIcon(Image(IssueTrackerLogo).W(16).H(16)),
+                    ToolAgentSelectorItem("status-page", "Status Page", "A connected service, its logo a PNG image").SetIcon(Image(StatusPageLogo).W(16).H(16)),
+                    ToolAgentSelectorItem("chat-service", "Chat Service", "A connected service, its logo inline SVG").SetIcon(Raw(InlineSvg(ChatServiceLogo))))
                 .OnChange(s => Toast().Information($"{s.SelectedCount} tool(s)/agent(s) enabled"));
 
             var chatBox = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)

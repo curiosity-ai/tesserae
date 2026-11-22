@@ -191,6 +191,18 @@
         font-size: 13px;
     }
 
+    /* The icon is centred by its own box, not by a text line. On a text line the glyph's em square (ascent one em,
+       descent zero) rests on the text font's baseline, 1-2px above the centre depending on the theme's font, and an
+       inline svg in a consumer's span sits on that baseline too. As a flex container the glyph's ::before is laid out
+       in the icon font's own line, and an img, an svg or a component's root is simply centred. */
+    .tss-toolagent-item-icon > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
     .tss-toolagent-item-content {
         flex: 1;
         min-width: 0;

@@ -147,6 +147,44 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Gets a value indicating whether the avatar is drawn as a compact bubble (see <see cref="Compact(bool)"/>).
+        /// </summary>
+        public bool IsCompact => InnerElement.classList.contains("tss-avatar-compact");
+
+        /// <summary>
+        /// Draws the avatar as a compact bubble - 20px, initials to match, a presence dot in proportion - for an
+        /// avatar that sits inside a line of text, a list row or a chip rather than next to it. While it is on it
+        /// takes precedence over <see cref="Size(AvatarSize)"/>; turning it off brings that size back.
+        /// </summary>
+        public Avatar Compact(bool value = true)
+        {
+            InnerElement.UpdateClassIf(value, "tss-avatar-compact");
+            return this;
+        }
+
+        /// <summary>
+        /// The initials an avatar shows for <paramref name="name"/>: the first letter of its first and last words,
+        /// upper-cased ("Ada Lovelace" is "AL", "grace" is "G"). An e-mail address is read up to its "@".
+        /// Empty for a null or blank name.
+        /// </summary>
+        public static string InitialsFor(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return string.Empty;
+
+            var at = name.IndexOf('@');
+
+            if (at > 0) name = name.Substring(0, at);
+
+            var words = name.Split(new[] { ' ', '.', '_', '-' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+            if (words.Length == 0) return string.Empty;
+
+            var first = words[0].Substring(0, 1);
+
+            return (words.Length == 1 ? first : first + words[words.Length - 1].Substring(0, 1)).ToUpperInvariant();
+        }
+
+        /// <summary>
         /// Configures the component to presence.
         /// </summary>
         public Avatar Presence(AvatarPresence presence)

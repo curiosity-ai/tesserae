@@ -42,9 +42,17 @@ namespace Tesserae
         /// The options of <c>pele.mount</c>. Sanitizing runs the SVG through DOMPurify on top of Pele's own escaping
         /// (Pele inserts it as HTML by default); <paramref name="links"/> and <paramref name="images"/> are the
         /// diagram's own hyperlinks and pictures, which are a call out to a third party like the ones in prose.
+        /// A restricting <paramref name="sources"/> keeps the pictures (and anything else the SVG would fetch) to the
+        /// sources it allows. It does so inside the sanitizer, because Pele sanitizes on every draw - the mount and
+        /// each relayout after it - so it always sanitizes, whatever <paramref name="sanitize"/> says.
         /// </summary>
-        internal static object Options(bool sanitize, bool links, bool images, bool zoom)
+        internal static object Options(bool sanitize, bool links, bool images, bool zoom, MarkdownContentSources sources = null)
         {
+            if (MarkdownContentSources.Restricts(sources))
+            {
+                return Script.Write<object>("{ links: {0}, images: {1}, zoom: {2} ? 'auto' : false, sanitize: {3} }", links, images, zoom, sources.SvgSanitizer());
+            }
+
             // Pele takes a plain options object; there is no typed shape for it on the C# side.
             return Script.Write<object>(
                 "{ links: {0}, images: {1}, zoom: {2} ? 'auto' : false, sanitize: {3} ? function (svg) { return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true }, RETURN_DOM_FRAGMENT: true }); } : undefined }",

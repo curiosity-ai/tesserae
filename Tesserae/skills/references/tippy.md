@@ -11,8 +11,11 @@ Tooltips for components, via the `.Tooltip()` extension on `IComponent`. Content
 
 `.Tooltip(...)` (extension on `IComponent`), two overloads:
 
-- `.Tooltip(string tooltipHtml, TooltipAnimation animation = None, TooltipPlacement placement = Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null)`
+- `.Tooltip(string text, TooltipAnimation animation = None, TooltipPlacement placement = Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null)`
 - `.Tooltip(IComponent tooltip, bool interactive = false, …the same options…)` — for component-based tooltips.
+
+The string overload shows `text` as text, never as HTML (a `\n` in it starts a new line). A tooltip that needs
+markup is built from components and passed to the second overload.
 
 Set `interactive: true` (component overload only) to let users select/click inside the tooltip.
 `.RemoveTooltip()` takes one away again.

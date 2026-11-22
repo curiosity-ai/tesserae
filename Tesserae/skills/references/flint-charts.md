@@ -106,6 +106,13 @@ A malformed `bind` fails the fence like any other spec error.
   element of the same spec, so re-rendering does not redraw it.
 - **Sanitization.** Under `MarkdownSanitization.NoLinksOrEmbeddedContent` a chart may not
   load `data.url` (it stays a code block) and `chart_spec.source` loses its link.
+- **Content sources.** Under a restricting `MarkdownContentSources` (`.ContentSources(...)`
+  on the block, see [markdown-block](markdown-block.md#content-sources)) a chart whose spec
+  would load from a source that is not allowed stays a code block with the reason as its
+  tooltip: any `url` in the spec, a `Map` / `Choropleth` (built-in outlines come from
+  `vega.github.io` and `cdn.jsdelivr.net`, so list both to allow maps), a data column
+  named `image` with a URL that is not allowed, or an encoding titled `image` (the
+  tooltip draws that value as a picture). The policy is part of the chart's key.
 
 ## Themes
 

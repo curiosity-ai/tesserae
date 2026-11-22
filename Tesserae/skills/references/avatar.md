@@ -26,6 +26,13 @@ Avatar:
 - `.Presence(AvatarPresence)` — `None`, `Online`, `Away`, `Busy`, `Offline`.
 - `.SetImage(string)` / `.SetInitials(string)` — content.
 - `.Background(string)` / `.Foreground(string)` — override colors.
+- `.Compact(bool = true)` — a 20px bubble with a presence dot in proportion, for an avatar inside a
+  line of text, a list row or a chip. Wins over `.Size(...)` while on; `.IsCompact` reads it back.
+- `Avatar.InitialsFor(string name)` — the initials for a name: first letters of its first and last words,
+  upper-cased (`"Ada Lovelace"` → `"AL"`); an e-mail address is read up to its `@`.
+
+For a person shown as a card (a name, a second line, a remove button, a click), use
+`UI.AvatarContextCard(...)` — see [context-card.md](context-card.md).
 
 Persona:
 

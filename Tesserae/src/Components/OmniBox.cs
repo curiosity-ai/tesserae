@@ -663,6 +663,7 @@ namespace Tesserae
         private readonly List<(HTMLElement element, Node placeholder)> _mobileOptionsMoved = new List<(HTMLElement element, Node placeholder)>();
         private          double                                   _mobileOptionsRestoreTimeout;
         private Func<Task<SearchQuery[]>> _historyFetcher;
+        private Func<SearchQuery, Task>   _historyRemover;
         private Action _hideSearchHistory;
 
         // Up/Down in an empty box walks back through what was sent before - see WithChatHistory and WithHistory
@@ -3829,6 +3830,18 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Like <see cref="WithHistory(Func{Task{SearchQuery[]}})"/>, and gives every entry of the history list a
+        /// remove button. <paramref name="removeFromHistory"/> is handed the entry - one of the queries the fetcher
+        /// returned - and forgets it wherever the history is kept; the entry leaves the list once it has completed,
+        /// and stays when it throws.
+        /// </summary>
+        public OmniBox WithHistory(Func<Task<SearchQuery[]>> historyFetcher, Func<SearchQuery, Task> removeFromHistory)
+        {
+            _historyRemover = removeFromHistory;
+            return WithHistory(historyFetcher);
+        }
+
+        /// <summary>
         /// The messages Up walks back through in the empty chat input, oldest first: what
         /// <see cref="WithChatHistory"/> was given, plus every message sent from this box since.
         /// </summary>
@@ -4313,22 +4326,41 @@ namespace Tesserae
 
                 var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
                 Action hide = null;
+                var remaining = query.Length;
+
                 if (query.Length > 0)
                 {
                     foreach(var q in query)
                     {
-                        content.Add(Button(q.RawQuery).Class("tss-omnibox-search-history-entry").SetIcon(UIcons.TimePast).WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft().OnClick(() =>
+                        var entry = Button(q.RawQuery).Class("tss-omnibox-search-history-entry").SetIcon(UIcons.TimePast).WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft().OnClick(() =>
                         {
                             _searchInput.value = q.RawQuery;
                             OnSearchInputChanged();
                             TriggerSearch();
                             hide();
-                        }));
+                        });
+
+                        if (_historyRemover is null)
+                        {
+                            content.Add(entry);
+                            continue;
+                        }
+
+                        var     remover = _historyRemover;
+                        IComponent row  = null;
+
+                        var remove = Button().Class("tss-omnibox-search-history-remove").SetIcon(UIcons.Cross).AriaLabel("Remove from history".t()).NoPadding().NoMinSize().W(32).H(32).MB(4).NoBorder().NoBackground().OnClick(() =>
+                        {
+                            RemoveFromSearchHistory(remover, q, content, row, () => --remaining == 0);
+                        });
+
+                        row = HStack().WS().NoDefaultMargin().AlignItems(ItemAlign.Center).Children(entry.W(10).Grow(), remove);
+                        content.Add(row);
                     }
                 }
                 else
                 {
-                    content.Children(Message("No recent searches", "Your recent searches will appear here once you start searching").Icon(UIcons.EmptySet).H(200));
+                    content.Children(NoRecentSearchesMessage());
                 }
 
                 window.setTimeout(_ =>
@@ -4341,6 +4373,22 @@ namespace Tesserae
             {
                 console.error("Failed to fetch history: ", ex);
             }
+        }
+
+        private static IComponent NoRecentSearchesMessage()
+        {
+            return Message("No recent searches", "Your recent searches will appear here once you start searching").Icon(UIcons.EmptySet).H(200);
+        }
+
+        // The row leaves the list only once the application has forgotten the search; a remover that throws leaves it there.
+        private async void RemoveFromSearchHistory(Func<SearchQuery, Task> remover, SearchQuery query, Stack content, IComponent row, Func<bool> wasLast)
+        {
+            await remover(query);
+
+            _searchesSent.RemoveAll(sent => sent == query.RawQuery);
+            content.Remove(row);
+
+            if (wasLast()) content.Add(NoRecentSearchesMessage());
         }
 
         /// <summary>

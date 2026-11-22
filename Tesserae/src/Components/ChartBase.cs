@@ -24,6 +24,23 @@ namespace Tesserae
     }
 
     /// <summary>
+    /// How a cartesian chart draws its category X labels. Whatever the choice, a label longer than its room
+    /// is cut with "…" and shows its full text in a tooltip.
+    /// </summary>
+    [Transpose.Name("tss.ChartCategoryLabels")]
+    public enum ChartCategoryLabels
+    {
+        /// <summary>Level, centred under the slot; a label wider than its slot is cut. The default.</summary>
+        Horizontal,
+        /// <summary>Turned -45°, the label area growing to fit them, up to 40% of the chart's height.</summary>
+        Angled,
+        /// <summary>Turned 90°, the label area growing to fit them, up to 40% of the chart's height.</summary>
+        Vertical,
+        /// <summary>Horizontal when every label fits its slot, angled when one does not.</summary>
+        Auto
+    }
+
+    /// <summary>
     /// The visible X range of a cartesian chart, reported when the user zooms or pans.
     /// </summary>
     [Transpose.Name("tss.ChartRange")]
@@ -476,6 +493,22 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Attaches the full text of a shortened label as its hover tooltip, whatever <see cref="Tooltips"/> says:
+        /// the tooltip is the only place the cut text can be read.
+        /// </summary>
+        protected void AttachLabelTooltip(Element el, string text)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+
+            var title = El("title");
+            title.textContent = text;
+            el.appendChild(title);
+
+            el[TooltipContentProperty] = text;
+            EnsureTooltipDelegate();
+        }
+
         private const string TooltipContentProperty = "_tssChartTooltip";
 
         private bool _tooltipDelegateAttached;
@@ -502,13 +535,15 @@ namespace Tesserae
 
                 _hasCreatedTooltip = true;
 
+                //A point's or a label's tooltip is built from series names, categories and formatted values: data, so
+                //tippy shows it as text (allowHTML: false) and never parses it.
                 var content = target[TooltipContentProperty].As<string>();
 
                 //Into the application z-index lane, like every other tippy here: a chart in a Modal would
                 //otherwise hand its tooltips tippy's fixed 9999 and draw them behind the Layer above it.
                 if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
-                Script.Write("tippy({0}, { content: {1}, allowHTML: true, delay: [100, 0], appendTo: document.body, zIndex: {2} });", target, content, zIndex);
+                Script.Write("tippy({0}, { content: {1}, allowHTML: false, delay: [100, 0], appendTo: document.body, zIndex: {2} });", target, content, zIndex);
 
                 //The mouseenter that would normally open it has already gone by, so replay it against the
                 //instance we just built — tippy then applies its own show delay, as it would on any hover.
@@ -559,7 +594,16 @@ namespace Tesserae
             ResetLegendInsets();
             RenderChart(w, h);
             _container.setAttribute("aria-label", BuildAriaLabel());
+
+            //Labels are measured as drawn; a web font still loading would widen them after the measure.
+            if (!_waitingForFonts && Script.Write<bool>("!!(document.fonts && document.fonts.status === 'loading')"))
+            {
+                _waitingForFonts = true;
+                Script.Write("document.fonts.ready.then({0})", (Action)(() => { _waitingForFonts = false; QueueRender(); }));
+            }
         }
+
+        private bool _waitingForFonts;
 
         /// <summary>Draws the chart into the SVG surface at the given pixel dimensions.</summary>
         protected abstract void RenderChart(double width, double height);
@@ -738,6 +782,11 @@ namespace Tesserae
         private string _xTimeFormat;
         private double _lastTimeStep;
         private int _maxXTicks;
+
+        private ChartCategoryLabels _categoryLabels = ChartCategoryLabels.Horizontal;
+        private int                 _labelAngle;        // resolved per render: 0, 45 or 90
+        private double              _labelExtent;       // height the turned labels take below the axis
+        private double              _labelMaxLength;    // longest a turned label may run before it is cut
         private bool _hasExplicitRange;
         private double _rangeMin;
         private double _rangeMax;
@@ -790,6 +839,13 @@ namespace Tesserae
             QueueRender();
             return Self;
         }
+
+        /// <summary>
+        /// Sets how category X labels are drawn: level (the default), angled, vertical, or angled only when a
+        /// level label would not fit its slot. A label longer than its room is cut with "…" and shows its full
+        /// text in a tooltip.
+        /// </summary>
+        public T CategoryLabels(ChartCategoryLabels labels) { _categoryLabels = labels; QueueRender(); return Self; }
 
         /// <summary>
         /// Caps how many X axis tick labels are drawn; categories beyond the cap are skipped evenly. Pass 0
@@ -992,6 +1048,8 @@ namespace Tesserae
             double marginRight  = 12 + _legendInsetRight;
             double marginBottom = (_showAxes ? (_categories.Length > 0 || _continuousX || !string.IsNullOrEmpty(_xAxisTitle) ? 34 : 18) : 6) + _legendInsetBottom;
             double marginLeft   = (_showAxes ? MeasureValueAxisWidth(width) : 6) + _legendInsetLeft;
+
+            ResolveCategoryLabelLayout(width, height, marginRight, ref marginLeft, ref marginBottom);
 
             _plotLeft   = marginLeft;
             _plotTop    = marginTop;
@@ -1353,6 +1411,11 @@ namespace Tesserae
             var count = Math.Min(_categories.Length, _pointCount);
             var step  = Math.Max(1, (int)Math.Ceiling(count / (double)EffectiveMaxXTicks()));
 
+            // A label is centred on its slot, so it may take the slots of the labels skipped by the step.
+            var room  = count > 1
+                ? (CategoryCenterX(1) - CategoryCenterX(0)) * step - CATEGORY_LABEL_GAP
+                : _plotWidth;
+
             for (int i = 0; i < count; i += step)
             {
                 var label = El("text");
@@ -1363,8 +1426,110 @@ namespace Tesserae
                 Attr(label, "fill", textColor);
                 label.textContent = _categories[i];
                 _svg.appendChild(label);
+
+                if (_labelAngle > 0)
+                {
+                    var x = CategoryCenterX(i);
+                    var y = _plotTop + _plotHeight + TURNED_LABEL_OFFSET;
+                    Attr(label, "y", y);
+                    Attr(label, "text-anchor", "end");
+                    Attr(label, "dominant-baseline", _labelAngle >= 90 ? "middle" : "hanging");
+                    Attr(label, "transform", $"rotate(-{_labelAngle} {x.ToString("0.##")} {y.ToString("0.##")})");
+                    FitCategoryLabel(label, _categories[i], _labelMaxLength);
+                }
+                else
+                {
+                    FitCategoryLabel(label, _categories[i], room);
+                }
             }
         }
+
+        private const double CATEGORY_LABEL_GAP      = 4;
+        private const double TURNED_LABEL_OFFSET     = 10;
+        private const double LABEL_FONT_SIZE         = 10;
+        private const double TURNED_LABELS_MAX_SHARE = 0.4;
+
+        // Decides the angle of the category labels and makes room for them: below the axis for their height, and
+        // to the left for the first angled label, which runs left of its slot.
+        private void ResolveCategoryLabelLayout(
+            double     width,
+            double     height,
+            double     marginRight,
+            ref double marginLeft,
+            ref double marginBottom)
+        {
+            _labelAngle = 0;
+
+            if (!_showAxes || _continuousX || _categories.Length == 0 || _pointCount == 0) return;
+            if (_categoryLabels == ChartCategoryLabels.Horizontal) return;
+
+            var count    = Math.Min(_categories.Length, _pointCount);
+            var plotW    = Math.Max(1, width - marginLeft - marginRight);
+            var maxTicks = _maxXTicks > 0 ? _maxXTicks : Math.Max(2, (int)(plotW / 70));
+            var step     = Math.Max(1, (int)Math.Ceiling(count / (double)maxTicks));
+            var slot     = plotW / count;
+            var widest   = 0.0;
+
+            for (int i = 0; i < count; i += step) widest = Math.Max(widest, MeasureLabel(_categories[i]));
+
+            if (_categoryLabels == ChartCategoryLabels.Auto && (count == 1 || widest <= slot * step - CATEGORY_LABEL_GAP)) return;
+
+            _labelAngle = _categoryLabels == ChartCategoryLabels.Vertical ? 90 : 45;
+
+            var rad   = _labelAngle * Math.PI / 180;
+            var sin   = Math.Sin(rad);
+            var cos   = _labelAngle >= 90 ? 0 : Math.Cos(rad);
+            var cap   = height * TURNED_LABELS_MAX_SHARE;
+
+            _labelMaxLength = Math.Max(LABEL_FONT_SIZE, (cap - TURNED_LABEL_OFFSET - LABEL_FONT_SIZE * cos) / sin);
+
+            var run = Math.Min(widest, _labelMaxLength);
+
+            _labelExtent = TURNED_LABEL_OFFSET + run * sin + LABEL_FONT_SIZE * cos + 2;
+
+            var titleRoom = string.IsNullOrEmpty(_xAxisTitle) ? 0 : 16;
+            marginBottom  = Math.Max(marginBottom, _labelExtent + titleRoom + _legendInsetBottom);
+
+            if (cos > 0)
+            {
+                var overhang = run * cos - (marginLeft + slot / 2) + 2;
+                if (overhang > 0) marginLeft += overhang;
+            }
+        }
+
+        private double MeasureLabel(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return 0;
+
+            var probe = El("text");
+            Attr(probe, "font-size", "10");
+            probe.textContent = text;
+            _svg.appendChild(probe);
+            var length = TextLength(probe);
+            _svg.removeChild(probe);
+            return length;
+        }
+
+        // Cuts a label wider than its slot with "…" and names the full text on hover, so neighbouring labels never overlap.
+        private void FitCategoryLabel(Element label, string text, double room)
+        {
+            if (string.IsNullOrEmpty(text) || TextLength(label) <= room) return;
+
+            var keep = text.Length - 1;
+
+            while (keep > 0)
+            {
+                label.textContent = text.Substring(0, keep).TrimEnd() + "…";
+                if (TextLength(label) <= room) break;
+                keep--;
+            }
+
+            if (keep == 0) label.textContent = "…";
+
+            AttachLabelTooltip(label, text);
+        }
+
+        private static double TextLength(Element text) => Script.Write<double>("{0}.getComputedTextLength()", text);
 
         private void DrawContinuousXLabels(string textColor)
         {
@@ -1490,7 +1655,7 @@ namespace Tesserae
             {
                 var label = El("text");
                 Attr(label, "x", _plotLeft + _plotWidth / 2);
-                Attr(label, "y", _plotTop + _plotHeight + 30);
+                Attr(label, "y", _plotTop + _plotHeight + (_labelAngle > 0 ? _labelExtent + 12 : 30));
                 Attr(label, "text-anchor", "middle");
                 Attr(label, "font-size", "10");
                 Attr(label, "fill", textColor);
