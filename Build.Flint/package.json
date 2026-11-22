@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "esbuild": "0.25.12",
-    "flint-chart": "1.0.1",
+    "flint-chart": "1.1.1",
     "vega": "6.4.0",
     "vega-lite": "6.5.0",
     "vega-tooltip": "1.1.0"

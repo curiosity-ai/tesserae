@@ -414,9 +414,12 @@ namespace Tesserae
 
                     if (targetText.Length > 0)
                     {
-                        if (string.IsNullOrWhiteSpace(targetText))
+                        if (string.IsNullOrWhiteSpace(targetText) && targetText.Contains("\n"))
                         {
-                            // Do nothing
+                            // Only newlines between block elements (the formatting a Markdown or HTML
+                            // renderer puts between <p>, <ul>, <table>...) is dropped. A space is
+                            // content: it is the one between "a" and <strong>bold</strong>, and
+                            // dropping it glued the words together.
                         }
                         else
                         {
