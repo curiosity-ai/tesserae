@@ -241,6 +241,16 @@ namespace Tesserae.Tests.Samples
                .ScaleBinding()
                .Id("flint-bind-scales");
 
+            // A chart drawn in layers (a line and the points on it, a bar and its labels) binds like any other: both
+            // bindings on a chart of several views at once is what the duplicated selection of a layer showed up in.
+            var layers = RegionRevenue(FlintChartType.LineChart)
+               .X("Month").Y("Revenue").ColorBy("Region")
+               .Title("A line and its points")
+               .Property("showPoints", true)
+               .LegendBinding()
+               .ScaleBinding()
+               .Id("flint-bind-layers");
+
             var facets = ScatterOf(new SampleRandom(15_019))
                .Encode(FlintChannel.Column, "Origin")
                .Title("Panels pan and zoom together")
@@ -250,8 +260,8 @@ namespace Tesserae.Tests.Samples
                .Id("flint-bind-facets");
 
             return VStack().WS().Children(
-                TextBlock("Vega-Lite's selection bindings. LegendBinding() binds the key to a point selection: click an entry to choose that series and fade the rest, shift-click to add one, double-click to clear. ScaleBinding() binds the x and y scales to an interval selection: drag to pan, wheel to zoom, double-click to reset; small multiples share their scales, so their panels move together. The last chart binds x only, zooms only with Shift held (so the page still scrolls under the wheel), and lets a click on a point choose its series too. The same bindings are the spec's \"bind\": { \"legend\": true, \"scales\": true }, in a ```flint fence as well."),
-                Grid(new UnitSize("repeat(auto-fill, minmax(340px, 1fr))")).WS().Gap(16.px()).PT(16).Children(legend, scales),
+                TextBlock("Vega-Lite's selection bindings. LegendBinding() binds the key to a point selection: click an entry to choose that series and fade the rest, shift-click to add one, double-click to clear. ScaleBinding() binds the x and y scales to an interval selection: drag to pan, wheel to zoom, double-click to reset; small multiples share their scales, so their panels move together. The third chart is drawn in layers (a line and the points on it) and binds both: the whole chart pans, zooms and fades together. The last binds x only, zooms only with Shift held (so the page still scrolls under the wheel), and lets a click on a point choose its series too. The same bindings are the spec's \"bind\": { \"legend\": true, \"scales\": true }, in a ```flint fence as well."),
+                Grid(new UnitSize("repeat(auto-fill, minmax(340px, 1fr))")).WS().Gap(16.px()).PT(16).Children(legend, scales, layers),
                 facets.WS().PT(16));
         }
 

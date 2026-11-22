@@ -7,9 +7,10 @@
 //   }
 //
 // Flint compiles its chart to a Vega-Lite spec and that to Vega; build.mjs calls applyBindings on the Vega-Lite spec
-// just before that second step, every time the chart is shaped (a mount, a re-plan for filtered rows). The selections
-// are written as top-level params, which Vega-Lite pushes down to every unit view; what a unit cannot bind (a channel
-// it does not encode, a band scale) is left alone by Vega-Lite.
+// just before that second step, every time the chart is shaped (a mount, a re-plan for filtered rows). A selection is
+// written as a param of the one unit view that owns it - the view drawing the key, the view whose x and y the rest of
+// the chart shares (addParam); what it cannot bind (a channel it does not encode, a band scale) is left alone by
+// Vega-Lite.
 
 export const LEGEND_PARAM = 'tss_legend';
 export const SCALES_PARAM = 'tss_scales';
@@ -88,14 +89,19 @@ export function applyBindings(spec, input) {
     const { legend, scales } = readBindings(input);
     if (!spec || typeof spec !== 'object' || (!legend && !scales)) return spec;
 
-    // Shaping the same spec twice must not add the params twice.
-    const params = Array.isArray(spec.params) ? spec.params : [];
-    if (params.some((p) => p && (p.name === LEGEND_PARAM || p.name === SCALES_PARAM))) return spec;
-
     const units = unitsOf(spec);
+
+    // Shaping the same spec twice must not add the params twice.
+    if ([spec, ...units.map((unit) => unit.spec)].some(hasBoundParam)) return spec;
+
     if (legend) bindLegend(spec, units, legend);
     if (scales) bindScales(spec, units, scales);
     return spec;
+}
+
+function hasBoundParam(spec) {
+    const params = Array.isArray(spec.params) ? spec.params : [];
+    return params.some((p) => p && (p.name === LEGEND_PARAM || p.name === SCALES_PARAM));
 }
 
 function bindLegend(spec, units, options) {
@@ -108,7 +114,7 @@ function bindLegend(spec, units, options) {
     // that never fires; asked for, a click on a mark chooses its series too.
     const select = { type: 'point', fields: [found.field], on: options.marks ? 'click' : 'click[false]', clear: 'dblclick' };
 
-    addParam(spec, {
+    addParam(spec, found.unit, {
         name: LEGEND_PARAM,
         select,
         bind: options.events ? { legend: options.events } : 'legend',
@@ -123,7 +129,7 @@ function bindLegend(spec, units, options) {
     }
 }
 
-// The first key drawn with symbols, on `channel` when one is asked for: the field it names.
+// The first key drawn with symbols, on `channel` when one is asked for: the field it names, and the unit drawing it.
 function legendField(units, channel) {
     for (const ch of channel ? [channel] : LEGEND_CHANNELS) {
         for (const unit of units) {
@@ -132,7 +138,7 @@ function legendField(units, channel) {
             if (!field || def.legend === null) continue;
             // A colour or opacity key for a measure is a gradient; a size key is symbols either way.
             if (ch !== 'size' && !DISCRETE.includes(def.type)) continue;
-            return { field, channel: ch };
+            return { field, channel: ch, unit };
         }
     }
     return undefined;
@@ -146,7 +152,8 @@ function withMutedCondition(opacity, muted) {
 
 function bindScales(spec, units, options) {
     // Only a continuous scale can be panned and zoomed; a band of categories cannot.
-    const encodings = options.encodings.filter((ch) => units.some((unit) => CONTINUOUS.includes((unit.encoding[ch] || {}).type) && fieldOf(unit.encoding[ch])));
+    const bound     = (unit, ch) => CONTINUOUS.includes((unit.encoding[ch] || {}).type) && !!fieldOf(unit.encoding[ch]);
+    const encodings = options.encodings.filter((ch) => units.some((unit) => bound(unit, ch)));
     if (encodings.length === 0) return;
 
     const select = { type: 'interval', encodings };
@@ -154,7 +161,12 @@ function bindScales(spec, units, options) {
         if (options[key] === false) select[key] = false;
         else if (typeof options[key] === 'string') select[key] = options[key];
     }
-    addParam(spec, { name: SCALES_PARAM, select, bind: 'scales' });
+
+    // The unit the selection is written on has to draw every bound channel, so that it is that unit's x and y
+    // scales the selection takes over - the ones the rest of the chart shares.
+    const owner = units.find((unit) => encodings.every((ch) => bound(unit, ch))) ?? units.find((unit) => encodings.some((ch) => bound(unit, ch)));
+
+    addParam(spec, owner, { name: SCALES_PARAM, select, bind: 'scales' });
 
     for (const unit of units) {
         // Marks scrolled past the plot's edge are cut off at it, not drawn over the axes.
@@ -185,8 +197,14 @@ function freeAxisTicks(axis) {
     delete axis.labelFlush;
 }
 
-function addParam(spec, param) {
-    spec.params = [...(Array.isArray(spec.params) ? spec.params : []), param];
+// Vega-Lite hands a selection written at the top level of a spec that is not one view down to every unit view in
+// it, and the unit views of a layer share one signal scope: the same selection is then compiled once per layer and
+// Vega refuses the spec ("Duplicate signal name: tss_scales_When"). So a selection is written on the one unit view
+// that owns it - its key, its scales - and the layer's shared scales and shared key carry it to the others. The
+// panels of a small multiple share their scales too, so one panel's binding still pans and zooms all of them.
+function addParam(spec, owner, param) {
+    const target = owner && owner.spec !== spec ? owner.spec : spec;
+    target.params = [...(Array.isArray(target.params) ? target.params : []), param];
 }
 
 function fieldOf(def) {
