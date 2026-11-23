@@ -368,8 +368,10 @@ body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibo
 
 /* One line of text is as tall as the buttons beside it (4 + 28 + 4 = 36), so the row centres on all three and
    a message that grows keeps them level with its last line. A textarea is inline by default, and the line
-   box it sits on added a baseline gap below it that pushed the text up and the buttons down. */
-body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container {
+   box it sits on added a baseline gap below it that pushed the text up and the buttons down. The search half of
+   a chat-and-search box takes the same inset, so switching modes leaves the text where it was. */
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container,
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibox-search-container {
     padding: 4px;
 }
 
@@ -381,10 +383,6 @@ body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container {
     body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container.tss-omnibox-has-code {
         max-height: 40vh;
     }
-
-body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibox-search-container {
-    padding: 0px;
-}
 
 body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-keep:not(.tss-omnibox-mobile-options) {
     order: 4;
