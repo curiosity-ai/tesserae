@@ -1,0 +1,165 @@
+/* TreeMap — a canvas of nested rectangles, a legend of categories above it, and a tooltip and a reset button over it.
+   The rectangles, outlines and name plates are drawn by script from the tokens resolved where the map sits; only the
+   pieces made of elements are styled here. */
+
+.tss-treemap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.tss-treemap-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    flex: 0 0 auto;
+}
+
+.tss-treemap-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    max-width: 100%;
+    padding: 3px 8px;
+    border: 1px solid transparent;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    font: inherit;
+    font-size: var(--tss-font-size-small);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tss-treemap-legend-item:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-treemap-legend-item[aria-pressed="true"] {
+    border-color: var(--tss-default-foreground-color);
+}
+
+.tss-treemap-legend-item:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
+}
+
+.tss-treemap-legend-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-treemap-legend-share {
+    color: var(--tss-secondary-foreground-color);
+    font-variant-numeric: tabular-nums;
+}
+
+.tss-treemap-swatch {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.tss-treemap-map {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.tss-treemap-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    cursor: grab;
+    outline: none;
+    touch-action: pan-x pan-y;
+}
+
+.tss-treemap-canvas.tss-treemap-clickable {
+    cursor: pointer;
+}
+
+.tss-treemap-canvas.tss-treemap-panning {
+    cursor: grabbing;
+}
+
+.tss-treemap-canvas:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-primary-background-color);
+}
+
+.tss-treemap-tip {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    max-width: 320px;
+    padding: 8px 10px;
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    box-shadow: var(--tss-shadow, 0 2px 10px rgba(0, 0, 0, 0.2));
+    font-size: var(--tss-font-size-small);
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.tss-treemap-tip-title {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.tss-treemap-tip-path {
+    opacity: 0.75;
+    overflow-wrap: anywhere;
+}
+
+.tss-treemap-tip-category {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tss-treemap-tip-extra {
+    opacity: 0.75;
+}
+
+.tss-treemap-map .tss-btn.tss-treemap-reset {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 1;
+    margin: 0;
+}
+
+/* It sits over the coloured cells, so it brings its own surface. Specific enough to beat the default button's
+   transparent background (.tss-btn.tss-btn-default:not(.tss-disabled), and its :hover). */
+.tss-treemap-map .tss-btn.tss-treemap-reset:not(.tss-disabled) {
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-shadow, 0 1px 4px rgba(0, 0, 0, 0.25));
+}
+
+.tss-treemap-map .tss-btn.tss-treemap-reset:not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+/* On a narrow screen the legend is one row that scrolls sideways, so the map keeps its height. */
+@media (max-width: 600px) {
+    .tss-treemap-legend {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .tss-treemap-legend-item {
+        flex: 0 0 auto;
+        max-width: none;
+    }
+}

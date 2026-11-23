@@ -1939,6 +1939,12 @@ namespace Tesserae
         public static HeatMap HeatMap(double[][] data) => new HeatMap().Data(data);
 
         /// <summary>
+        /// Creates a zoomable, canvas-drawn <see cref="Tesserae.TreeMap"/>: nested rectangles sized by value, leaves
+        /// coloured by category, with a legend of each category's share. Build the tree from <see cref="TreeMapNode"/>s.
+        /// </summary>
+        public static TreeMap TreeMap(TreeMapNode root = null) => new TreeMap(root);
+
+        /// <summary>
         /// Creates an <see cref="Tesserae.ActivityCalendar"/>: a calendar heat map of daily activity, one square per
         /// day from a month up to a year. Hand it the days with <c>.Data(...)</c> and pick the range with
         /// <c>.LastDays(365)</c>, <c>.Year(...)</c>, <c>.Month(...)</c> or <c>.Range(...)</c>.

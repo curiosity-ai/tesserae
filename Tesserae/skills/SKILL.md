@@ -230,7 +230,7 @@ searchable-grouped-list · searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
 activity-calendar · bar-list · charts · contribution-bar · data-table · diagram · flint-chart · gantt-chart · mermaid · metric ·
-node-view · sparkline · target-bar · trend-badge · uptime
+node-view · sparkline · target-bar · tree-map · trend-badge · uptime
 
 **Feedback & Status** — progress, notifications and empty states
 banner · live-progress · message · notification-center · progress-indicator ·

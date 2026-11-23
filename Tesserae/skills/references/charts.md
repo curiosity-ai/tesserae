@@ -232,6 +232,7 @@ var live = AreaChart()
 - Sparkline — `/tesserae/charts/sparkline`
 - Diagram — relationships rather than numbers — `diagram.md`
 - FlintChart — 39 declarative chart types from a Flint spec, with clicks — `flint-chart.md`
+- TreeMap — a hierarchy as nested rectangles sized by value, zoomable — `tree-map.md`
 - Full docs & API: `/tesserae/charts/charts`
 
 For a ranked list of horizontal bars with long labels and the value at the end of each row (top paths, top countries), see [bar-list](bar-list.md).
