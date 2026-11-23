@@ -130,9 +130,31 @@
     opacity: 0.75;
 }
 
-.tss-treemap-reset {
+.tss-btn.tss-treemap-reset {
     position: absolute;
     top: 8px;
     right: 8px;
     z-index: 1;
+    margin: 0;
+    /* It sits over the coloured cells, so it brings its own surface. */
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-shadow, 0 1px 4px rgba(0, 0, 0, 0.25));
+}
+
+.tss-btn.tss-treemap-reset:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+/* On a narrow screen the legend is one row that scrolls sideways, so the map keeps its height. */
+@media (max-width: 600px) {
+    .tss-treemap-legend {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .tss-treemap-legend-item {
+        max-width: none;
+    }
 }

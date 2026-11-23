@@ -428,7 +428,10 @@ namespace Tesserae
 
             var nw = Math.Max(node.X1 - node.X0, 1e-6);
             var nh = Math.Max(node.Y1 - node.Y0, 1e-6);
-            var k  = Clamp(Math.Min(_w / nw, _h / nh) * 0.96, 1, _maxZoom);
+            // A little margin around the node, unless that is all the zoom there is: a group as tall as the map fits
+            // at zoom 1 exactly, and the margin would leave it there instead of filling what it can.
+            var fit = Math.Min(_w / nw, _h / nh);
+            var k   = Clamp(fit * 0.96 >= 1.05 ? fit * 0.96 : fit, 1, _maxZoom);
             var cx = (node.X0 + node.X1) / 2;
             var cy = (node.Y0 + node.Y1) / 2;
 
