@@ -12,53 +12,61 @@ namespace Tesserae.Tests.Samples
     {
         private readonly IComponent _content;
 
-        // Fields of mathematics the made-up library's modules are filed under, in legend colour order.
-        private static readonly string[] Fields =
+        // The made-up company's cloud bill: teams own services, services own resources, and every resource is one of
+        // these types. Listed in legend colour order; the weights say how common each type is.
+        private static readonly (string Name, double Weight, string[] Kinds)[] ResourceTypes =
         {
-            "Arithmetic and algebraic geometry",
-            "Automorphic forms",
-            "Analytic number theory",
-            "Harmonic analysis",
-            "Algebra",
-            "Combinatorics",
+            ("Compute",          0.30, new[] { "vm", "node", "worker", "fn" }),
+            ("Databases",        0.22, new[] { "db", "replica", "cache" }),
+            ("Storage",          0.17, new[] { "bucket", "volume", "backup" }),
+            ("Networking",       0.13, new[] { "lb", "gateway", "nat", "cdn" }),
+            ("Analytics",        0.10, new[] { "warehouse", "stream", "etl" }),
+            ("Machine learning", 0.08, new[] { "gpu", "training", "inference" }),
         };
 
-        // Terms a module can mention, each with how likely a module is to.
-        private static readonly (string Term, double Chance)[] Terms =
+        // Findings a cost review can attach to a resource, each with how likely a resource is to have it.
+        private static readonly (string Finding, double Chance)[] Findings =
         {
-            ("Theta lift",            0.12),
-            ("Seesaw identity",       0.07),
-            ("Siegel–Weil formula",   0.3),
-            ("Mass formula",          0.17),
-            ("Chowla–Selberg formula", 0.012),
-            ("Bost slope inequality", 0.004),
-            ("Behrend sets",          0.003),
+            ("Spot eligible",     0.18),
+            ("No owner tag",      0.12),
+            ("Over-provisioned",  0.10),
+            ("Idle for 30+ days", 0.08),
+            ("Public endpoint",   0.05),
+            ("Legacy region",     0.03),
+            ("No backups",        0.02),
         };
 
-        private static readonly string[] Words =
+        // Teams and the services each one runs, with a rough share of the bill.
+        private static readonly (string Team, int Resources, string[] Services)[] Teams =
         {
-            "Eisenstein", "Theta", "Kernel", "Divisor", "Height", "Lattice", "Spectrum", "Weil", "Bound", "Hecke", "Operator",
-            "Modular", "Curve", "Period", "Residue", "Zeta", "Series", "Trace", "Formula", "Quadratic", "Form", "Genus",
-            "Local", "Global", "Measure", "Integral", "Fourier", "Coefficient", "Character", "Sum", "Estimate", "Density",
-            "Galois", "Ideal", "Class", "Group", "Norm", "Orbit", "Cusp", "Petersson", "Rankin", "Selberg", "Shimura",
+            ("Storefront",         1100, new[] { "catalog", "cart", "pricing", "reviews", "recommendations", "web-frontend" }),
+            ("Payments",           700,  new[] { "checkout", "ledger", "fraud-scoring", "payouts", "invoicing" }),
+            ("Data Platform",      900,  new[] { "lakehouse", "event-bus", "feature-store", "reporting", "ingest" }),
+            ("Search",             550,  new[] { "indexer", "query", "ranking", "autocomplete" }),
+            ("Logistics",          600,  new[] { "warehouse-sync", "routing", "tracking", "returns" }),
+            ("Identity",           350,  new[] { "auth", "sessions", "profiles" }),
+            ("Mobile Backend",     450,  new[] { "push", "api-gateway", "media", "sync" }),
+            ("Internal Tools",     300,  new[] { "ci-runners", "wiki", "dashboards", "admin" }),
         };
+
+        private static readonly string[] Environments = { "prod", "staging", "dev" };
 
         public TreeMapSample()
         {
-            var library = BuildLibrary(new SampleRandom(4711));
+            var bill = BuildBill(new SampleRandom(4711));
 
-            var readout = TextBlock("Click a module to read about it, or a group's name to zoom into it.").Secondary();
+            var readout = TextBlock("Click a resource to read about it, or a service's name to zoom into it.").Secondary();
             var count   = TextBlock("").Secondary();
 
-            var treeMap = TreeMap(library).Unit("lines").H(560.px());
+            var treeMap = TreeMap(bill).FormatValues(v => "$" + v.ToString("N0"), "per month").H(560.px());
 
-            for (var i = 0; i < Fields.Length; i++) treeMap.Category(Fields[i], null);
+            foreach (var type in ResourceTypes) treeMap.Category(type.Name, null);
 
             treeMap.OnNodeClick(node =>
             {
                 if (node.IsLeaf)
                 {
-                    readout.Text = $"{node.Path} — {node.Total:N0} lines, {node.Category}";
+                    readout.Text = $"{node.Path} — ${node.Total:N0} per month, {node.Category}";
                 }
                 else
                 {
@@ -71,28 +79,28 @@ namespace Tesserae.Tests.Samples
 
             void Sync(TreeMap map)
             {
-                count.Text = map.IsHighlighted ? $"{map.HighlightedCount:N0} modules highlighted: {map.HighlightLabel}" : "";
+                count.Text = map.IsHighlighted ? $"{map.HighlightedCount:N0} resources highlighted: {map.HighlightLabel}" : "";
                 foreach (var chip in chips) chip.IsPrimary = map.IsHighlighted && map.HighlightLabel == chip.Title;
             }
 
             treeMap.OnHighlightChanged(Sync);
 
-            var find = SearchBox("e.g. Eisenstein").SearchAsYouType().W(280.px()).OnSearch((_, value) =>
+            var find = SearchBox("e.g. ledger").SearchAsYouType().W(280.px()).OnSearch((_, value) =>
             {
                 var query = (value ?? "").Trim();
                 if (query.Length == 0) treeMap.ClearHighlight();
                 else treeMap.Highlight(n => n.Label.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0, $"names containing “{query}”");
             });
 
-            var chipRow = HStack().Wrap().Children(Terms.Select(t =>
+            var chipRow = HStack().Wrap().Children(Findings.Select(f =>
             {
-                var term     = t.Term;
-                var mentions = CountMentions(library, term);
-                var chip     = Button($"{term} {mentions:N0}").SetTitle(term);
+                var finding = f.Finding;
+                var flagged = CountFlagged(bill, finding);
+                var chip    = Button($"{finding} {flagged:N0}").SetTitle(finding);
                 chip.OnClick(() =>
                 {
-                    if (treeMap.HighlightLabel == term) treeMap.ClearHighlight();
-                    else treeMap.Highlight(n => n.Data is string[] mentioned && mentioned.Contains(term), term);
+                    if (treeMap.HighlightLabel == finding) treeMap.ClearHighlight();
+                    else treeMap.Highlight(n => n.Data is string[] found && found.Contains(finding), finding);
                 });
                 chips.Add(chip);
                 return (IComponent)chip.MR(6).MB(6);
@@ -144,11 +152,11 @@ namespace Tesserae.Tests.Samples
                     )).SetTitle("Best Practices")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        SampleSubTitle("A library of 5,000 modules, grouped by directory and sized by lines"),
+                        SampleSubTitle("A month's cloud bill: about 5,000 resources, grouped by team and service, sized by cost"),
                         treeMap,
                         readout.PT(8),
-                        HStack().AlignItemsCenter().PT(16).Children(TextBlock("Find in module names").SemiBold().PR(12), find, count.PL(12)),
-                        SampleSubTitle("Highlight modules that mention"),
+                        HStack().AlignItemsCenter().PT(16).Children(TextBlock("Find resources by name").SemiBold().PR(12), find, count.PL(12)),
+                        SampleSubTitle("Highlight resources flagged by the cost review"),
                         chipRow
                     )).SetTitle("Usage")))
                .FlatSection(Stack().Children(
@@ -159,98 +167,88 @@ namespace Tesserae.Tests.Samples
                .SeeAlso(typeof(ChartsSample), typeof(TreeSample), typeof(ActivityCalendarSample), typeof(DashboardSample));
         }
 
-        private static int CountMentions(TreeMapNode node, string term)
+        private static int CountFlagged(TreeMapNode node, string finding)
         {
-            if (node.IsLeaf) return node.Data is string[] mentioned && mentioned.Contains(term) ? 1 : 0;
-            return node.Children.Sum(c => CountMentions(c, term));
+            if (node.IsLeaf) return node.Data is string[] found && found.Contains(finding) ? 1 : 0;
+            return node.Children.Sum(c => CountFlagged(c, finding));
         }
 
-        // Top-level groups of varying size, each with sub-directories of modules. Every directory leans towards one
-        // field, so the colours cluster the way real code does, with a scatter of others mixed in.
-        private static TreeMapNode BuildLibrary(SampleRandom rnd)
+        // Team → service → environment → resources. Each service leans towards one resource type (a database-heavy
+        // ledger, a compute-heavy frontend), so the colours cluster the way a real bill does, with others mixed in.
+        private static TreeMapNode BuildBill(SampleRandom rnd)
         {
-            var root = new TreeMapNode("library");
-            var tops = new (string Name, int Modules)[]
+            var root = new TreeMapNode("bill");
+
+            foreach (var (teamName, resources, services) in Teams)
             {
-                ("Development", 2200), ("Automorphic Arithmetic", 520), ("Automorphic Spectrum", 420), ("Weil Bound", 260),
-                ("Formalism", 640), ("Ground Truth", 380), ("Foundations", 300), ("Interfaces", 280),
-            };
+                var team = new TreeMapNode(teamName);
 
-            var subNames = new[] { "Proofs", "Divisor Proofs", "Heights", "Local Factors", "Kernels", "Periods", "Lemmas", "Estimates", "Lifts", "Spectral Side", "Geometric Side", "Constants" };
-            var used     = new HashSet<string>();
+                // Split the team's resources unevenly between its services.
+                var weights = services.Select(_ => rnd.NextDouble(0.3, 1.6)).ToArray();
+                var total   = weights.Sum();
 
-            foreach (var (name, modules) in tops)
-            {
-                var top  = new TreeMapNode(name);
-                var left = modules;
-
-                while (left > 0)
+                for (var s = 0; s < services.Length; s++)
                 {
-                    var dirSize = Math.Min(left, rnd.Next(20, Math.Max(40, modules / 3)));
-                    left -= dirSize;
-                    var dir = new TreeMapNode(rnd.Pick(subNames));
-                    AddModules(dir, dirSize, rnd, used);
-                    top.Add(dir);
+                    var serviceName = services[s];
+                    var service     = new TreeMapNode(serviceName);
+                    var count       = Math.Max(6, (int)Math.Round(resources * weights[s] / total));
+                    var lean        = PickType(rnd);
+
+                    // Production carries most of the bill; staging and dev are smaller copies.
+                    var shares = new[] { 0.65, 0.22, 0.13 };
+                    for (var e = 0; e < Environments.Length; e++)
+                    {
+                        var env     = new TreeMapNode(Environments[e]);
+                        var inEnv   = Math.Max(2, (int)Math.Round(count * shares[e]));
+                        var serial  = new Dictionary<string, int>();
+                        var envCost = e == 0 ? 1.0 : e == 1 ? 0.45 : 0.25;
+
+                        for (var i = 0; i < inEnv; i++)
+                        {
+                            var type = rnd.NextDouble() < 0.6 ? lean : ResourceTypes[PickTypeIndex(rnd)];
+                            var kind = rnd.Pick(type.Kinds);
+                            serial.TryGetValue(kind, out var n);
+                            serial[kind] = ++n;
+
+                            // Log-normal monthly cost: most resources are cheap, a few dominate the bill.
+                            var u1    = Math.Max(1e-9, rnd.NextDouble());
+                            var u2    = rnd.NextDouble();
+                            var gauss = Math.Sqrt(-2 * Math.Log(u1)) * Math.Cos(2 * Math.PI * u2);
+                            var cost  = Math.Round(Math.Exp(5.2 + 1.2 * gauss) * envCost) + 4;
+
+                            var found = Findings.Where(f => rnd.NextDouble() < f.Chance).Select(f => f.Finding).ToArray();
+                            var label = $"{serviceName}-{kind}-{Environments[e]}-{n:00}";
+
+                            env.Add(new TreeMapNode(label, cost, type.Name)
+                            {
+                                Data    = found,
+                                Tooltip = found.Length > 0 ? "Flagged: " + string.Join(", ", found) : null,
+                            });
+                        }
+
+                        service.Add(env);
+                    }
+
+                    team.Add(service);
                 }
 
-                root.Add(top);
+                root.Add(team);
             }
 
             return root;
         }
 
-        private static void AddModules(TreeMapNode dir, int count, SampleRandom rnd, HashSet<string> used)
-        {
-            // Big directories get a level of sub-directories of their own.
-            if (count > 120)
-            {
-                var parts = rnd.Next(2, 5);
-                for (var p = 0; p < parts; p++)
-                {
-                    var first = rnd.Pick(Words);
-                    var second = rnd.Pick(Words.Where(w => w != first).ToArray());
-                    var sub = new TreeMapNode(first + " " + second);
-                    AddModules(sub, count / parts, rnd, used);
-                    dir.Add(sub);
-                }
-                return;
-            }
+        private static (string Name, double Weight, string[] Kinds) PickType(SampleRandom rnd) => ResourceTypes[PickTypeIndex(rnd)];
 
-            var lean = PickField(rnd);
-
-            for (var i = 0; i < count; i++)
-            {
-                string label;
-                do
-                {
-                    label = rnd.Pick(Words) + rnd.Pick(Words) + (rnd.NextDouble() < 0.5 ? rnd.Pick(Words) : "");
-                } while (!used.Add(label) && used.Count < 60_000);
-
-                // Log-normal sizes: most modules are short, a few are very long.
-                var u1    = Math.Max(1e-9, rnd.NextDouble());
-                var u2    = rnd.NextDouble();
-                var gauss = Math.Sqrt(-2 * Math.Log(u1)) * Math.Cos(2 * Math.PI * u2);
-                var lines = Math.Round(Math.Exp(4.6 + 1.1 * gauss)) + 5;
-
-                var field = rnd.NextDouble() < 0.55 ? lean : PickField(rnd);
-                var terms = Terms.Where(t => rnd.NextDouble() < t.Chance).Select(t => t.Term).ToArray();
-
-                dir.Add(new TreeMapNode(label + ".lean", lines, field) { Data = terms, Tooltip = terms.Length > 0 ? "Mentions " + string.Join(", ", terms) : null });
-            }
-        }
-
-        // Some fields are much more common than others, as in a real library.
-        private static readonly double[] FieldWeights = { 0.3, 0.22, 0.17, 0.13, 0.1, 0.08 };
-
-        private static string PickField(SampleRandom rnd)
+        private static int PickTypeIndex(SampleRandom rnd)
         {
             var r = rnd.NextDouble();
-            for (var i = 0; i < Fields.Length; i++)
+            for (var i = 0; i < ResourceTypes.Length; i++)
             {
-                r -= FieldWeights[i];
-                if (r < 0) return Fields[i];
+                r -= ResourceTypes[i].Weight;
+                if (r < 0) return i;
             }
-            return Fields[Fields.Length - 1];
+            return ResourceTypes.Length - 1;
         }
 
         public HTMLElement Render() => _content.Render();
