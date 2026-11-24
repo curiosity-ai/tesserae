@@ -465,6 +465,18 @@ namespace Tesserae
             /// </summary>
             public string TextModeToggleChat { get; set; }
             /// <summary>
+            /// In a <see cref="Mode.SearchAndChat"/> box, lays the search half out as the one-line field a
+            /// <see cref="Mode.Search"/> box is - its history, help, clear and search buttons on the line, no
+            /// footer - while the chat half keeps the taller panel with its footer. Which mode is on then shows in
+            /// the shape of the box. The mode toggle and the dictation button move onto the line while search is
+            /// showing, so the box can still be switched without a toggle of the host's own. Off by default.
+            /// </summary>
+            public bool SearchOnOneLine { get; set; }
+            /// <summary>
+            /// Gets or sets a label shown after the icon on the search button. Icon-only when null.
+            /// </summary>
+            public string TextSearchButton { get; set; }
+            /// <summary>
             /// Gets or sets the expand on focus.
             /// </summary>
             public bool ExpandOnFocus { get; set; }
@@ -662,6 +674,10 @@ namespace Tesserae
         private          Drawer                                   _mobileOptionsDrawer;
         private readonly List<(HTMLElement element, Node placeholder)> _mobileOptionsMoved = new List<(HTMLElement element, Node placeholder)>();
         private          double                                   _mobileOptionsRestoreTimeout;
+
+        // SearchOnOneLine: what UpdateMode moved onto the search line while search shows, each with the place it came from.
+        private readonly bool                                     _searchOnOneLine;
+        private readonly List<(HTMLElement element, Node slot)>  _onSearchLine = new List<(HTMLElement element, Node slot)>();
         private Func<Task<SearchQuery[]>> _historyFetcher;
         private Func<SearchQuery, Task>   _historyRemover;
         private Action _hideSearchHistory;
@@ -761,6 +777,7 @@ namespace Tesserae
         public OmniBox(Config config)
         {
             _mode = config.Mode;
+            _searchOnOneLine = _mode == Mode.SearchAndChat && config.SearchOnOneLine;
             _tokenIgnoreCase = config.TokenIgnoreCase;
             _iconChat = config.IconChat;
             _iconStop = config.IconStop;
@@ -834,9 +851,12 @@ namespace Tesserae
                 //the box is searching or not.
                 _searchTriggerBtn.Render().appendChild(UI.Spinner().XSmall().Class("tss-omnibox-search-spinner").Render());
 
-                if (_mode == Mode.Search)
+                if (!string.IsNullOrEmpty(config.TextSearchButton)) _searchTriggerBtn.SetText(config.TextSearchButton);
+
+                if (_mode == Mode.Search || _searchOnOneLine)
                 {
-                    _searchContainer = Div(Att("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchHelpBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _dictateBtn?.Render(), _searchClearBtn.Render(), _searchTriggerBtn.Render());
+                    //A one-line search half gets the dictation button only while it shows (UpdateMode); the chat half keeps it in the footer
+                    _searchContainer = Div(Att("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchHelpBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _mode == Mode.Search ? _dictateBtn?.Render() : null, _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
                 else
                 {
@@ -1175,7 +1195,7 @@ namespace Tesserae
 
             if (config.SearchFooter?.LeftSide is object)
             {
-                if (_mode == Mode.Search)
+                if (_mode == Mode.Search || _searchOnOneLine)
                 {
                     var targetInsert = _searchHistoryBtn.Render();
                     foreach (var i in config.SearchFooter.LeftSide)
@@ -1229,7 +1249,7 @@ namespace Tesserae
 
             if (config.SearchFooter?.RightSide is object)
             {
-                if (_mode == Mode.Search)
+                if (_mode == Mode.Search || _searchOnOneLine)
                 {
                     HTMLElement targetInsert = _searchInputContainer;
                     foreach (var i in config.SearchFooter.RightSide)
@@ -1278,6 +1298,8 @@ namespace Tesserae
                 case Mode.SearchAndChat:
                 {
                     _container = Div(Att("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatHeader, _chatContainer, _contextContainer, _footer);
+
+                    if (_searchOnOneLine) _container.classList.add("tss-omnibox-search-on-one-line");
                     break;
                 }
             }
@@ -1466,6 +1488,7 @@ namespace Tesserae
                     _activeInput = _searchInput;
                     _container.classList.add("tss-omnibox-mode-search");
                     _container.classList.remove("tss-omnibox-mode-chat");
+                    ShowSearchOnOneLine(true);
                     break;
                 }
                 case Mode.Chat:
@@ -1474,6 +1497,7 @@ namespace Tesserae
                     _activeInput = _chatInput;
                     _container.classList.add("tss-omnibox-mode-chat");
                     _container.classList.remove("tss-omnibox-mode-search");
+                    ShowSearchOnOneLine(false);
                     // A textarea measured while it was display:none reports no content height at all, so a
                     // box that started in search mode arrives here with a zero-height input: size it now
                     // that it is the visible one.
@@ -1485,6 +1509,44 @@ namespace Tesserae
                     throw new InvalidOperationException("Can't set active mode to mixed value");
                 }
             }
+        }
+
+        // SearchOnOneLine: while search shows, the box is laid out as a Search box is. It stops being a chat-and-search
+        // box for the stylesheets, so the one-line field's rules - Tesserae's and every theme's - apply as they are, and
+        // the footer is hidden (tss.omnibox.css). The toggle and the dictation button would be hidden with it, so they
+        // move onto the line, and back to where they were when chat shows.
+        private void ShowSearchOnOneLine(bool search)
+        {
+            if (!_searchOnOneLine) return;
+
+            //A phone's options sheet may hold the toggle that was just pressed; it closes on a mode change anyway
+            window.clearTimeout(_mobileOptionsRestoreTimeout);
+            RestoreMobileOptions();
+
+            foreach (var (element, slot) in _onSearchLine)
+            {
+                slot.parentNode?.insertBefore(element, slot);
+                slot.parentNode?.removeChild(slot);
+            }
+
+            _onSearchLine.Clear();
+
+            _container.classList.toggle("tss-omnibox-chat-and-search", !search);
+
+            if (!search) return;
+
+            PutOnSearchLine(_modeToggle?.Render(), _searchContainer.firstChild.As<HTMLElement>());
+            PutOnSearchLine(_dictateBtn?.Render(), _searchClearBtn.Render());
+        }
+
+        private void PutOnSearchLine(HTMLElement element, HTMLElement before)
+        {
+            if (element is null || element.parentNode is null) return;
+
+            var slot = document.createComment("");
+            element.parentNode.insertBefore(slot, element);
+            _searchContainer.insertBefore(element, before);
+            _onSearchLine.Add((element, slot));
         }
 
         // When toggling between search and chat, carry whatever text is sitting in the box being left

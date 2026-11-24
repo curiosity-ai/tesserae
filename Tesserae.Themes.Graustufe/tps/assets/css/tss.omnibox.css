@@ -30,7 +30,7 @@ body.tss-theme-graustufe .tss-omnibox-container:focus-within {
     box-shadow: 0 0 0 2px var(--tss-gs-0);
 }
 
-body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+body.tss-theme-graustufe .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
     border-radius: var(--tss-gs-radius);
 }
 

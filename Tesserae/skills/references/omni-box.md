@@ -26,6 +26,11 @@ Config (set via object initializer):
   `TextModeToggleChat` / `TextModeToggleSearch` — the `SearchAndChat` mode selector in the footer (an
   `IconToggle`, see `icon-toggle.md`). It is icon-only unless a text is set, and it takes the box's
   roundness, so `.Rounded(BorderRadius.Full)` gives a pill-shaped selector.
+- `SearchOnOneLine` (`SearchAndChat` only) — the search half is the one-line field a `Search` box is (history,
+  help, clear and search buttons on the line, no footer); the chat half keeps its taller panel and footer, so the
+  box's shape says which mode is on. While search shows, the mode toggle and the dictation button move onto the
+  line. Off by default.
+- `TextSearchButton` — a label after the icon on the search button (icon-only when null).
 - `ChatHeader` (`IComponent`) — rendered inside the box above the chat input: what the message is being written against, e.g. a compact `ContextCards` group of the attached documents. Swap it later with `.SetChatHeader(component)`, or pass `null` to empty the slot — it takes up no space while empty. For individual cards *below* the input, use `.WithContextToAdd(...)`.
 - `GeneratingText` — label shown in the footer while generating (default `"Generating"`); the live elapsed time is appended, e.g. `"Generating, 1m 25s"`.
 - `MaxCharacters` (default `0`, no limit) — how long a chat message may be. The input stops taking text at the limit and a `"used / max"` counter appears in the footer next to the send button, in the secondary foreground colour. It only shows past half the budget; below that it is collapsed, so an ordinary message carries no number.

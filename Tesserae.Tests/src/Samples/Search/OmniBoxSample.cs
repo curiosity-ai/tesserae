@@ -124,6 +124,19 @@ namespace Tesserae.Tests.Samples
             .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}"))
             .OnChat((s, q) => Toast().Information(q.Text)));
 
+            var oneLine = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.SearchAndChat, initialMode: OmniBox.Mode.Search)
+            {
+                PlaceholderSearch = "SearchOnOneLine — search is a one-line field, chat the taller panel",
+                PlaceholderChat   = "SearchOnOneLine — search is a one-line field, chat the taller panel",
+                TextModeToggleSearch = "Search",
+                TextModeToggleChat   = "Chat",
+                TextSearchButton     = "Search",
+                SearchOnOneLine      = true
+            })
+            .WS()
+            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}"))
+            .OnChat((s, q) => Toast().Information(q.Text)));
+
             var expanding = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
                 PlaceholderChat = "ExpandOnFocus — click me and the box grows",
@@ -133,10 +146,11 @@ namespace Tesserae.Tests.Samples
             .OnChat((s, q) => Toast().Information(q.Text)));
 
             return FeatureCard("Modes", "Search, Chat and both",
-                "The mode is fixed at construction: new OmniBox.Config(OmniBox.Mode.Search | Chat | SearchAndChat). In SearchAndChat the footer gets a toggle between the two, and whatever is typed carries over when switching; initialMode picks the side it starts on. ExpandOnFocus makes a chat box grow while it has focus.",
+                "The mode is fixed at construction: new OmniBox.Config(OmniBox.Mode.Search | Chat | SearchAndChat). In SearchAndChat the footer gets a toggle between the two, and whatever is typed carries over when switching; initialMode picks the side it starts on. SearchOnOneLine keeps the search half a one-line field, so the shape of the box says which mode is on. ExpandOnFocus makes a chat box grow while it has focus.",
                 Label("Mode.Search").SetContent(search),
                 Label("Mode.Chat").SetContent(chat).MT(6),
                 Label("Mode.SearchAndChat (starting in chat)").SetContent(both).MT(6),
+                Label("Mode.SearchAndChat with SearchOnOneLine").SetContent(oneLine).MT(6),
                 Label("Mode.Chat with ExpandOnFocus").SetContent(expanding).MT(6));
         }
 

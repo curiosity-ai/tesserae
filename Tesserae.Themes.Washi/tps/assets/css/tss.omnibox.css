@@ -43,7 +43,7 @@ body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .t
     border-left-color: var(--tss-wa-line);
 }
 
-body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):hover {
     background: var(--tss-wa-wash);
 }
 
