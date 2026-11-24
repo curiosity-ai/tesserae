@@ -84,6 +84,11 @@ namespace Tesserae
             _scrollLeftBtn.Render().tabIndex  = -1;
             _scrollRightBtn.Render().tabIndex = -1;
 
+            // Hidden until UpdateScrollButtons measures an overflow, once the strip is mounted: shown from the
+            // start, the two arrows took space on the first frames and the tabs then moved by their width.
+            _scrollLeftBtn.Render().style.display  = "none";
+            _scrollRightBtn.Render().style.display = "none";
+
             _renderedTabs = Div(Att("tss-pivot-titlebar", role: "tablist"));
             _line         = Div(Att("tss-pivot-line"));
             _renderedTabs.appendChild(_line); // line sits inside titlebar so it scrolls with tabs

@@ -54,7 +54,9 @@ it always did, and a ring up to that wide shows on every side. A theme whose rin
 The scroll arrows and the "All tabs" button beside the strip are named (`Scroll tabs left`,
 `Scroll tabs right`, `All tabs`). The arrows are for the pointer and never Tab stops - the arrow
 keys move along the tabs and scroll the strip; "All tabs" is a Tab stop only while some tab is out
-of view, and opened from the keyboard its menu takes the focus.
+of view, and opened from the keyboard its menu takes the focus. An arrow shows only while the
+strip can scroll that way: both are hidden until the Pivot is on the page and has measured its
+strip, so a Pivot whose tabs fit never shows them, not even on its first frame.
 
 ## The close cross, and the unsaved marker that stands in for it
 
