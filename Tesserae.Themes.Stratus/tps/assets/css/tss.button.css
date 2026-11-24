@@ -82,8 +82,9 @@ body.tss-theme-stratus .tss-btn.tss-disabled {
 /* Default = ghost, as in Tesserae itself: no outline, the accent label, a soft wash on hover and the
    selected tint when pressed. Applications build header, toolbar and icon buttons out of the default
    button, so an outline here boxes every one of them. The 2px edge stays, transparent, so the size
-   matches the filled buttons. */
-body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-sidebar-btn):not(.tss-sidebar-command) {
+   matches the filled buttons. An AI button (.tss-ai, also a default button) keeps the gradient of
+   tss.ai.css: this rule is more specific and painted it transparent. */
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-ai):not(.tss-btn-link):not(.tss-sidebar-btn):not(.tss-sidebar-command) {
     border-color: transparent;
     background: transparent;
     color: var(--tss-str-navy);
@@ -93,7 +94,7 @@ body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled) .tss-fontcolo
     color: inherit;
 }
 
-body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-ai):hover {
     border-color: transparent;
     background-color: var(--tss-default-background-hover-color);
     color: var(--tss-str-navy);
@@ -104,7 +105,7 @@ body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-f
     color: inherit;
 }
 
-body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):active {
+body.tss-theme-stratus .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-ai):active {
     border-color: transparent;
     background-color: var(--tss-default-background-active-color);
     color: var(--tss-str-navy);
