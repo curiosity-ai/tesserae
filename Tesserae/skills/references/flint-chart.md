@@ -79,7 +79,7 @@ The fluent methods write into the spec, so they also adjust a chart made from JS
   (`innerRadius`, `showPoints`, `stackMode`, `binCount`, `cornerRadius`, `region`, …).
 - `.Title`, `.Subtitle`, `.Label` (a kicker above the title), `.Source(text, href = null)`.
 - `.BaseSize(width, height)` — the size Flint aims for (default 400×320). Only the height is used: the width is always the chart's own box.
-- `.Tooltips(bool = true)` — hover readouts, on by default.
+- `.Tooltips(bool = true)` — hover readouts, on by default (`options.addTooltips` in the spec; a ```` ```flint ```` fence sets the same key, see `flint-charts.md`).
 - `.Interactions(params FlintInteraction[])` — Flint's presets: `Inspect`,
   `InspectIndex`, `ClickHighlight`, `LegendToggle`, `BrushX`, `BrushZoom`, `Navigate`,
   `Select`, `LassoSelect`, `DragReorder`, `AccessibleNavigation`, … One a chart type
