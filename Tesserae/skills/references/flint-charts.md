@@ -36,8 +36,8 @@ Markdown.RenderMarkdownSanitized(text, MarkdownSanitization.Default, FlintThemes
 ## The fence
 
 The body is a Flint `ChartAssemblyInput` in JSON: `data`, `semantic_types`,
-`chart_spec`, and optionally `theme_spec`, `interaction_spec` and `bind` (Vega-Lite
-legend and scale binding, below).
+`chart_spec`, and optionally `theme_spec`, `interaction_spec`, `options` and `bind`
+(Vega-Lite legend and scale binding, below).
 
 ````markdown
 ```flint
@@ -49,10 +49,20 @@ legend and scale binding, below).
     "title": "East leads the quarter",
     "encodings": { "x": { "field": "Region" }, "y": { "field": "Revenue" } }
   },
-  "interaction_spec": { "interactions": [ { "type": "inspect-index" } ] }
+  "interaction_spec": { "interactions": [ { "type": "inspect-index" } ] },
+  "options": { "addTooltips": true }
 }
 ```
 ````
+
+**Hover readouts (`options.addTooltips`).** `"options": { "addTooltips": true }` makes hovering
+a mark show a tooltip with its fields and values (a bar: category and measure; a boxplot: max,
+Q3, median, Q1, min; a heatmap cell: both axes and the value), restyled to the page's tokens in
+light and dark. Whether a spec without the option gets tooltips depends on the Flint build: the
+bundle in Tesserae `2026.11.73898` and later turns them on unless the spec says
+`"addTooltips": false`; an older one leaves them off. So write it explicitly, and tell a model
+that writes fences to **add it by default** to every spec (Curiosity's `chat-render-charts`
+skill does). `FlintChart.Tooltips(bool)` is the same switch for the component.
 
 Flint's authoring guide lists the chart types, semantic types and interaction presets:
 <https://github.com/microsoft/flint-chart/blob/main/agent-skills/flint-chart-author/SKILL.md>
@@ -87,8 +97,8 @@ A malformed `bind` fails the fence like any other spec error.
 ## Behaviour
 
 - **Loaded on demand.** Flint and the Vega-Lite renderer it draws with (Vega, Vega-Lite,
-  vega-tooltip) ship as one unlinked file, `assets/js/tss-flint.min.js` (~1.8 MB,
-  ~630 KB gzipped), fetched the first time a chart appears. A page with no chart never
+  vega-tooltip) ship as one unlinked file, `assets/js/tss-flint.min.js` (~3.9 MB,
+  ~1.3 MB gzipped), fetched the first time a chart appears. A page with no chart never
   fetches it.
 - **Vega-Lite only.** It is the backend Flint's themes and interactions apply to; the
   ECharts, Chart.js and Plotly backends are not bundled.
