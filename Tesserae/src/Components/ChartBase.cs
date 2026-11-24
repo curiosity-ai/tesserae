@@ -399,9 +399,9 @@ namespace Tesserae
 
             if (!name.EndsWith(".png")) name = name + ".png";
 
-            var rect       = _container.getBoundingClientRect().As<DOMRect>();
-            var width      = Math.Max(1, rect.width);
-            var height     = Math.Max(1, rect.height);
+            var (w, h)     = LayoutSize();
+            var width      = Math.Max(1, w);
+            var height     = Math.Max(1, h);
             var background = Color.EvalVar(Theme.Default.Background);
 
             //Through a local: the template below runs inside an IIFE, so a substituted `this._svg` would
@@ -580,9 +580,7 @@ namespace Tesserae
 
         private void Render(bool force)
         {
-            var rect = _container.getBoundingClientRect().As<DOMRect>();
-            var w    = rect.width;
-            var h    = rect.height;
+            var (w, h) = LayoutSize();
 
             if (w < 1 || h < 1) return; // not laid out yet; a later resize/mount will trigger us
 
@@ -604,6 +602,25 @@ namespace Tesserae
         }
 
         private bool _waitingForFonts;
+
+        //The layout size, not getBoundingClientRect's: that one includes CSS transforms, so a chart measured while an
+        //ancestor scales in (a Modal opening) was drawn at the scaled size, and no ResizeObserver fires when the
+        //transform ends. offsetWidth is whole pixels, so the rect's fractional size is kept when the two agree.
+        private (double Width, double Height) LayoutSize()
+        {
+            var rect = _container.getBoundingClientRect().As<DOMRect>();
+            var w    = Math.Abs(rect.width - _container.offsetWidth) < 1 ? rect.width : _container.offsetWidth;
+            var h    = Math.Abs(rect.height - _container.offsetHeight) < 1 ? rect.height : _container.offsetHeight;
+            return (w, h);
+        }
+
+        //A pointer position in the chart's own pixels, undoing any transform scale on the way.
+        protected double ToLocalX(double clientX)
+        {
+            var rect  = _container.getBoundingClientRect().As<DOMRect>();
+            var scale = rect.width > 0 ? _container.offsetWidth / rect.width : 1;
+            return (clientX - rect.left) * scale;
+        }
 
         /// <summary>Draws the chart into the SVG surface at the given pixel dimensions.</summary>
         protected abstract void RenderChart(double width, double height);
@@ -1786,8 +1803,7 @@ namespace Tesserae
 
         private double PlotXValueAt(double clientX)
         {
-            var rect  = _container.getBoundingClientRect().As<DOMRect>();
-            var local = clientX - rect.left;
+            var local = ToLocalX(clientX);
             var ratio = (local - _plotLeft) / Math.Max(1, _plotWidth);
 
             ratio = Math.Max(0, Math.Min(1, ratio));
@@ -1889,8 +1905,7 @@ namespace Tesserae
 
             ClearOverlay();
 
-            var rect  = _container.getBoundingClientRect().As<DOMRect>();
-            var pixel = clientX - rect.left;
+            var pixel = ToLocalX(clientX);
 
             if (pixel < _plotLeft || pixel > _plotLeft + _plotWidth) return;
 
