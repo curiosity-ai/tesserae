@@ -975,6 +975,13 @@
     margin: 0 4px;
 }
 
+/* A phone's line has room for the input only if the toggle and the search button are icons: their labels go,
+   and their aria-label still names them. */
+body.tss-mobile .tss-omnibox-search-on-one-line .tss-omnibox-search-container > .tss-omnibox-mode-toggle > .tss-btn > span,
+body.tss-mobile .tss-omnibox-search-on-one-line .tss-omnibox-search-container > .tss-omnibox-search-trigger-btn > span {
+    display: none;
+}
+
 /* SetSuggestedText - a suggestion drawn by the token overlay where the placeholder would be, with a Tab
    keycap after it. The input's own placeholder is hidden while it shows so the two never overlap. */
 .tss-omnibox-container.tss-omnibox-has-suggested-text .tss-omnibox-search-input::placeholder {
