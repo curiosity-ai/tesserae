@@ -77,11 +77,11 @@ body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search
 
 /* Only the quiet end buttons: an action the host adds to the row (Add, New team) is filled, and keeps its own
    paper-on-blue text rather than turning mute-ink, which on the call blue is unreadable. */
-body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-warning):not(.tss-btn-danger) {
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-warning):not(.tss-btn-danger) {
     color: var(--tss-secondary-foreground-color);
 }
 
-body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-warning):not(.tss-btn-danger):hover {
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-warning):not(.tss-btn-danger):hover {
     color: var(--tss-default-foreground-color);
 }
 
@@ -233,7 +233,7 @@ body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-help-entry {
 /* A pill (.Rounded(BorderRadius.Full)) has no straight edge to hang a divider off, so the end buttons of
    the search row lose theirs, as Tesserae's own fully rounded box does; they read as ends of the pill by
    their stone hover. */
-body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
     border-left-color: transparent;
     border-right-color: transparent;
 }

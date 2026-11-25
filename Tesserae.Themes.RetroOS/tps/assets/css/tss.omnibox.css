@@ -80,16 +80,16 @@ body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) 
     border-color: rgb(var(--tss-default-foreground-color-root));
 }
 
-body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
     color: rgb(var(--tss-default-foreground-color-root));
 }
 
-body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):hover {
     background-color: rgb(var(--tss-default-foreground-color-root));
     color: rgb(var(--tss-default-background-color-root));
 }
 
-body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover :is(i, .tss-fontcolor-default) {
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):hover :is(i, .tss-fontcolor-default) {
     color: inherit;
 }
 
@@ -97,7 +97,7 @@ body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) 
     border-left-color: rgb(var(--tss-default-foreground-color-root));
 }
 
-body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
     border-left-color: transparent;
     border-right-color: transparent;
 }

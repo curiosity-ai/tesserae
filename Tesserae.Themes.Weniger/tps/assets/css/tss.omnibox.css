@@ -97,32 +97,32 @@ body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) 
     border-left: 1px solid var(--tss-wg-groove);
 }
 
-body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
     color: rgb(var(--tss-secondary-foreground-color-root));
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-body.tss-theme-weniger.tss-dark-mode .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
 }
 
-body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):hover {
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):hover {
     background: var(--tss-wg-key-hover);
     box-shadow: var(--tss-wg-raised);
     color: rgb(var(--tss-default-foreground-color-root));
 }
 
-body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):hover :is(i, .tss-fontcolor-default) {
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):hover :is(i, .tss-fontcolor-default) {
     color: inherit;
 }
 
-body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):active {
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):active {
     background: var(--tss-wg-key-pressed);
     box-shadow: var(--tss-wg-pressed);
     transform: none;
 }
 
-body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
     border-left-color: transparent;
     border-right-color: transparent;
 }

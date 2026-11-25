@@ -53,7 +53,7 @@ body.tss-theme-kristall .tss-omnibox-container:not(.tss-omnibox-chat-and-search)
     color: var(--tss-kr-label-2);
 }
 
-body.tss-theme-kristall .tss-omnibox-container .tss-omnibox-search-container .tss-btn:hover {
+body.tss-theme-kristall .tss-omnibox-container .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):hover {
     background: var(--tss-kr-fill-4) !important;
     box-shadow: none !important;
 }

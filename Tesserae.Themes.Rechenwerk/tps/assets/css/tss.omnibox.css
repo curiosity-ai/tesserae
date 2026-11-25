@@ -149,7 +149,7 @@ body.tss-theme-rechenwerk .tss-omnibox-container.tss-disabled .tss-omnibox-chat-
    The end buttons of a one-line box
    -------------------------------------------------------------------------- */
 
-body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
     border: none;
     box-shadow: none;
 }
@@ -161,11 +161,11 @@ body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-searc
     border-right: 2px solid rgb(var(--tss-default-border-color-root));
 }
 
-body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) :is(i, .tss-fontcolor-default) {
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) :is(i, .tss-fontcolor-default) {
     color: inherit;
 }
 
-body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):hover {
     background-color: rgb(var(--tss-default-background-hover-color-root));
     color: rgb(var(--tss-default-foreground-color-root));
 }
@@ -201,7 +201,7 @@ body.tss-theme-rechenwerk .tss-omnibox-search-trigger-btn .tss-spinner {
 }
 
 /* A pill box keeps square buttons: the rounded variants sit at the full height of the line. */
-body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
     border-radius: 0;
 }
 

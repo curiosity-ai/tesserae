@@ -46,7 +46,7 @@ body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .ts
     border-left-color: var(--tss-gl-edge);
 }
 
-body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+body.tss-theme-glas .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):hover {
     background-color: rgba(var(--tss-gl-accent-rgb), 0.1);
     box-shadow: none;
 }

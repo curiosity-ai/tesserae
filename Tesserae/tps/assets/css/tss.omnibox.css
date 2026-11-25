@@ -23,11 +23,11 @@
         flex-direction: column;
     }
 
-    .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
         margin: 0px;
     }
 
-    .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
         border-radius: 0;
     }
 
@@ -129,7 +129,7 @@
 
         /* The icon buttons at the ends of the row, only: the "Ask AI" button is styled by its own
            (primary) button style, and this rule outweighs it — a grey hover on a blue button. */
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn):not(.tss-icon-toggle-item):hover {
             color: var(--tss-default-foreground-hover-color);
             background-color: var(--tss-default-background-hover-color);
         }
@@ -243,7 +243,7 @@
     padding: 0 8px;
 }
 
-.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item) {
     border-radius: var(--tss-border-radius-full);
     border-left-color: transparent;
     border-right-color: transparent;
@@ -252,7 +252,7 @@
 /* Everything in the row keeps clear of the taller pill's edges: the icon buttons become discs (the
    icon-only buttons hold their 1:1 aspect ratio, so the width follows the height) and "Ask AI" is a
    little shorter than the row it sits in. */
-.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn) {
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-icon-toggle-item):not(.tss-omnibox-ask-ai-btn) {
     align-self: center;
     height: calc(100% - 16px);
     min-height: 0;
@@ -959,6 +959,27 @@
 
 .tss-omnibox-container:not(.tss-omnibox-chat-and-search).tss-omnibox-mode-search {
     align-items:center;
+}
+
+/* SearchOnOneLine: while search shows, the box drops .tss-omnibox-chat-and-search and is laid out as a Search box
+   is, so it has no footer row. The toggle and the dictation button were moved onto the line (OmniBox.UpdateMode);
+   what else the footer holds belongs to chat. The toggle's items keep their own look (the line's button rules
+   above leave them out). */
+.tss-omnibox-container.tss-omnibox-search-on-one-line.tss-omnibox-mode-search > .tss-omnibox-footer {
+    display: none;
+}
+
+.tss-omnibox-search-container > .tss-omnibox-mode-toggle {
+    flex-shrink: 0;
+    align-self: center;
+    margin: 0 4px;
+}
+
+/* A phone's line has room for the input only if the toggle and the search button are icons: their labels go,
+   and their aria-label still names them. */
+body.tss-mobile .tss-omnibox-search-on-one-line .tss-omnibox-search-container > .tss-omnibox-mode-toggle > .tss-btn > span,
+body.tss-mobile .tss-omnibox-search-on-one-line .tss-omnibox-search-container > .tss-omnibox-search-trigger-btn > span {
+    display: none;
 }
 
 /* SetSuggestedText - a suggestion drawn by the token overlay where the placeholder would be, with a Tab
