@@ -242,7 +242,7 @@ dialog · drawer · float · layer · modal · modal-stack · panel · popover �
 
 **AI & Chat** — conversation, tool calls and their context
 ai-variants · chat · chat-time-divider · context-card · context-cards · conversation-list · worker-card · inline-diff · plan · action-card ·
-resource-card · tool-agent-selector · tool-call
+resource-card · tool-agent-selector · tool-approval-toggle · tool-call
 
 **Media & Graphics** — images, avatars and embedded content
 audio-player · avatar · carousel · image · pages-stack · pixel-avatar · sandbox · video-player

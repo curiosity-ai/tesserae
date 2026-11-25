@@ -11,7 +11,8 @@ body.tss-theme-kontrast .tss-icon-toggle {
     --tss-icon-toggle-inset: 0px;
     --tss-icon-toggle-height: 34px;
     --tss-icon-toggle-padding: 10px;
-    --tss-icon-toggle-icon-size: 15px;
+    /* Even, like the heights: an odd icon in an even key leaves half a pixel to round. */
+    --tss-icon-toggle-icon-size: 16px;
     background: var(--tss-kt-paper);
     border: var(--tss-kt-border) solid var(--tss-kt-ink);
     box-shadow: none;
@@ -20,13 +21,13 @@ body.tss-theme-kontrast .tss-icon-toggle {
 body.tss-theme-kontrast .tss-icon-toggle.tss-icon-toggle-compact {
     --tss-icon-toggle-height: 28px;
     --tss-icon-toggle-padding: 8px;
-    --tss-icon-toggle-icon-size: 13px;
+    --tss-icon-toggle-icon-size: 14px;
 }
 
 body.tss-theme-kontrast .tss-icon-toggle.tss-icon-toggle-large {
     --tss-icon-toggle-height: 42px;
     --tss-icon-toggle-padding: 14px;
-    --tss-icon-toggle-icon-size: 17px;
+    --tss-icon-toggle-icon-size: 18px;
 }
 
 body.tss-theme-kontrast .tss-icon-toggle > .tss-btn.tss-icon-toggle-item,
