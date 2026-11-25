@@ -12,6 +12,11 @@ body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) {
     box-shadow: inset 0 0 0 1px var(--tss-wa-line);
 }
 
+/* The rule above outranks the core .Rounded(...) variants; an explicit pill stays a pill. */
+body.tss-theme-washi .tss-icon-toggle.tss-rounded-full:not(.tss-ai) {
+    --tss-icon-toggle-radius: var(--tss-border-radius-full);
+}
+
 body.tss-theme-washi .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item {
     transform: none;
 }

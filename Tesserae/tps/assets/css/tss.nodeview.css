@@ -128,8 +128,13 @@
             width: 100% !important;
             line-height: var(--tss-font-size-small) !important;
             font-size: var(--tss-font-size-small) !important;
-            border-radius: 6px !important;
+            border-radius: var(--tss-border-radius-md) !important;
         }
+
+            /* The title fills the palette node inside its 1px border, so it takes the node's inner radius. */
+            .tss-nodeview .baklava-node-palette section .baklava-node.--palette .__title {
+                border-radius: max(0px, var(--tss-border-radius-md) - 1px) !important;
+            }
 
             .tss-nodeview .baklava-node-palette section .baklava-node.--palette:before {
                 content: var(--uicon-var-block);

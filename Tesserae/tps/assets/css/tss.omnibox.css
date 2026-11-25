@@ -35,7 +35,7 @@
         border-radius: 0;
     }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,{
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn {
             border-right: 1px solid var(--tss-default-border-color);
             cursor: pointer;
             background: var(--tss-secondary-background-color);
@@ -56,7 +56,7 @@
             border-radius: 0;
         }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn,{
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn {
             cursor: pointer;
             color: var(--tss-secondary-foreground-color);
             flex-shrink: 0;
@@ -182,12 +182,14 @@
    pill-shaped selector rather than a rounded rectangle floating inside the curve. */
 .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-mode-toggle {
     --tss-icon-toggle-radius: var(--tss-border-radius-full);
-    border-radius: var(--tss-border-radius-full);
+    /* Through the variable, so a theme that re-declares it moves the track and the segments together. */
+    border-radius: var(--tss-icon-toggle-radius);
 }
 
 .tss-omnibox-container.tss-omnibox-rounded-sm .tss-omnibox-mode-toggle {
     --tss-icon-toggle-radius: var(--tss-border-radius-sm);
-    border-radius: var(--tss-border-radius-sm);
+    /* Through the variable, so a theme that re-declares it moves the track and the segments together. */
+    border-radius: var(--tss-icon-toggle-radius);
 }
 
 

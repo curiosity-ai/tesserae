@@ -39,6 +39,28 @@ body.tss-theme-kontrast.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggl
     transition: none;
 }
 
+/* The segments are joined by dividers, so only the ends round: the outer corners of the first and
+   last segment take the track's inner radius, which keeps them inside a rounded or pill track. */
+body.tss-theme-kontrast .tss-icon-toggle:not(.tss-icon-toggle-vertical) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:first-child {
+    border-top-left-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+    border-bottom-left-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+}
+
+body.tss-theme-kontrast .tss-icon-toggle:not(.tss-icon-toggle-vertical) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:last-child {
+    border-top-right-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+    border-bottom-right-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+}
+
+body.tss-theme-kontrast .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:first-child {
+    border-top-left-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+    border-top-right-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+}
+
+body.tss-theme-kontrast .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:last-child {
+    border-bottom-left-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+    border-bottom-right-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-border));
+}
+
 body.tss-theme-kontrast .tss-icon-toggle > .tss-btn.tss-icon-toggle-item + .tss-btn.tss-icon-toggle-item {
     box-shadow: inset var(--tss-kt-border) 0 0 0 var(--tss-kt-ink);
 }
