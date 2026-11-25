@@ -220,7 +220,7 @@ namespace Tesserae.Tests.Samples
                             DeferSync(pinned, p => TextBlock(p ? "PINNED" : "unpinned").SemiBold().ML(8))
                         ),
                         SampleSubTitle("IconToggle<string> bound to a string observable"),
-                        HStack().Children(
+                        HStack().AlignItemsCenter().Children(
                             IconToggle(
                                 IconToggleItem(UIcons.List,       "List view", "list"),
                                 IconToggleItem(UIcons.Apps,       "Grid view", "grid"),

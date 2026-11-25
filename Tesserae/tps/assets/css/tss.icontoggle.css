@@ -14,6 +14,11 @@
     --tss-icon-toggle-icon-size: 14px;
     box-sizing: border-box;
     width: fit-content;
+    /* In a row the track is a flex item, and the row's default align-items: stretch would pull it to
+       the height of its tallest sibling while its items keep their own height at the top. A definite
+       height opts it out of stretching but still follows the row's align-items; an explicit
+       .Height()/.HS() is inline and wins. */
+    height: fit-content;
     padding: var(--tss-icon-toggle-inset);
     border-radius: var(--tss-icon-toggle-radius);
     /* The secondary background is only a few levels off the default one, which would leave the
