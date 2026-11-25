@@ -494,8 +494,8 @@ simplebar itself; Tesserae does not load it, and nothing new should depend on it
 People don't read UI text, they scan it. Your instinct is to explain with a sentence. Fight it:
 a control's label, its placement and its emphasis are what tell someone what a screen does and
 what to do next. This covers the text a component renders by default (placeholders, empty
-states, confirmations), the gallery samples, and the examples in the skill references, which
-consumers copy as written.
+states, confirmations) and the examples in the skill references, which consumers copy as
+written.
 
 - **Start with no text.** Add words only where the controls can't say it alone, and then one
   short line, never a paragraph.
@@ -509,9 +509,6 @@ consumers copy as written.
 - **Don't restate** the title, the label next to it, or what a control obviously does.
 - **Look before you push.** Take a screenshot and ask what can go. If you can't name the question
   a line answers, delete it.
-
-curiosity-ai/mosaik#2456 is the worked example: three rounds of notes and links on two settings
-pages were cut down to one line per page, a primary **Edit schedule** button and two tooltips.
 
 ### Type safety
 
