@@ -47,11 +47,6 @@ body.tss-theme-washi .tss-actioncard-more {
     border-radius: var(--tss-wa-radius-small);
 }
 
-body.tss-theme-washi .tss-actioncard-skeleton-line {
-    border-radius: var(--tss-wa-radius-small);
-    border-color: var(--tss-wa-line);
-}
-
 body.tss-theme-washi .tss-actioncard-group > .tss-actioncard + .tss-actioncard {
     border-top-color: var(--tss-wa-line);
 }

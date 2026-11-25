@@ -9,15 +9,18 @@
 
 body.tss-theme-graustufe .tss-spinner {
     --tss-spinner-color: var(--tss-gs-0);
-    border-style: dotted;
-    border-color: var(--tss-gs-0);
-    border-width: max(2px, calc(var(--tss-spinner-size) * 0.55));
-    animation: none;
+    --tss-spinner-track-color: transparent;
+    --tss-spinner-stroke: 5;
+    /* Sixteen dots, each the round cap of a near-zero dash, all the way round. */
+    --tss-spinner-arc: .01 7.843;
 }
 
+    body.tss-theme-graustufe .tss-spinner > .tss-spinner-orbit {
+        animation: none;
+    }
+
 body.tss-theme-graustufe .tss-spinner.tss-spinner-progress {
-    border: none;
-    background: conic-gradient(var(--tss-gs-0) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-gs-12) 0);
+    --tss-spinner-track-color: var(--tss-gs-12);
 }
 
 body.tss-theme-graustufe .tss-spinner-success,

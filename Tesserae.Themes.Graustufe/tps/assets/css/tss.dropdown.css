@@ -176,8 +176,3 @@ body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox:focus-withi
     border: var(--tss-gs-rule);
     box-shadow: 0 0 0 2px var(--tss-gs-0);
 }
-
-/* Searching: a still dotted ring instead of a turning one. */
-body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
-    border: 2px dotted var(--tss-gs-0);
-}

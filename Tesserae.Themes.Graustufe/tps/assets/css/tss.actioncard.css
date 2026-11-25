@@ -49,8 +49,3 @@ body.tss-theme-graustufe .tss-actioncard-action:hover * {
     color: var(--tss-gs-15);
 }
 
-body.tss-theme-graustufe .tss-actioncard-skeleton-line {
-    border-radius: 0;
-    background: var(--tss-gs-bayer-25), var(--tss-gs-15);
-    opacity: 0.55;
-}

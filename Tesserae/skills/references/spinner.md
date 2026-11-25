@@ -30,7 +30,8 @@ determinate progress arc.
 
 Every component that waits on something draws this same ring (the `.tss-spinner`
 element): Dropdown's loading and search states, SearchBox's busy slot, a Tree
-node loading its children, a running Plan step, AutoCompleteBox, OmniBox,
+node loading its children, a running Plan step, a running row in
+ConversationList and WorkerCard, AutoCompleteBox, OmniBox,
 ProgressModal, `ProgressRing.Indeterminate()`, and the in-place spinner of
 `Button.ToSpinner` / `OnClickSpinWhile` and `SaveButton` (which add a check or an
 x on top). A custom theme that restyles `.tss-spinner` restyles all of them.

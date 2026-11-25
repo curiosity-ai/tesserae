@@ -192,19 +192,11 @@ body.tss-theme-graustufe .tss-btn.tss-disabled.tss-btn-noborder {
    The spinner, still
    --------------------------------------------------------------------------
    Tesserae's spinner is a dot that orbits and stretches into an arc. Here
-   nothing orbits: while the action runs the ring is drawn as a dotted circle
-   (sixteen dots on the ring), the e-paper sign for "working". An outcome
-   still closes into the solid circle and draws its check or cross.
+   nothing orbits: the theme's spinner (tss.spinner.css) is a still circle of
+   sixteen dots, the e-paper sign for "working", and the button's ring is that
+   spinner. An outcome still closes into the solid circle and draws its check
+   or cross.
    -------------------------------------------------------------------------- */
-
-body.tss-theme-graustufe .tss-btn.tss-btn-spinning .tss-btn-spin-ring .tss-btn-spin-track {
-    opacity: 0;
-}
-
-body.tss-theme-graustufe .tss-btn.tss-btn-spinning .tss-btn-spin-ring .tss-btn-spin-arc {
-    opacity: 1;
-    stroke-dasharray: 0.01 7.853;
-}
 
 /* The outcome on a ghost: ink for both; the mark itself says which. */
 body.tss-theme-graustufe .tss-btn.tss-btn-default.tss-btn-spin-success .tss-btn-spin-ring,

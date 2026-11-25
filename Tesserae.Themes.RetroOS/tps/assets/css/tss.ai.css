@@ -136,6 +136,12 @@ body.tss-theme-retroos .tss-skeleton.tss-ai {
     background: var(--tss-retro-dither);
 }
 
+/* No band passes over a placeholder here, a model's or not: the dither flickers instead (tss.skeleton.css). */
+body.tss-theme-retroos .tss-skeleton.tss-ai,
+body.tss-theme-retroos .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton {
+    --tss-skeleton-sweep: none;
+}
+
 body.tss-theme-retroos .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton {
     background: var(--tss-retro-dither);
 }

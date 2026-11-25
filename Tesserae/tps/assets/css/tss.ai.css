@@ -303,27 +303,17 @@ i.tss-icon.tss-ai {
    is being waited for. */
 /* The strong tint rather than the plain one: a placeholder line is 12px tall, and at a tenth of the
    gradient's strength over a 12px bar there is nothing to see. */
-.tss-skeleton.tss-ai {
-    background: var(--tss-ai-surface-strong), var(--tss-secondary-background-color);
-}
-
-    .tss-skeleton.tss-ai.tss-skeleton-animated::after {
-        background: linear-gradient(90deg, transparent, rgba(var(--tss-colors-purple-400-root), 0.45), rgba(var(--tss-colors-blue-400-root), 0.30), transparent);
-    }
-
-.tss-dark-mode .tss-skeleton.tss-ai.tss-skeleton-animated::after {
-    background: linear-gradient(90deg, transparent, rgba(var(--tss-colors-purple-300-root), 0.28), rgba(var(--tss-colors-blue-300-root), 0.20), transparent);
-}
-
-/* The InlineLabel skeleton is a Skeleton by class rather than by component, so AI() on a label that is
-   still looking something up tints the rectangle it draws in the meantime. */
+/* The InlineLabel skeleton is a Skeleton by class, and AI() goes on the label, so it is named here too. */
+.tss-skeleton.tss-ai,
 .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton {
-    background: var(--tss-ai-surface-strong), var(--tss-secondary-background-color);
+    --tss-skeleton-fill: var(--tss-ai-surface-strong), var(--tss-progress-background-color);
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent, rgba(var(--tss-colors-purple-400-root), 0.45), rgba(var(--tss-colors-blue-400-root), 0.30), transparent);
 }
 
-    .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton.tss-skeleton-animated::after {
-        background: linear-gradient(90deg, transparent, rgba(var(--tss-colors-purple-400-root), 0.45), rgba(var(--tss-colors-blue-400-root), 0.30), transparent);
-    }
+.tss-dark-mode .tss-skeleton.tss-ai,
+.tss-dark-mode .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton {
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent, rgba(var(--tss-colors-purple-300-root), 0.28), rgba(var(--tss-colors-blue-300-root), 0.20), transparent);
+}
 
 /* Spinner ------------------------------------------------------------------------------------------ */
 

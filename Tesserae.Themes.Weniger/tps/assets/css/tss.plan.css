@@ -173,11 +173,6 @@ body.tss-theme-weniger .is-canceled .tss-plan-step-icon {
     color: rgb(var(--tss-warning-background-color-root));
 }
 
-body.tss-theme-weniger .is-running .tss-plan-step-icon .tss-icon,
-body.tss-theme-weniger .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon {
-    animation-duration: 1.6s;
-}
-
 body.tss-theme-weniger .tss-plan-step-toggle {
     border: 1px solid transparent;
     border-radius: var(--tss-wg-radius-small);
@@ -323,8 +318,6 @@ body.tss-theme-weniger .tss-plan-timestamps {
 
 @media (prefers-reduced-motion: reduce) {
     body.tss-theme-weniger .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot,
-    body.tss-theme-weniger .is-running .tss-plan-step-icon .tss-icon,
-    body.tss-theme-weniger .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon,
     body.tss-theme-weniger .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
     body.tss-theme-weniger .tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
         animation: none !important;

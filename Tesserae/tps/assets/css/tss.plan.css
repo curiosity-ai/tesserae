@@ -462,8 +462,6 @@
 
 /* Respect reduced motion. */
 @media (prefers-reduced-motion: reduce) {
-    .is-running .tss-plan-step-icon .tss-icon,
-    .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon,
     .tss-plan-status-badge .tss-plan-badge-dot,
     .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
     .tss-plan-progress.is-indeterminate .tss-plan-progress-bar { animation: none !important; }

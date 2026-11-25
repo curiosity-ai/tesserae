@@ -5,11 +5,13 @@
    track fades in, and it turns at .7s. The button's in-place spinner and SaveButton draw this same ring
    (Button.CreateSpinRing) and add their check and x on top.
 
-   --tss-spinner-color is the arc and the track (at 16%). --tss-spinner-stroke is the ring's thickness
+   --tss-spinner-color is the arc; --tss-spinner-track-color is the ring under it (the arc colour at 16%
+   unless a theme says otherwise, transparent for no track). --tss-spinner-stroke is the ring's thickness
    in the 48 box, so it scales with the spinner and every size is the same ring: 4 is 1.33px at 16px. --tss-spinner-arc is the arc's
    dash pattern, for a theme that wants a longer one; the entry stretches to it. */
 .tss-spinner {
     --tss-spinner-color: var(--tss-primary-background-color);
+    --tss-spinner-track-color: color-mix(in srgb, var(--tss-spinner-color) 16%, transparent);
     --tss-spinner-stroke: 4;
     --tss-spinner-arc: 31.4 94.26;
     --tss-spinner-ease: cubic-bezier(.22, 1, .36, 1);
@@ -35,8 +37,7 @@
     }
 
     .tss-spinner .tss-spinner-track {
-        stroke: var(--tss-spinner-color);
-        stroke-opacity: .16;
+        stroke: var(--tss-spinner-track-color);
         animation: tss-spinner-track-in .36s var(--tss-spinner-ease) .3s backwards;
     }
 

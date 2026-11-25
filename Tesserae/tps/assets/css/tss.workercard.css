@@ -141,11 +141,10 @@
 .tss-workercard-row-state-attention { color: var(--tss-warning-background-color); }
 .tss-workercard-row-state-danger  { color: var(--tss-danger-background-color); }
 
-.tss-workercard-row-state-running .tss-workercard-row-glyph {
-    border: 1.5px solid rgba(var(--tss-secondary-foreground-color-root), 0.35);
-    border-top-color: var(--tss-workercard-accent);
-    border-radius: 50%;
-    animation: tss-workercard-spin 0.9s linear infinite;
+/* Running is the toolkit's spinner (Spinner.Ring), the size of the glyphs beside it. */
+.tss-workercard-row-glyph > .tss-spinner {
+    width: 14px;
+    height: 14px;
 }
 
 .tss-workercard-row-state-idle .tss-workercard-row-glyph,
@@ -157,16 +156,6 @@
 
 .tss-workercard-row-state-muted .tss-workercard-row-glyph {
     border-style: dashed;
-}
-
-@keyframes tss-workercard-spin {
-    to { transform: rotate(360deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .tss-workercard-row-state-running .tss-workercard-row-glyph {
-        animation: none;
-    }
 }
 
 .tss-workercard-row-trailing {

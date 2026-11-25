@@ -154,7 +154,3 @@ body.tss-theme-blaupause .tss-dropdown-popup .tss-dropdown-searchbox:focus-withi
     border-color: var(--tss-bp-line-strong);
     box-shadow: inset 0 -2px 0 var(--tss-bp-red);
 }
-
-body.tss-theme-blaupause .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
-    border-color: var(--tss-bp-ink) var(--tss-bp-line-faint) var(--tss-bp-line-faint);
-}

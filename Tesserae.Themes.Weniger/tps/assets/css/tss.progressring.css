@@ -41,8 +41,4 @@ body.tss-theme-weniger .tss-progressring-label {
     body.tss-theme-weniger .tss-progressring-fill {
         transition: none;
     }
-
-    body.tss-theme-weniger .tss-progressring-indeterminate svg circle.tss-progressring-fill {
-        animation-duration: 6s;
-    }
 }

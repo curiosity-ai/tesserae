@@ -6,17 +6,16 @@
    sweeps across it.
    ========================================================================== */
 
+body.tss-theme-graustufe {
+    --tss-skeleton-fill: var(--tss-gs-bayer-25), var(--tss-gs-15);
+    --tss-skeleton-sweep: none;
+    --tss-skeleton-radius: 0;
+}
+
 body.tss-theme-graustufe .tss-skeleton {
-    background: var(--tss-gs-bayer-25), var(--tss-gs-15);
-    border-radius: 0;
     opacity: 0.55;
 }
 
 body.tss-theme-graustufe .tss-skeleton-circle {
     border-radius: 50%;
-}
-
-body.tss-theme-graustufe .tss-skeleton-animated::after {
-    content: none;
-    display: none;
 }

@@ -14,12 +14,15 @@
 
 body.tss-theme-weniger .tss-spinner:not(.tss-spinner-progress):not(.tss-ai) {
     position: relative;
-    border: none;
+    border-radius: 50%;
     background: var(--tss-wg-alu-knob);
     box-shadow: 0 0 0 1px rgba(60, 54, 46, 0.24), 0 1px 2px rgba(60, 54, 46, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    animation-duration: 1.6s;
-    animation-timing-function: linear;
+    animation: tss-spinner-animation 1.6s linear infinite;
 }
+
+    body.tss-theme-weniger .tss-spinner:not(.tss-ai) > .tss-spinner-orbit {
+        display: none;
+    }
 
 body.tss-theme-weniger.tss-dark-mode .tss-spinner:not(.tss-spinner-progress):not(.tss-ai) {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
@@ -41,6 +44,8 @@ body.tss-theme-weniger .tss-spinner:not(.tss-spinner-progress):not(.tss-ai)::aft
 /* Fixed progress: the lit sweep in a darker groove. */
 body.tss-theme-weniger .tss-spinner.tss-spinner-progress:not(.tss-ai) {
     background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), rgba(60, 54, 46, 0.2) 0);
+    -webkit-mask: var(--tss-spinner-mask);
+    mask: var(--tss-spinner-mask);
 }
 
 body.tss-theme-weniger.tss-dark-mode .tss-spinner.tss-spinner-progress:not(.tss-ai) {

@@ -1383,6 +1383,7 @@ namespace Tesserae
 
             switch (child.Tone)
             {
+                case ConversationStateTone.Running:   row.Status.appendChild(Spinner.Ring());          break;
                 case ConversationStateTone.Success:   row.Status.appendChild(I(UIcons.CheckCircle));   break;
                 case ConversationStateTone.Attention: row.Status.appendChild(I(UIcons.TriangleWarning)); break;
                 case ConversationStateTone.Danger:    row.Status.appendChild(I(UIcons.CrossCircle));   break;

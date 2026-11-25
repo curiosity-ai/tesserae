@@ -121,13 +121,6 @@ body.tss-theme-retroos .tss-actioncard-more:hover {
     color: rgb(var(--tss-default-background-color-root));
 }
 
-body.tss-theme-retroos .tss-actioncard-skeleton-line {
-    border: 1px solid rgb(var(--tss-default-foreground-color-root));
-    border-radius: 8px;
-    background: var(--tss-retro-dither);
-    animation: none;
-}
-
 body.tss-theme-retroos .tss-actioncard-error {
     color: rgb(var(--tss-default-foreground-color-root));
 }

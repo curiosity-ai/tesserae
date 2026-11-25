@@ -14,8 +14,8 @@ body.tss-theme-stratus .tss-spinner {
     --tss-spinner-stroke: 6;
 }
     body.tss-theme-stratus .tss-spinner > .tss-spinner-orbit { animation-duration: .75s; }
-    body.tss-theme-stratus .tss-spinner .tss-spinner-track { stroke-opacity: 0; }
-body.tss-theme-stratus .tss-spinner.tss-spinner-progress .tss-spinner-track { stroke: var(--tss-str-fill-2); stroke-opacity: 1; }
+body.tss-theme-stratus .tss-spinner { --tss-spinner-track-color: transparent; }
+body.tss-theme-stratus .tss-spinner.tss-spinner-progress { --tss-spinner-track-color: var(--tss-str-fill-2); }
 body.tss-theme-stratus .tss-spinner-success { --tss-spinner-color: var(--tss-str-success); }
 body.tss-theme-stratus .tss-spinner-danger { --tss-spinner-color: var(--tss-str-error); }
 body.tss-theme-stratus .tss-spinner-warning { --tss-spinner-color: var(--tss-str-warning-edge); }

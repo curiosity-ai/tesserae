@@ -27,8 +27,8 @@ body.tss-theme-retroos .tss-spinner {
         animation-timing-function: steps(8, end);
     }
 
-    body.tss-theme-retroos .tss-spinner .tss-spinner-track {
-        stroke-opacity: 0;
+    body.tss-theme-retroos .tss-spinner {
+        --tss-spinner-track-color: transparent;
     }
 
 /* The determinate ring is ink over the dither, which an svg stroke cannot paint: the band is the

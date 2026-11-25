@@ -6,17 +6,11 @@
    and then as a hard-edged band rather than a glow.
    ========================================================================== */
 
+body.tss-theme-kontrast {
+    --tss-skeleton-fill: var(--tss-kt-surface) var(--tss-kt-hatch);
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent 0 40%, rgba(var(--tss-default-foreground-color-root), 0.12) 40% 60%, transparent 60%);
+}
+
 body.tss-theme-kontrast .tss-skeleton {
-    background: var(--tss-kt-surface) var(--tss-kt-hatch);
     box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-line);
-}
-
-body.tss-theme-kontrast .tss-skeleton-animated::after {
-    background: linear-gradient(90deg, transparent 0 40%, rgba(var(--tss-default-foreground-color-root), 0.12) 40% 60%, transparent 60%);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    body.tss-theme-kontrast .tss-skeleton-animated::after {
-        display: none;
-    }
 }

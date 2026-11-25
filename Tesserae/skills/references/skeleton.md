@@ -24,6 +24,20 @@ sizing helpers (`.W()`, `.H()`, `.WS()`). Bring factories into scope with
 - `.AI(bool value = true, bool strongEffect = false)` — tints the placeholder and recolours the shimmer: content being *generated* rather than fetched. Same shape, animation and speed. See `ai-variants.md`.
 - Sizing helpers (`.W()`, `.H()`, `.WS()`, `.ML()`, `.MT()`, ...) set the box.
 
+## Theming
+
+This is the toolkit's one placeholder. `InlineLabel` draws it while it looks
+something up, `ActionCard.Loading()` draws its lines with it, and
+`Stack.Skeleton()` paints the stack's images, labels, icons, text and buttons
+with the same fill and sweep. A custom theme restyles all of them through
+variables on `body` (under its own class):
+
+- `--tss-skeleton-fill` — the block's background (a colour, or layers).
+- `--tss-skeleton-sweep` — the band that passes across it (`none` for no band).
+- `--tss-skeleton-radius` — the corners (a circle stays round).
+
+Under reduced motion the block stays and the band does not pass.
+
 ## Example
 
 ```csharp

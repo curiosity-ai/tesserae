@@ -599,11 +599,11 @@ namespace Tesserae
         {
             if (enabled)
             {
-                InnerElement.classList.add("tss-skeleton");
+                InnerElement.classList.add("tss-skeleton-stack");
             }
             else
             {
-                InnerElement.classList.remove("tss-skeleton");
+                InnerElement.classList.remove("tss-skeleton-stack");
             }
 
             return this;

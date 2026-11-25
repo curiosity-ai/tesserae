@@ -309,10 +309,6 @@ body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-searchbox:focus-within 
     box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.2);
 }
 
-body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
-    border-color: var(--tss-wg-orange) rgba(var(--tss-default-foreground-color-root), 0.18) rgba(var(--tss-default-foreground-color-root), 0.18);
-}
-
 @media (prefers-reduced-motion: reduce) {
     body.tss-theme-weniger .tss-dropdown-container,
     body.tss-theme-weniger .tss-dropdown-item {

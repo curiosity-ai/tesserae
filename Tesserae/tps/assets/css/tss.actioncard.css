@@ -243,19 +243,11 @@
     gap: 6px;
 }
 
+/* A loading line is a Skeleton block: tss.skeleton.css paints, rounds and sweeps it, and a theme restyles it
+   there. This only gives it the height of an action row. */
 .tss-actioncard-skeleton-line {
     height: 28px;
     box-sizing: border-box;
-    border-radius: 8px;
-    border: 1px solid var(--tss-default-border-color);
-    background: linear-gradient(90deg, var(--tss-colors-neutral-100, #f3f4f6) 0%, var(--tss-default-background-color) 50%, var(--tss-colors-neutral-100, #f3f4f6) 100%);
-    background-size: 200% 100%;
-    animation: tss-actioncard-shimmer 1.4s ease-in-out infinite;
-}
-
-@keyframes tss-actioncard-shimmer {
-    0%   { background-position: 100% 0; }
-    100% { background-position: -100% 0; }
 }
 
 .tss-actioncard-error {
@@ -492,10 +484,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .tss-actioncard-skeleton-line {
-        animation: none;
-    }
-
     .tss-actioncard-action-go {
         transition: none;
     }

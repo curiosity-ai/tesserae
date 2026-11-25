@@ -483,7 +483,21 @@ the 48 box, so it scales with the size), `--tss-spinner-arc` (the arc's dash pat
 gradient, RetroOS's dithered progress). The button outcome ring (`Button.CreateSpinRing`, for
 `Button.ToSpinner` and `SaveButton`) is this same ring with a check and an x on top; in place it drives
 the arc with its own transitions so an outcome can close it, and `ProgressRing.Indeterminate()` puts
-the same ring over its box at its own thickness. Nothing else in the toolkit spins.
+the same ring over its box. ConversationList's and WorkerCard's running rows draw it too. Nothing else in
+the toolkit spins; a theme that wants its own shape (Rechenwerk's eight blocks, Weniger's knob) draws it on
+the same `.tss-spinner` element.
+
+### One skeleton
+
+A component that holds a place for content still loading draws the toolkit's placeholder: a
+`UI.Skeleton()`, or an element carrying `tss-skeleton tss-skeleton-animated` where it only wants the block
+(InlineLabel's lookup, ActionCard's loading lines). `Stack.Skeleton()` puts `tss-skeleton-stack` on the
+stack, and its images, labels, icons, text and buttons are painted with the same fill and sweep. Never a
+shimmer keyframe or gradient of a component's own: a theme restyles every placeholder at once through
+`--tss-skeleton-fill`, `--tss-skeleton-sweep` (`none` for no band) and `--tss-skeleton-radius`, declared
+on `body` (not `:root`, so they resolve against the theme's own colour tokens) and restated under the
+theme's class. ActionCard's lines and `Stack.Skeleton()`'s glow used to be two more implementations, and
+the stack used to share the component's `tss-skeleton` class, which painted the stack itself as a block.
 
 ### Scrollbars are CSS only
 
