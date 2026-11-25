@@ -1,0 +1,20 @@
+/* ==========================================================================
+   RetroOS theme - WorkerCard
+   --------------------------------------------------------------------------
+   The row under the pointer is in reverse video, as in the Finder's lists:
+   the hover tone here is ink, so the row's type, glyphs and spinner turn to
+   paper with it. A filled button in the row keeps its own colours.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-workercard-row-clickable:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+    body.tss-theme-retroos .tss-workercard-row-clickable:hover *:not(.tss-btn:not(.tss-btn-default)):not(.tss-btn:not(.tss-btn-default) *) {
+        color: rgb(var(--tss-default-background-color-root));
+    }
+
+    body.tss-theme-retroos .tss-workercard-row-clickable:hover .tss-spinner {
+        --tss-spinner-color: rgb(var(--tss-default-background-color-root));
+    }
