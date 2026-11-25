@@ -489,6 +489,27 @@ only while it moves, auto-hiding after a delay) is out; do not bring it back as 
 listener". The `.simplebar-*` rules in `tss.common.css` only style an application that loads
 simplebar itself; Tesserae does not load it, and nothing new should depend on it.
 
+### UI copy: fewer words, let form and function carry it
+
+People don't read UI text, they scan it. Your instinct is to explain with a sentence. Fight it:
+a control's label, its placement and its emphasis are what tell someone what a screen does and
+what to do next. This covers the text a component renders by default (placeholders, empty
+states, confirmations) and the examples in the skill references, which consumers copy as
+written.
+
+- **Start with no text.** Add words only where the controls can't say it alone, and then one
+  short line, never a paragraph.
+- **An action is a button named after it, not a sentence with a link.**
+  `Button("Edit schedule").Primary()` replaces "Embeddings are only generated in the hours the
+  schedule allows. Open the schedule →".
+- **Explanations go in a tooltip** on the control they explain (`.Tooltip(...)`). The screen
+  shows what it is for, the tooltip says why or how.
+- **Emphasis means something.** `.Primary()` is the one thing to do here, and `.Secondary()`
+  text is context. Don't bold or highlight several lines to get one noticed.
+- **Don't restate** the title, the label next to it, or what a control obviously does.
+- **Look before you push.** Take a screenshot and ask what can go. If you can't name the question
+  a line answers, delete it.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary
