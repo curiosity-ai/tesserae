@@ -56,6 +56,12 @@
             border-radius: 0;
         }
 
+        /* With the history button collapsed, the help button opens the row and meets the box's left corners. */
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container > .tss-collapse:first-child + .tss-btn.tss-omnibox-search-help-btn {
+            border-top-left-radius: var(--tss-omnibox-inner-radius);
+            border-bottom-left-radius: var(--tss-omnibox-inner-radius);
+        }
+
         .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn {
             cursor: pointer;
             color: var(--tss-secondary-foreground-color);
