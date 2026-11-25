@@ -6,7 +6,8 @@
    ========================================================================== */
 
 body.tss-theme-phosphor .tss-icon-toggle {
-    --tss-icon-toggle-radius: 0;
+    /* !important: square at every size and .Rounded(...) option, track and segments alike. */
+    --tss-icon-toggle-radius: 0px !important;
     border: var(--tss-ph-single);
     background: transparent;
     box-shadow: none;

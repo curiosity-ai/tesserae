@@ -37,7 +37,8 @@ isn't disabled is selected on render.
   item as wide as the widest); horizontal is the default.
 - `.FullWidth()` — stretch the track to its container, every item taking an equal share.
 - `.Rounded(BorderRadius radius = BorderRadius.Medium)` — reshape the track; the items
-  follow along, so `BorderRadius.Full` gives a pill.
+  follow along (track radius less the inset), so `BorderRadius.Full` gives a pill. A vertical
+  rail clamps its corners to half a row, so its pill segments stay inside it.
 - `.AI(bool value = true, bool strongEffect = false)` — marks the control as an AI one: the track takes the purple-to-blue tint, the
   unselected items the accent, and the selected pill is filled with the gradient. See `ai-variants.md`.
 - `.Disabled(bool value = true)` — disable the whole control. Items disabled on their own

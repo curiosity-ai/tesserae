@@ -9,6 +9,7 @@
 body.tss-theme-kontrast .tss-icon-toggle {
     --tss-icon-toggle-radius: var(--tss-kt-radius);
     --tss-icon-toggle-inset: 0px;
+    --tss-icon-toggle-border: var(--tss-kt-border);
     --tss-icon-toggle-height: 34px;
     --tss-icon-toggle-padding: 10px;
     --tss-icon-toggle-icon-size: 15px;

@@ -22,6 +22,7 @@ body.tss-theme-retroos .tss-icon-toggle.tss-icon-toggle-large,
 body.tss-theme-retroos .tss-icon-toggle.tss-rounded-sm,
 body.tss-theme-retroos .tss-icon-toggle.tss-rounded-md,
 body.tss-theme-retroos .tss-icon-toggle.tss-rounded-full {
+    --tss-icon-toggle-radius: 0px;
     border-radius: 0;
 }
 

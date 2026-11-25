@@ -18,7 +18,6 @@ body.tss-theme-stratus .tss-icon-toggle {
 body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item {
     font-weight: var(--tss-font-weight-bold);
     color: var(--tss-default-foreground-color);
-    border-radius: var(--tss-border-radius-sm);
 }
 
 body.tss-theme-stratus .tss-icon-toggle:not(#_) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {

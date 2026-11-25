@@ -376,21 +376,28 @@
 }
 
 .tss-actioncard-compact .tss-actioncard-identity {
+    --tss-actioncard-chip-radius: var(--tss-border-radius-full);
     flex: 0 0 auto;
     flex-direction: row;
     align-items: center;
     gap: 6px;
     padding: 2px 10px 2px 2px;
     border: none;
-    border-radius: 999px;
+    border-radius: var(--tss-actioncard-chip-radius);
 }
 
 .tss-actioncard-compact .tss-actioncard-icon {
     width: 20px;
     height: 20px;
-    border-radius: 999px;
     font-size: 10px;
 }
+
+    /* The icon sits 2px inside the chip, so it is concentric with it. The extra class outranks a
+       theme's plain .tss-actioncard-icon radius, which is meant for the full-size card; a theme that
+       wants a different chip sets --tss-actioncard-chip-radius and the icon follows. */
+    .tss-actioncard-compact .tss-actioncard-identity > .tss-actioncard-icon {
+        border-radius: max(0px, var(--tss-actioncard-chip-radius) - 2px);
+    }
 
 .tss-actioncard-compact .tss-actioncard-label {
     font-size: var(--tss-font-size-xsmall, 12px);

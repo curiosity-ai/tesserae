@@ -5,7 +5,7 @@
     flex-direction: column;
     gap: 10px;
     border: 1px solid var(--tss-default-border-color);
-    border-radius: 8px;
+    border-radius: var(--tss-border-radius-lg);
     background: var(--tss-default-background-color);
     padding: 12px 14px;
     box-sizing: border-box;
@@ -65,7 +65,7 @@
     display: inline-block;
     margin-top: 4px;
     padding: 4px 10px;
-    border-radius: 6px;
+    border-radius: var(--tss-border-radius-md);
     /* A tint of the primary under the page's own text colour: a darker shade of the primary as the
        text would be a light shade in dark mode, and the primary itself is under 4.5:1 on its own tint. */
     background: color-mix(in srgb, var(--tss-primary-background-color) 12%, var(--tss-default-background-color));

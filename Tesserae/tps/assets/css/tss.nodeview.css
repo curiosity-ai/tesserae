@@ -7,7 +7,7 @@
     --baklava-control-color-hover: #e6e6e6;
     --baklava-control-color-active: #cccccc;
     --baklava-control-color-disabled-foreground: #999;
-    --baklava-control-border-radius: 3px;
+    --baklava-control-border-radius: calc(var(--tss-border-radius-sm) * 3 / 4);
     --baklava-sidebar-color-background: #f0f0f0;
     --baklava-sidebar-color-foreground: #222;
     --baklava-node-color-background: #ffffffcc;
@@ -22,7 +22,7 @@
     --baklava-node-interface-port-color: #222;
     --baklava-node-interface-port-tooltip-color-foreground: var(--baklava-control-color-primary);
     --baklava-node-interface-port-tooltip-color-background: var(--baklava-editor-background-pattern-black);
-    --baklava-node-border-radius: 4px;
+    --baklava-node-border-radius: var(--tss-border-radius-sm);
     --baklava-color-connection-default: #444;
     --baklava-color-connection-allowed: green;
     --baklava-color-connection-forbidden: red;
@@ -48,7 +48,7 @@
     --baklava-control-color-hover: #455670;
     --baklava-control-color-active: #556986;
     --baklava-control-color-disabled-foreground: #666c75;
-    --baklava-control-border-radius: 3px;
+    --baklava-control-border-radius: calc(var(--tss-border-radius-sm) * 3 / 4);
     --baklava-sidebar-color-background: #1b202c;
     --baklava-sidebar-color-foreground: white;
     --baklava-node-color-background: #1b202c;
@@ -63,7 +63,7 @@
     --baklava-node-interface-port-color: white;
     --baklava-node-interface-port-tooltip-color-foreground: var(--baklava-control-color-primary);
     --baklava-node-interface-port-tooltip-color-background: var(--baklava-editor-background-pattern-black);
-    --baklava-node-border-radius: 6px;
+    --baklava-node-border-radius: var(--tss-border-radius-md);
     --baklava-color-connection-default: #737f96;
     --baklava-color-connection-allowed: #48bc79;
     --baklava-color-connection-forbidden: #bc4848;

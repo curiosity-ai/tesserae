@@ -6,7 +6,8 @@
    ========================================================================== */
 
 body.tss-theme-graustufe .tss-icon-toggle {
-    --tss-icon-toggle-radius: 0px;
+    /* !important: square at every size and .Rounded(...) option, track and segments alike. */
+    --tss-icon-toggle-radius: 0px !important;
     background: var(--tss-gs-15);
     box-shadow: inset 0 0 0 1px var(--tss-gs-0);
 }
