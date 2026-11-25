@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
+using static TNT.T;
 
 namespace Tesserae
 {
@@ -623,7 +624,8 @@ namespace Tesserae
             public NavLink LinksAsync(Func<Task<Nav.NavLink[]>> childrenAsync)
             {
                 bool alreadyRun = false;
-                var  dummy      = new Nav.NavLink("loading...");
+                var  dummy      = new Nav.NavLink("Loading...".t());
+                dummy._headerDiv.insertBefore(Spinner.Ring(), dummy._textSpan); // Where an icon would go
                 Add(dummy);
 
                 ExpandedLink += s =>

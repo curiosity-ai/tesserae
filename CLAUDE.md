@@ -483,7 +483,9 @@ the 48 box, so it scales with the size), `--tss-spinner-arc` (the arc's dash pat
 gradient, RetroOS's dithered progress). The button outcome ring (`Button.CreateSpinRing`, for
 `Button.ToSpinner` and `SaveButton`) is this same ring with a check and an x on top; in place it drives
 the arc with its own transitions so an outcome can close it, and `ProgressRing.Indeterminate()` puts
-the same ring over its box. ConversationList's and WorkerCard's running rows draw it too. Nothing else in
+the same ring over its box. ConversationList's and WorkerCard's running rows draw it too, and so do the
+waits that used to be text alone: `Defer`'s default message, DetailsList's and InfiniteScrollingList's
+next page, and `Nav.LinksAsync`'s loading row. Nothing else in
 the toolkit spins; a theme that wants its own shape (Rechenwerk's eight blocks, Weniger's knob) draws it on
 the same `.tss-spinner` element.
 

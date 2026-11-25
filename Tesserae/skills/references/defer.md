@@ -24,7 +24,7 @@ one element in place (see `text-block.md`). Use `Defer` when the structure chang
 - `.Debounce(delayInMs, millisecondsForLoadingMessage = 1000)` and `.Debounce(delayInMs, maxDelayInMs, …)` — coalesce rapid refreshes.
 - `.DoNotWaitForComponentMountingBeforeRendering()` — skip the mount wait (cheaper when many items render and immediate mounting is known).
 
-The `loadMessage` is any `IComponent` (e.g. `Spinner(...)`, `TextBlock("Loading...")`); shown after a short delay. If the task faults, an error block is rendered.
+The `loadMessage` is any `IComponent` (ideally a `Skeleton()` shaped like the result, or a `Spinner(...)`); shown after a short delay. Without one, Defer shows the toolkit's spinner labelled "Loading..." once the delay has passed (see `spinner.md`). If the task faults, an error block is rendered.
 
 ## Example
 

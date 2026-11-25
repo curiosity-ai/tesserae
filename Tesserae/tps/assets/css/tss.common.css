@@ -670,11 +670,25 @@ i.tss-fontsize-tiny {
 }
 
 
+/* Defer's default message: the toolkit's spinner, labelled "Loading...". It is in the container from the
+   start but only shows once the delay has passed and the container is marked as loading. */
 .tss-defer-loading-msg {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+    visibility: hidden;
+}
+
+.tss-defer-with-loading-msg > .tss-defer-loading-msg {
+    visibility: visible;
+}
+
+/* A VisibilitySensor is 1px wide so it can be observed; its message (a list's "Loading..." spinner) is as
+   wide as itself and starts at the sensor's edge, rather than being centred on that 1px and pushed out of
+   the list on the left. */
+.tss-visibility-sensor > * {
+    width: max-content;
 }
 
 .tss-defer-with-loading-msg {

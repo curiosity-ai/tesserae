@@ -33,6 +33,15 @@ namespace Tesserae.Tests.Samples
                             ))),
                     stack.HeightAuto()
                 )).SetTitle("Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        TextBlock("Without a loadMessage, Defer shows the toolkit's spinner labelled \"Loading...\" once a second has passed, so a quick load shows nothing at all.").MB(8),
+                        Defer(async () =>
+                        {
+                            await Task.Delay(4_000);
+                            return TextBlock("Loaded after four seconds");
+                        }).H(48).WS()
+                    )).SetTitle("Default loading message")))
                .SeeAlso(typeof(DeferWithProgressSample), typeof(BindingSample), typeof(SkeletonSample), typeof(SpinnerSample));
             SetChildren(stack, 5);
         }

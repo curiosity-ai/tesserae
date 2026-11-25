@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static Tesserae.UI;
+using static TNT.T;
 using static Transpose.Core.dom;
 using static Transpose.Core.dom.Node;
 
@@ -263,7 +264,7 @@ namespace Tesserae
                             // if there are no new items, don't add the visibility sensor again, to not trigger repeated updates
 
                         }).FireAndForget();
-                    }, message: TextBlock("Loading..."));
+                    }, message: Spinner("Loading...".t()));
 
                     _listItemsContainer.RemoveChildElements();
                     _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
