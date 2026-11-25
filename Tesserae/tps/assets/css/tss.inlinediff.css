@@ -27,7 +27,7 @@
 
 .tss-inlinediff-file {
     border: 1px solid var(--tss-default-border-color);
-    border-radius: 8px;
+    border-radius: var(--tss-border-radius-lg);
     background: var(--tss-default-background-color);
     overflow: hidden;
     min-width: 0;
@@ -192,7 +192,7 @@
 }
 
 .tss-inlinediff-mark {
-    border-radius: 2px;
+    border-radius: calc(var(--tss-border-radius-sm) / 2);
 }
 
 .tss-inlinediff-hunk {

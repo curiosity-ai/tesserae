@@ -9,6 +9,7 @@
 
 body.tss-theme-memphis .tss-icon-toggle {
     --tss-icon-toggle-radius: 999px;
+    --tss-icon-toggle-border: var(--tss-mp-bw);
     border: var(--tss-mp-bw) solid var(--tss-mp-line);
     background-color: rgb(var(--tss-secondary-background-color-root));
     background-image: var(--tss-mp-pattern-hatch-soft);

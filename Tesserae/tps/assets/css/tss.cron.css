@@ -10,6 +10,11 @@
 .tss-cron-desc {
     cursor: pointer;
     border-bottom: 1px dashed var(--tss-default-foreground-color);
+    /* The row fills the editor, so its underline runs along the editor's bottom edge: without the
+       editor's corners it would cut straight across them. `inherit` reads whatever radius the theme
+       gave the editor, so no theme has to restate it here. */
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
     transition: border-bottom 0.2s;
 }
 

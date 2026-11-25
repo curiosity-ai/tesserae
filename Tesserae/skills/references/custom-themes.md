@@ -109,6 +109,16 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
    a drawer handle, a hovered icon button) reads `--tss-subtle-fill-color`, not the border colour.
    `AI(strongEffect: true)` adds `tss-ai-strong` beside `tss-ai`: redefine the `--tss-ai-*`
    variables under it for a louder AI form (the default theme has no rule for it).
+   Corners nest: a part that sits inside a rounded box takes the box's radius less the gap
+   between their edges (`max(0px, outer - inset - border)`), so it neither sticks out of the
+   corner nor covers the curve of a thick border. Set the outer radius through the
+   `--tss-border-radius-*` tokens or the component's own variable and leave the inner one to
+   the component: `--tss-icon-toggle-radius` (segments follow; a track that draws a border sets
+   `--tss-icon-toggle-border`), `--tss-omnibox-radius` (end buttons, chips strip and "Ask AI"
+   follow; a thicker border sets `--tss-omnibox-border-width`), `--tss-actioncard-chip-radius`
+   (the compact chip's icon follows). A fixed `border-radius` on an inner part only, or on the
+   outer box only, is the usual way a theme breaks this. A square theme that wants square
+   corners for every `.Rounded(...)` option pins the variable with `!important`.
    Scope every selector under the root class: `body.tss-theme-mine .tss-btn`
    (and `body.tss-theme-mine.tss-dark-mode …` for dark). Redefine a derived variable
    together with its `-root` value (`--tss-x-color-root` **and**

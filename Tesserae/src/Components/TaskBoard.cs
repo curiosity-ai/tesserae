@@ -226,7 +226,7 @@ namespace Tesserae
                 s.display = "flex";
                 s.flexDirection = "column";
                 s.background = "var(--tss-secondary-background-color)";
-                s.borderRadius = "4px";
+                s.borderRadius = "var(--tss-border-radius-sm)";
                 s.margin = "8px";
                 s.width = "300px";
                 s.height = "calc(100% - 16px)";
@@ -422,7 +422,7 @@ namespace Tesserae
             _container = Div(Att("tss-taskboard-card", styles: s =>
             {
                 s.background = "var(--tss-default-background-color)";
-                s.borderRadius = "6px";
+                s.borderRadius = "var(--tss-border-radius-md)";
                 s.boxShadow = "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)";
                 s.padding = "12px";
                 s.margin = "4px";

@@ -186,8 +186,8 @@
     background-color: var(--tss-colors-neutral-100);
     color: var(--tss-colors-neutral-900);
     padding: 8px 14px;
-    border-radius: 18px;
-    border-bottom-right-radius: 4px; /* Subtle tail effect */
+    border-radius: calc(var(--tss-border-radius-xl) * 3 / 2);
+    border-bottom-right-radius: var(--tss-border-radius-sm); /* Subtle tail effect */
 }
 
 .tss-chat-right .tss-chatmessage-references {

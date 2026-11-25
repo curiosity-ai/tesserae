@@ -5,6 +5,7 @@
    ========================================================================== */
 
 body.tss-theme-kontrast .tss-omnibox-container {
+    --tss-omnibox-border-width: var(--tss-kt-border);
     border-width: var(--tss-kt-border);
     border-color: var(--tss-kt-line);
 }

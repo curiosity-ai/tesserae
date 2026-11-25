@@ -2,6 +2,10 @@
     /* The box's own roundness, picked by .Rounded(BorderRadius) and followed by everything that meets
        its outline: the search container, the buttons at its ends and the "Ask AI" button. */
     --tss-omnibox-radius: var(--tss-border-radius-md);
+    /* What sits flush inside the border (the end buttons, the chips strip) takes the radius of the
+       border's inner edge, so it neither covers the curve nor leaves a wedge. A theme that draws a
+       thicker border sets --tss-omnibox-border-width to match. */
+    --tss-omnibox-inner-radius: max(0px, var(--tss-omnibox-radius) - var(--tss-omnibox-border-width, 1px));
     display: inline-flex;
     flex-direction: row;
     position: relative;
@@ -31,14 +35,14 @@
         border-radius: 0;
     }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,{
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn {
             border-right: 1px solid var(--tss-default-border-color);
             cursor: pointer;
             background: var(--tss-secondary-background-color);
             color: var(--tss-secondary-foreground-color);
             flex-shrink: 0;
-            border-top-left-radius: var(--tss-omnibox-radius);
-            border-bottom-left-radius: var(--tss-omnibox-radius);
+            border-top-left-radius: var(--tss-omnibox-inner-radius);
+            border-bottom-left-radius: var(--tss-omnibox-inner-radius);
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -52,7 +56,13 @@
             border-radius: 0;
         }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn,{
+        /* With the history button collapsed, the help button opens the row and meets the box's left corners. */
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container > .tss-collapse:first-child + .tss-btn.tss-omnibox-search-help-btn {
+            border-top-left-radius: var(--tss-omnibox-inner-radius);
+            border-bottom-left-radius: var(--tss-omnibox-inner-radius);
+        }
+
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn {
             cursor: pointer;
             color: var(--tss-secondary-foreground-color);
             flex-shrink: 0;
@@ -70,8 +80,8 @@
            corner. Hosts reuse tss-omnibox-search-btn for the look above on buttons of their own, and
            those sit mid-row, where they keep the row's square corners. */
         .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
-            border-top-right-radius: var(--tss-omnibox-radius);
-            border-bottom-right-radius: var(--tss-omnibox-radius);
+            border-top-right-radius: var(--tss-omnibox-inner-radius);
+            border-bottom-right-radius: var(--tss-omnibox-inner-radius);
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
@@ -178,12 +188,14 @@
    pill-shaped selector rather than a rounded rectangle floating inside the curve. */
 .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-mode-toggle {
     --tss-icon-toggle-radius: var(--tss-border-radius-full);
-    border-radius: var(--tss-border-radius-full);
+    /* Through the variable, so a theme that re-declares it moves the track and the segments together. */
+    border-radius: var(--tss-icon-toggle-radius);
 }
 
 .tss-omnibox-container.tss-omnibox-rounded-sm .tss-omnibox-mode-toggle {
     --tss-icon-toggle-radius: var(--tss-border-radius-sm);
-    border-radius: var(--tss-border-radius-sm);
+    /* Through the variable, so a theme that re-declares it moves the track and the segments together. */
+    border-radius: var(--tss-icon-toggle-radius);
 }
 
 
@@ -200,7 +212,7 @@
    so it takes a panel's corner. Pure search stays a field, and keeps the field's. */
 .tss-omnibox-container.tss-omnibox-chat-and-search,
 .tss-omnibox-container.tss-omnibox-mode-chat {
-    --tss-omnibox-radius: 16px;
+    --tss-omnibox-radius: calc(var(--tss-border-radius-xl) * 4 / 3);
 }
 
 /* Roundness, picked with .Rounded(BorderRadius) */
@@ -221,7 +233,7 @@
    generously rounded rectangle there instead. */
 .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
 .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
-    --tss-omnibox-radius: 24px;
+    --tss-omnibox-radius: calc(var(--tss-border-radius-xl) * 2);
 }
 
 /* Those corners curve well into where the footer sits, so the footer pulls away from both the side and
@@ -339,7 +351,7 @@
     border-style: solid;
     border-width: inherit;
     border-color: inherit;
-    border-radius: max(0px, calc(var(--tss-omnibox-radius) - 1px));
+    border-radius: var(--tss-omnibox-inner-radius);
     pointer-events: none;
 }
 
@@ -640,6 +652,15 @@
     border-right: 1px solid var(--tss-default-border-color);
 }
 
+    /* The strip opens the row whenever the history and help buttons before it are absent or collapsed,
+       and then its square background would cover the box's rounded left corners. */
+    .tss-omnibox-search-container > .tss-omnibox-inline-chips:first-child,
+    .tss-omnibox-search-container > .tss-collapse:first-child + .tss-omnibox-inline-chips,
+    .tss-omnibox-search-container > .tss-collapse:first-child + .tss-collapse + .tss-omnibox-inline-chips {
+        border-top-left-radius: var(--tss-omnibox-inner-radius);
+        border-bottom-left-radius: var(--tss-omnibox-inner-radius);
+    }
+
     .tss-omnibox-inline-chips:empty {
         display: none;
     }
@@ -853,6 +874,8 @@
 }
 
 .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn {
+    /* Concentric with the box: its inner radius less the 4px of room the button keeps around it. */
+    border-radius: max(0px, var(--tss-omnibox-inner-radius) - 4px);
     height: calc(100% - 8px);
     max-height: 44px;
 }

@@ -39,7 +39,9 @@
     margin: 0;
     padding: 0 var(--tss-icon-toggle-padding);
     border: none;
-    border-radius: calc(var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-inset));
+    /* Concentric with the track: its radius less the gap between the two edges (the inset, plus
+       the track's border when a theme draws one and declares it in --tss-icon-toggle-border). */
+    border-radius: max(0px, var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-inset) - var(--tss-icon-toggle-border, 0px));
     background: transparent;
     box-shadow: none;
     color: var(--tss-secondary-foreground-color);
@@ -138,17 +140,36 @@
 }
 
 /* .Rounded(...) sets the track radius through the shared .tss-rounded-* classes; the segments derive
-   theirs from this variable, so it has to follow along. */
-.tss-icon-toggle.tss-rounded-sm {
+   theirs from this variable, so it has to follow along. The doubled class outranks a theme's plain
+   `body.tss-theme-x .tss-icon-toggle` default, so an explicit .Rounded(...) still wins over it, and
+   the track reads the variable (over the shared class's own !important) so that a theme which
+   re-declares the variable for a rounded variant moves the track and the segments together. */
+.tss-icon-toggle.tss-icon-toggle.tss-rounded-sm {
     --tss-icon-toggle-radius: var(--tss-border-radius-sm);
 }
 
-.tss-icon-toggle.tss-rounded-md {
+.tss-icon-toggle.tss-icon-toggle.tss-rounded-md {
     --tss-icon-toggle-radius: var(--tss-border-radius-md);
 }
 
-.tss-icon-toggle.tss-rounded-full {
+.tss-icon-toggle.tss-icon-toggle.tss-rounded-full {
     --tss-icon-toggle-radius: var(--tss-border-radius-full);
+}
+
+.tss-icon-toggle.tss-rounded-sm,
+.tss-icon-toggle.tss-rounded-md,
+.tss-icon-toggle.tss-rounded-full {
+    border-radius: var(--tss-icon-toggle-radius) !important;
+}
+
+/* A vertical rail is taller than it is wide, so a pill radius would round it into a capsule whose
+   ends the first and last segments stick out of. Clamping the track to half a segment row plus the
+   gap keeps every corner concentric with the segment inside it. */
+.tss-icon-toggle.tss-icon-toggle-vertical,
+.tss-icon-toggle.tss-icon-toggle-vertical.tss-rounded-sm,
+.tss-icon-toggle.tss-icon-toggle-vertical.tss-rounded-md,
+.tss-icon-toggle.tss-icon-toggle-vertical.tss-rounded-full {
+    border-radius: min(var(--tss-icon-toggle-radius), var(--tss-icon-toggle-height) / 2 + var(--tss-icon-toggle-inset) + var(--tss-icon-toggle-border, 0px)) !important;
 }
 
 /* Vertical: every segment takes the width of the widest one, so the pills line up as a rail. */

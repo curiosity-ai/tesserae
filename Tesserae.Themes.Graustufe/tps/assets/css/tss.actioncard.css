@@ -12,6 +12,11 @@ body.tss-theme-graustufe .tss-actioncard-card {
     border-image: var(--tss-gs-edge);
 }
 
+/* Square chip, so the compact icon (which follows the chip) is square too. */
+body.tss-theme-graustufe .tss-actioncard-compact .tss-actioncard-identity {
+    --tss-actioncard-chip-radius: 0px;
+}
+
 body.tss-theme-graustufe .tss-actioncard-icon {
     border-radius: 0;
     box-shadow: inset 0 0 0 1px var(--tss-gs-0);
