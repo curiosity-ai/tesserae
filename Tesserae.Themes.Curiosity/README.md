@@ -52,7 +52,8 @@ new GeneratingImage(16.0 / 9).WidthFraction(0.75);
   website) and `Play(style)` plays now. `SquareField` (the default) or `Tiles`.
 - **`FlowField`**: the brand's dash field, redrawn at its size. `Surface`/`OnInk`/`OnPaper`, `Fade`,
   `Mark` (Signal, Tone, Hover), `Pitch`, `DotAt`, `Drift`, `Animated`/`NoAnimation`,
-  `Interactive`/`NoInteraction`, and `RestOn(element)`: the pixel rests just outside the top-right corner of an
+  `Interactive`/`NoInteraction`, `HideCursor(bool)` (on by default: the square stands in for the cursor; turn it off
+  where the field sits behind controls), and `RestOn(element)`: the pixel rests just outside the top-right corner of an
   element laid over the field (a search box, a card), as the Signal square sits on the Curiosity mark, easing there
   and back whenever the pointer leaves. The pixel is an element of its own (`.tss-flow-field-pixel`) over the
   dashes' canvas, so a host can fade or mask the dashes without fading it.

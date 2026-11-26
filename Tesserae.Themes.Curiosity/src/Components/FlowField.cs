@@ -45,7 +45,7 @@ namespace Tesserae.Themes.Curiosity
     /// The brand's field (BRAND.md s6), live: a grid of short dashes whose angle bends around one point, the signal
     /// pixel. The website's hero draws it on ink; the pixel drifts slowly round its place and, while the pointer is
     /// over the field, eases toward it at the brand's lerp of 0.06 a frame and back home when it leaves. While it
-    /// follows, the mouse cursor is hidden, so the square is the only cursor there is.
+    /// follows, the mouse cursor is hidden, so the square is the only cursor there is (<see cref="HideCursor"/>).
     /// <para>
     /// It is redrawn on a canvas at the size it is shown, whenever that size changes. The animation loop runs only
     /// while the pixel is travelling or drifting and the field is on screen, so a field at rest costs nothing.
@@ -68,6 +68,7 @@ namespace Tesserae.Themes.Curiosity
         private bool                  _animated    = true;
         private bool                  _interactive = true;
         private bool                  _drift       = true;
+        private bool                  _hideCursor  = true;
 
         private double _dotX = 0.5, _dotY = 0.5, _targetX = 0.5, _targetY = 0.5;
         private bool   _inside, _seen = true, _looping, _mounted;
@@ -237,6 +238,18 @@ namespace Tesserae.Themes.Curiosity
             return this;
         }
 
+        /// <summary>
+        /// Whether the mouse cursor is hidden while the pixel follows it, so the square is the only cursor there is (the
+        /// website's hero). On by default; turn it off where the field sits behind controls people aim at, so the
+        /// pixel follows the pointer and the pointer still shows.
+        /// </summary>
+        public FlowField HideCursor(bool hide = true)
+        {
+            _hideCursor = hide;
+            if (!hide) _container.style.cursor = "";
+            return this;
+        }
+
         /// <summary>Stops the pixel following the pointer. Same as <c>Interactive(false)</c>.</summary>
         public FlowField NoInteraction() => Interactive(false);
 
@@ -306,7 +319,7 @@ namespace Tesserae.Themes.Curiosity
             _inside  = true;
             _targetX = (mouse.clientX - box.left) / box.width;
             _targetY = (mouse.clientY - box.top) / box.height;
-            _container.style.cursor = "none";
+            if (_hideCursor) _container.style.cursor = "none";
 
             if (IsAnimated) EnsureLoop();
             else { _dotX = _targetX; _dotY = _targetY; Draw(); }
