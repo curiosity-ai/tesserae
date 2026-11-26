@@ -88,3 +88,51 @@ body.tss-theme-curiosity .tss-searchaskbox-door.tss-searchaskbox-primary:disable
     background: var(--tss-secondary-background-color);
     color: var(--tss-disabled-foreground-color);
 }
+
+/* Chips are square stone cells, as the OmniBox's are; an assistant's glyph takes the deep blue. */
+body.tss-theme-curiosity .tss-searchaskbox-chip {
+    border-radius: 0;
+    border-color: var(--tss-default-border-color);
+    background: var(--tss-cur-stone);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-searchaskbox-chip {
+    background: var(--tss-cur-slate);
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-chip-ask .tss-searchaskbox-chip-icon {
+    color: var(--tss-cur-deep);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-searchaskbox-chip-ask .tss-searchaskbox-chip-icon {
+    color: var(--tss-cur-signal);
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-chip-remove {
+    border-radius: 0;
+}
+
+/* The list is the shared popover surface: square paper framed in ink, no shadow, mono group headings. */
+body.tss-theme-curiosity .tss-searchaskbox-suggestions {
+    border-radius: 0;
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-suggestions-group {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: normal;
+    letter-spacing: 0.06em;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-suggestion {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-suggestion-highlighted {
+    background: var(--tss-cur-stone);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-searchaskbox-suggestion-highlighted {
+    background: var(--tss-cur-slate);
+}

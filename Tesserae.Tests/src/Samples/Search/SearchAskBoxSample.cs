@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -18,6 +21,10 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(
                     SampleSubTitle("On a home page"),
                     HomePage()))
+               .FlatSection(VStack().WS().Children(
+                    SampleSubTitle("@ and filters"),
+                    TextBlock("Type @ for places to search in and assistants to ask, or filetype: and ext: to narrow a search. A chip keeps the one door it belongs to.").Small().Secondary().PB(8),
+                    WithChips(SearchAskBox(Placeholder).Layout(SearchAskBox.DoorLayout.Stacked), "Stacked: the door that goes gives its row to the other")))
                .FlatSection(VStack().WS().Children(
                     SampleSubTitle("Where the doors sit"),
                     Example("Side by side (default)", SearchAskBox(Placeholder), "supplier audit 2025"),
@@ -47,16 +54,57 @@ namespace Tesserae.Tests.Samples
 
         private static IComponent HomePage()
         {
-            var said = TextBlock("Enter searches. Ctrl+Enter asks.").Small().Secondary();
+            var said = TextBlock("Enter searches. Ctrl+Enter asks. Type @ for more.").Small().Secondary();
 
-            var box = SearchAskBox(Placeholder)
-               .OnSearch((_, text) => said.Text = "Search: " + text)
-               .OnAsk((_, text)    => said.Text = "Ask: " + text);
+            var box = Configure(SearchAskBox(Placeholder), said);
 
             return VStack().WS().AlignItemsCenter().PT(48).PB(48).Children(
                 TextBlock("What are you looking for?").Large().SemiBold().PB(20),
                 box.MaxWidth(720.px()).WS(),
                 said.PT(12));
+        }
+
+        private static IComponent WithChips(SearchAskBox box, string title)
+        {
+            var said = TextBlock(" ").Small().Secondary();
+
+            return VStack().WS().PB(20).Children(
+                TextBlock(title).Small().Secondary().PB(6),
+                Configure(box, said).MaxWidth(720.px()).WS(),
+                said.PT(6));
+        }
+
+        //Two places to search in, three assistants to ask - fetched, as a host would - and two filters.
+        private static SearchAskBox Configure(SearchAskBox box, TextBlock said)
+        {
+            return box
+               .Mentions(
+                    new SearchAskBox.Mention("files",    "Files",     SearchAskBox.Door.Search, UIcons.Document, "Only files"),
+                    new SearchAskBox.Mention("webpages", "Web pages", SearchAskBox.Door.Search, UIcons.Globe,    "Only web pages"))
+               .Mentions(LoadAssistantsAsync)
+               .Filters(
+                    new SearchAskBox.Filter("filetype", "File type", new[] { "filetype", "kind" }, new[] { "PDF", "Word", "Excel", "PowerPoint", "Image", "Email" }, UIcons.Apps, "Filter by file type"),
+                    new SearchAskBox.Filter("ext",      "Extension", new[] { "ext", "extension" }, new[] { "pdf", "docx", "xlsx", "pptx", "png", "msg" },           UIcons.FileCode, "Filter by file extension"))
+               .OnSearch((s, text) => said.Text = "Search: " + Describe(text, s.Chips))
+               .OnAsk((s, text)    => said.Text = "Ask " + (s.SelectedMentions.FirstOrDefault()?.Name ?? "the default assistant") + ": " + text);
+        }
+
+        private static async Task<IEnumerable<SearchAskBox.Mention>> LoadAssistantsAsync()
+        {
+            await Task.Delay(150);
+
+            return new[]
+            {
+                new SearchAskBox.Mention("legal",    "Legal",           SearchAskBox.Door.Ask, UIcons.Scale,     "Contracts, clauses and obligations"),
+                new SearchAskBox.Mention("quality",  "Quality",         SearchAskBox.Door.Ask, UIcons.Badge,     "Audits, findings and suppliers"),
+                new SearchAskBox.Mention("research", "Research",        SearchAskBox.Door.Ask, UIcons.Flask,     "Reads widely and cites its sources")
+            };
+        }
+
+        private static string Describe(string text, IReadOnlyList<SearchAskBox.Chip> chips)
+        {
+            var narrowed = chips.Count == 0 ? "" : " (" + string.Join(", ", chips.Select(c => c.Mention is object ? "@" + c.Mention.Name : c.Filter.Id + ":" + c.Value)) + ")";
+            return (string.IsNullOrEmpty(text) ? "everything" : text) + narrowed;
         }
 
         private static IComponent Example(string title, SearchAskBox box, string text)
