@@ -53,6 +53,9 @@ door are not offered, so chips never conflict. Filters belong to Search; a searc
 - `.AddChip(mention)` / `.AddChip(filter, value)` / `.ClearChips()`; `.Clear()` empties text and chips.
 - `.SuggestionGroupNames(searchIn, ask, filters)` for translations.
 - The list is mounted on the body while open (no container clips it) and placed under the box, or above it.
+- **Name the nested types in full** (`Tesserae.SearchAskBox.Mention`, `.Filter`, `.Door`, `.Chip`) in code outside the
+  `Tesserae` namespace that has both `using Tesserae;` and `using static Tesserae.UI;`: there `SearchAskBox` is both the
+  type and the factory method, and `SearchAskBox.Door` does not compile (CS0119).
 
 ```csharp
 var box = SearchAskBox("Search or ask")
