@@ -225,7 +225,7 @@ json-viewer · keyed-observable-stack · metadata-panel · observable-stack · s
 stateful-item-row · task-board · timeline · tree · virtualized-list
 
 **Search** — search inputs and their result surfaces
-mark-highlighter · omni-box · omni-result · search-box ·
+mark-highlighter · omni-box · omni-result · search-ask-box · search-box ·
 searchable-grouped-list · searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn

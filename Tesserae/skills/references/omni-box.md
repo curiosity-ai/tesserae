@@ -262,6 +262,7 @@ omni.AddContext(ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("S
 
 - TextBox — `/tesserae/inputs/text-box`
 - SearchBox — `/tesserae/search/search-box`
+- SearchAskBox — a plain field with a Search and an Ask button, for a home page that needs no query syntax — `search-ask-box.md`
 - ToolAgentSelector — the tool/agent picker `EnableChatMentions` is commonly wired to — `tool-agent-selector.md`
 - ContextCards — a compact row of pills naming the attached context, mounted in the box's `ChatHeader` slot — `context-cards.md`
 - ContextCard — the cards `WithContextToAdd` renders below the input — `context-card.md`

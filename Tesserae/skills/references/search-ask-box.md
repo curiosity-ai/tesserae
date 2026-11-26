@@ -1,0 +1,55 @@
+---
+name: search-ask-box
+description: A text field with two named buttons at its edge, Search and Ask, so one box offers both a search and a question to an assistant without a mode switch. Use for a home page or start screen in a Tesserae (C#/Transpose) app where the user types once and then chooses what to do with it.
+---
+
+# SearchAskBox
+
+One text field with two "doors": **Search** and **Ask**. What to do with the text is chosen when it is sent,
+so there is no mode toggle. The text is plain: nothing is parsed or highlighted (use `OmniBox` for query
+syntax, snaps and a chat composer). The field grows with the text up to six lines, then scrolls.
+
+Keys: **Enter** searches, **Ctrl+Enter** (Cmd+Enter on a Mac) asks, **Shift+Enter** starts a new line. Enter
+while an input method is composing a word (Japanese, Chinese, Korean) is left to the input method. Both doors
+are disabled while the box is empty.
+
+## Create
+
+`UI.SearchAskBox(string placeholder = null)`, returns a `SearchAskBox`. Also `new SearchAskBox(placeholder)`.
+The placeholder is also the field's accessible name. Bring factories into scope with `using static Tesserae.UI;`.
+
+## Key configuration
+
+- `.OnSearch((sender, text) => ...)` / `.OnAsk((sender, text) => ...)`: raised with the trimmed text.
+- `.Layout(SearchAskBox.DoorLayout)`: `SideBySide` (default; both doors the box's full height at its right
+  end), `Stacked` (Search above Ask, each half the height), `Outside` (the doors in their own frame beside
+  the field).
+- `.ShowKeys(bool = true)`: prints each door's key on it (`↵` on Search, `Ctrl ↵` / `⌘ ↵` on Ask). Off by default.
+- `.Primary(SearchAskBox.PrimaryDoor)`: `None` (default; both doors grey, the primary colour under the
+  pointer), `Ask` or `Search` (that door filled at rest).
+- `.AskEnabled(bool enabled, string reason = null)`: keeps Ask disabled whatever is typed, with the reason
+  as its tooltip, for a host with nothing to answer with (no AI model). Search and Enter still work.
+- `.DoorTexts(string search, string ask)`: renames the doors (translations).
+- `.Placeholder(string)`, `.Text` (get/set), `.Clear()`, `.Focus()`, `.TabIndex`.
+
+## Example
+
+```csharp
+using static Tesserae.UI;
+
+var box = SearchAskBox("Search or ask about your workspace")
+    .AskEnabled(hasModel, "No AI model is configured")
+    .OnSearch((_, text) => ShowResults(text))
+    .OnAsk((_, text)    => StartChat(text));
+
+var home = VStack().S().AlignItemsCenter().JustifyContent(ItemJustify.Center).Children(
+    TextBlock("What are you looking for?").Large().SemiBold().PB(20),
+    box.MaxWidth(720.px()).WS());
+```
+
+## Related
+
+- OmniBox: one input for search and chat, with query syntax, snaps and a chat composer. `omni-box.md`
+- SearchBox: a single-line search input. `search-box.md`
+- TextArea: the plain multi-line input. `text-area.md`
+- Full docs & API: `/tesserae/search/search-ask-box`

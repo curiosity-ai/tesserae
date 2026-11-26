@@ -1124,6 +1124,11 @@ namespace Tesserae
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.SearchAskBox"/>: a text field with a Search and an Ask door at its edge.
+        /// </summary>
+        public static SearchAskBox SearchAskBox(string placeholder = null) => new SearchAskBox(placeholder);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.OmniBox"/> component.
         /// </summary>
         public static OmniBox OmniBox(OmniBox.Config config) => new OmniBox(config);
