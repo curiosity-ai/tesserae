@@ -26,7 +26,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.WithPaginatedItems(Func<Task<T[]>>)` — append more rows when scrolled to the bottom.
 - `.WithEmptyMessage(Func<IComponent>)` — placeholder shown when there are no rows.
 - `.Compact()` — denser row height.
-- `.Height(unitSize)` — needed for scrolling/virtualisation.
+- `.Height(unitSize)` — fixed height; the rows scroll inside it.
+- `.MaxHeight(unitSize)` — as tall as its rows, up to the cap, then the rows scroll. Use it when the
+  row count varies: a fixed `Height` either leaves blank space or hides rows.
 
 ## Keyboard
 

@@ -7,9 +7,14 @@
     position: relative;
 }
 
+/* A column flex box, so a MaxHeight on the container caps the list: the scroll box's max-height: 100%
+   resolves against a height but not a max-height, and as a flex item with overflow: auto it may shrink
+   below its rows instead. */
 .tss-detailslist-container {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .tss-detailslist-header {
@@ -76,7 +81,7 @@
 }
 
 
-.tss-detailslist.tss-small > .tss-detailslist-list-item,
-.tss-detailslist.tss-small > .tss-detailslist-column-header {
+.tss-detailslist.tss-small .tss-detailslist-list-item,
+.tss-detailslist.tss-small .tss-detailslist-column-header {
     padding: var(--tss-detailslist-compact-padding);
 }

@@ -66,6 +66,28 @@ namespace Tesserae.Tests.Samples
                            .Height(400.px())
                            .WithListItems(GetComponentDetailsListItems())
                            .MB(32),
+                        SampleSubTitle("Sized to Its Rows"),
+                        TextBlock("MaxHeight caps the list; below the cap it is as tall as its rows."),
+                        HStack().WS().Gap(16.px()).AlignItems(ItemAlign.Start).Children(
+                            DetailsList<DetailsListSampleFileItem>(
+                                    IconColumn(Icon(UIcons.File), width: 32.px()),
+                                    DetailsListColumn(title: "File Name", width: 180.px(), isRowHeader: true),
+                                    DetailsListColumn(title: "Date Modified", width: 120.px()),
+                                    DetailsListColumn(title: "Modified By", width: 100.px()),
+                                    DetailsListColumn(title: "File Size", width: 100.px()))
+                               .MaxHeight(300.px())
+                               .WithListItems(GetDetailsListItems(1, 3))
+                               .Grow(),
+                            DetailsList<DetailsListSampleFileItem>(
+                                    IconColumn(Icon(UIcons.File), width: 32.px()),
+                                    DetailsListColumn(title: "File Name", width: 180.px(), isRowHeader: true),
+                                    DetailsListColumn(title: "Date Modified", width: 120.px()),
+                                    DetailsListColumn(title: "Modified By", width: 100.px()),
+                                    DetailsListColumn(title: "File Size", width: 100.px()))
+                               .MaxHeight(300.px())
+                               .WithListItems(GetDetailsListItems(1, 100))
+                               .Grow())
+                           .MB(32),
                         SampleSubTitle("Paginated and Empty States"),
                         SplitView().Resizable().SplitInMiddle().Left(
                             VStack().WS().Children(
