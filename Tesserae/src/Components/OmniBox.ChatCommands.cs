@@ -239,7 +239,7 @@ namespace Tesserae
             {
                 var captured = command;
                 var btn      = Button().Class("tss-omnibox-snap-suggestion").Class(COMMAND_SUGGESTION_CLASS).WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
-                var row      = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+                var row      = HStack().WS().AlignItems(ItemAlign.Start).PaddingLeft(12.px()).PaddingRight(12.px());
 
                 if (captured.Icon.HasValue) row.Add(Icon(captured.Icon.Value).MR(8));
 
