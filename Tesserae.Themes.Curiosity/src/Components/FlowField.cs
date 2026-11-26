@@ -58,6 +58,7 @@ namespace Tesserae.Themes.Curiosity
 
         private readonly HTMLElement       _container;
         private readonly HTMLCanvasElement _canvas;
+        private readonly HTMLElement       _pixel;
 
         private FlowFieldSurface _surface     = FlowFieldSurface.Ink;
         private FlowFieldFade    _fade        = FlowFieldFade.None;
@@ -71,6 +72,10 @@ namespace Tesserae.Themes.Curiosity
         private double _dotX = 0.5, _dotY = 0.5, _targetX = 0.5, _targetY = 0.5;
         private bool   _inside, _seen = true, _looping, _mounted;
         private double _driftStart;
+
+        //An element the pixel rests on: its home is that element's outer top-right corner, wherever layout puts it.
+        private HTMLElement _restOn;
+        private const double RestGap = 3;
 
         private ResizeObserver       _resize;
         private IntersectionObserver _visibility;
@@ -87,7 +92,18 @@ namespace Tesserae.Themes.Curiosity
             _canvas.style.height   = "100%";
             _canvas.style.display  = "block";
 
-            _container = Div(Att("tss-flow-field"), _canvas);
+            //The pixel is an element over the canvas rather than paint in it, so a host can fade or mask the dashes
+            //without fading the one mark that stands for the pointer.
+            _pixel = Div(Att("tss-flow-field-pixel"));
+            _pixel.setAttribute("aria-hidden", "true");
+            _pixel.style.position      = "absolute";
+            _pixel.style.left          = "0";
+            _pixel.style.top           = "0";
+            _pixel.style.width         = Dot + "px";
+            _pixel.style.height        = Dot + "px";
+            _pixel.style.pointerEvents = "none";
+
+            _container = Div(Att("tss-flow-field"), _canvas, _pixel);
             _container.setAttribute("aria-hidden", "true");
             _container.style.position = "relative";
             _container.style.overflow = "hidden";
@@ -164,6 +180,48 @@ namespace Tesserae.Themes.Curiosity
             return this;
         }
 
+        /// <summary>
+        /// Gives the pixel a place to rest on another element: just outside its top-right corner, as the Signal square
+        /// sits on the corner of the Curiosity mark. The pixel eases there, follows the element as layout moves it, and
+        /// comes back to it whenever the pointer leaves the field; the pointer can still pull it away while over the
+        /// field. The element only has to be laid out over the field, as a sibling drawn on top of it. Drifting stops
+        /// while it rests on an element. <c>RestOn(null)</c> returns the pixel to its place in the field.
+        /// </summary>
+        public FlowField RestOn(HTMLElement element)
+        {
+            _restOn = element;
+
+            if (element is null)
+            {
+                _targetX = _homeX;
+                _targetY = _homeY;
+            }
+            else
+            {
+                UpdateRestingPlace();
+                if (!_inside) { _targetX = _homeX; _targetY = _homeY; }
+            }
+
+            if (IsAnimated) EnsureLoop();
+            else { _dotX = _targetX; _dotY = _targetY; Draw(); }
+
+            return this;
+        }
+
+        //Where the pixel rests when it rests on an element, as fractions of the field. False until both are laid out.
+        private bool UpdateRestingPlace()
+        {
+            if (_restOn is null) return false;
+
+            var field = (DOMRect)_container.getBoundingClientRect();
+            var on    = (DOMRect)_restOn.getBoundingClientRect();
+            if (field.width < 1 || field.height < 1 || on.width < 1) return false;
+
+            _homeX = (on.right + RestGap + Dot / 2 - field.left) / field.width;
+            _homeY = (on.top   - RestGap - Dot / 2 - field.top)  / field.height;
+            return true;
+        }
+
         /// <summary>Turns off every animation. Same as <c>Animated(false)</c>.</summary>
         public FlowField NoAnimation() => Animated(false);
 
@@ -195,7 +253,7 @@ namespace Tesserae.Themes.Curiosity
         public HTMLElement Render() => _container;
 
         private bool IsAnimated => _animated && !BrandMotion.PrefersReducedMotion;
-        private bool IsDrifting => IsAnimated && _drift && _seen && _mounted;
+        private bool IsDrifting => IsAnimated && _drift && _restOn is null && _seen && _mounted;
         private bool IsFollowing => _interactive && !BrandMotion.PrefersReducedMotion;
 
         private static double Clamp01(double v) => Math.Max(0, Math.Min(1, v));
@@ -257,6 +315,7 @@ namespace Tesserae.Themes.Curiosity
         private void OnPointerLeave()
         {
             _inside  = false;
+            UpdateRestingPlace();
             _targetX = _homeX;
             _targetY = _homeY;
             _container.style.cursor = "";
@@ -276,6 +335,8 @@ namespace Tesserae.Themes.Curiosity
             step = now =>
             {
                 if (!_mounted) { _looping = false; return; }
+
+                UpdateRestingPlace();
 
                 if (IsDrifting && !_inside)
                 {
@@ -300,6 +361,11 @@ namespace Tesserae.Themes.Curiosity
                 var moving = NeedsTravel();
                 _dotX += (_targetX - _dotX) * Lerp;
                 _dotY += (_targetY - _dotY) * Lerp;
+
+                //Once it is within half a pixel of where it rests it is put exactly there, so it settles on the
+                //corner instead of creeping toward it for another second.
+                if (!NeedsTravel()) { _dotX = _targetX; _dotY = _targetY; moving = false; }
+
                 Draw();
 
                 if (IsDrifting || moving) window.requestAnimationFrame(step);
@@ -316,6 +382,13 @@ namespace Tesserae.Themes.Curiosity
             if (!_mounted) return;
             var ctx = BrandMotion.Fit(_canvas, out var W, out var H);
             if (ctx is null) return;
+
+            //A resize moves the element the pixel rests on; a pixel at rest moves with it rather than gliding after it.
+            if (_restOn is object && !_inside && !NeedsTravel() && UpdateRestingPlace())
+            {
+                _dotX = _targetX = _homeX;
+                _dotY = _targetY = _homeY;
+            }
 
             var onInk = _surface == FlowFieldSurface.Ink;
             var dash  = onInk ? BrandColors.Ash : BrandColors.Slate;
@@ -365,10 +438,11 @@ namespace Tesserae.Themes.Curiosity
             ctx.globalAlpha = 1;
 
             // A field with no pixel at rest shows one only while it is being pointed at, or travelling home.
-            if (_mark == FlowFieldMark.Hover && !_inside && !NeedsTravel()) return;
+            var hidden = _mark == FlowFieldMark.Hover && !_inside && !NeedsTravel();
 
-            ctx.fillStyle = pixel;
-            ctx.fillRect(Math.Round(ax) - Dot / 2, Math.Round(ay) - Dot / 2, Dot, Dot);
+            _pixel.style.display    = hidden ? "none" : "block";
+            _pixel.style.background = pixel;
+            _pixel.style.transform  = $"translate({Math.Round(ax) - Dot / 2}px, {Math.Round(ay) - Dot / 2}px)";
         }
 
         private double FadeAlpha(int c, int r, int cols, int rows)

@@ -34,6 +34,7 @@ PixelIntro.PlayOnce(PixelIntroStyle.Tiles);              // the brand style's ti
 
 new FlowField().H(360);                                  // the hero's dash field on ink, pixel follows the pointer
 new FlowField().OnPaper().Fade(FlowFieldFade.Left).NoInteraction().NoAnimation();
+new FlowField().OnPaper().RestOn(searchBox.Render());   // the pixel docks on the box's corner
 
 new PixelGlyph(PixelGlyphKind.PlayBacklog, 96).ShowLabel();   // any of the website's 85 glyphs
 PixelGlyph.Custom(new[] { 1,1,0,4, 1,1,1,0, 1,1,1,0, 0,0,0,0 });  // your own 16 cells, built in
@@ -51,7 +52,10 @@ new GeneratingImage(16.0 / 9).WidthFraction(0.75);
   website) and `Play(style)` plays now. `SquareField` (the default) or `Tiles`.
 - **`FlowField`**: the brand's dash field, redrawn at its size. `Surface`/`OnInk`/`OnPaper`, `Fade`,
   `Mark` (Signal, Tone, Hover), `Pitch`, `DotAt`, `Drift`, `Animated`/`NoAnimation`,
-  `Interactive`/`NoInteraction`.
+  `Interactive`/`NoInteraction`, and `RestOn(element)`: the pixel rests just outside the top-right corner of an
+  element laid over the field (a search box, a card), as the Signal square sits on the Curiosity mark, easing there
+  and back whenever the pointer leaves. The pixel is an element of its own (`.tss-flow-field-pixel`) over the
+  dashes' canvas, so a host can fade or mask the dashes without fading it.
 - **`PixelGlyph`**: 4 by 4 glyphs. `PixelGlyphKind` lists every glyph on the website (value, use case,
   capability and category glyphs, the three problem stories, the 54 developer loops). An animation is
   a string of frames (16 cells each, `/` between rows, `:ms`, `:label`); cells are palette keys (digits,
