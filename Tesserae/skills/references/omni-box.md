@@ -108,6 +108,14 @@ OmniBox:
   `ShowInlineAt`/`Filter`/`MoveHighlight`/`ActivateHighlighted`/`Hide`/`IsVisible` (see
   `tool-agent-selector.md`). Arrow Up/Down, Enter/Tab and Escape are forwarded to the callbacks
   while the picker is open; a `true` return from `OnCommit` removes the typed `@mention` text.
+- `.RegisterChatCommand(new OmniBox.ChatCommand(name, description, onInvoked, icon, argumentHint, requiresArgument, isAvailable))`
+  — a slash command (chat/search-and-chat modes only). Typing `/` as the **first character** of the message
+  lists the commands and filters them as the name is typed (Arrow Up/Down to move, Tab completes, Enter or
+  a click runs one, or completes it when `requiresArgument` is set, Escape closes). Sending a message whose
+  first word is a registered command calls `onInvoked(ChatCommandInvocation)` (`.Command`, `.Arguments`
+  — the rest of the message, trimmed — `.Text`, `.Sender`) instead of `OnChat`; anything else that starts
+  with `/` is sent as usual. A command whose `isAvailable()` answers false is hidden and not run.
+  `.RegisterChatCommands(params ...)`, `.RemoveChatCommand(name)`, `.ClearChatCommands()`, `.ChatCommands`.
 - `.WithContextToAdd(params ContextCard[])` — the context that will go with the next message, rendered
   as a wrapping row of `ContextCard`s **inside the box**, just below the input and above the footer
   (chat/search-and-chat modes only; it hides itself while the box is in search mode, and the row is

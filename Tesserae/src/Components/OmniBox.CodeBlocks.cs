@@ -541,6 +541,12 @@ namespace Tesserae
                 var ke = e.As<KeyboardEvent>();
                 KeyDown?.Invoke(this, ke);
 
+                if (TryHandleChatCommandKey(input, ke))
+                {
+                    StopEvent(e);
+                    return;
+                }
+
                 if (_chatMention != null && _mentionStart >= 0 && _mentionInput == input && (_chatMention.IsOpen?.Invoke() ?? false))
                 {
                     if (ke.key == "ArrowDown")
@@ -600,6 +606,8 @@ namespace Tesserae
                 Input?.Invoke(this, e);
                 if (document.activeElement == input) TryUpdateChatMention(input);
                 else if (_mentionStart >= 0) HideChatMention();
+                if (document.activeElement == input) TryUpdateChatCommands(input);
+                else HideCommandSuggestions();
             });
 
             WireChatCommon(input);

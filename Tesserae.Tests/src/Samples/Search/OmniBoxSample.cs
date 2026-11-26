@@ -44,6 +44,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(FooterItems()))
                .FlatSection(VStack().WS().Children(CharacterLimit()))
                .FlatSection(VStack().WS().Children(CodeBlocks()))
+               .FlatSection(VStack().WS().Children(SlashCommands()))
                .FlatSection(VStack().WS().Children(Dictation()))
                .FlatSection(VStack().WS().Children(KeyboardShortcut()))
                .FlatSection(VStack().WS().Children(SuggestedText()))
@@ -425,6 +426,30 @@ namespace Tesserae.Tests.Samples
                 "Config.MaxCharacters caps how long a chat message can be: the input stops taking text at the limit, and a \"used / max\" counter sits next to the send button. It only shows past half the budget — below that it is collapsed, so a short message never has a number hanging off it. OmniBox.MaxChatCharacters changes the cap later, and zero lifts it.",
                 box,
                 HStack().MT(8).Children(raise, lift.ML(8)));
+        }
+
+        // ---------- Slash commands ----------
+
+        private IComponent SlashCommands()
+        {
+            var ran = TextBlock("No command run yet").Secondary();
+
+            var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat = "Type / to see the commands"
+            })
+            .WS()
+            .RegisterChatCommands(
+                new OmniBox.ChatCommand("clear",   "Start a new conversation",               c => ran.Text = "/clear",                                 UIcons.Broom),
+                new OmniBox.ChatCommand("compact", "Summarize the conversation so far",      c => ran.Text = "/compact " + c.Arguments,                UIcons.Compress, argumentHint: "[focus]"),
+                new OmniBox.ChatCommand("plan",    "Plan a change before making it",         c => ran.Text = "/plan " + c.Arguments,                   UIcons.ListCheck, argumentHint: "<goal>", requiresArgument: true),
+                new OmniBox.ChatCommand("cost",    "What this conversation has cost so far", c => ran.Text = "/cost",                                  UIcons.Coins))
+            .OnChat((s, q) => ran.Text = "Sent: " + q.Text));
+
+            return FeatureCard("Slash commands", "Actions the box runs instead of sending",
+                "RegisterChatCommand adds a command offered when the message starts with /: the list filters as the name is typed, Tab completes, Enter runs. A command that needs an argument is completed into the box instead. Sending /name runs the command rather than OnChat; any other text starting with / is sent as usual.",
+                box,
+                ran.MT(8));
         }
 
         // ---------- Code blocks ----------
