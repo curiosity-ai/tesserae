@@ -386,6 +386,85 @@ a {
         animation: tss-btn-spin-track-in .36s cubic-bezier(.22, 1, .36, 1) .3s both;
     }
 
+/* SaveButton's Saved and Error: the live ring resolves as Button's outcome does. The arc closes into the
+   full circle as the track drops away, then the check draws in, or the x one stroke after the other.
+   Keyframes again, since the ring may appear straight into this state; coming from Saving, the arc is at
+   the quarter the close starts from. The button is filled (success, danger) by then, so the ring and its
+   mark take its text colour. */
+    .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-resolved {
+        color: inherit;
+    }
+
+        .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-resolved .tss-btn-spin-arc {
+            stroke-dasharray: 125.66 0;
+            animation: tss-btn-spin-close .3s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-resolved .tss-btn-spin-track {
+            opacity: 0;
+            animation: tss-btn-spin-track-out .3s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-check .tss-btn-spin-check,
+        .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-x .tss-btn-spin-x {
+            animation: tss-btn-spin-draw .27s cubic-bezier(.22, 1, .36, 1) .27s both;
+        }
+
+        .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-x .tss-btn-spin-x2 {
+            animation: tss-btn-spin-draw .21s cubic-bezier(.22, 1, .36, 1) .39s both;
+        }
+
+@keyframes tss-btn-spin-close {
+    from {
+        stroke-dasharray: 31.4 94.26;
+    }
+
+    to {
+        stroke-dasharray: 125.66 0;
+    }
+}
+
+@keyframes tss-btn-spin-track-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* The mark stays invisible until it starts drawing: a round cap would otherwise show as a dot. */
+@keyframes tss-btn-spin-draw {
+    0% {
+        opacity: 0;
+        stroke-dashoffset: 1;
+    }
+
+    1% {
+        opacity: 1;
+        stroke-dashoffset: 1;
+    }
+
+    100% {
+        opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-resolved .tss-btn-spin-arc,
+    .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-resolved .tss-btn-spin-track {
+        animation: none;
+    }
+
+    .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-check .tss-btn-spin-check,
+    .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-x .tss-btn-spin-x {
+        animation: none;
+        opacity: 1;
+    }
+}
+
 @keyframes tss-btn-spin-stretch {
     from {
         stroke-dasharray: .01 125.65;
