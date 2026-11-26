@@ -3150,6 +3150,9 @@ namespace Tesserae
             StopDictation();
             DropLingering();
 
+            // A command runs whatever the box is doing: /cost while a reply streams is a question about the box, not a message.
+            if (TryRunChatCommandFromText(ChatText)) return;
+
             if (_isGenerating && !CanSendWhileGenerating)
             {
                 // A stop already asked for is not asked for again: the trigger is spinning until the host says it is over.
