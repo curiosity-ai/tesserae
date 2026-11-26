@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Curiosity theme - SearchAskBox
+   --------------------------------------------------------------------------
+   Drawn as the website's inputs are: square, edged in mute, ink under the
+   pointer and while focused, no shadow. The doors are cut from the same
+   edge, so the lines between them and the field are the frame's own colour
+   and turn ink with it. The doors are stone, deep call blue under the
+   pointer; a door asked to be filled is that blue at rest.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-searchaskbox,
+body.tss-theme-curiosity .tss-searchaskbox-outside .tss-searchaskbox-field,
+body.tss-theme-curiosity .tss-searchaskbox-outside .tss-searchaskbox-doors {
+    --tss-searchaskbox-edge: var(--tss-cur-input-border);
+    border-color: var(--tss-searchaskbox-edge);
+    border-radius: var(--tss-cur-input-radius);
+    box-shadow: none;
+    transition: border-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-outside {
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox:not(.tss-searchaskbox-outside):hover,
+body.tss-theme-curiosity .tss-searchaskbox:not(.tss-searchaskbox-outside):focus-within,
+body.tss-theme-curiosity .tss-searchaskbox-outside:hover .tss-searchaskbox-field,
+body.tss-theme-curiosity .tss-searchaskbox-outside:hover .tss-searchaskbox-doors,
+body.tss-theme-curiosity .tss-searchaskbox-outside:focus-within .tss-searchaskbox-field,
+body.tss-theme-curiosity .tss-searchaskbox-outside:focus-within .tss-searchaskbox-doors {
+    --tss-searchaskbox-edge: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-doors,
+body.tss-theme-curiosity .tss-searchaskbox-door + .tss-searchaskbox-door {
+    border-color: var(--tss-searchaskbox-edge, var(--tss-cur-input-border));
+}
+
+body.tss-theme-curiosity .tss-searchaskbox:not(.tss-searchaskbox-outside) .tss-searchaskbox-doors {
+    border-left-color: var(--tss-searchaskbox-edge);
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-input {
+    font-size: 15px;
+    line-height: 22px;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-door {
+    font-weight: var(--tss-font-weight-semibold);
+    font-size: 14px;
+}
+
+/* The doors are stone at rest and the deep call blue under the pointer. */
+body.tss-theme-curiosity .tss-searchaskbox-door {
+    background: var(--tss-cur-stone);
+}
+
+/* On ink the grey is slate, a step up from the field, so the doors still read as doors. */
+body.tss-theme-curiosity.tss-dark-mode .tss-searchaskbox-door {
+    background: var(--tss-cur-slate);
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-door:hover:not(:disabled),
+body.tss-theme-curiosity.tss-dark-mode .tss-searchaskbox-door:hover:not(:disabled) {
+    background: var(--tss-cur-deep);
+    color: #FFFFFF;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-door.tss-searchaskbox-primary:not(:disabled) {
+    background: var(--tss-cur-deep);
+    color: #FFFFFF;
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-door:disabled,
+body.tss-theme-curiosity.tss-dark-mode .tss-searchaskbox-door:disabled {
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-searchaskbox-door:focus-visible {
+    outline: 2px solid var(--tss-cur-signal);
+    outline-offset: -3px;
+}
+
+/* A disabled filled door keeps its place as the filled one: a paler stone, so the pair still reads as one
+   plain and one filled before anything is typed. */
+body.tss-theme-curiosity .tss-searchaskbox-door.tss-searchaskbox-primary:disabled {
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-disabled-foreground-color);
+}

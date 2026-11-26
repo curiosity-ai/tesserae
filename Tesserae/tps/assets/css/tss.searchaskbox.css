@@ -1,0 +1,198 @@
+/* SearchAskBox: a text field with two named doors, Search and Ask, at its right edge. */
+
+.tss-searchaskbox {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
+    width: 100%;
+    min-height: 48px;
+    box-sizing: border-box;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+    box-shadow: var(--tss-shadow-sm);
+    color: var(--tss-default-foreground-color);
+    overflow: hidden;
+}
+
+.tss-searchaskbox:focus-within {
+    border-color: var(--tss-primary-background-color);
+}
+
+.tss-searchaskbox-field {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.tss-searchaskbox-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 12px 14px;
+    border: 0;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    background: transparent;
+    color: inherit;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.tss-searchaskbox-input::placeholder {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-searchaskbox-doors {
+    display: grid;
+    border-left: 1px solid var(--tss-default-border-color);
+}
+
+.tss-searchaskbox-door {
+    margin: 0;
+    padding: 0 16px;
+    border: 0;
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: var(--tss-font-weight-semibold, 600);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+/* Grey at rest, the primary colour under the pointer: the door about to be opened is the one that lights up. */
+.tss-searchaskbox-door:hover:not(:disabled) {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-searchaskbox-door:active:not(:disabled) {
+    background: var(--tss-primary-background-active-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-searchaskbox-door:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: -2px;
+}
+
+.tss-searchaskbox-door:disabled {
+    background: var(--tss-disabled-background-color);
+    color: var(--tss-disabled-foreground-color);
+    cursor: default;
+}
+
+.tss-searchaskbox-door.tss-searchaskbox-primary {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-searchaskbox-door.tss-searchaskbox-primary:hover:not(:disabled) {
+    background: var(--tss-primary-background-hover-color);
+}
+
+.tss-searchaskbox-door.tss-searchaskbox-primary:active:not(:disabled) {
+    background: var(--tss-primary-background-active-color);
+}
+
+.tss-searchaskbox-door.tss-searchaskbox-primary:disabled {
+    background: var(--tss-disabled-background-color);
+    color: var(--tss-disabled-foreground-color);
+}
+
+/* The key that opens a door, shown with ShowKeys(). */
+.tss-searchaskbox-door {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tss-searchaskbox-key {
+    display: none;
+    font-family: var(--tss-monospace-font-family, monospace);
+    font-size: 11px;
+    font-weight: normal;
+    opacity: 0.7;
+}
+
+.tss-searchaskbox-show-keys .tss-searchaskbox-key {
+    display: inline;
+}
+
+.tss-searchaskbox-show-keys .tss-searchaskbox-door {
+    justify-content: space-between;
+}
+
+/* Stacked and outside: two doors one above the other need the height for two rows of type. */
+.tss-searchaskbox-stacked,
+.tss-searchaskbox-outside {
+    min-height: 64px;
+}
+
+/* Stacked: Search above Ask, each half the box's height. */
+.tss-searchaskbox-stacked .tss-searchaskbox-doors {
+    grid-template-rows: 1fr 1fr;
+    min-width: 96px;
+}
+
+.tss-searchaskbox-show-keys.tss-searchaskbox-stacked .tss-searchaskbox-doors,
+.tss-searchaskbox-show-keys.tss-searchaskbox-outside .tss-searchaskbox-doors {
+    min-width: 128px;
+}
+
+.tss-searchaskbox-stacked .tss-searchaskbox-door + .tss-searchaskbox-door {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+/* Side by side: each door the full height of the box. */
+.tss-searchaskbox-side-by-side .tss-searchaskbox-doors {
+    grid-auto-flow: column;
+}
+
+.tss-searchaskbox-side-by-side .tss-searchaskbox-door {
+    padding: 0 20px;
+}
+
+.tss-searchaskbox-side-by-side .tss-searchaskbox-door + .tss-searchaskbox-door {
+    border-left: 1px solid var(--tss-default-border-color);
+}
+
+/* Outside: the field has its frame and the doors a second one beside it, a gap apart. */
+.tss-searchaskbox-outside {
+    column-gap: 8px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.tss-searchaskbox-outside .tss-searchaskbox-field {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+    box-shadow: var(--tss-shadow-sm);
+}
+
+.tss-searchaskbox-outside:focus-within .tss-searchaskbox-field {
+    border-color: var(--tss-primary-background-color);
+}
+
+.tss-searchaskbox-outside .tss-searchaskbox-doors {
+    grid-template-rows: 1fr 1fr;
+    min-width: 96px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+    overflow: hidden;
+}
+
+.tss-searchaskbox-outside .tss-searchaskbox-door + .tss-searchaskbox-door {
+    border-top: 1px solid var(--tss-default-border-color);
+}

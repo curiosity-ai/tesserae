@@ -1,0 +1,77 @@
+/* ==========================================================================
+   RetroOS theme - SearchAskBox
+   --------------------------------------------------------------------------
+   A framed text field as the SearchBox is (1px ink frame, a second ink line
+   inside while it has the caret), with two push buttons cut into its right
+   end. A 1-bit screen has no grey and no accent: the buttons are paper with
+   ink legends in the chrome face, and invert when pointed at, as every
+   RetroOS control does. A disabled button is the theme's grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-searchaskbox,
+body.tss-theme-retroos .tss-searchaskbox-outside .tss-searchaskbox-field,
+body.tss-theme-retroos .tss-searchaskbox-outside .tss-searchaskbox-doors {
+    border: var(--tss-retro-hair);
+    border-radius: 0;
+    background: var(--tss-retro-paper);
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-outside {
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-retroos .tss-searchaskbox:not(.tss-searchaskbox-outside):focus-within,
+body.tss-theme-retroos .tss-searchaskbox-outside:focus-within .tss-searchaskbox-field {
+    border-color: var(--tss-retro-ink);
+    box-shadow: inset 0 0 0 1px var(--tss-retro-ink);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-input {
+    color: var(--tss-retro-ink);
+    caret-color: var(--tss-retro-ink);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-input::placeholder {
+    color: var(--tss-retro-ink);
+    opacity: 1;
+    font-style: italic;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-doors,
+body.tss-theme-retroos .tss-searchaskbox-door + .tss-searchaskbox-door {
+    border-color: var(--tss-retro-ink);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-door {
+    background: var(--tss-retro-paper);
+    color: var(--tss-retro-ink);
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: normal;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-door:hover:not(:disabled),
+body.tss-theme-retroos .tss-searchaskbox-door:active:not(:disabled),
+body.tss-theme-retroos .tss-searchaskbox-door.tss-searchaskbox-primary:not(:disabled) {
+    background: var(--tss-retro-ink);
+    color: var(--tss-retro-paper);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-door:disabled,
+body.tss-theme-retroos .tss-searchaskbox-door.tss-searchaskbox-primary:disabled {
+    background: var(--tss-retro-paper);
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-door:focus-visible {
+    outline: 1px dotted var(--tss-retro-ink);
+    outline-offset: -4px;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-door:hover:focus-visible:not(:disabled) {
+    outline-color: var(--tss-retro-paper);
+}

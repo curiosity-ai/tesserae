@@ -108,4 +108,5 @@ async Task RunSearchAsync(SearchBox box, string query)
 ## Related
 
 - TextBox — `text-box.md`
+- SearchAskBox — the same text sent either to search or to an assistant — `search-ask-box.md`
 - Full docs & API: `/tesserae/search/search-box`
