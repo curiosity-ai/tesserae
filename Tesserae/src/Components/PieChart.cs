@@ -64,6 +64,7 @@ namespace Tesserae
                 var path = El("path");
                 Attr(path, "d", SlicePath(cx, cy, radius, innerR, startAngle, endAngle, sweep));
                 Attr(path, "fill", color);
+                Attr(path, "fill-rule", "evenodd");
                 Attr(path, "stroke", Theme.Default.Background);
                 Attr(path, "stroke-width", 1);
                 AttachPointTooltip(path, TooltipFor(i, values[i], total));
@@ -75,6 +76,9 @@ namespace Tesserae
 
         private string SlicePath(double cx, double cy, double ro, double ri, double a0, double a1, double sweep)
         {
+            // An arc whose end is its start draws nothing, so a slice that is the whole circle is two half-circles.
+            if (sweep >= Math.PI * 2 - 1e-9) return FullRingPath(cx, cy, ro, ri, a0);
+
             var largeArc = sweep > Math.PI ? 1 : 0;
 
             var ox0 = cx + ro * Math.Cos(a0);
@@ -96,6 +100,16 @@ namespace Tesserae
 
             return $"M {F(ox0)} {F(oy0)} A {F(ro)} {F(ro)} 0 {largeArc} 1 {F(ox1)} {F(oy1)} " +
                    $"L {F(ix1)} {F(iy1)} A {F(ri)} {F(ri)} 0 {largeArc} 0 {F(ix0)} {F(iy0)} Z";
+        }
+
+        private static string FullRingPath(double cx, double cy, double ro, double ri, double a0)
+        {
+            string Circle(double r) => $"M {F(cx + r * Math.Cos(a0))} {F(cy + r * Math.Sin(a0))} " +
+                                       $"A {F(r)} {F(r)} 0 1 1 {F(cx - r * Math.Cos(a0))} {F(cy - r * Math.Sin(a0))} " +
+                                       $"A {F(r)} {F(r)} 0 1 1 {F(cx + r * Math.Cos(a0))} {F(cy + r * Math.Sin(a0))} Z";
+
+            // The hole is a second subpath; the slice's fill-rule is evenodd, so it is cut out.
+            return ri <= 0 ? Circle(ro) : Circle(ro) + " " + Circle(ri);
         }
 
         private static string F(double v) => v.ToString("0.###");
