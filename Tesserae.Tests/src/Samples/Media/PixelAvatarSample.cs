@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("The sixteen designs, attached to buttons"),
-                        TextBlock("Every avatar below is attached to the top edge of a button. Click a button to switch the animation its cat is playing. Eight designs come from the source sprite sheets; Grey, Sparkle, Lynx, Sudo, SudoDark, Cobalt, Ember and Bubblegum are authored against the same palette indices; SudoDark is Sudo for a dark ground, his tones reversed. Both carry an accent - an extra half-size pixel on each ear tip, which is not a palette index but an overlay."),
+                        TextBlock("Every avatar below is attached to the top edge of a button. Click a button to switch the animation its cat is playing. Eight designs come from the source sprite sheets; Grey, Sparkle, Lynx, Sudo, Echo, Cobalt, Ember and Bubblegum are authored against the same palette indices; Echo is Sudo with his tones reversed. Both carry an accent - an extra half-size pixel on each ear tip, which is not a palette index but an overlay."),
                         DesignGallery(),
                         SampleSubTitle("Every animation"),
                         TextBlock("Pick an animation to play it on a larger avatar. Non-looping animations chain into their follow-up, so the label updates on its own once they finish. The three resting poses hold their first frame for 5-10 seconds rather than cycling, and AutoIdle drifts between them."),
@@ -313,7 +313,7 @@ namespace Tesserae.Tests.Samples
         {
             var row = HStack().AlignItemsCenter().Children();
 
-            foreach (var design in new[] { PixelAvatarDesign.Black, PixelAvatarDesign.Orange, PixelAvatarDesign.Tuxedo, PixelAvatarDesign.Sudo, PixelAvatarDesign.SudoDark })
+            foreach (var design in new[] { PixelAvatarDesign.Black, PixelAvatarDesign.Orange, PixelAvatarDesign.Tuxedo, PixelAvatarDesign.Sudo, PixelAvatarDesign.Echo })
             {
                 var avatar = PixelAvatar(42, design, PixelAvatarAnimation.SitIdle).PixelSize(8);
 

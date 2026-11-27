@@ -30,7 +30,7 @@ namespace Tesserae
         [Name("Sparkle")]       Sparkle,
         [Name("Lynx")]          Lynx,
         [Name("Sudo")]          Sudo,
-        [Name("SudoDark")]      SudoDark,
+        [Name("Echo")]          Echo,
         [Name("Cobalt")]        Cobalt,
         [Name("Ember")]         Ember,
         [Name("Bubblegum")]     Bubblegum
@@ -66,7 +66,7 @@ namespace Tesserae
             PixelAvatarDesign.Sparkle,
             PixelAvatarDesign.Lynx,
             PixelAvatarDesign.Sudo,
-            PixelAvatarDesign.SudoDark,
+            PixelAvatarDesign.Echo,
             PixelAvatarDesign.Cobalt,
             PixelAvatarDesign.Ember,
             PixelAvatarDesign.Bubblegum,
@@ -98,9 +98,9 @@ namespace Tesserae
             // A near-black navy coat with slate ears and the Signal on the ear tips: the brand's Sudo tones
             // (mid, dark, deep), as the website draws him on paper (curiosity-ai/website js/sudo-sheet.js INK).
             palettes[PixelAvatarDesign.Sudo] = PixelAvatarPalette.FromColors("Sudo", C("#CC33CC"), C("#4A5462"), C("#4A5462"), C("#4A5462"), C("#1E2430"), C("#1E2430"), C("#1E2430"), C("#1E2430"), C("#1E2430"), C("#1E2430"), C("#12161F"), C("#12161F")).WithAccent(C("#2F6BFF"));
-            // Sudo on an ink ground: the same tones run the other way, lightest where he was darkest, so he keeps his
-            // shape on a dark background (ash, line, paper - the website's INK_DARK), with the same Signal ear tips.
-            palettes[PixelAvatarDesign.SudoDark] = PixelAvatarPalette.FromColors("SudoDark", C("#CC33CC"), C("#8A9099"), C("#8A9099"), C("#8A9099"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#F4F4F2"), C("#F4F4F2")).WithAccent(C("#2F6BFF"));
+            // Echo, Sudo's counterpart: Sudo's tones run the other way, lightest where Sudo is darkest (ash, line, paper -
+            // the website's INK_DARK), with the same Signal ear tips, so the two read as a pair and never as each other.
+            palettes[PixelAvatarDesign.Echo] = PixelAvatarPalette.FromColors("Echo", C("#CC33CC"), C("#8A9099"), C("#8A9099"), C("#8A9099"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#DEE0DF"), C("#F4F4F2"), C("#F4F4F2")).WithAccent(C("#2F6BFF"));
             // A royal blue coat under a navy head and haunch, with a pale sky-blue chest and silver on the muzzle and paws.
             palettes[PixelAvatarDesign.Cobalt] = PixelAvatarPalette.FromColors("Cobalt", C("#CC7333"), C("#2F66CC"), C("#8CC3F7"), C("#4A85E8"), C("#1E3A6E"), C("#2F66CC"), C("#1E3A6E"), C("#BCC4CD"), C("#BCC4CD"), C("#8CC3F7"), C("#1E3A6E"), C("#2F66CC"));
             // A coral red coat with amber ears, tail and chest, an orange forepaw and a plum flank over a violet hind paw.
