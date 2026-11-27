@@ -55,7 +55,8 @@ new GeneratingImage(16.0 / 9).WidthFraction(0.75);
   `Interactive`/`NoInteraction`, `HideCursor(bool)` (on by default: the square stands in for the cursor; turn it off
   where the field sits behind controls), and `RestOn(element)`: the pixel rests just outside the top-right corner of an
   element laid over the field (a search box, a card), as the Signal square sits on the Curiosity mark, easing there
-  and back whenever the pointer leaves. The pixel is an element of its own (`.tss-flow-field-pixel`) over the
+  and back whenever the pointer leaves, and staying on the corner as the element or the field is resized (a box that
+  grows with its text). The pixel is an element of its own (`.tss-flow-field-pixel`) over the
   dashes' canvas, so a host can fade or mask the dashes without fading it.
 - **`PixelGlyph`**: 4 by 4 glyphs. `PixelGlyphKind` lists every glyph on the website (value, use case,
   capability and category glyphs, the three problem stories, the 54 developer loops). An animation is

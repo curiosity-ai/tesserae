@@ -126,3 +126,8 @@ body.tss-theme-retroos .tss-searchaskbox-suggestion-highlighted .tss-searchaskbo
     background: var(--tss-retro-ink);
     color: var(--tss-retro-paper);
 }
+
+/* Floating (past two lines): square, like every other frame here. */
+body.tss-theme-retroos .tss-searchaskbox-tall:not(.tss-searchaskbox-outside) .tss-searchaskbox-doors {
+    border-radius: 0;
+}

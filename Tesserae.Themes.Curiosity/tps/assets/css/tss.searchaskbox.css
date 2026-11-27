@@ -136,3 +136,9 @@ body.tss-theme-curiosity .tss-searchaskbox-suggestion-highlighted {
 body.tss-theme-curiosity.tss-dark-mode .tss-searchaskbox-suggestion-highlighted {
     background: var(--tss-cur-slate);
 }
+
+/* Floating (past two lines): the doors' own frame takes the field's edge colour and corners all round. */
+body.tss-theme-curiosity .tss-searchaskbox-tall:not(.tss-searchaskbox-outside) .tss-searchaskbox-doors {
+    border-color: var(--tss-searchaskbox-edge, var(--tss-cur-input-border));
+    border-radius: var(--tss-cur-input-radius);
+}

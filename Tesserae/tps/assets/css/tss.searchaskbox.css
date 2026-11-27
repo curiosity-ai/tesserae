@@ -322,6 +322,41 @@
     padding-right: 16px;
 }
 
+/* Tall: past two lines the doors let go of the frame's edge and float in the middle of the box at their own height,
+   with a frame of their own - so a long question does not turn them into walls. They settle into place as they let go. */
+.tss-searchaskbox.tss-searchaskbox-tall:not(.tss-searchaskbox-outside) .tss-searchaskbox-doors {
+    align-self: center;
+    margin-right: 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    overflow: hidden;
+    animation: tss-searchaskbox-unglue 0.24s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.tss-searchaskbox.tss-searchaskbox-tall.tss-searchaskbox-side-by-side .tss-searchaskbox-doors {
+    height: 36px;
+}
+
+.tss-searchaskbox.tss-searchaskbox-tall.tss-searchaskbox-stacked .tss-searchaskbox-doors {
+    height: 56px;
+}
+
+.tss-searchaskbox.tss-searchaskbox-tall.tss-searchaskbox-side-by-side .tss-searchaskbox-door {
+    padding: 0 16px;
+}
+
+/* Outside, the doors already have their own frame: they only stop stretching with the field. */
+.tss-searchaskbox.tss-searchaskbox-tall.tss-searchaskbox-outside .tss-searchaskbox-doors {
+    align-self: center;
+    height: 64px;
+    animation: tss-searchaskbox-unglue 0.24s cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes tss-searchaskbox-unglue {
+    from { transform: scaleY(1.35); opacity: 0.6; }
+    to   { transform: none;         opacity: 1; }
+}
+
 /* The suggestion list: on the body while open, placed under the box (or above it) and as wide as it by the component. */
 .tss-searchaskbox-suggestions {
     position: fixed;
