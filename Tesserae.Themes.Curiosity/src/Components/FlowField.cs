@@ -183,14 +183,21 @@ namespace Tesserae.Themes.Curiosity
 
         /// <summary>
         /// Gives the pixel a place to rest on another element: just outside its top-right corner, as the Signal square
-        /// sits on the corner of the Curiosity mark. The pixel eases there, follows the element as layout moves it, and
+        /// sits on the corner of the Curiosity mark. The pixel eases there, follows the element as it or the field is
+        /// resized (a move caused by anything else is picked up on the field's next redraw), and
         /// comes back to it whenever the pointer leaves the field; the pointer can still pull it away while over the
         /// field. The element only has to be laid out over the field, as a sibling drawn on top of it. Drifting stops
         /// while it rests on an element. <c>RestOn(null)</c> returns the pixel to its place in the field.
         /// </summary>
         public FlowField RestOn(HTMLElement element)
         {
+            //The element is watched like the field is: a box that grows moves its corner (a centred one moves its top
+            //edge), and nothing else would make the field redraw while the pointer is away.
+            if (_resize is object && _restOn is object) _resize.unobserve(_restOn);
+
             _restOn = element;
+
+            if (_resize is object && element is object) _resize.observe(element);
 
             if (element is null)
             {
@@ -285,6 +292,8 @@ namespace Tesserae.Themes.Curiosity
 
             _resize = new ResizeObserver((entries, obs) => Draw());
             _resize.observe(_container);
+
+            if (_restOn is object) _resize.observe(_restOn);
 
             _visibility = new IntersectionObserver((entries, obs) =>
             {
