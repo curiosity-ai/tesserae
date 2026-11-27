@@ -55,9 +55,9 @@ subtree costs nothing.
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
 `SpottedOrange`, `Tuxedo` (extracted from the source sprite sheets), plus `Grey`, `Sparkle`
 (violet with magenta markings), `Lynx` (tawny with dark ear tufts and spots), `Sudo`
-(near-black navy with an electric blue accent on the ear tips), `SudoDark` (the same cat for a
-dark ground: his tones reversed, lightest where `Sudo` is darkest, same ear tips - pick it with
-`Theme.IsDark ? PixelAvatarDesign.SudoDark : PixelAvatarDesign.Sudo`), `Cobalt` (royal blue under a
+(near-black navy with an electric blue accent on the ear tips; the admin assistant's cat), `Echo`
+(Sudo's tones reversed, pale grey and paper with the same ear tips; the user-facing assistant's cat - the
+two are a pair and one is never used for the other), `Cobalt` (royal blue under a
 navy head, with a sky-blue chest and silver paws), `Ember` (coral red with amber ears and tail)
 and `Bubblegum` (hot pink with a peach chest and a mint sock), which are authored against the
 same palette indices. `PixelAvatarPalettes.All` enumerates them and
@@ -201,7 +201,7 @@ On `PixelAvatarPalette`:
 - `PixelAvatarPalette.FromColors(string name, Color background, params Color[] colors)` — throws `ArgumentException` unless exactly `PixelAvatarSprites.PaletteSize` colors are given, so a short or long list fails loudly instead of rendering a broken cat. Pass a null background to derive one.
 - `PixelAvatarPalette.FromShades(string name, Color background, Color highlight, Color baseColor, Color shadow)` — the three-color form.
 - `.Colors` / `.ColorAt(byte)` — the colors, as `Color`. `.CssAt(byte)` gives the hex the renderer writes, or an empty string for the transparent index 0.
-- `.Accent` / `.WithAccent(Color)` — an optional highlight painted on the ear tips. It is **not** a palette index: it is drawn as an extra pixel at half the avatar's `PixelSize` over each ear tip, so a design can carry a spot of color the shared artwork has no cell for. `Sudo` and `SudoDark` are the built-ins that use it. Null means no accent, which is the default.
+- `.Accent` / `.WithAccent(Color)` — an optional highlight painted on the ear tips. It is **not** a palette index: it is drawn as an extra pixel at half the avatar's `PixelSize` over each ear tip, so a design can carry a spot of color the shared artwork has no cell for. `Sudo` and `Echo` are the built-ins that use it. Null means no accent, which is the default.
 - `.Background` — the avatar background color. `.BackgroundGradient()` turns it into CSS through `Avatar.GradientForHue`, the very method the regular `Avatar` uses for its initials, so a pixel-art badge and an initials avatar look like they came out of the same set. Only the hue is used; saturation and lightness are fixed by that formula.
 - `.WithColor(byte, Color)` / `.WithBackground(Color)` / `.WithName(string)` — return modified copies. `WithBackground` is how a custom palette picks the background its badge sits on.
 - `.DominantColor()` — the color covering most of the sprite, weighted by `PixelAvatarSprites.PixelCounts`. Used to derive a background when one is not given.
