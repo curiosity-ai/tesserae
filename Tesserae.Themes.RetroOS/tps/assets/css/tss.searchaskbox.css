@@ -75,3 +75,54 @@ body.tss-theme-retroos .tss-searchaskbox-door:focus-visible {
 body.tss-theme-retroos .tss-searchaskbox-door:hover:focus-visible:not(:disabled) {
     outline-color: var(--tss-retro-paper);
 }
+
+/* Chips are framed tags; the list is a framed menu whose highlighted row inverts, like every RetroOS menu. */
+body.tss-theme-retroos .tss-searchaskbox-chip {
+    border: var(--tss-retro-hair);
+    border-radius: 0;
+    background: var(--tss-retro-paper);
+    color: var(--tss-retro-ink);
+    animation: none;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-chip-icon,
+body.tss-theme-retroos .tss-searchaskbox-chip-ask .tss-searchaskbox-chip-icon {
+    color: var(--tss-retro-ink);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-chip-remove {
+    border-radius: 0;
+    color: var(--tss-retro-ink);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-chip-remove:hover {
+    background: var(--tss-retro-ink);
+    color: var(--tss-retro-paper);
+}
+
+body.tss-theme-retroos .tss-searchaskbox-suggestions {
+    border: var(--tss-retro-hair);
+    border-radius: 0;
+    background: var(--tss-retro-paper);
+    box-shadow: var(--tss-retro-shadow);
+    padding: 2px;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-suggestions-group {
+    color: var(--tss-retro-ink);
+    font-family: var(--tss-retro-chicago);
+    font-weight: normal;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-suggestion {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-searchaskbox-suggestion-highlighted,
+body.tss-theme-retroos .tss-searchaskbox-suggestion-highlighted .tss-searchaskbox-suggestion-icon,
+body.tss-theme-retroos .tss-searchaskbox-suggestion-highlighted .tss-searchaskbox-suggestion-description {
+    background: var(--tss-retro-ink);
+    color: var(--tss-retro-paper);
+}
