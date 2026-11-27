@@ -16,7 +16,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 - `.Progress(double current, double total)` — set value and max in one call.
 - `.Value` / `.Max` — set/read value and maximum (default max 100).
-- `.Indeterminate(bool = true)` — show a continuously spinning ring.
+- `.Indeterminate(bool = true)` — show a continuously spinning ring: the toolkit's spinner (`spinner.md`) at this ring's size and thickness.
 - `.Label(string)` — text in the centre; `.NoLabel()` — clear it.
 
 ## Example

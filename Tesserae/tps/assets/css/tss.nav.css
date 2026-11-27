@@ -97,6 +97,19 @@
         margin-left: 25px;
     }
 
+    /* LinksAsync's loading row: the toolkit's spinner on the text's indent, the text beside it. */
+    .tss-nav-link > .tss-nav-link-header > .tss-spinner {
+        display: inline-block;
+        vertical-align: -2px;
+        width: 14px;
+        height: 14px;
+        margin-left: 25px;
+    }
+
+        .tss-nav-link > .tss-nav-link-header > .tss-spinner + span {
+            margin-left: 8px;
+        }
+
 .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
     border-left: unset;
     border-right: 4px solid var(--tss-default-background-color);

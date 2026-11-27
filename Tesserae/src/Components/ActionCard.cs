@@ -484,7 +484,7 @@ namespace Tesserae
 
                 for (var i = 0; i < Math.Max(1, placeholders); i++)
                 {
-                    var line = Div(Att("tss-actioncard-skeleton-line"));
+                    var line = Div(Att("tss-actioncard-skeleton-line tss-skeleton tss-skeleton-animated"));
                     line.style.width = widths[i % widths.Length] + "%";
                     _skeleton.appendChild(line);
                 }

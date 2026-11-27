@@ -6,7 +6,8 @@
    ========================================================================== */
 
 body.tss-theme-kontrast .tss-spinner {
-    border-color: var(--tss-spinner-color) var(--tss-kt-line) var(--tss-kt-line);
+    --tss-spinner-track-color: var(--tss-kt-line);
+    --tss-spinner-stroke: 5.5;
 }
 
 body.tss-theme-kontrast .tss-spinner:not(.tss-spinner-success):not(.tss-spinner-danger):not(.tss-spinner-warning) {
@@ -17,6 +18,3 @@ body.tss-theme-kontrast:not(.tss-dark-mode) .tss-spinner-warning {
     --tss-spinner-color: #8a6d00;
 }
 
-body.tss-theme-kontrast .tss-spinner.tss-spinner-progress {
-    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-kt-line) 0);
-}

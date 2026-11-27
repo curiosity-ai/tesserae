@@ -1,7 +1,32 @@
+/* Skeleton
+
+   The toolkit's one placeholder: a block in --tss-skeleton-fill, and while it waits a band
+   (--tss-skeleton-sweep) passing across it on ::after. The Skeleton component draws it, InlineLabel draws
+   it while it looks something up, ActionCard's loading lines are Skeleton blocks, and Stack.Skeleton()
+   paints its children with the same fill and sweep (.tss-skeleton-stack, below).
+
+   The three variables are declared on body, not :root, so a theme's colour tokens (which a theme restates
+   on body) are the ones they resolve against; a theme restates them under its own class to restyle every
+   placeholder at once:
+     --tss-skeleton-fill     the block's background (a colour, or layers)
+     --tss-skeleton-sweep    the band's background
+     --tss-skeleton-radius   the corners (a circle stays round) */
+body {
+    --tss-skeleton-fill: var(--tss-progress-background-color);
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    --tss-skeleton-radius: 4px;
+}
+
+/* The fill is the empty track of a progress bar: "not here yet", and it shows on a card as on the page.
+   On a dark page the band is a faint light, not the glare it is on a light one. */
+body.tss-dark-mode {
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+}
+
 .tss-skeleton {
     position: relative;
-    background: var(--tss-secondary-background-color);
-    border-radius: 4px;
+    background: var(--tss-skeleton-fill);
+    border-radius: var(--tss-skeleton-radius);
     overflow: hidden;
 }
 
@@ -21,22 +46,51 @@
     border-radius: 50%;
 }
 
-.tss-skeleton-animated::after {
+/* The band is the block's own width, so it crosses a wide block as completely as a narrow one. */
+.tss-skeleton-animated::after,
+.tss-skeleton-stack :is(.tss-image, .tss-label label, .tss-icon, .tss-textblock, .tss-btn)::after {
     content: "";
     position: absolute;
     top: 0;
-    left: -150px;
-    width: 150px;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    background: var(--tss-skeleton-sweep);
+    transform: translateX(-100%);
     animation: tss-skeleton-shimmer 1.4s infinite;
+    pointer-events: none;
 }
 
 @keyframes tss-skeleton-shimmer {
-    0% {
-        transform: translateX(0);
+    from {
+        transform: translateX(-100%);
     }
-    100% {
-        transform: translateX(300%);
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Stack.Skeleton(): what the stack holds stands in for itself, as placeholder blocks of its own shape. */
+.tss-skeleton-stack :is(.tss-image, .tss-label label, .tss-icon, .tss-textblock, .tss-btn) {
+    position: relative;
+    overflow: hidden;
+    background: var(--tss-skeleton-fill) !important;
+    background-clip: padding-box !important;
+    border-color: transparent !important;
+    border-radius: var(--tss-skeleton-radius);
+    box-shadow: none !important;
+    color: transparent !important;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Reduced motion: the block stays, the band does not pass. */
+@media (prefers-reduced-motion: reduce) {
+    .tss-skeleton-animated::after,
+    .tss-skeleton-stack :is(.tss-image, .tss-label label, .tss-icon, .tss-textblock, .tss-btn)::after {
+        animation: none;
+        display: none;
     }
 }

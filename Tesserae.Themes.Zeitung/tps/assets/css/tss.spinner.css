@@ -7,7 +7,7 @@
 
 body.tss-theme-zeitung .tss-spinner:not(.tss-ai) {
     --tss-spinner-color: var(--tss-zt-ink);
-    border-color: var(--tss-spinner-color) var(--tss-zt-hair) var(--tss-zt-hair);
+    --tss-spinner-track-color: var(--tss-zt-hair);
 }
 
 body.tss-theme-zeitung .tss-spinner-success { --tss-spinner-color: rgb(var(--tss-success-background-color-root)); }

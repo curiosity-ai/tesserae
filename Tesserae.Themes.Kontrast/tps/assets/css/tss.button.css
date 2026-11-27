@@ -318,13 +318,20 @@ body.tss-theme-kontrast .tss-btn-and-icon .tss-btn + .tss-btn {
     border-left: var(--tss-kt-border) solid var(--tss-kt-edge) !important;
 }
 
-/* The spinner ring is drawn thicker, and its outcome keeps a mark (check or cross), never only a colour. */
-body.tss-theme-kontrast .tss-btn .tss-btn-spin-ring > svg {
+/* The spinner ring is drawn thicker (tss.spinner.css), with a stronger track of the button's own colour,
+   and its outcome keeps a mark (check or cross), never only a colour. */
+body.tss-theme-kontrast .tss-btn .tss-btn-spin-ring > .tss-btn-spin-mark {
     stroke-width: 4;
 }
 
-body.tss-theme-kontrast .tss-btn .tss-btn-spin-ring .tss-btn-spin-track {
-    stroke-opacity: .35;
+body.tss-theme-kontrast .tss-btn .tss-btn-spin-ring > .tss-spinner {
+    --tss-spinner-track-color: color-mix(in srgb, var(--tss-spinner-color) 35%, transparent);
+}
+
+/* The theme's accent spinner (tss.spinner.css) is the fill of a filled button: there the ring stays the
+   button's text colour, as it is everywhere (tss.button.css), which takes a selector as heavy as the accent's. */
+body.tss-theme-kontrast .tss-btn:not(.tss-btn-default) .tss-btn-spin-ring:not(.tss-btn-spin-ring-live) > .tss-spinner:not(.tss-spinner-success) {
+    --tss-spinner-color: currentColor;
 }
 
 body.tss-theme-kontrast .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default),

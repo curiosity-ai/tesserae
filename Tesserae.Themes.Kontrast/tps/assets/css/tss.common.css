@@ -554,27 +554,12 @@ body.tss-theme-kontrast *::after {
         animation-iteration-count: 1 !important;
     }
 
-    body.tss-theme-kontrast .tss-spinner,
-    body.tss-theme-kontrast .tss-btn-spin-orbit,
     body.tss-theme-kontrast [class*="spinner"] {
         animation-duration: 2.4s !important;
         animation-iteration-count: infinite !important;
     }
 }
 
-/* --------------------------------------------------------------------------
-   Skeletons: a flat hatch instead of a glow.
-   -------------------------------------------------------------------------- */
-
-body.tss-theme-kontrast .tss-skeleton .tss-image,
-body.tss-theme-kontrast .tss-skeleton .tss-label label,
-body.tss-theme-kontrast .tss-skeleton .tss-icon,
-body.tss-theme-kontrast .tss-skeleton .tss-textblock,
-body.tss-theme-kontrast .tss-skeleton .tss-btn {
-    animation: none;
-    background: var(--tss-kt-surface) var(--tss-kt-hatch);
-    border-color: var(--tss-kt-line) !important;
-}
 
 /* --------------------------------------------------------------------------
    Scrollbars: a square ink thumb on a visible rail, 12px so it can be hit.

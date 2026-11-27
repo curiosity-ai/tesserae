@@ -18,7 +18,7 @@ namespace Tesserae
     {
         private readonly IComponent             _loadMessage;
         private readonly Func<Task<IComponent>> _asyncGenerator;
-        private          TextBlock              _defaultLoadingMessageIfAny;
+        private          Spinner                _defaultLoadingMessageIfAny;
         private          bool                   _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
         private          DebouncerWithMaxDelay  _debouncer;
         private          int _loadingMessageDelay = 1000;
@@ -26,7 +26,7 @@ namespace Tesserae
 
 
         private int id = 0;
-        private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
+        private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, Spinner defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
                 throw new ArgumentNullException(nameof(loadMessage));
@@ -48,11 +48,12 @@ namespace Tesserae
             if (asyncGenerator is null)
                 throw new ArgumentNullException(nameof(asyncGenerator));
 
-            TextBlock defaultLoadingMessage;
+            Spinner defaultLoadingMessage;
 
             if (loadMessage is null)
             {
-                defaultLoadingMessage = TextBlock(textSize: TextSize.XSmall).Class("tss-defer-loading-msg");
+                // Hidden until the delay has passed (tss.common.css), so a quick load never shows it.
+                defaultLoadingMessage = Spinner().XSmall().Class("tss-defer-loading-msg");
                 loadMessage           = defaultLoadingMessage;
             }
             else

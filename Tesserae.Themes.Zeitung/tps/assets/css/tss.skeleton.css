@@ -6,17 +6,14 @@
    it waits. A round skeleton (a portrait) stays round.
    ========================================================================== */
 
-body.tss-theme-zeitung .tss-skeleton:not(.tss-ai) {
-    border-radius: 0;
-    background: var(--tss-zt-halftone-light), var(--tss-zt-tint);
+body.tss-theme-zeitung {
+    --tss-skeleton-fill: var(--tss-zt-halftone-light), var(--tss-zt-tint);
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent, rgba(var(--tss-default-background-color-root), 0.65), transparent);
+    --tss-skeleton-radius: 0;
 }
 
 body.tss-theme-zeitung .tss-skeleton.tss-skeleton-circle {
     border-radius: 50%;
-}
-
-body.tss-theme-zeitung .tss-skeleton-animated:not(.tss-ai)::after {
-    background: linear-gradient(90deg, transparent, rgba(var(--tss-default-background-color-root), 0.65), transparent);
 }
 
 /* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */

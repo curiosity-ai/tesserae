@@ -18,8 +18,3 @@ body.tss-theme-graustufe .tss-progressring-label {
     color: var(--tss-gs-0);
     font-family: var(--tss-gs-ui);
 }
-
-body.tss-theme-graustufe .tss-progressring-indeterminate .tss-progressring-fill {
-    stroke-linecap: round;
-    stroke-dasharray: 0.01 calc(var(--tss-ring-circ, 150) / 16);
-}

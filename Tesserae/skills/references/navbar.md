@@ -30,7 +30,9 @@ Nav:
 
 NavLink:
 - `.Links(params NavLink[])` — nested children.
-- `.LinksAsync(Func<Task<NavLink[]>>)` — lazy-load children on expand.
+- `.LinksAsync(Func<Task<NavLink[]>>)` — lazy-load children the first time the link is expanded
+  (at once if it starts `.Expanded()`); until they arrive the branch shows a "Loading..." row with the
+  toolkit's spinner (`spinner.md`).
 - `.OnSelected(handler)` / `.OnExpanded(handler)` — events.
 - `.Selected()`, `.Expanded()`, `.SelectedOrExpandedIf(bool)`, `.CanSelectAndExpand()`.
 - `.Icon` (icon class), `.Text` / `.SetText(...)`.

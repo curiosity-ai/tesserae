@@ -19,11 +19,6 @@ body.tss-theme-kontrast .tss-actioncard-action {
     border-color: var(--tss-kt-line);
 }
 
-body.tss-theme-kontrast .tss-actioncard-skeleton-line {
-    border-width: var(--tss-kt-border);
-    border-color: var(--tss-kt-line);
-}
-
 body.tss-theme-kontrast .tss-actioncard-stacked .tss-actioncard-identity {
     border-bottom-width: var(--tss-kt-border);
     border-bottom-color: var(--tss-kt-line);

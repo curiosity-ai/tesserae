@@ -104,10 +104,6 @@ body.tss-theme-rechenwerk .tss-tree-checkbox:hover {
     color: var(--tss-rw-signal);
 }
 
-body.tss-theme-rechenwerk .tss-tree-icon.fi-rr-spinner {
-    animation: tss-tree-spin 1s steps(8) infinite;
-}
-
 /* The guide the children hang from. */
 body.tss-theme-rechenwerk .tss-tree-children {
     border-left: 1px solid rgb(var(--tss-default-border-color-root));
@@ -137,10 +133,4 @@ body.tss-theme-rechenwerk .tss-tree-menu > a > .tss-tree-command.tss-btn-default
     background: rgb(244, 194, 13);
     color: rgb(10, 10, 10);
     border-color: transparent;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    body.tss-theme-rechenwerk .tss-tree-icon.fi-rr-spinner {
-        animation: none;
-    }
 }

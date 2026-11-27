@@ -158,14 +158,6 @@ body.tss-theme-rechenwerk .tss-actioncard-more:hover {
 
 /* ---------- Loading and error ---------- */
 
-body.tss-theme-rechenwerk .tss-actioncard-skeleton-line {
-    border: 2px solid rgb(var(--tss-default-separator-color-root));
-    border-radius: 0;
-    background: linear-gradient(90deg, rgb(var(--tss-progress-background-color-root)) 0 40%, rgb(var(--tss-default-background-hover-color-root)) 40% 60%, rgb(var(--tss-progress-background-color-root)) 60%);
-    background-size: 200% 100%;
-    animation: tss-actioncard-shimmer 1.4s steps(8, end) infinite;
-}
-
 body.tss-theme-rechenwerk .tss-actioncard-error {
     color: rgb(var(--tss-invalid-border-color-root));
     font-weight: 600;
@@ -246,9 +238,6 @@ body.tss-theme-rechenwerk .tss-actioncard-group .tss-actioncard-icon {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    body.tss-theme-rechenwerk .tss-actioncard-skeleton-line {
-        animation: none;
-    }
 
     body.tss-theme-rechenwerk .tss-actioncard-action-go {
         transition: none;

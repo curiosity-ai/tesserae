@@ -624,12 +624,10 @@
     box-sizing: border-box;
 }
 
-/* Running is a ring with a gap that turns. Done, failed and waiting are the glyphs of what they are. */
-.tss-convlist-child-status-running {
-    border: 1.5px solid rgba(var(--tss-secondary-foreground-color-root), 0.35);
-    border-top-color: var(--tss-convlist-accent);
-    border-radius: 50%;
-    animation: tss-convlist-spin 0.9s linear infinite;
+/* Running is the toolkit's spinner (Spinner.Ring). Done, failed and waiting are the glyphs of what they are. */
+.tss-convlist-child-status > .tss-spinner {
+    width: 14px;
+    height: 14px;
 }
 
 .tss-convlist-child-status-idle {
@@ -654,15 +652,7 @@
 .tss-convlist-child-status-attention { color: var(--tss-warning-background-color); }
 .tss-convlist-child-status-danger    { color: var(--tss-danger-background-color); }
 
-@keyframes tss-convlist-spin {
-    to { transform: rotate(360deg); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .tss-convlist-child-status-running {
-        animation: none;
-    }
-
     .tss-convlist-count-running .tss-convlist-count-dot {
         animation: none;
     }

@@ -231,6 +231,11 @@ body.tss-theme-rechenwerk .is-running .tss-plan-step-icon {
     color: rgb(10, 10, 10);
 }
 
+/* The spinner on the yellow badge is ink, like any glyph on it. */
+body.tss-theme-rechenwerk .is-running .tss-plan-step-icon > .tss-spinner {
+    --tss-spinner-color: rgb(10, 10, 10);
+}
+
 body.tss-theme-rechenwerk .is-completed .tss-plan-step-icon {
     background: rgb(var(--tss-success-background-color-root));
     color: rgb(var(--tss-success-foreground-color-root));
@@ -239,11 +244,6 @@ body.tss-theme-rechenwerk .is-completed .tss-plan-step-icon {
 body.tss-theme-rechenwerk .is-failed .tss-plan-step-icon {
     background: rgb(var(--tss-danger-background-color-root));
     color: rgb(var(--tss-danger-foreground-color-root));
-}
-
-body.tss-theme-rechenwerk .is-running .tss-plan-step-icon .tss-icon,
-body.tss-theme-rechenwerk .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon {
-    animation: tss-plan-spin 1.2s steps(8, end) infinite;
 }
 
 body.tss-theme-rechenwerk .tss-plan-step-title {
@@ -432,8 +432,6 @@ body.tss-theme-rechenwerk .tss-plan .tss-plan-startstop:active {
 
 @media (prefers-reduced-motion: reduce) {
     body.tss-theme-rechenwerk .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot,
-    body.tss-theme-rechenwerk .is-running .tss-plan-step-icon .tss-icon,
-    body.tss-theme-rechenwerk .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon,
     body.tss-theme-rechenwerk .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
     body.tss-theme-rechenwerk .tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
         animation: none !important;

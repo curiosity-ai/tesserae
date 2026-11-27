@@ -12,9 +12,13 @@
     to   { background-position: 2px 0; }
 }
 
+body.tss-theme-retroos {
+    --tss-skeleton-fill: var(--tss-retro-dither);
+    --tss-skeleton-sweep: none;
+    --tss-skeleton-radius: 0;
+}
+
 body.tss-theme-retroos .tss-skeleton {
-    background: var(--tss-retro-dither);
-    border-radius: 0;
     box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
 }
 
@@ -24,9 +28,4 @@ body.tss-theme-retroos .tss-skeleton-circle {
 
 body.tss-theme-retroos .tss-skeleton-animated {
     animation: tss-retroos-skeleton 1s steps(2, jump-none) infinite;
-}
-
-body.tss-theme-retroos .tss-skeleton-animated::after {
-    display: none;
-    animation: none;
 }

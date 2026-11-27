@@ -75,11 +75,6 @@ body.tss-theme-blaupause .tss-actioncard-more:hover {
     background: var(--tss-bp-wash);
 }
 
-body.tss-theme-blaupause .tss-actioncard-skeleton-line {
-    border: 1px dashed var(--tss-bp-line);
-    background: var(--tss-bp-hatch), var(--tss-bp-wash);
-}
-
 body.tss-theme-blaupause .tss-actioncard-group > .tss-actioncard + .tss-actioncard {
     border-top-color: var(--tss-bp-line-faint);
 }

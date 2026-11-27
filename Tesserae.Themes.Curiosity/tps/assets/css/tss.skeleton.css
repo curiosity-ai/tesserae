@@ -7,24 +7,21 @@
    paper sweep over the hover tone.
    ========================================================================== */
 
-body.tss-theme-curiosity .tss-skeleton {
-    background: var(--tss-default-background-hover-color);
-    border-radius: 0;
+body.tss-theme-curiosity {
+    --tss-skeleton-fill: var(--tss-default-background-hover-color);
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent, rgba(244, 244, 242, 0.75), transparent);
+    --tss-skeleton-radius: 0;
 }
 
 body.tss-theme-curiosity .tss-skeleton-circle {
     border-radius: 50%;
 }
 
-body.tss-theme-curiosity .tss-skeleton-animated::after {
-    background: linear-gradient(90deg, transparent, rgba(244, 244, 242, 0.75), transparent);
-}
-
-body.tss-theme-curiosity.tss-dark-mode .tss-skeleton-animated::after {
-    background: linear-gradient(90deg, transparent, rgba(244, 244, 242, 0.06), transparent);
+body.tss-theme-curiosity.tss-dark-mode {
+    --tss-skeleton-sweep: linear-gradient(90deg, transparent, rgba(244, 244, 242, 0.06), transparent);
 }
 
 /* On ink the hover tone is one step off the ground and a placeholder nearly vanishes: slate, one more. */
-body.tss-theme-curiosity.tss-dark-mode .tss-skeleton {
-    background: var(--tss-default-background-active-color);
+body.tss-theme-curiosity.tss-dark-mode {
+    --tss-skeleton-fill: var(--tss-default-background-active-color);
 }

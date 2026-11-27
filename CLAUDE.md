@@ -466,6 +466,41 @@ Two things that has to get right, and both were bugs before it existed:
   `Layers.CurrentZIndex` reads z-indices, so there is no counter to get out of step: an element
   removed without releasing simply stops being found.
 
+### One spinner
+
+A component that shows it is waiting draws the toolkit's spinner: `UI.Spinner()` where it wants the
+label and sizes, `Spinner.Ring()` (the bare `.tss-spinner` element, sized by a parent-scoped rule
+such as `.my-slot > .tss-spinner`) where it only wants the ring. Never a rotated `UIcons.Spinner`
+glyph, a pseudo-element copy of the ring's CSS, an svg ring of its own, or a keyframe of its own:
+each theme restyles `.tss-spinner` (RetroOS turns it in steps, Stratus opens a quarter of it), and a
+copy misses that. Plan's running step, the Tree's loading row, the Dropdown's async search and the
+button's in-place ring all used to be copies.
+
+The ring is an svg (r = 20 in a 48 box) with a faint track and a quarter arc that enters as a dot and
+stretches out. Its knobs are variables: `--tss-spinner-color`, `--tss-spinner-stroke` (thickness in
+the 48 box, so it scales with the size), `--tss-spinner-arc` (the arc's dash pattern), and
+`--tss-spinner-mask` for a form that paints the element's background instead of the svg (the AI
+gradient, RetroOS's dithered progress). The button outcome ring (`Button.CreateSpinRing`, for
+`Button.ToSpinner` and `SaveButton`) is this same ring with a check and an x on top; in place it drives
+the arc with its own transitions so an outcome can close it, and `ProgressRing.Indeterminate()` puts
+the same ring over its box. ConversationList's and WorkerCard's running rows draw it too, and so do the
+waits that used to be text alone: `Defer`'s default message, DetailsList's and InfiniteScrollingList's
+next page, and `Nav.LinksAsync`'s loading row. Nothing else in
+the toolkit spins; a theme that wants its own shape (Rechenwerk's eight blocks, Weniger's knob) draws it on
+the same `.tss-spinner` element.
+
+### One skeleton
+
+A component that holds a place for content still loading draws the toolkit's placeholder: a
+`UI.Skeleton()`, or an element carrying `tss-skeleton tss-skeleton-animated` where it only wants the block
+(InlineLabel's lookup, ActionCard's loading lines). `Stack.Skeleton()` puts `tss-skeleton-stack` on the
+stack, and its images, labels, icons, text and buttons are painted with the same fill and sweep. Never a
+shimmer keyframe or gradient of a component's own: a theme restyles every placeholder at once through
+`--tss-skeleton-fill`, `--tss-skeleton-sweep` (`none` for no band) and `--tss-skeleton-radius`, declared
+on `body` (not `:root`, so they resolve against the theme's own colour tokens) and restated under the
+theme's class. ActionCard's lines and `Stack.Skeleton()`'s glow used to be two more implementations, and
+the stack used to share the component's `tss-skeleton` class, which painted the stack itself as a block.
+
 ### Scrollbars are CSS only
 
 A scrollbar is styled with CSS and nothing else: `::-webkit-scrollbar*` where the engine draws

@@ -344,7 +344,3 @@ body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-searchbox {
 body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
     border: 0;
 }
-
-body.tss-theme-kristall .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
-    border-color: var(--tss-kr-accent) var(--tss-kr-fill) var(--tss-kr-fill);
-}

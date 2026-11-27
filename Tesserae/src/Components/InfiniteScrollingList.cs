@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
+using static TNT.T;
 
 namespace Tesserae
 {
@@ -102,7 +103,7 @@ namespace Tesserae
                         }
                     }).FireAndForget();
 
-                }, message: TextBlock("Loading..."));
+                }, message: Spinner("Loading...".t()));
 
                 if (_grid is object)
                 {

@@ -670,43 +670,25 @@ i.tss-fontsize-tiny {
 }
 
 
-@keyframes skeleton-glow {
-    0% {
-        background: rgba(211, 216, 222, .2);
-        border-color: rgba(211, 216, 222, .2)
-    }
-
-    to {
-        background: rgba(95, 107, 124, .2);
-        border-color: rgba(95, 107, 124, .2)
-    }
-}
-
-.tss-skeleton .tss-image,
-.tss-skeleton .tss-label label,
-.tss-skeleton .tss-icon,
-.tss-skeleton .tss-textblock,
-.tss-skeleton .tss-btn {
-    animation: skeleton-glow 1s linear infinite alternate;
-    background: rgba(211, 216, 222, .2);
-    background-clip: padding-box !important;
-    border-color: rgba(211, 216, 222, .2) !important;
-    border-radius: 2px;
-    box-shadow: none !important;
-    color: transparent !important;
-    cursor: default;
-    pointer-events: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
+/* Defer's default message: the toolkit's spinner, labelled "Loading...". It is in the container from the
+   start but only shows once the delay has passed and the container is marked as loading. */
 .tss-defer-loading-msg {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+    visibility: hidden;
+}
+
+.tss-defer-with-loading-msg > .tss-defer-loading-msg {
+    visibility: visible;
+}
+
+/* A VisibilitySensor is 1px wide so it can be observed; its message (a list's "Loading..." spinner) is as
+   wide as itself and starts at the sensor's edge, rather than being centred on that 1px and pushed out of
+   the list on the left. */
+.tss-visibility-sensor > * {
+    width: max-content;
 }
 
 .tss-defer-with-loading-msg {

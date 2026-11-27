@@ -611,20 +611,9 @@ body.tss-theme-kristall .tss-required:after {
 }
 
 /* Skeleton shimmer in the system fill rather than the toolkit's blue-grey. */
-@keyframes tss-kr-skeleton {
-    0% { background-color: var(--tss-kr-fill-4); }
-    100% { background-color: var(--tss-kr-fill-2); }
-}
-
-body.tss-theme-kristall .tss-skeleton .tss-image,
-body.tss-theme-kristall .tss-skeleton .tss-label label,
-body.tss-theme-kristall .tss-skeleton .tss-icon,
-body.tss-theme-kristall .tss-skeleton .tss-textblock,
-body.tss-theme-kristall .tss-skeleton .tss-btn {
-    animation-name: tss-kr-skeleton;
-    background: var(--tss-kr-fill-4);
-    border-color: transparent !important;
-    border-radius: var(--tss-kr-r-small);
+body.tss-theme-kristall {
+    --tss-skeleton-fill: var(--tss-kr-fill-4);
+    --tss-skeleton-radius: var(--tss-kr-r-small);
 }
 
 /* --------------------------------------------------------------------------

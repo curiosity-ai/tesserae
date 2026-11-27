@@ -1,0 +1,39 @@
+/* ==========================================================================
+   RetroOS theme - ConversationList
+   --------------------------------------------------------------------------
+   As in the Finder's outline list, the current row and the row under the
+   pointer are in reverse video: the hover tone here is ink, so the row's
+   type, glyphs, status dots and spinner turn to paper with it. The rail's
+   open button is the same reversed block. A filled button keeps its colours.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-convlist {
+    --tss-convlist-row-selected: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-convlist-row:hover,
+body.tss-theme-retroos .tss-convlist-row-selected,
+body.tss-theme-retroos .tss-convlist-child:hover,
+body.tss-theme-retroos .tss-convlist-child-selected,
+body.tss-theme-retroos .tss-convlist-rail-button-open.tss-btn {
+    border-radius: 0;
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+    body.tss-theme-retroos :is(.tss-convlist-row:hover, .tss-convlist-row-selected, .tss-convlist-child:hover, .tss-convlist-child-selected, .tss-convlist-rail-button-open.tss-btn) *:not(.tss-btn:not(.tss-btn-default)):not(.tss-btn:not(.tss-btn-default) *) {
+        color: rgb(var(--tss-default-background-color-root));
+    }
+
+    body.tss-theme-retroos :is(.tss-convlist-row:hover, .tss-convlist-row-selected, .tss-convlist-child:hover, .tss-convlist-child-selected) .tss-spinner {
+        --tss-spinner-color: rgb(var(--tss-default-background-color-root));
+    }
+
+    /* A status dot is a filled disc or a ring in its tone; reversed, both are paper. */
+    body.tss-theme-retroos :is(.tss-convlist-row:hover, .tss-convlist-row-selected) .tss-convlist-dot:not(.tss-convlist-dot-idle):not(.tss-convlist-dot-muted),
+    body.tss-theme-retroos :is(.tss-convlist-row:hover, .tss-convlist-row-selected) .tss-convlist-count-dot {
+        background: rgb(var(--tss-default-background-color-root));
+    }
+
+    body.tss-theme-retroos :is(.tss-convlist-row:hover, .tss-convlist-row-selected) :is(.tss-convlist-dot-idle, .tss-convlist-dot-muted) {
+        border-color: rgb(var(--tss-default-background-color-root));
+    }

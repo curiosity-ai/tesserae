@@ -410,13 +410,6 @@ body.tss-theme-rechenwerk .tss-dropdown-popup mark {
     color: rgb(10, 10, 10);
 }
 
-body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
-    border-radius: 0;
-    border-width: 2px;
-    border-color: var(--tss-rw-signal) transparent;
-    animation-timing-function: steps(8);
-}
-
 @media (prefers-reduced-motion: reduce) {
     body.tss-theme-rechenwerk .tss-dropdown-container,
     body.tss-theme-rechenwerk .tss-dropdown-container > .tss-dropdown-icon {

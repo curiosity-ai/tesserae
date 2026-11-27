@@ -28,7 +28,7 @@ namespace Tesserae
         /// <param name="message">An optional component to display as the content of the sensor.</param>
         public VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null)
         {
-            InnerElement = DIV();
+            InnerElement = Div(Att("tss-visibility-sensor"));
 
             InnerElement.style.width = "1px"; //We need to set a size so the visibility detection in CheckVisibility correctly handles not visible 
 
