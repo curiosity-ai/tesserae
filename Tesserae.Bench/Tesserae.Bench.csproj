@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Transpose.BCL" Version="26.9.5840" />
-    <PackageReference Include="Transpose.Core" Version="26.9.5838" />
+    <PackageReference Include="Transpose.Core" Version="26.10.6989" />
   </ItemGroup>
 
   <ItemGroup>

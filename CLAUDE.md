@@ -730,6 +730,13 @@ whether it still renders the same. See
 `tesserae-benchmarking` skill. One-off probe scripts go in
 `Tesserae.Bench/playwright/_*.js`, which is gitignored.
 
+**Never add a Playwright test to a PR.** That includes a new script under
+`Tesserae.Bench/playwright/` and any C# hook or page added to the Bench app only for one
+to drive. Verifying a fix in the browser is expected; the script that does it stays local
+(a `_*.js` probe), and the PR description says what was run and what it showed. The
+scripts already committed under `Tesserae.Bench/playwright/` are the harness: use them,
+and fix them when a change breaks them, but do not add to them.
+
 ### Test and screenshot in every theme
 
 When you verify a component in the browser or take screenshots of it, cover **every theme**,
