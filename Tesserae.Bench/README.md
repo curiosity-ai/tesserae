@@ -34,7 +34,6 @@ own work without Playwright round-trips in the measurement, and every nav button
 
 ```
 src/App.cs             the benchmark app — ten pages, plus the window.__bench hooks
-src/Regressions.cs     in-browser checks for toolkit bugs, run by playwright/regressions.js
 tps.json               Transpose config (reflection off; this is not a reflection test)
 playwright/            the harness, see the skill for what each script is for
 playwright/out/        screenshots, .cpuprofile traces, result JSON (gitignored, tens of MB)
@@ -50,7 +49,6 @@ The scripts split into three jobs:
 | `inspect.js` | explain one difference: an element's box and the properties behind it |
 | `all-samples.js` `smoke.js` | error gates over the samples gallery |
 | `toolcall-progress.js` | regression test: a streaming tool call's chip only grows, so its actions never slide back or past the container |
-| `regressions.js` | runs the behavioural checks in `src/Regressions.cs` (`window.__bench.regressions`) |
 
 ## Running it
 
