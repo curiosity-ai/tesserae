@@ -1008,6 +1008,12 @@ namespace Tesserae
 
             InnerElement.style.height    = Math.Min(needed, max) + "px";
             InnerElement.style.overflowY = needed > max ? "auto" : "hidden";
+
+            //Past two lines - of text or of wrapped chips - the doors stop being the box's edge and float, centred, at their
+            //own height: a door as tall as six lines reads as a wall, not a button.
+            var twoLines = lineHeight * 2 + padding;
+
+            _container.classList.toggle("tss-searchaskbox-tall", _field.clientHeight > twoLines + 1);
         }
 
         private static double ParsePx(string value, double fallback)

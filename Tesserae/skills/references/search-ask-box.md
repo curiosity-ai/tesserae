@@ -7,7 +7,7 @@ description: A text field with two named buttons at its edge, Search and Ask, so
 
 One text field with two "doors": **Search** and **Ask**. What to do with the text is chosen when it is sent,
 so there is no mode toggle. The text is plain: nothing is parsed or highlighted (use `OmniBox` for query
-syntax, snaps and a chat composer). The field grows with the text up to six lines, then scrolls.
+syntax, snaps and a chat composer). The field grows with the text up to six lines, then scrolls; past two lines (of text or wrapped chips) the doors let go of the edge and float, centred, at their own height (`tss-searchaskbox-tall`).
 
 Keys: **Enter** searches, **Ctrl+Enter** (Cmd+Enter on a Mac) asks, **Shift+Enter** starts a new line. Enter
 while an input method is composing a word (Japanese, Chinese, Korean) is left to the input method. Both doors
