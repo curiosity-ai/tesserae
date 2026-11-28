@@ -191,6 +191,10 @@ namespace Tesserae
         private Action<TreeMapNode>     _onNodeClick;
 
         private int         _hover = -1;
+
+        // The map as last painted, without the hover outline: a hover repaints from it instead of from every leaf.
+        private HTMLCanvasElement _scene;
+        private bool              _sceneDirty = true;
         private bool        _drawQueued;
         private bool        _layoutDirty = true;
         private bool        _legendDirty = true;
@@ -811,7 +815,17 @@ namespace Tesserae
 
         // ------------------------------------------------------------------------------------------------ drawing
 
+        /// <summary>Something the map shows changed: the scene is painted again on the next frame.</summary>
         private void RequestDraw()
+        {
+            _sceneDirty = true;
+            QueueDraw();
+        }
+
+        /// <summary>Only the hover outline changed: the next frame copies the scene and draws the outline over it.</summary>
+        private void RequestOverlay() => QueueDraw();
+
+        private void QueueDraw()
         {
             if (_drawQueued) return;
             _drawQueued = true;
@@ -847,6 +861,7 @@ namespace Tesserae
             _canvas.style.height = h + "px";
 
             _layoutDirty = true;
+            _sceneDirty  = true;
             ClampView();
             Draw();
         }
@@ -863,6 +878,34 @@ namespace Tesserae
             if (ctx is null) return;
 
             var dpr = _canvas.width / _w;
+
+            if (_scene is null) _scene = (HTMLCanvasElement)document.createElement("canvas");
+
+            if (_sceneDirty || _scene.width != _canvas.width || _scene.height != _canvas.height)
+            {
+                _sceneDirty = false;
+
+                if (_scene.width != _canvas.width)   _scene.width  = _canvas.width;
+                if (_scene.height != _canvas.height) _scene.height = _canvas.height;
+
+                var sctx = _scene.getContext("2d").As<CanvasRenderingContext2D>();
+                if (sctx is null) return;
+
+                DrawScene(sctx, dpr);
+            }
+
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.drawImage(_scene, 0, 0);
+
+            if (_root is null || _root.Total <= 0) return;
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            DrawHover(ctx);
+        }
+
+        // Everything but the hover outline: the leaves, the group outlines, the plates and the leaf names.
+        private void DrawScene(CanvasRenderingContext2D ctx, double dpr)
+        {
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.globalAlpha = 1;
             ctx.fillStyle   = _surface;
@@ -1004,7 +1047,15 @@ namespace Tesserae
                 }
             }
 
-            // The hovered leaf, and a dashed outline around its group.
+        }
+
+        // The hovered leaf, and a dashed outline around its group.
+        private void DrawHover(CanvasRenderingContext2D ctx)
+        {
+            var k  = _k;
+            var tx = _tx;
+            var ty = _ty;
+
             if (_hover >= 0 && _hover < _leaves.Count)
             {
                 var leaf = _leaves[_hover];
@@ -1120,6 +1171,7 @@ namespace Tesserae
                 _ty = _h / 2 - cy * kk;
                 ClampView();
                 HideTip();
+                _sceneDirty = true;
                 Draw();
 
                 if (t < 1) window.requestAnimationFrame(Step);
@@ -1175,7 +1227,7 @@ namespace Tesserae
             if (_hover >= 0)
             {
                 _hover = -1;
-                RequestDraw();
+                RequestOverlay();
             }
         }
 
@@ -1417,7 +1469,7 @@ namespace Tesserae
             if (leaf != _hover)
             {
                 _hover = leaf;
-                RequestDraw();
+                RequestOverlay();
             }
 
             ShowTip(node, p[0], p[1]);
